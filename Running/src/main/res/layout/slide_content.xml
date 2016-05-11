@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/content_LinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <RadioGroup
+            android:id="@+id/radiogroup"
+            style="@style/mw"
+            android:background="#EFEEEC"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/run"
+                style="@style/radio"
+                android:checked="true"
+                android:drawableTop="@drawable/buyimg"
+                android:text="跑步"/>
+
+            <RadioButton
+                android:id="@+id/find"
+                style="@style/radio"
+                android:drawableTop="@drawable/saleimg"
+                android:text="发现"/>
+
+            <RadioButton
+                android:id="@+id/news"
+                style="@style/radio"
+                android:drawableTop="@drawable/chatimg"
+                android:text="动态"/>
+
+            <RadioButton
+                android:id="@+id/chat"
+                style="@style/radio"
+                android:drawableTop="@drawable/meimg"
+                android:text="消息"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <com.running.myviews.NoScrollViewPager
+        android:id="@+id/main_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/content_LinearLayout"/>
+
+</RelativeLayout>
