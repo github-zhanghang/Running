@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Running/android-running.iml" filepath="$PROJECT_DIR$/Running/android-running.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Running/Running.iml" filepath="$PROJECT_DIR$/Running/Running.iml" />
       <module fileurl="file://$PROJECT_DIR$/RunningWorkspace.iml" filepath="$PROJECT_DIR$/RunningWorkspace.iml" />
     </modules>
   </component>
