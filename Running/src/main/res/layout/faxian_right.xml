@@ -6,9 +6,16 @@
               android:gravity="center"
               android:orientation="horizontal">
 
-    <TextView
+    <ImageView
+        android:id="@+id/faxian_right_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="推荐装备"
         android:textSize="40sp"/>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshGridView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.handmark.pulltorefresh.library.PullToRefreshGridView>
+
 </LinearLayout>
