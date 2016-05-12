@@ -20,8 +20,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="com.running.android_main.MainActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.running.android_main.NavActivity"
             android:screenOrientation="portrait"
@@ -33,10 +32,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mob.tools.MobUIShell"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:name=".RegisterActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
     </application>
 
 </manifest>
