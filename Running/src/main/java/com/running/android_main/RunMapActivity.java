@@ -21,4 +21,22 @@ public class RunMapActivity extends AppCompatActivity {
     private void initViews() {
         mMapView = (MapView) findViewById(R.id.mapview);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mMapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mMapView.onPause();
+    }
 }
