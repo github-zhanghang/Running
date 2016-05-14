@@ -57,7 +57,7 @@ public class FaxianLeftFragment extends Fragment {
     public void initRefreshListView() {
         ILoadingLayout startLabels = mListView.getLoadingLayoutProxy(true, false);
         startLabels.setPullLabel("下拉刷新");
-        startLabels.setRefreshingLabel("正在拉");
+        startLabels.setRefreshingLabel("正在刷新");
         startLabels.setReleaseLabel("放开刷新");
         ILoadingLayout endLabels = mListView.getLoadingLayoutProxy(false, true);
         endLabels.setPullLabel("上拉加载");
