@@ -1,21 +1,40 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'zhanghang'
+            keyPassword 'zh5201317'
+            storeFile file('D:/AndroidKeys/my.jks')
+            storePassword 'zh5201317'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
+    //百度地图用到
+    sourceSets {
+        main() {
+            jniLibs.srcDir 'libs'
+        }
+    }
     defaultConfig {
-        applicationId "com.zhanghang.android_main"
+        applicationId "com.running.android_main"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.config
+        }
+    }
+    productFlavors {
     }
 }
 
@@ -36,4 +55,11 @@ dependencies {
     compile 'org.xutils:xutils:3.3.34'
     //上拉加载下拉刷新
     compile 'com.loopeer.android.thirdparty.pulltorefresh:Android-PullToRefresh:2.1.1'
+    //百度地图jar包
+    compile files('libs/baidumapapi_base_v3_7_3.jar')
+    compile files('libs/baidumapapi_cloud_v3_7_3.jar')
+    compile files('libs/baidumapapi_map_v3_7_3.jar')
+    compile files('libs/baidumapapi_radar_v3_7_3.jar')
+    compile files('libs/baidumapapi_search_v3_7_3.jar')
+    compile files('libs/baidumapapi_util_v3_7_3.jar')
 }

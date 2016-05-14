@@ -94,6 +94,7 @@
     </LinearLayout>
 
     <com.running.myviews.CircleButton
+        android:id="@+id/startRun"
         android:layout_width="85sp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
