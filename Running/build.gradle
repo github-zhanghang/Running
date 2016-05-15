@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'zhanghang'
             keyPassword 'zh5201317'
-            storeFile file('D:/AndroidKeys/my.jks')
+            storeFile file('my.jks')
             storePassword 'zh5201317'
         }
     }
