@@ -1,14 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.running.android_main.RunMapActivity">
 
     <com.baidu.mapapi.map.MapView
         android:id="@+id/mapview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="3">
     </com.baidu.mapapi.map.MapView>
-</RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/run_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/run_time_img"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/run_time_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/run_time_img"
+                    android:singleLine="true"
+                    android:text="0.0"
+                    android:textSize="25sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/run_time_txt"
+                    android:layout_toRightOf="@id/run_time_img"
+                    android:singleLine="true"
+                    android:text="时长"
+                    android:textSize="25sp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/run_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/run_speed_img"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/run_speed_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/run_speed_img"
+                    android:singleLine="true"
+                    android:text="0.0"
+                    android:textSize="25sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/run_speed_txt"
+                    android:layout_toRightOf="@id/run_speed_img"
+                    android:singleLine="true"
+                    android:text="速度"
+                    android:textSize="25sp"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/run_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/run_1"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/run_distance_img"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/run_distance_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/run_distance_img"
+                    android:singleLine="true"
+                    android:text="0.0"
+                    android:textSize="25sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/run_distance_txt"
+                    android:layout_toRightOf="@id/run_distance_img"
+                    android:singleLine="true"
+                    android:text="距离"
+                    android:textSize="25sp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/run_2"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/run_calorie_img"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/run_calorie_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/run_calorie_img"
+                    android:singleLine="true"
+                    android:text="0.0"
+                    android:textSize="25sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/run_calorie_txt"
+                    android:layout_toRightOf="@id/run_calorie_img"
+                    android:singleLine="true"
+                    android:text="卡路里"
+                    android:textSize="25sp"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal">
+
+            <com.running.myviews.CircleButton
+                android:id="@+id/run_continue"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/btn_oval"
+                android:text="继续"
+                android:textSize="30sp"
+                android:visibility="gone"/>
+
+            <com.running.myviews.CircleButton
+                android:id="@+id/run_stop"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_oval"
+                android:text="开始"
+                android:textSize="30sp"/>
+
+            <com.running.myviews.CircleButton
+                android:id="@+id/run_over"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_oval"
+                android:text="结束"
+                android:textSize="30sp"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
