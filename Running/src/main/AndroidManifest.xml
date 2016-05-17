@@ -39,11 +39,21 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".RegisterActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
-        <activity android:name=".RunMapActivity">
-        </activity>
+
+        <activity
+            android:name=".RunMapActivity"
+            android:screenOrientation="portrait"/>
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+        </service>
     </application>
 
 </manifest>
