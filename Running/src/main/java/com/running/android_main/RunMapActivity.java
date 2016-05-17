@@ -1,10 +1,6 @@
 package com.running.android_main;
 
-import android.graphics.Point;
 import android.graphics.PointF;
-import android.location.Location;
-import android.location.LocationListener;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,14 +14,20 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.running.myviews.CircleButton;
+import com.running.utils.MyOrientationListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +40,22 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     private TextView mRunTimeText, mRunSpeedText, mRunDistanceText, mRunCalorieText;
     private CircleButton mStopButton, mContinueButton, mOverButton;
 
+    //方向
+    private float mXDirection;
     private LocationClient mLocationClient = null;
-    private MyLocationData mLocationData;
-    //位置监听
-    private BDLocationListener mBDLocationListener = null;
-    //保存位置坐标,将Double转为浮点型
-    private List<PointF> mPointList = new ArrayList<>();
+    //定位监听
+    private MyLocationListener mMyLocationListener = null;
+    //经纬度
+    private double mCurrentLantitude, mCurrentLongitude;
+    //图标
+    private BitmapDescriptor mCurrentMarker;
+    //定位模式
+    private LocationMode mLocationMode;
+    //方向监听
+    private MyOrientationListener myOrientationListener;
+
+    //保存经纬度
+    private List<String> mLanLngList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +63,10 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_runmap);
         initViews();
-        setListeners();
+        initBaiduMap();
         //定位
-        initLocation();
-        //开始定位
-        mLocationClient.start();
-        // 设置为跟随模式,显示手机方向的箭头
-        mBaiduMap.setMyLocationConfigeration(new MyLocationConfiguration(
-                MyLocationConfiguration.LocationMode.FOLLOWING, true, null));
+        initMyLocation();
+        setListeners();
     }
 
     private void initViews() {
@@ -72,70 +80,83 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         mOverButton = (CircleButton) findViewById(R.id.run_over);
     }
 
-    private void initLocation() {
+    private void initBaiduMap() {
         mBaiduMap = mMapView.getMap();
-        //允许定位
+        // 开启图层定位
         mBaiduMap.setMyLocationEnabled(true);
-        //声明LocationClient类
-        mLocationClient = new LocationClient(getApplicationContext());
-        //初始化监听类
-        mBDLocationListener = new BDLocationListener() {
-            @Override
-            public void onReceiveLocation(BDLocation location) {
-                if (location == null)
-                    return;
-                mLocationData = new MyLocationData.Builder().accuracy(location.getRadius()) // 定位的精确度
-                        .direction(location.getDirection()) // 定位的方向 0~360度
-                        .latitude(location.getLatitude()).longitude(location.getLongitude()) // 经纬度
-                        .speed(location.getSpeed()).build();
-                // 设置定位数据到定位图层上,就是显示当前位置的那个点和圆圈
-                mBaiduMap.setMyLocationData(mLocationData);
-                //设置地图默认位置为当前位置
-                LatLng cenpt = new LatLng(location.getLatitude(), location.getLongitude());
-                //定义地图状态
-                MapStatus mMapStatus = new MapStatus.Builder()
-                        .target(cenpt)
-                        .zoom(18)
-                        .build();
-                //定义MapStatusUpdate对象，以便描述地图状态将要发生的变化
-                MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mMapStatus);
-                //改变地图状态
-                mBaiduMap.setMapStatus(mMapStatusUpdate);
-                Log.e("my", location.getAddrStr());
-                Toast.makeText(RunMapActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
-            }
-        };
-        //注册监听函数
-        mLocationClient.registerLocationListener(mBDLocationListener);
-        //定位设置
+        //设置默认角度和放大比例
+        MapStatus ms = new MapStatus.Builder().overlook(-5).zoom(17.0f).build();
+        mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(ms));
+    }
+
+    private void initMyLocation() {
+        // 定位初始化
+        mLocationMode = LocationMode.COMPASS;
+        mLocationClient = new LocationClient(this);
+        mMyLocationListener = new MyLocationListener();
+        mLocationClient.registerLocationListener(mMyLocationListener);
+        // 设置定位的相关配置
         LocationClientOption option = new LocationClientOption();
-        //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-        option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
-        //可选，默认gcj02，设置返回的定位结果坐标系
-        option.setCoorType("bd09ll");
-        int span = 2000;
-        //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-        option.setScanSpan(span);
-        //可选，设置是否需要地址信息，默认不需要
+        option.setOpenGps(true);// 打开gps
         option.setIsNeedAddress(true);
-        //可选，默认false,设置是否使用gps
-        option.setOpenGps(true);
-        //可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
-        option.setLocationNotify(true);
-        //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-        option.setIsNeedLocationDescribe(true);
-        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-        option.setIsNeedLocationPoiList(true);
-        //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-        option.setIgnoreKillProcess(false);
-        ;
+        option.setCoorType("bd09ll"); // 设置坐标类型
+        option.setPriority(LocationClientOption.NetWorkFirst); // 设置网络定位优先
+        option.setScanSpan(1000);
         mLocationClient.setLocOption(option);
+        mLocationClient.start();
+        //方向传感器
+        myOrientationListener = new MyOrientationListener(RunMapActivity.this);
+        myOrientationListener.setOnOrientationListener(new MyOrientationListener.OnOrientationListener() {
+            @Override
+            public void onOrientationChanged(float x) {
+                mXDirection = (int) x;
+//                Log.e("my", "mXDirection=" + mXDirection);
+            }
+        });
+        // 开启方向传感器
+        myOrientationListener.start();
     }
 
     private void setListeners() {
         mStopButton.setOnClickListener(this);
         mContinueButton.setOnClickListener(this);
         mOverButton.setOnClickListener(this);
+    }
+
+    /**
+     * 实现实位回调监听
+     */
+    public class MyLocationListener implements BDLocationListener {
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            // mapview 销毁后不在处理新接收的位置
+            if (location == null || mMapView == null)
+                return;
+            Toast.makeText(RunMapActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
+            // 构造定位数据
+            MyLocationData locData = new MyLocationData.Builder()
+                    .accuracy(location.getRadius())
+                    .direction(mXDirection)
+                    .latitude(location.getLatitude())
+                    .longitude(location.getLongitude())
+                    .build();
+            // 设置定位数据
+            mBaiduMap.setMyLocationData(locData);
+            // 设置自定义图标
+            mCurrentMarker = BitmapDescriptorFactory.fromResource(R.drawable.navi_map_gps_locked);
+            //参数：模式、是否允许自定义图标、图标资源
+            MyLocationConfiguration config = new MyLocationConfiguration(mLocationMode, true, mCurrentMarker);
+            mBaiduMap.setMyLocationConfigeration(config);
+            //经纬度
+            mCurrentLantitude = location.getLatitude();
+            mCurrentLongitude = location.getLongitude();
+            //将地图位置移动到当前位置
+            LatLng latLng = new LatLng(mCurrentLantitude, mCurrentLongitude);
+            MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(latLng);
+            mBaiduMap.animateMapStatus(msu);
+            //将经纬度点坐标加入集合
+            mLanLngList.add(mCurrentLantitude + "," + mCurrentLongitude + "\n");
+        }
     }
 
     @Override
@@ -170,22 +191,29 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mMapView.onDestroy();
-        mLocationClient.unRegisterLocationListener(mBDLocationListener);
-        mLocationClient.stop();
-    }
-
-    @Override
     protected void onResume() {
-        super.onResume();
         mMapView.onResume();
+        super.onResume();
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
         mMapView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mMapView.onDestroy();
+        mBaiduMap.setMyLocationEnabled(false);
+        if (mLocationClient != null) {
+            mLocationClient.unRegisterLocationListener(mMyLocationListener);
+            mLocationClient.stop();
+        }
+        myOrientationListener.stop();
+        for (int i = 0; i < mLanLngList.size(); i++) {
+            Log.e("my", mLanLngList.get(i));
+        }
+        super.onDestroy();
     }
 }
