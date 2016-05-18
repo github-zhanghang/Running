@@ -87,7 +87,7 @@
                     android:layout_below="@id/run_speed_txt"
                     android:layout_toRightOf="@id/run_speed_img"
                     android:singleLine="true"
-                    android:text="速度"
+                    android:text="平均速度"
                     android:textSize="25sp"/>
             </RelativeLayout>
         </LinearLayout>
