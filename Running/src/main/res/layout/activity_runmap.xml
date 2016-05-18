@@ -172,29 +172,29 @@
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal">
 
-            <com.running.myviews.CircleButton
+            <Button
                 android:id="@+id/run_continue"
                 android:layout_width="80dp"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:layout_marginRight="50dp"
                 android:background="@drawable/btn_oval"
                 android:text="继续"
                 android:textSize="30sp"
                 android:visibility="gone"/>
 
-            <com.running.myviews.CircleButton
+            <Button
                 android:id="@+id/run_stop"
                 android:layout_width="80dp"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/btn_oval"
                 android:text="开始"
                 android:textSize="30sp"/>
 
-            <com.running.myviews.CircleButton
+            <Button
                 android:id="@+id/run_over"
                 android:layout_width="80dp"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:background="@drawable/btn_oval"
                 android:text="结束"
                 android:textSize="30sp"

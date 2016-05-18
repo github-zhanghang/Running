@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.running.myviews.MyStartLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.running.myviews.MyStartView
-        android:id="@+id/myview"
+        android:id="@+id/startView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -42,7 +42,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20sp"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -69,6 +69,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
@@ -93,15 +94,13 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.running.myviews.CircleButton
+    <com.running.myviews.MyStartButton
         android:id="@+id/startRun"
-        android:layout_width="85sp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/btn_oval"
+        android:gravity="center"
         android:text="开始"
         android:textColor="#ffffff"
         android:textSize="30sp"/>
-</RelativeLayout>
+</com.running.myviews.MyStartLayout>

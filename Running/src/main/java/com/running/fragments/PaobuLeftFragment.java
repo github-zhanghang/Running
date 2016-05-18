@@ -10,20 +10,20 @@ import android.view.ViewGroup;
 
 import com.running.android_main.R;
 import com.running.android_main.RunMapActivity;
-import com.running.myviews.CircleButton;
+import com.running.myviews.MyStartButton;
 
 /**
  * Created by ZhangHang on 2016/5/5.
  */
 public class PaobuLeftFragment extends Fragment {
     private View mLeftView;
-    private CircleButton mStartButton;
+    private MyStartButton mStartButton;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mLeftView = inflater.inflate(R.layout.paobu_left, null);
-        mStartButton = (CircleButton) mLeftView.findViewById(R.id.startRun);
+        mStartButton = (MyStartButton) mLeftView.findViewById(R.id.startRun);
         initListeners();
         return mLeftView;
     }

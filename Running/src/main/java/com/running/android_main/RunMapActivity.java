@@ -2,8 +2,8 @@ package com.running.android_main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,14 +27,13 @@ import com.baidu.mapapi.map.PolygonOptions;
 import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
-import com.running.myviews.CircleButton;
+import com.running.myviews.MyStartButton;
 import com.running.utils.MyOrientationListener;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 
 import static com.running.android_main.R.id.run_distance_txt;
 import static com.running.android_main.R.id.start;
@@ -43,13 +42,15 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     private MapView mMapView;
     private BaiduMap mBaiduMap;
     private TextView mRunTimeText, mRunSpeedText, mRunDistanceText, mRunCalorieText;
-    private CircleButton mStopButton, mContinueButton, mOverButton;
+    private Button mStopButton, mContinueButton, mOverButton;
 
     //方向
-    private float mXDirection;
+    private float mDirection;
     private LocationClient mLocationClient = null;
     //定位监听
     private MyLocationListener mMyLocationListener = null;
+    //BaiduMap配置
+    private MyLocationConfiguration mMyLocationConfiguration;
     //图标
     private BitmapDescriptor mCurrentMarker;
     //定位模式
@@ -85,6 +86,11 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     //体重62kg
     private double mWeight = 62;
 
+    //暂停，停止开关
+    private boolean isStop;
+    private boolean isOver;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,8 +98,12 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_runmap);
         initViews();
         initBaiduMap();
-        //定位
+        //初始化定位
         initMyLocation();
+        // 开启方向传感器
+        myOrientationListener.start();
+        //开始定位
+        mLocationClient.start();
         setListeners();
     }
 
@@ -103,9 +113,9 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         mRunSpeedText = (TextView) findViewById(R.id.run_speed_txt);
         mRunDistanceText = (TextView) findViewById(run_distance_txt);
         mRunCalorieText = (TextView) findViewById(R.id.run_calorie_txt);
-        mStopButton = (CircleButton) findViewById(R.id.run_stop);
-        mContinueButton = (CircleButton) findViewById(R.id.run_continue);
-        mOverButton = (CircleButton) findViewById(R.id.run_over);
+        mStopButton = (Button) findViewById(R.id.run_stop);
+        mContinueButton = (Button) findViewById(R.id.run_continue);
+        mOverButton = (Button) findViewById(R.id.run_over);
     }
 
     private void initBaiduMap() {
@@ -122,28 +132,31 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         mLocationMode = LocationMode.COMPASS;
         mLocationClient = new LocationClient(this);
         mMyLocationListener = new MyLocationListener();
+        //注册监听
         mLocationClient.registerLocationListener(mMyLocationListener);
         // 设置定位的相关配置
         LocationClientOption option = new LocationClientOption();
+        //可选，默认高精度，设置定位模式:高精度，低功耗，仅设备
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         option.setOpenGps(true);// 打开gps
+        //可选，默认false，设置是否需要地址信息
         option.setIsNeedAddress(true);
-        option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setPriority(LocationClientOption.GpsFirst); // 设置GPS定位优先
-        option.setScanSpan(1000);
+        //可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
+        option.setLocationNotify(true);
+        // 设置坐标类型
+        option.setCoorType("bd09ll");
+        //定位间隔，2秒一次
+        option.setScanSpan(2000);
         mLocationClient.setLocOption(option);
         //监听方向
         myOrientationListener = new MyOrientationListener(RunMapActivity.this);
         myOrientationListener.setOnOrientationListener(new MyOrientationListener.OnOrientationListener() {
             @Override
             public void onOrientationChanged(float x) {
-                mXDirection = (int) x;
-//                Log.e("my", "mXDirection=" + mXDirection);
+                mDirection = (int) x;
+//                Log.e("my", "mDirection=" + mDirection);
             }
         });
-        // 开启方向传感器
-        myOrientationListener.start();
-        //开始定位
-        mLocationClient.start();
     }
 
     private void setListeners() {
@@ -161,11 +174,13 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
             // mapview 销毁后不在处理新接收的位置
             if (location == null || mMapView == null)
                 return;
-            Toast.makeText(RunMapActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
+            if (isFirstLoc) {
+                Toast.makeText(RunMapActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
+            }
             // 构造定位数据
             MyLocationData locData = new MyLocationData.Builder()
                     .accuracy(location.getRadius())
-                    .direction(mXDirection)
+                    .direction(mDirection)
                     .latitude(location.getLatitude())
                     .longitude(location.getLongitude())
                     .build();
@@ -174,18 +189,27 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
             // 设置自定义图标
             mCurrentMarker = BitmapDescriptorFactory.fromResource(R.drawable.navi_map_gps_locked);
             //参数：模式、是否允许自定义图标、图标资源
-            MyLocationConfiguration config = new MyLocationConfiguration(mLocationMode, true, mCurrentMarker);
-            mBaiduMap.setMyLocationConfigeration(config);
+            mMyLocationConfiguration = new MyLocationConfiguration(mLocationMode, true, mCurrentMarker);
+            mBaiduMap.setMyLocationConfigeration(mMyLocationConfiguration);
             //经纬度
             mLatitude = location.getLatitude();
             mLongitude = location.getLongitude();
             //将地图位置移动到当前位置
-            LatLng latLng = new LatLng(mLatitude, mLongitude);
-            MapStatusUpdate msu = MapStatusUpdateFactory.newLatLng(latLng);
-            mBaiduMap.animateMapStatus(msu);
-            //将经纬度点坐标加入集合
-            mPositionList.add(mLatitude + "," + mLongitude + "\n");
+            mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLng(
+                    new LatLng(mLatitude, mLongitude)));
+            //保存经纬度坐标
+            savePosition(mLatitude, mLongitude);
+            //绘制路线
             drawRoute(mLatitude, mLongitude);
+        }
+    }
+
+    private void savePosition(double latitude, double longitude) {
+        mPositionList.add(latitude + "," + longitude + "\n");
+        //每到100条信息就保存到文件
+        if (mPositionList.size() == 100) {
+            //。。。。。。保存到文件。。。。。。
+            mPositionList = new ArrayList<>();//保存后清空list
         }
     }
 
@@ -197,25 +221,27 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
             mLatLngList.add(mLatLng1);
             isFirstLoc = false;
         } else {
-            //当前时间时间
+            //当前时间
             endTime = System.currentTimeMillis();
-            //因为时区问题有8小时的时差
-            mTime = endTime - startTime - 8 * 60 * 60 * 1000;
             mLatLng2 = new LatLng(lantitude, longitude);
-            //计算两点距离并加入总时间
-            mDistance += DistanceUtil.getDistance(mLatLng1, mLatLng2);
-            //计算速度
-            mSpeed = mDistance / ((endTime - start) / (1000 * 60 * 60));
-            //计算消耗的卡路里
-            // 跑步热量（kcal）＝体重（kg）×距离（公里）×1.036
-            mCalorie = mWeight * mDistance * 1.036;
-            updateData(mDistance, mTime, mSpeed, mCalorie);
             mLatLngList.add(mLatLng2);
+            //绘制多边形路径
             mPolygonOption = new PolygonOptions()
                     .points(mLatLngList)
                     .stroke(new Stroke(10, 0xAA00FF00));
-            //在地图上添加多边形Option，用于显示
             mBaiduMap.addOverlay(mPolygonOption);
+
+            //计算时间，因为时区问题有8小时的时差
+            mTime = endTime - startTime - 8 * 60 * 60 * 1000;
+            //计算两点距离并加入总时间
+            mDistance += DistanceUtil.getDistance(mLatLngList.get(0), mLatLngList.get(1)) / 1000;
+            //计算平均速度
+            mSpeed = mDistance / ((endTime - start) / (1000 * 60 * 60));
+            //计算消耗的卡路里，跑步热量（kcal）＝体重（kg）×距离（公里）×1.036
+            mCalorie = mWeight * mDistance * 1.036;
+            //更新数据
+            updateData(mDistance, mTime, mSpeed, mCalorie);
+
             //清除起点
             mLatLngList.remove(0);
         }
@@ -251,16 +277,40 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         mStopButton.setVisibility(View.GONE);
         mContinueButton.setVisibility(View.VISIBLE);
         mOverButton.setVisibility(View.VISIBLE);
+        if (!isStop && !isOver) {
+            mLocationClient.stop();
+            myOrientationListener.stop();
+            isStop = true;
+            Toast.makeText(RunMapActivity.this, "stop", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(RunMapActivity.this, "已暂停", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void handcontinue() {
         mStopButton.setVisibility(View.VISIBLE);
         mContinueButton.setVisibility(View.GONE);
         mOverButton.setVisibility(View.GONE);
+        if (!isOver) {
+            mLocationClient.start();
+            myOrientationListener.start();
+            isStop = false;
+        }
+        Toast.makeText(RunMapActivity.this, "continue", Toast.LENGTH_SHORT).show();
     }
 
     private void handover() {
         Toast.makeText(RunMapActivity.this, "Run Over", Toast.LENGTH_SHORT).show();
+        if (!isOver) {
+            mLocationClient.unRegisterLocationListener(mMyLocationListener);
+            mLocationClient.stop();
+            myOrientationListener.stop();
+            isStop = true;
+            isOver = true;
+            Toast.makeText(RunMapActivity.this, "over", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(RunMapActivity.this, "已结束", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -286,10 +336,6 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         }
         //停止方向传感器
         myOrientationListener.stop();
-        //输出一下经纬度
-        for (int i = 0; i < mPositionList.size(); i++) {
-            Log.e("my", mPositionList.get(i));
-        }
         super.onDestroy();
     }
 }
