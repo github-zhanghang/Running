@@ -80,7 +80,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     //开始时间,结束时间
     private double startTime, endTime;
     //保留小数点后两位
-    DecimalFormat mDecimalFormat = new DecimalFormat(".00");
+    DecimalFormat mDecimalFormat = new DecimalFormat("0.00");
     //毫秒转成 时:分:秒 格式
     SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss");//初始化Formatter的转换格式。
 

@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.running.myviews.wheelview.LoopView;
@@ -50,6 +49,15 @@ public class RunTargetActivity extends AppCompatActivity {
         setListeners();
     }
 
+    private void initViews() {
+        mBackImageView = (ImageView) findViewById(R.id.target_back);
+        mRadioGroup = (RadioGroup) findViewById(R.id.target_radioGroup);
+        mDistanceRadioButton = (RadioButton) findViewById(R.id.target_distance);
+        mTimeRadioButton = (RadioButton) findViewById(R.id.target_time);
+        mCalorieRadioButton = (RadioButton) findViewById(R.id.target_calorie);
+        mListView = (ListView) findViewById(R.id.target_listview);
+    }
+
     private void initTargetList() {
         //可选的距离
         mDistanceList = new ArrayList<>();
@@ -71,16 +79,19 @@ public class RunTargetActivity extends AppCompatActivity {
         }
     }
 
-    private void initViews() {
-        mBackImageView = (ImageView) findViewById(R.id.target_back);
-        mRadioGroup = (RadioGroup) findViewById(R.id.target_radioGroup);
-        mDistanceRadioButton = (RadioButton) findViewById(R.id.target_distance);
-        mTimeRadioButton = (RadioButton) findViewById(R.id.target_time);
-        mCalorieRadioButton = (RadioButton) findViewById(R.id.target_calorie);
-        mListView = (ListView) findViewById(R.id.target_listview);
+    private void initAdapter() {
+        mStrings = getResources().getStringArray(R.array.runTargetDistance);
+        mAdapter = new ArrayAdapter<String>(this, R.layout.run_target_textview, mStrings);
     }
 
     private void setListeners() {
+        mBackImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RunTargetActivity.this.finish();
+            }
+        });
+
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -125,7 +136,6 @@ public class RunTargetActivity extends AppCompatActivity {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
                 switch (mRadioGroup.getCheckedRadioButtonId()) {
                     case R.id.target_distance:
                         intent.putExtra("target", mDistanceList.get(mSelectedItem));
@@ -144,16 +154,19 @@ public class RunTargetActivity extends AppCompatActivity {
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
             }
         });
 
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout linearLayout = new LinearLayout(RunTargetActivity.this);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        params.gravity = Gravity.CENTER;
+        linearLayout.setLayoutParams(params);
+        linearLayout.setGravity(Gravity.CENTER);
+
         //滚动选择器
         LoopView wheelView = new LoopView(RunTargetActivity.this);
-        wheelView.setLayoutParams(params);
         switch (mRadioGroup.getCheckedRadioButtonId()) {
             case R.id.target_distance:
                 wheelView.setItems(mDistanceList);
@@ -168,18 +181,13 @@ public class RunTargetActivity extends AppCompatActivity {
         wheelView.setNotLoop();
         wheelView.setTextSize(30);
         wheelView.setInitPosition(5);
-        wheelView.setBackgroundColor(Color.GRAY);
         wheelView.setListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(int index) {
                 mSelectedItem = index;
             }
         });
-        builder.setView(wheelView).create().show();
-    }
-
-    private void initAdapter() {
-        mStrings = getResources().getStringArray(R.array.runTargetDistance);
-        mAdapter = new ArrayAdapter<String>(this, R.layout.run_target_textview, mStrings);
+        linearLayout.addView(wheelView);
+        builder.setView(linearLayout).create().show();
     }
 }

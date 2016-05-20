@@ -20,7 +20,7 @@
         android:singleLine="true"
         android:text="点我设置目标"
         android:textColor="#ffffff"
-        android:textSize="20sp"/>
+        android:textSize="16sp"/>
 
     <TextView
         android:id="@+id/data"
@@ -28,8 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
         android:clickable="true"
+        android:gravity="center"
         android:singleLine="true"
         android:text="0.0"
         android:textColor="#ffffff"
