@@ -2,6 +2,7 @@ package com.running.android_main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -145,8 +146,8 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         option.setLocationNotify(true);
         // 设置坐标类型
         option.setCoorType("bd09ll");
-        //定位间隔，2秒一次
-        option.setScanSpan(2000);
+        //定位间隔，1秒一次
+        option.setScanSpan(1000);
         mLocationClient.setLocOption(option);
         //监听方向
         myOrientationListener = new MyOrientationListener(RunMapActivity.this);
@@ -175,6 +176,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
             if (location == null || mMapView == null)
                 return;
             if (isFirstLoc) {
+                Log.e("my", location.getLatitude() + ";" + location.getLongitude());
                 Toast.makeText(RunMapActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
             }
             // 构造定位数据
