@@ -6,4 +6,5 @@
     <color name="textDown">#00D0CB</color>
     <color name="textUp">#333333</color>
     <color name="orange">#ff9900</color>
+    <color name="gray">#33330033</color>
 </resources>

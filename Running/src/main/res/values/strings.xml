@@ -6,4 +6,32 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string-array name="runTargetDistance">
+        <item>1公里</item>
+        <item>2公里</item>
+        <item>5公里</item>
+        <item>10公里</item>
+        <item>半程马拉松</item>
+        <item>马拉松</item>
+        <item>自定义</item>
+    </string-array>
+    <string-array name="runTargetTime">
+        <item>10分钟</item>
+        <item>30分钟</item>
+        <item>60分钟</item>
+        <item>90分钟</item>
+        <item>120分钟</item>
+        <item>180分钟</item>
+        <item>自定义</item>
+    </string-array>
+    <string-array name="runTargetCalorie">
+        <item>300大卡</item>
+        <item>600大卡</item>
+        <item>900大卡</item>
+        <item>1200大卡</item>
+        <item>1500大卡</item>
+        <item>1800大卡</item>
+        <item>自定义</item>
+    </string-array>
 </resources>
