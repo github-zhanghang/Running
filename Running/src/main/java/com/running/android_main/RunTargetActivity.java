@@ -2,6 +2,7 @@ package com.running.android_main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -124,6 +125,7 @@ public class RunTargetActivity extends AppCompatActivity {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
                 switch (mRadioGroup.getCheckedRadioButtonId()) {
                     case R.id.target_distance:
                         intent.putExtra("target", mDistanceList.get(mSelectedItem));
@@ -142,15 +144,16 @@ public class RunTargetActivity extends AppCompatActivity {
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                dialog.dismiss();
             }
         });
+
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        //滚动选择器
         LoopView wheelView = new LoopView(RunTargetActivity.this);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        wheelView.setLayoutParams(layoutParams);
+        wheelView.setLayoutParams(params);
         switch (mRadioGroup.getCheckedRadioButtonId()) {
             case R.id.target_distance:
                 wheelView.setItems(mDistanceList);
@@ -165,15 +168,14 @@ public class RunTargetActivity extends AppCompatActivity {
         wheelView.setNotLoop();
         wheelView.setTextSize(30);
         wheelView.setInitPosition(5);
+        wheelView.setBackgroundColor(Color.GRAY);
         wheelView.setListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(int index) {
                 mSelectedItem = index;
             }
         });
-        builder.setView(wheelView);
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        builder.setView(wheelView).create().show();
     }
 
     private void initAdapter() {
