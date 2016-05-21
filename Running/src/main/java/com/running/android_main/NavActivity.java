@@ -54,7 +54,7 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
                 String uName = mNameEditText.getText().toString();
                 String uPwd = mPasswordEditText.getText().toString();
                 //仅用于测试时使用
-                if (uName.equals("zh") && uPwd.equals("123")) {
+                if (uName.equals("") && uPwd.equals("")) {
                     Intent intent = new Intent(NavActivity.this, MainActivity.class);
                     intent.putExtra("username", mNameEditText.getText().toString());
                     startActivity(intent);
