@@ -27,6 +27,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private MyApplication mApplication;
     private DrawerLayout drawer;
     private NavigationView navigationView;
 
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.slide_main);
+        mApplication = (MyApplication) getApplication();
+        mApplication.addActivity(this);
         //获取上个页面传过来的账号
         mUserName = getIntent().getStringExtra("username");
         initDrawerLayout();
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initViews() {
         mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
-        mUserImage= (ImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
+        mUserImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
         mUserNickNameText = (TextView) findViewById(R.id.user_nickname);
     }
 
@@ -165,6 +168,12 @@ public class MainActivity extends AppCompatActivity
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mApplication.removeActivity(this);
     }
 
 }

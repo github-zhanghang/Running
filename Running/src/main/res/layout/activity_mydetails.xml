@@ -81,12 +81,14 @@
                 layout="@layout/details_item"/>
 
             <Button
+                android:id="@+id/changeAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/roundedcorners"
-                android:text="切换账号"/>
+                android:text="切换账号"
+                android:textColor="#ffffff"/>
         </LinearLayout>
 
     </ScrollView>

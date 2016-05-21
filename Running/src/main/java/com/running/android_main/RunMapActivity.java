@@ -40,6 +40,7 @@ import static com.running.android_main.R.id.run_distance_txt;
 import static com.running.android_main.R.id.start;
 
 public class RunMapActivity extends AppCompatActivity implements View.OnClickListener {
+    private MyApplication mApplication;
     private MapView mMapView;
     private BaiduMap mBaiduMap;
     private TextView mRunTimeText, mRunSpeedText, mRunDistanceText, mRunCalorieText;
@@ -97,6 +98,8 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_runmap);
+        mApplication = (MyApplication) getApplication();
+        mApplication.addActivity(this);
         initViews();
         initBaiduMap();
         //初始化定位
@@ -338,6 +341,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         }
         //停止方向传感器
         myOrientationListener.stop();
+        mApplication.removeActivity(this);
         super.onDestroy();
     }
 }
