@@ -1,5 +1,6 @@
 package com.running.android_main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -8,8 +9,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.running.adapters.MyFragmentAdapter;
 import com.running.fragments.DongtaiFragment;
@@ -37,6 +41,8 @@ public class MainActivity extends AppCompatActivity
     private RadioGroup mRadioGroup;
 
     private String mUserName;
+    private ImageView mUserImage;
+    private TextView mUserNickNameText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +52,18 @@ public class MainActivity extends AppCompatActivity
         mUserName = getIntent().getStringExtra("username");
         initDrawerLayout();
         initFragments();
+        initViews();
         initViewPager();
         initListener();
     }
 
-    private void initListener() {
+    private void initViews() {
         mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
+        mUserImage= (ImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
+        mUserNickNameText = (TextView) findViewById(R.id.user_nickname);
+    }
+
+    private void initListener() {
         mViewPager.addOnPageChangeListener(new NoScrollViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -59,8 +71,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onPageSelected(int position) {
-                RadioButton radioButton = (RadioButton) mRadioGroup.getChildAt(position);
-                radioButton.setChecked(true);
+                ((RadioButton) mRadioGroup.getChildAt(position)).setChecked(true);
             }
 
             @Override
@@ -72,6 +83,13 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 resetViewPager(checkedId);
+            }
+        });
+
+        mUserImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, MyDetailsActivity.class));
             }
         });
     }
@@ -132,7 +150,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
@@ -149,4 +166,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

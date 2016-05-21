@@ -50,7 +50,7 @@ public class RunTargetActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        mBackImageView = (ImageView) findViewById(R.id.target_back);
+        mBackImageView = (ImageView) findViewById(R.id.myheader_back);
         mRadioGroup = (RadioGroup) findViewById(R.id.target_radioGroup);
         mDistanceRadioButton = (RadioButton) findViewById(R.id.target_distance);
         mTimeRadioButton = (RadioButton) findViewById(R.id.target_time);

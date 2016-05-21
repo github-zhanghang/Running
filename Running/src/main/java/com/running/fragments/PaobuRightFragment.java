@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,8 @@ public class PaobuRightFragment extends Fragment implements View.OnClickListener
     private MyStartButton mStartButton;
     private TextView mTitleText, mTargetText, mUnitsText;
 
+    private TranslateAnimation mTranslateAnimation;
+
     private static final String mDisUnits = "公里";
     private static final String mTimeUnits = "分钟";
     private static final String mCalUnits = "大卡";
@@ -36,7 +40,16 @@ public class PaobuRightFragment extends Fragment implements View.OnClickListener
         mRightView = inflater.inflate(R.layout.paobu_right, null);
         initViews();
         initListeners();
+        initAnimation();
         return mRightView;
+    }
+
+    private void initAnimation() {
+        //上下跳动
+        mTranslateAnimation = new TranslateAnimation(0, 0, 0, 15);
+        mTranslateAnimation.setDuration(200);
+        mTranslateAnimation.setRepeatCount(Animation.INFINITE);
+        mTranslateAnimation.setRepeatMode(Animation.REVERSE);
     }
 
     private void initViews() {
@@ -88,4 +101,17 @@ public class PaobuRightFragment extends Fragment implements View.OnClickListener
             }
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mTitleText.startAnimation(mTranslateAnimation);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mTitleText.clearAnimation();
+    }
+
 }
