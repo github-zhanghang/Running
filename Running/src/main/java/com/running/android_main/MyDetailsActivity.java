@@ -60,6 +60,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
     private void initListeners() {
         mBackImage.setOnClickListener(this);
+        mDetailsHeadView.setOnClickListener(this);
         mNickItem.setOnClickListener(this);
         mHeightItem.setOnClickListener(this);
         mWeightItem.setOnClickListener(this);
@@ -67,8 +68,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         mBirthdayItem.setOnClickListener(this);
         mAddressItem.setOnClickListener(this);
         mSignatureItem.setOnClickListener(this);
+        mSaveInfoButton.setOnClickListener(this);
     }
-
 
     @Override
     protected void onDestroy() {

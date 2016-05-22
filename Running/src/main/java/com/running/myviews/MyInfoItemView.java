@@ -2,7 +2,6 @@ package com.running.myviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.LinearLayout;
@@ -53,7 +52,7 @@ public class MyInfoItemView extends LinearLayout {
         addView(dataTextView);
         addView(rightTextView);
         setPadding(20, 10, 5, 10);
-        setBackgroundColor(Color.WHITE);
+        setBackgroundResource(R.drawable.myinfoitem);
     }
 
     public void setDataText(String dataText) {
