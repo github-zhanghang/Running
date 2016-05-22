@@ -1,5 +1,6 @@
 package com.running.android_main;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -140,6 +141,8 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         //可选，默认高精度，设置定位模式:高精度，低功耗，仅设备
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         option.setOpenGps(true);// 打开gps
+        option.setPriority(LocationClientOption.GpsFirst);
+        option.setTimeOut(5000);
         //可选，默认false，设置是否需要地址信息
         option.setIsNeedAddress(true);
         //可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
@@ -147,7 +150,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         // 设置坐标类型
         option.setCoorType("bd09ll");
         //定位间隔，1秒一次
-        option.setScanSpan(1000);
+        option.setScanSpan(2000);
         mLocationClient.setLocOption(option);
         //监听方向
         myOrientationListener = new MyOrientationListener(RunMapActivity.this);
@@ -230,6 +233,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
             //绘制多边形路径
             mPolygonOption = new PolygonOptions()
                     .points(mLatLngList)
+                    .fillColor(Color.TRANSPARENT)
                     .stroke(new Stroke(10, 0xAA00FF00));
             mBaiduMap.addOverlay(mPolygonOption);
 
