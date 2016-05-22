@@ -7,4 +7,6 @@
     <color name="textUp">#333333</color>
     <color name="orange">#ff9900</color>
     <color name="gray">#33330033</color>
+    <color name="lightgray">#f0f0f0</color>
+    <color name="white">#ffffff</color>
 </resources>

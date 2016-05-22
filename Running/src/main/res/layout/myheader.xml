@@ -19,6 +19,6 @@
         android:layout_centerInParent="true"
         android:singleLine="true"
         android:text="运动目标"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="24dp"/>
 </RelativeLayout>

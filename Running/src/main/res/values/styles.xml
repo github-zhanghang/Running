@@ -66,4 +66,9 @@
         <item name="android:textColor">@color/orange</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <declare-styleable name="MyInfoItemView">
+        <attr name="labelText" format="string|reference"/>
+        <attr name="dataText" format="string|reference"/>
+    </declare-styleable>
 </resources>

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/lightgray">
 
     <include
         android:id="@+id/he"
@@ -16,27 +18,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="个人资料"
-                android:textSize="25sp"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="5dp"
-                android:background="#01FFFF"/>
-
             <LinearLayout
+                android:id="@+id/details_head"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:background="#ffffff"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -47,50 +36,84 @@
                     android:src="@mipmap/ic_launcher"/>
 
                 <TextView
-                    android:id="@+id/details_ulabel"
+                    android:id="@+id/details_uaccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="点击左侧头像可更改"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="账号:run_1212121"
                     android:textSize="20sp"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#55000000"/>
-
-            <include
+            <com.running.myviews.MyInfoItemView
                 android:id="@+id/nick_item"
-                layout="@layout/details_item"/>
-
-            <include
-                android:id="@+id/height_item"
-                layout="@layout/details_item"/>
-
-            <include
-                android:id="@+id/weight_item"
-                layout="@layout/details_item"/>
-
-            <include
-                android:id="@+id/sex_item"
-                layout="@layout/details_item"/>
-
-            <include
-                android:id="@+id/address_item"
-                layout="@layout/details_item"/>
-
-            <Button
-                android:id="@+id/changeAccount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/roundedcorners"
-                android:text="切换账号"
-                android:textColor="#ffffff"/>
-        </LinearLayout>
+                android:layout_marginTop="2dp"
+                app:dataText="桃子"
+                app:labelText="昵称:"/>
 
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/height_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="160cm"
+                app:labelText="身高:"/>
+
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/weight_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="45kg"
+                app:labelText="体重:"/>
+
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/sex_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="美女"
+                app:labelText="性别:"/>
+
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/birth_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="1994-01-30"
+                app:labelText="生日:"/>
+
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/address_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="河北 石家庄"
+                app:labelText="地区:"/>
+
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/signature_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="爱情就是一种轮回，一种从美丽走向痛苦，然后从痛苦中解脱，最后走向永恒的东西。"
+                app:labelText="签名:"/>
+
+            <Button
+                android:id="@+id/saveinfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/roundedcorners"
+                android:text="保存"
+                android:textColor="@color/white"
+                android:textSize="23sp"/>
+        </LinearLayout>
     </ScrollView>
 
 </RelativeLayout>

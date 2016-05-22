@@ -241,6 +241,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
             //计算平均速度
             mSpeed = mDistance / ((endTime - start) / (1000 * 60 * 60));
             //计算消耗的卡路里，跑步热量（kcal）＝体重（kg）×距离（公里）×1.036
+//            Log.e("my", "----------" + mDistance);
             mCalorie = mWeight * mDistance * 1.036;
             //更新数据
             updateData(mDistance, mTime, mSpeed, mCalorie);
