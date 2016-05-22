@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Created by ZhangHang on 2016/4/29.
+ * 修改了注释 2016/5/22.
  */
 public class XiaoxiFragmentAdapter extends FragmentPagerAdapter {
     private List<Fragment> mList;
