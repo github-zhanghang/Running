@@ -70,5 +70,6 @@
     <declare-styleable name="MyInfoItemView">
         <attr name="labelText" format="string|reference"/>
         <attr name="dataText" format="string|reference"/>
+        <attr name="dataEditable" format="boolean"/>
     </declare-styleable>
 </resources>

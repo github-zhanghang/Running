@@ -2,7 +2,9 @@ package com.running.android_main;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -79,6 +81,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        hideSoftInput();
+        MyInfoItemView myInfoItemView = null;
         switch (v.getId()) {
             case R.id.myheader_back:
                 MyDetailsActivity.this.finish();
@@ -92,26 +96,42 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 Toast.makeText(MyDetailsActivity.this, "修改头像", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nick_item:
-                Toast.makeText(MyDetailsActivity.this, ((MyInfoItemView) v).getDataText(), Toast.LENGTH_SHORT).show();
+                myInfoItemView = (MyInfoItemView) v;
+                myInfoItemView.dataTextRequestFocus();
                 break;
             case R.id.height_item:
-                Toast.makeText(MyDetailsActivity.this, ((MyInfoItemView) v).getDataText(), Toast.LENGTH_SHORT).show();
+                myInfoItemView = (MyInfoItemView) v;
+                Toast.makeText(MyDetailsActivity.this, myInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.weight_item:
-                Toast.makeText(MyDetailsActivity.this, ((MyInfoItemView) v).getDataText(), Toast.LENGTH_SHORT).show();
+                myInfoItemView = (MyInfoItemView) v;
+                Toast.makeText(MyDetailsActivity.this, myInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.sex_item:
-                Toast.makeText(MyDetailsActivity.this, ((MyInfoItemView) v).getDataText(), Toast.LENGTH_SHORT).show();
+                myInfoItemView = (MyInfoItemView) v;
+                Toast.makeText(MyDetailsActivity.this, myInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.birth_item:
-                Toast.makeText(MyDetailsActivity.this, ((MyInfoItemView) v).getDataText(), Toast.LENGTH_SHORT).show();
+                myInfoItemView = (MyInfoItemView) v;
+                Toast.makeText(MyDetailsActivity.this, myInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.address_item:
-                Toast.makeText(MyDetailsActivity.this, ((MyInfoItemView) v).getDataText(), Toast.LENGTH_SHORT).show();
+                myInfoItemView = (MyInfoItemView) v;
+                Toast.makeText(MyDetailsActivity.this, myInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.signature_item:
-                Toast.makeText(MyDetailsActivity.this, ((MyInfoItemView) v).getDataText(), Toast.LENGTH_SHORT).show();
+                myInfoItemView = (MyInfoItemView) v;
+                myInfoItemView.dataTextRequestFocus();
                 break;
+        }
+    }
+
+    public void hideSoftInput() {
+        //判断隐藏软键盘是否弹出
+        if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED) {
+            //隐藏软键盘
+            Log.e("my", "---------");
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         }
     }
 

@@ -25,8 +25,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:background="#ffffff"
+                android:background="@drawable/myinfoitem"
                 android:gravity="center_vertical"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -51,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                app:dataEditable="true"
                 app:dataText="桃子"
                 app:labelText="昵称:"/>
 
@@ -99,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                app:dataEditable="true"
                 app:dataText="爱情就是一种轮回，一种从美丽走向痛苦，然后从痛苦中解脱，最后走向永恒的东西。"
                 app:labelText="签名:"/>
 
@@ -106,9 +110,7 @@
                 android:id="@+id/saveinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/roundedcorners"
                 android:text="保存"
                 android:textColor="@color/white"
