@@ -141,7 +141,6 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         //可选，默认高精度，设置定位模式:高精度，低功耗，仅设备
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         option.setOpenGps(true);// 打开gps
-        option.setPriority(LocationClientOption.GpsFirst);
         option.setTimeOut(5000);
         //可选，默认false，设置是否需要地址信息
         option.setIsNeedAddress(true);
@@ -149,7 +148,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         option.setLocationNotify(true);
         // 设置坐标类型
         option.setCoorType("bd09ll");
-        //定位间隔，1秒一次
+        //定位间隔，2秒一次
         option.setScanSpan(2000);
         mLocationClient.setLocOption(option);
         //监听方向
