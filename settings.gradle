@@ -1,1 +1,1 @@
-include ':Running'
+include ':Running', ':IMKit'
