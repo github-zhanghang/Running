@@ -5,8 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,11 +14,8 @@ import com.running.android_main.R;
  * Created by ZhangHang on 2016/5/21.
  */
 public class MyInfoItemView extends LinearLayout {
-    private TextView mLabelTextView, mRightTextView;
+    private TextView mLabelTextView, mDataTextView, mRightTextView;
     private String mLabelText, mDataText;
-    private EditText mDataEditText;
-    private boolean mDataTextEditable;
-    private InputMethodManager mInputMethodManager;
 
     public MyInfoItemView(Context context) {
         this(context, null);
@@ -31,26 +26,21 @@ public class MyInfoItemView extends LinearLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyInfoItemView);
         mLabelText = typedArray.getString(R.styleable.MyInfoItemView_labelText);
         mDataText = typedArray.getString(R.styleable.MyInfoItemView_dataText);
-        mDataTextEditable = typedArray.getBoolean(R.styleable.MyInfoItemView_dataEditable, false);
         typedArray.recycle();
 
         LayoutParams params1 = new LayoutParams(0, LayoutParams.MATCH_PARENT, 3);
-        params1.setMargins(0, 22, 0, 0);
         mLabelTextView = new TextView(context);
         mLabelTextView.setLayoutParams(params1);
         mLabelTextView.setText(mLabelText);
         mLabelTextView.setTextSize(24);
 
-        LayoutParams params2 = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 10);
-        params2.setMargins(0, 5, 0, 0);
-        mDataEditText = new EditText(context);
-        mDataEditText.setLayoutParams(params2);
-        mDataEditText.setGravity(Gravity.CENTER_VERTICAL);
-        mDataEditText.setText(mDataText);
-        mDataEditText.setTextColor(Color.parseColor("#C5C5C5"));
-        mDataEditText.setTextSize(24);
-        mDataEditText.setBackgroundColor(Color.TRANSPARENT);
-        mDataEditText.setEnabled(mDataTextEditable);
+        LayoutParams params2 = new LayoutParams(0, LayoutParams.WRAP_CONTENT, 12);
+        mDataTextView = new TextView(context);
+        mDataTextView.setLayoutParams(params2);
+        mDataTextView.setGravity(Gravity.CENTER_VERTICAL);
+        mDataTextView.setText(mDataText);
+        mDataTextView.setTextColor(Color.parseColor("#C5C5C5"));
+        mDataTextView.setTextSize(24);
 
         LayoutParams params3 = new LayoutParams(0, LayoutParams.MATCH_PARENT, 1);
         mRightTextView = new TextView(context);
@@ -61,17 +51,15 @@ public class MyInfoItemView extends LinearLayout {
         mRightTextView.setPadding(5, 0, 0, 0);
 
         addView(mLabelTextView);
-        addView(mDataEditText);
+        addView(mDataTextView);
         addView(mRightTextView);
-        setPadding(20, 5, 5, 5);
+        setPadding(20, 15, 20, 15);
         setBackgroundResource(R.drawable.myinfoitem);
-        setFocusable(true);
-        mInputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     public void setDataText(String dataText) {
         mDataText = dataText;
-        mDataEditText.setText(mDataText);
+        mDataTextView.setText(mDataText);
     }
 
     public String getDataText() {
@@ -85,19 +73,5 @@ public class MyInfoItemView extends LinearLayout {
 
     public String getLabelText() {
         return mLabelText;
-    }
-
-    public boolean isDataTextEditable() {
-        return mDataTextEditable;
-    }
-
-    public void setDataTextEditable(boolean dataTextEditaable) {
-        mDataTextEditable = dataTextEditaable;
-        mDataEditText.setEnabled(mDataTextEditable);
-    }
-
-    public void dataTextRequestFocus() {
-        mDataEditText.requestFocus();
-        mInputMethodManager.showSoftInput(mDataEditText, InputMethodManager.SHOW_FORCED);
     }
 }

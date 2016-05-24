@@ -26,9 +26,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/myinfoitem"
-                android:gravity="center_vertical"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -42,8 +42,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:ellipsize="end"
-                    android:maxLines="2"
                     android:text="账号:run_1212121"
                     android:textSize="20sp"/>
             </LinearLayout>
@@ -53,7 +51,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                app:dataEditable="true"
                 app:dataText="桃子"
                 app:labelText="昵称:"/>
 
@@ -102,8 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                app:dataEditable="true"
-                app:dataText="爱情就是一种轮回，一种从美丽走向痛苦，然后从痛苦中解脱，最后走向永恒的东西。"
+                app:dataText="从美丽走向痛苦，然后从痛苦中解脱，最后走向永恒。"
                 app:labelText="签名:"/>
 
             <Button

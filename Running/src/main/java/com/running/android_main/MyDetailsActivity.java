@@ -1,16 +1,23 @@
 package com.running.android_main;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.running.myviews.MyInfoItemView;
+
+import java.util.Calendar;
 
 public class MyDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     private MyApplication mApplication;
@@ -26,6 +33,13 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
     private Button mSaveInfoButton;
 
+    private MyInfoItemView mInfoItemView;
+    private AlertDialog.Builder mDialogBuilder;
+    private AlertDialog mAlertDialog;
+    private EditText mEditText;
+    private DatePicker mDatePicker;
+    private Calendar mCalendar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +48,12 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         mApplication.addActivity(this);
         initViews();
         initData();
+        initDialog();
         initListeners();
+    }
+
+    private void initDialog() {
+        mDialogBuilder = new AlertDialog.Builder(this);
     }
 
     private void initViews() {
@@ -52,8 +71,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         mBirthdayItem = (MyInfoItemView) findViewById(R.id.birth_item);
         mAddressItem = (MyInfoItemView) findViewById(R.id.address_item);
         mSignatureItem = (MyInfoItemView) findViewById(R.id.signature_item);
-
         mSaveInfoButton = (Button) findViewById(R.id.saveinfo);
+
     }
 
     private void initData() {
@@ -81,8 +100,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        hideSoftInput();
-        MyInfoItemView myInfoItemView = null;
         switch (v.getId()) {
             case R.id.myheader_back:
                 MyDetailsActivity.this.finish();
@@ -96,43 +113,135 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 Toast.makeText(MyDetailsActivity.this, "修改头像", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nick_item:
-                myInfoItemView = (MyInfoItemView) v;
-                myInfoItemView.dataTextRequestFocus();
+                mInfoItemView = (MyInfoItemView) v;
+                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
+                mEditText = new EditText(this);
+                String nick = mInfoItemView.getDataText();
+                mEditText.setText(nick);
+                //最多输入6个字符
+                mEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
+                initEditText(nick);
                 break;
             case R.id.height_item:
-                myInfoItemView = (MyInfoItemView) v;
-                Toast.makeText(MyDetailsActivity.this, myInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
+                mInfoItemView = (MyInfoItemView) v;
+                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
+                mEditText = new EditText(this);
+                String height = mInfoItemView.getDataText();
+                height = height.substring(0, height.length() - 2);
+                mEditText.setText(height);
+                //最多输入3个字符
+                mEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
+                mEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                initEditText(height);
                 break;
             case R.id.weight_item:
-                myInfoItemView = (MyInfoItemView) v;
-                Toast.makeText(MyDetailsActivity.this, myInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
+                mInfoItemView = (MyInfoItemView) v;
+                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
+                mEditText = new EditText(this);
+                String weight = mInfoItemView.getDataText();
+                weight = weight.substring(0, weight.length() - 2);
+                mEditText.setText(weight);
+                //最多输入3个字符
+                mEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
+                mEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                initEditText(weight);
                 break;
             case R.id.sex_item:
-                myInfoItemView = (MyInfoItemView) v;
-                Toast.makeText(MyDetailsActivity.this, myInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
+                mInfoItemView = (MyInfoItemView) v;
+                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
+                mEditText = new EditText(this);
+                String sex = mInfoItemView.getDataText();
+                mEditText.setText(sex);
+                initEditText(sex);
                 break;
             case R.id.birth_item:
-                myInfoItemView = (MyInfoItemView) v;
-                Toast.makeText(MyDetailsActivity.this, myInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
+                mInfoItemView = (MyInfoItemView) v;
+                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
+                // 获取日历对象
+                mCalendar = Calendar.getInstance();
+                mDatePicker = new DatePicker(this);
+                mDatePicker.init(mCalendar.get(Calendar.YEAR),
+                        mCalendar.get(Calendar.MONTH) + 1,
+                        mCalendar.get(Calendar.DAY_OF_MONTH),
+                        null);
+                mDialogBuilder.setView(mDatePicker);
+                showAlertDialog();
                 break;
             case R.id.address_item:
-                myInfoItemView = (MyInfoItemView) v;
-                Toast.makeText(MyDetailsActivity.this, myInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
+                mInfoItemView = (MyInfoItemView) v;
+                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
+                mEditText = new EditText(this);
+                String address = mInfoItemView.getDataText();
+                mEditText.setText(address);
+                initEditText(address);
                 break;
             case R.id.signature_item:
-                myInfoItemView = (MyInfoItemView) v;
-                myInfoItemView.dataTextRequestFocus();
+                mInfoItemView = (MyInfoItemView) v;
+                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
+                mEditText = new EditText(this);
+                String signature = mInfoItemView.getDataText();
+                mEditText.setText(signature);
+                //最多输入30个字符
+                mEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
+                initEditText(signature);
                 break;
         }
     }
 
-    public void hideSoftInput() {
-        //判断隐藏软键盘是否弹出
-        if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED) {
-            //隐藏软键盘
-            Log.e("my", "---------");
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        }
+    private void initEditText(String text) {
+        //文本显示的位置在EditText的最上方
+        mEditText.setGravity(Gravity.TOP);
+        //改变默认的单行模式
+        mEditText.setSingleLine(false);
+        //水平滚动设置为False
+        mEditText.setHorizontallyScrolling(false);
+        mEditText.setTextSize(20);
+        //光标在文字末尾
+        mEditText.setSelection(text.length());
+        mEditText.setBackgroundResource(R.drawable.editbox_background_focus_yellow);
+        mDialogBuilder.setView(mEditText);
+        showAlertDialog();
     }
 
+    private void showAlertDialog() {
+        mDialogBuilder.setTitle("修改" + mInfoItemView.getLabelText());
+        mDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (mInfoItemView.getId()) {
+                    case R.id.nick_item:
+                        mInfoItemView.setDataText(mEditText.getText().toString());
+                        break;
+                    case R.id.height_item:
+                        mInfoItemView.setDataText(mEditText.getText().toString() + "cm");
+                        break;
+                    case R.id.weight_item:
+                        mInfoItemView.setDataText(mEditText.getText().toString() + "kg");
+                        break;
+                    case R.id.sex_item:
+                        mInfoItemView.setDataText(mEditText.getText().toString());
+                        break;
+                    case R.id.birth_item:
+                        String birth = mDatePicker.getYear() + "-"
+                                + mDatePicker.getMonth() + "-"
+                                + mDatePicker.getDayOfMonth();
+                        mInfoItemView.setDataText(birth);
+                        break;
+                    case R.id.address_item:
+                        mInfoItemView.setDataText(mEditText.getText().toString());
+                        break;
+                    case R.id.signature_item:
+                        mInfoItemView.setDataText(mEditText.getText().toString());
+                        break;
+                }
+            }
+        });
+        mDialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        mAlertDialog = mDialogBuilder.create();
+        mAlertDialog.show();
+    }
 }
