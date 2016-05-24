@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#55221100"
-              android:gravity="center"
-              android:orientation="horizontal">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="好友"
-        android:textSize="40sp"/>
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+              android:orientation="vertical"
+             xmlns:tools="http://schemas.android.com/tools">
+    <com.running.myviews.edittextwithdeel.EditTextWithDel
+        android:id="@+id/et_search"
+        android:hint="搜索联系人"
+        android:singleLine="true"
+        android:paddingLeft="16dp"
+        android:textSize="14dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/editbox_background_focus_yellow"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
+    <include layout="@layout/contactsort"/>
 </LinearLayout>

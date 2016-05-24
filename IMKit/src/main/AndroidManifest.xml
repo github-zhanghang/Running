@@ -107,7 +107,7 @@
             android:process=":ipc" />
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
-            android:value="此处添加APP_KEY" />
+            android:value="pwe86ga5eb2r6" />
         <!-- end -->
     </application>
 

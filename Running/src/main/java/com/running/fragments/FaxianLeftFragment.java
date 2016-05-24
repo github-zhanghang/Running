@@ -19,6 +19,7 @@ public class FaxianLeftFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mLeftView = inflater.inflate(R.layout.faxian_left, null);
+
         return mLeftView;
     }
 }

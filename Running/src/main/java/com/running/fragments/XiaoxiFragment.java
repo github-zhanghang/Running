@@ -1,6 +1,7 @@
 package com.running.fragments;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,9 @@ import com.running.myviews.TopBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imlib.model.Conversation;
+
 /**
  * Created by mhdong on 2016/4/29.
  */
@@ -32,11 +36,13 @@ public class XiaoxiFragment extends Fragment {
     private List<Fragment> mList;
     private XiaoxiFragmentAdapter mAdapter;
     private FragmentManager mFragmentManager;
-    private XiaoxiLeftFragment mXiaoxiLeftFragment;
     private XiaoxiRightFragment mXiaoxiRightFragment;
 
     private TopBar mTopBar;
 
+
+    private Fragment mConversationList;
+    private Fragment mConversationFragment = null;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -103,9 +109,29 @@ public class XiaoxiFragment extends Fragment {
     private void initFragments() {
         mList = new ArrayList<>();
         mFragmentManager = mActivity.getSupportFragmentManager();
-        mXiaoxiLeftFragment = new XiaoxiLeftFragment();
+        //获取融云会话列表的对象
+        mConversationList = initConversationList();
         mXiaoxiRightFragment = new XiaoxiRightFragment();
-        mList.add(mXiaoxiLeftFragment);
+        mList.add(mConversationList);
         mList.add(mXiaoxiRightFragment);
+    }
+
+    private Fragment initConversationList() {
+        Fragment fragment = null;
+        if (mConversationFragment ==  null){
+            ConversationListFragment listFragment = ConversationListFragment.getInstance();
+            Uri uri = Uri.parse("rong://" + getActivity().getApplicationInfo().packageName).buildUpon()
+                    .appendPath("conversationlist")
+                    .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话是否聚合显示
+                    .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//群组
+                    .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")//讨论组
+                    .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
+                    .build();
+            listFragment.setUri(uri);
+            fragment = listFragment;
+        }else {
+            fragment = mConversationFragment;
+        }
+        return fragment;
     }
 }
