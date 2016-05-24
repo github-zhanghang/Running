@@ -19,13 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.running.myviews.MyInfoItemView;
+import com.running.myviews.TopBar;
+import com.running.myviews.TopBar.OnTopbarClickListener;
 
 import java.util.Calendar;
 
-public class MyDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class MyDetailsActivity extends AppCompatActivity implements View.OnClickListener, OnTopbarClickListener {
     private MyApplication mApplication;
-    private ImageView mBackImage;
-    private TextView mTitleText;
+    private TopBar mTopBar;
 
     private View mDetailsHeadView;
     private ImageView mUserImage;
@@ -53,7 +54,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         mApplication = (MyApplication) getApplication();
         mApplication.addActivity(this);
         initViews();
-        initData();
         initDialog();
         initListeners();
     }
@@ -63,8 +63,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initViews() {
-        mBackImage = (ImageView) findViewById(R.id.myheader_back);
-        mTitleText = (TextView) findViewById(R.id.myheader_title);
+        mTopBar = (TopBar) findViewById(R.id.details_topbar);
 
         mDetailsHeadView = findViewById(R.id.details_head);
         mUserImage = (ImageView) mDetailsHeadView.findViewById(R.id.details_uimg);
@@ -81,12 +80,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    private void initData() {
-        mTitleText.setText("个人资料");
-    }
-
     private void initListeners() {
-        mBackImage.setOnClickListener(this);
+        mTopBar.setOnTopbarClickListener(this);
         mDetailsHeadView.setOnClickListener(this);
         mNickItem.setOnClickListener(this);
         mHeightItem.setOnClickListener(this);
@@ -251,5 +246,15 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         });
         mAlertDialog = mDialogBuilder.create();
         mAlertDialog.show();
+    }
+
+    @Override
+    public void onTopbarLeftImageClick(ImageView imageView) {
+        this.finish();
+        mApplication.removeActivity(this);
+    }
+
+    @Override
+    public void onTopbarRightImageClick(ImageView imageView) {
     }
 }

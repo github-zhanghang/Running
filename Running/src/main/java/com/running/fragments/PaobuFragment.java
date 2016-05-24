@@ -12,11 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.running.adapters.PaobuFragmentAdapter;
-import com.running.android_main.R;
 import com.running.android_main.MainActivity;
+import com.running.android_main.R;
+import com.running.myviews.TopBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +34,7 @@ public class PaobuFragment extends Fragment {
     private PaobuLeftFragment mPaobuLeftFragment;
     private PaobuRightFragment mPaobuRightFragment;
 
-    private TextView mLeftTextView, mRightTextView;
-    private ImageView mLeftImage, mRightImage;
+    private TopBar mTopBar;
 
     @Nullable
     @Override
@@ -50,11 +49,7 @@ public class PaobuFragment extends Fragment {
 
     private void initViews() {
         mActivity = (MainActivity) getActivity();
-        mLeftTextView = (TextView) mView.findViewById(R.id.leftText);
-        mRightTextView = (TextView) mView.findViewById(R.id.rightText);
-        mLeftImage = (ImageView) mView.findViewById(R.id.leftImgage);
-        mRightImage = (ImageView) mView.findViewById(R.id.rightImage);
-        mRightImage.setVisibility(View.GONE);
+        mTopBar = (TopBar) mView.findViewById(R.id.paobu_topbar);
     }
 
     private void setListeners() {
@@ -67,12 +62,12 @@ public class PaobuFragment extends Fragment {
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
-                        mLeftTextView.setTextColor(Color.WHITE);
-                        mRightTextView.setTextColor(Color.GRAY);
+                        mTopBar.setLeftTextColor(Color.WHITE);
+                        mTopBar.setRightTextColor(Color.GRAY);
                         break;
                     case 1:
-                        mLeftTextView.setTextColor(Color.GRAY);
-                        mRightTextView.setTextColor(Color.WHITE);
+                        mTopBar.setLeftTextColor(Color.GRAY);
+                        mTopBar.setRightTextColor(Color.WHITE);
                         break;
                 }
             }
@@ -82,13 +77,17 @@ public class PaobuFragment extends Fragment {
             }
         });
 
-        mLeftImage.setOnClickListener(new View.OnClickListener() {
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onTopbarLeftImageClick(ImageView imageView) {
                 DrawerLayout drawer = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
                 if (!drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.openDrawer(GravityCompat.START);
                 }
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
             }
         });
     }

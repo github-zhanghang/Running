@@ -12,12 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.running.adapters.XiaoxiFragmentAdapter;
-import com.running.android_main.R;
 import com.running.android_main.MainActivity;
+import com.running.android_main.R;
+import com.running.myviews.TopBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +35,7 @@ public class XiaoxiFragment extends Fragment {
     private XiaoxiLeftFragment mXiaoxiLeftFragment;
     private XiaoxiRightFragment mXiaoxiRightFragment;
 
-    private TextView mLeftTextView, mRightTextView;
-    private ImageView mLeftImage, mRightImage;
+    private TopBar mTopBar;
 
     @Nullable
     @Override
@@ -51,13 +50,7 @@ public class XiaoxiFragment extends Fragment {
 
     private void initViews() {
         mActivity = (MainActivity) getActivity();
-        mLeftTextView = (TextView) mView.findViewById(R.id.leftText);
-        mLeftTextView.setText("聊天");
-        mRightTextView = (TextView) mView.findViewById(R.id.rightText);
-        mRightTextView.setText("好友");
-        mLeftImage = (ImageView) mView.findViewById(R.id.leftImgage);
-        mRightImage = (ImageView) mView.findViewById(R.id.rightImage);
-        mRightImage.setImageResource(R.mipmap.ic_launcher);
+        mTopBar = (TopBar) mView.findViewById(R.id.xiaoxi_topbar);
     }
 
     private void setListeners() {
@@ -70,12 +63,12 @@ public class XiaoxiFragment extends Fragment {
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
-                        mLeftTextView.setTextColor(Color.WHITE);
-                        mRightTextView.setTextColor(Color.GRAY);
+                        mTopBar.setLeftTextColor(Color.WHITE);
+                        mTopBar.setRightTextColor(Color.GRAY);
                         break;
                     case 1:
-                        mLeftTextView.setTextColor(Color.GRAY);
-                        mRightTextView.setTextColor(Color.WHITE);
+                        mTopBar.setLeftTextColor(Color.GRAY);
+                        mTopBar.setRightTextColor(Color.WHITE);
                         break;
                 }
             }
@@ -85,19 +78,17 @@ public class XiaoxiFragment extends Fragment {
             }
         });
 
-        mLeftImage.setOnClickListener(new View.OnClickListener() {
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onTopbarLeftImageClick(ImageView imageView) {
                 DrawerLayout drawer = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
                 if (!drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.openDrawer(GravityCompat.START);
                 }
             }
-        });
 
-        mRightImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onTopbarRightImageClick(ImageView imageView) {
                 Toast.makeText(mActivity, "添加好友", Toast.LENGTH_SHORT).show();
             }
         });

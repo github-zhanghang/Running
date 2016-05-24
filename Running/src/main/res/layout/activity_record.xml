@@ -1,70 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/toolbar"
+    <com.running.myviews.TopBar
+        android:id="@+id/record_topbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/orange">
-
-        <ImageView
-            android:id="@+id/record_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="记录"
-            android:textColor="@color/white"
-            android:textSize="24sp"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher"/>
-
-        <ImageView
-            android:id="@+id/record_trend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@mipmap/ic_launcher"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/record_best"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="5dp"
-        android:background="#33000000">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="我的最好成绩"
-            android:textSize="25sp"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher"/>
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:text="我的记录"
-        android:textSize="22sp"/>
+        android:layout_height="@dimen/topbar_height"
+        app:leftImage="@mipmap/ic_launcher"
+        app:leftText="记录"
+        app:rightImage="@mipmap/ic_launcher">
+    </com.running.myviews.TopBar>
 </LinearLayout>

@@ -2,13 +2,11 @@ package com.running.android_main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -18,6 +16,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.running.myviews.TopBar;
 import com.running.myviews.wheelview.LoopView;
 import com.running.myviews.wheelview.OnItemSelectedListener;
 
@@ -26,7 +25,7 @@ import java.util.List;
 
 public class RunTargetActivity extends AppCompatActivity {
     public static final int RESULT_CODE = 0;
-    private ImageView mBackImageView;
+    private TopBar mTopBar;
     private RadioGroup mRadioGroup;
     private RadioButton mDistanceRadioButton, mTimeRadioButton, mCalorieRadioButton;
     private ListView mListView;
@@ -50,7 +49,7 @@ public class RunTargetActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        mBackImageView = (ImageView) findViewById(R.id.myheader_back);
+        mTopBar = (TopBar) findViewById(R.id.target_topbar);
         mRadioGroup = (RadioGroup) findViewById(R.id.target_radioGroup);
         mDistanceRadioButton = (RadioButton) findViewById(R.id.target_distance);
         mTimeRadioButton = (RadioButton) findViewById(R.id.target_time);
@@ -85,10 +84,15 @@ public class RunTargetActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        mBackImageView.setOnClickListener(new View.OnClickListener() {
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onTopbarLeftImageClick(ImageView imageView) {
                 RunTargetActivity.this.finish();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+
             }
         });
 
@@ -190,4 +194,5 @@ public class RunTargetActivity extends AppCompatActivity {
         linearLayout.addView(wheelView);
         builder.setView(linearLayout).create().show();
     }
+
 }
