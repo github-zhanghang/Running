@@ -2,6 +2,7 @@ package com.running.android_main;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -46,6 +47,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     private TextView mRunTimeText, mRunSpeedText, mRunDistanceText, mRunCalorieText;
     private Button mStopButton, mContinueButton, mOverButton;
     private Context mContext;
+    private WifiManager wifiManager;
 
     //方向
     private float mDirection;
@@ -113,6 +115,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         mApplication = (MyApplication) getApplication();
         mApplication.addActivity(this);
         mContext = this;
+        openWIFI();
         initViews();
         initBaiduMap();
         //初始化定位
@@ -165,8 +168,8 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         option.setLocationNotify(true);
         // 设置坐标类型
         option.setCoorType("bd09ll");
-        //定位间隔，2秒一次
-        option.setScanSpan(2000);
+        //定位间隔，4秒一次
+        option.setScanSpan(4000);
         mLocationClient.setLocOption(option);
         //监听方向
         myOrientationListener = new MyOrientationListener(mContext);
@@ -224,12 +227,14 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
                     ";mPreStepCount=" + mPreStepCount + ";mStepCount=" + mStepCount);
             //如果步数没有变化，表示没有跑步的加速度，则不绘制轨迹，
             if (mTempStepCount == mPreStepCount) {
-                Toast.makeText(mContext, "步数未改变", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "未检测到跑步动作", Toast.LENGTH_SHORT).show();
                 return;
             }
             //如果位置没改变，类似以原地摇手机，则重置计步数据为变化之前的
+            Toast.makeText(mContext, "当前=" + mLatitude + "," + mLongitude + ";\n" +
+                    "上一次=" + mPreLatitude + "," + mPreLongitude, Toast.LENGTH_SHORT).show();
             if (mLatitude == mPreLatitude && mLongitude == mPreLongitude) {
-                Toast.makeText(mContext, "位置未改变", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "未检测到距离变化", Toast.LENGTH_SHORT).show();
                 mStepListener.setStep(mStepCount);
                 return;
             }
@@ -255,7 +260,6 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
 
     private void drawRoute(double lantitude, double longitude) {
         if (isFirstLoc) {
-            Log.e("my", mLatitude + ";" + mLongitude);
             //第一次定位时的时间
             startTime = System.currentTimeMillis();
             mLatLng1 = new LatLng(lantitude, longitude);
@@ -281,11 +285,9 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         //计算平均速度
         mSpeed = mDistance / (mTime / (1000 * 60 * 60));
         //计算消耗的卡路里，跑步热量（kcal）＝体重（kg）×距离（公里）×1.036
-//            Log.e("my", "----------" + mDistance);
         mCalorie = mWeight * mDistance * 1.036;
         //更新数据
         updateData(mDistance, mTime, mSpeed, mCalorie);
-
         //清除起点
         mLatLngList.remove(0);
     }
@@ -365,6 +367,13 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     protected void onResume() {
         mMapView.onResume();
         super.onResume();
+    }
+
+    private void openWIFI() {
+        wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+        if (!wifiManager.isWifiEnabled()) {
+            wifiManager.setWifiEnabled(true);
+        }
     }
 
     @Override

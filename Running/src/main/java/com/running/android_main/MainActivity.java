@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.running.adapters.MyFragmentAdapter;
 import com.running.fragments.DongtaiFragment;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private MyApplication mApplication;
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity
     private String mUserName;
     private ImageView mUserImage;
     private TextView mUserNickNameText;
+    //设置、温度、城市
+    private TextView mSettingTextView, mTempTextView, mCityTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +56,41 @@ public class MainActivity extends AppCompatActivity
         mApplication.addActivity(this);
         //获取上个页面传过来的账号
         mUserName = getIntent().getStringExtra("username");
-        initDrawerLayout();
-        initFragments();
         initViews();
+        initFragments();
         initViewPager();
         initListener();
     }
 
     private void initViews() {
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         mUserImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
-        mUserNickNameText = (TextView) findViewById(R.id.user_nickname);
+        mUserNickNameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_nickname);
+        mSettingTextView = (TextView) navigationView.findViewById(R.id.setting);
+        mCityTextView = (TextView) navigationView.findViewById(R.id.local_city);
+        mTempTextView = (TextView) navigationView.findViewById(R.id.local_temperature);
+    }
+
+    private void initFragments() {
+        mList = new ArrayList<>();
+        mFragmentManager = getSupportFragmentManager();
+        mPaobuFragment = new PaobuFragment();
+        mFaxianFragment = new FaxianFragment();
+        mDongtaiFragment = new DongtaiFragment();
+        mXiaoxiFragment = new XiaoxiFragment();
+        mList.add(mPaobuFragment);
+        mList.add(mFaxianFragment);
+        mList.add(mDongtaiFragment);
+        mList.add(mXiaoxiFragment);
+    }
+
+    private void initViewPager() {
+        mViewPager = (NoScrollViewPager) findViewById(R.id.main_viewpager);
+        mViewPager.setOffscreenPageLimit(4);
+        mAdapter = new MyFragmentAdapter(mFragmentManager, mList);
+        mViewPager.setAdapter(mAdapter);
     }
 
     private void initListener() {
@@ -88,56 +115,9 @@ public class MainActivity extends AppCompatActivity
                 resetViewPager(checkedId);
             }
         });
-
-        mUserImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MyDetailsActivity.class));
-            }
-        });
-    }
-
-    private void resetViewPager(int id) {
-        switch (id) {
-            case R.id.run:
-                mViewPager.setCurrentItem(0, false);
-                break;
-            case R.id.find:
-                mViewPager.setCurrentItem(1, false);
-                break;
-            case R.id.news:
-                mViewPager.setCurrentItem(2, false);
-                break;
-            case R.id.chat:
-                mViewPager.setCurrentItem(3, false);
-                break;
-        }
-    }
-
-    private void initViewPager() {
-        mViewPager = (NoScrollViewPager) findViewById(R.id.main_viewpager);
-        mViewPager.setOffscreenPageLimit(4);
-        mAdapter = new MyFragmentAdapter(mFragmentManager, mList);
-        mViewPager.setAdapter(mAdapter);
-    }
-
-    private void initFragments() {
-        mList = new ArrayList<>();
-        mFragmentManager = getSupportFragmentManager();
-        mPaobuFragment = new PaobuFragment();
-        mFaxianFragment = new FaxianFragment();
-        mDongtaiFragment = new DongtaiFragment();
-        mXiaoxiFragment = new XiaoxiFragment();
-        mList.add(mPaobuFragment);
-        mList.add(mFaxianFragment);
-        mList.add(mDongtaiFragment);
-        mList.add(mXiaoxiFragment);
-    }
-
-    private void initDrawerLayout() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        mUserImage.setOnClickListener(this);
+        mSettingTextView.setOnClickListener(this);
     }
 
     @Override
@@ -171,9 +151,37 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.user_image:
+                startActivity(new Intent(MainActivity.this, MyDetailsActivity.class));
+                break;
+            case R.id.setting:
+                Toast.makeText(MainActivity.this, "设置", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    private void resetViewPager(int id) {
+        switch (id) {
+            case R.id.run:
+                mViewPager.setCurrentItem(0, false);
+                break;
+            case R.id.find:
+                mViewPager.setCurrentItem(1, false);
+                break;
+            case R.id.news:
+                mViewPager.setCurrentItem(2, false);
+                break;
+            case R.id.chat:
+                mViewPager.setCurrentItem(3, false);
+                break;
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mApplication.removeActivity(this);
     }
-
 }
