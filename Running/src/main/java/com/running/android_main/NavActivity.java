@@ -2,8 +2,8 @@ package com.running.android_main;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,12 +12,6 @@ import android.widget.Toast;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
-
-import java.util.HashMap;
-
-import cn.smssdk.EventHandler;
-import cn.smssdk.SMSSDK;
-import cn.smssdk.gui.RegisterPage;
 
 public class NavActivity extends AppCompatActivity implements View.OnClickListener {
     private String mPath = "http://192.168.191.1:8080/JavaWeb-0406_homework/forwardServlet";
@@ -31,7 +25,6 @@ public class NavActivity extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_nav);
         initViews();
         initListeners();
-        x.Ext.init(getApplication());
     }
 
     private void initListeners() {
