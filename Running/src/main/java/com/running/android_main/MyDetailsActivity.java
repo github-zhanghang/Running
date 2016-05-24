@@ -54,12 +54,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         mApplication = (MyApplication) getApplication();
         mApplication.addActivity(this);
         initViews();
-        initDialog();
-        initListeners();
-    }
-
-    private void initDialog() {
         mDialogBuilder = new AlertDialog.Builder(this);
+        initListeners();
     }
 
     private void initViews() {
@@ -102,10 +98,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.myheader_back:
-                MyDetailsActivity.this.finish();
-                mApplication.removeActivity(this);
-                break;
             case R.id.saveinfo:
                 //保存用户修改后的信息,提交到服务器
                 Toast.makeText(MyDetailsActivity.this, "saveinfo", Toast.LENGTH_SHORT).show();
