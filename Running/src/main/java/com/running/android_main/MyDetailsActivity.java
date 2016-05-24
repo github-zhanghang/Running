@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,12 +36,15 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
     private Button mSaveInfoButton;
 
+    //弹框内容
     private MyInfoItemView mInfoItemView;
     private AlertDialog.Builder mDialogBuilder;
     private AlertDialog mAlertDialog;
     private EditText mEditText;
     private DatePicker mDatePicker;
     private Calendar mCalendar;
+    private RadioGroup mRadioGroup;
+    private RadioButton mMaleRadioButton, mFemaleRadioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +120,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.nick_item:
                 mInfoItemView = (MyInfoItemView) v;
-                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
                 mEditText = new EditText(this);
                 String nick = mInfoItemView.getDataText();
                 mEditText.setText(nick);
@@ -124,7 +129,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.height_item:
                 mInfoItemView = (MyInfoItemView) v;
-                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
                 mEditText = new EditText(this);
                 String height = mInfoItemView.getDataText();
                 height = height.substring(0, height.length() - 2);
@@ -136,7 +140,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.weight_item:
                 mInfoItemView = (MyInfoItemView) v;
-                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
                 mEditText = new EditText(this);
                 String weight = mInfoItemView.getDataText();
                 weight = weight.substring(0, weight.length() - 2);
@@ -148,19 +151,25 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.sex_item:
                 mInfoItemView = (MyInfoItemView) v;
-                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
-                mEditText = new EditText(this);
-                String sex = mInfoItemView.getDataText();
-                mEditText.setText(sex);
-                initEditText(sex);
+                mRadioGroup = new RadioGroup(this);
+                mRadioGroup.setOrientation(LinearLayout.VERTICAL);
+                mRadioGroup.setGravity(Gravity.CENTER);
+                mMaleRadioButton = new RadioButton(this);
+                mMaleRadioButton.setText("帅哥");
+                mFemaleRadioButton = new RadioButton(this);
+                mFemaleRadioButton.setText("美女");
+                mRadioGroup.addView(mMaleRadioButton);
+                mRadioGroup.addView(mFemaleRadioButton);
+                mMaleRadioButton.setChecked(true);
+                mDialogBuilder.setView(mRadioGroup);
+                showAlertDialog();
                 break;
             case R.id.birth_item:
                 mInfoItemView = (MyInfoItemView) v;
-                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
                 // 获取日历对象
                 mCalendar = Calendar.getInstance();
                 mDatePicker = new DatePicker(this);
-                mDatePicker.init(mCalendar.get(Calendar.YEAR),
+                mDatePicker.init(2000,
                         mCalendar.get(Calendar.MONTH) + 1,
                         mCalendar.get(Calendar.DAY_OF_MONTH),
                         null);
@@ -169,7 +178,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.address_item:
                 mInfoItemView = (MyInfoItemView) v;
-                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
                 mEditText = new EditText(this);
                 String address = mInfoItemView.getDataText();
                 mEditText.setText(address);
@@ -177,7 +185,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.signature_item:
                 mInfoItemView = (MyInfoItemView) v;
-                Toast.makeText(MyDetailsActivity.this, mInfoItemView.getDataText(), Toast.LENGTH_SHORT).show();
                 mEditText = new EditText(this);
                 String signature = mInfoItemView.getDataText();
                 mEditText.setText(signature);
@@ -219,13 +226,14 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                         mInfoItemView.setDataText(mEditText.getText().toString() + "kg");
                         break;
                     case R.id.sex_item:
-                        mInfoItemView.setDataText(mEditText.getText().toString());
+                        mInfoItemView.setDataText(mMaleRadioButton.isChecked() ?
+                                mMaleRadioButton.getText().toString() :
+                                mFemaleRadioButton.getText().toString());
                         break;
                     case R.id.birth_item:
-                        String birth = mDatePicker.getYear() + "-"
+                        mInfoItemView.setDataText(mDatePicker.getYear() + "-"
                                 + mDatePicker.getMonth() + "-"
-                                + mDatePicker.getDayOfMonth();
-                        mInfoItemView.setDataText(birth);
+                                + mDatePicker.getDayOfMonth());
                         break;
                     case R.id.address_item:
                         mInfoItemView.setDataText(mEditText.getText().toString());
