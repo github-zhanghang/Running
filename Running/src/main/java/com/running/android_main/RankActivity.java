@@ -31,7 +31,8 @@ public class RankActivity extends AppCompatActivity {
         mApplication = (MyApplication) getApplication();
         mApplication.addActivity(this);
         initViews();
-        loadData();
+        //默认加载日排行榜
+        loadDayData();
         mAdapter = new RankActivityAdapter(this, mList, mListView);
         mListView.setAdapter(mAdapter);
         initListeners();
@@ -45,24 +46,48 @@ public class RankActivity extends AppCompatActivity {
         mListView.setMode(PullToRefreshBase.Mode.BOTH);
     }
 
-    private void loadData() {
+    private void loadDayData() {
         for (int i = START; i < START + 5; i++) {
             String postion = "" + i;
             String imgUrl = "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4046719105,2434242014&fm=58";
-            String nickname = "加载的昵称" + i;
+            String nickname = "日排行昵称" + i;
             String distance = 1000 - i + "km";
             mList.add(new RankItemInfo(postion, nickname, imgUrl, distance));
         }
         START += 5;
     }
 
-    private void refreshData() {
+    private void refreshDayData() {
         mList = new ArrayList<>();
         START = 1;
         for (int i = START; i < START + 5; i++) {
             String postion = "" + i;
             String imgUrl = "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4046719105,2434242014&fm=58";
-            String nickname = "刷新后的昵称" + i;
+            String nickname = "日排行昵称" + i;
+            String distance = 1000 - i + "km";
+            mList.add(new RankItemInfo(postion, nickname, imgUrl, distance));
+        }
+        START += 5;
+    }
+
+    private void loadTotalData() {
+        for (int i = START; i < START + 5; i++) {
+            String postion = "" + i;
+            String imgUrl = "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4046719105,2434242014&fm=58";
+            String nickname = "总排行昵称" + i;
+            String distance = 1000 - i + "km";
+            mList.add(new RankItemInfo(postion, nickname, imgUrl, distance));
+        }
+        START += 5;
+    }
+
+    private void refreshTotalData() {
+        mList = new ArrayList<>();
+        START = 1;
+        for (int i = START; i < START + 5; i++) {
+            String postion = "" + i;
+            String imgUrl = "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=4046719105,2434242014&fm=58";
+            String nickname = "总排行昵称" + i;
             String distance = 1000 - i + "km";
             mList.add(new RankItemInfo(postion, nickname, imgUrl, distance));
         }
@@ -85,20 +110,34 @@ public class RankActivity extends AppCompatActivity {
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+                START = 1;
+                if (checkedId == R.id.rank_day) {
+                    loadDayData();
+                } else {
+                    loadTotalData();
+                }
             }
         });
 
         mListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                refreshData();
+                if (mRadioGroup.getCheckedRadioButtonId() == R.id.rank_day) {
+                    refreshDayData();
+                } else {
+                    refreshTotalData();
+                }
                 mAdapter = new RankActivityAdapter(RankActivity.this, mList, mListView);
                 mListView.setAdapter(mAdapter);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                loadData();
+                if (mRadioGroup.getCheckedRadioButtonId() == R.id.rank_day) {
+                    loadDayData();
+                } else {
+                    loadTotalData();
+                }
                 mAdapter = new RankActivityAdapter(RankActivity.this, mList, mListView);
                 mListView.setAdapter(mAdapter);
             }
