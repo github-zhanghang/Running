@@ -7,18 +7,21 @@
     android:orientation="vertical">
 
     <com.running.myviews.TopBar
+        android:id="@+id/rank_topbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
         app:leftImage="@mipmap/ic_launcher"
         app:leftText="排行榜"/>
 
     <RadioGroup
+        android:id="@+id/rank_group"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/gray"
         android:orientation="horizontal">
 
         <RadioButton
+            android:id="@+id/rank_day"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="2dp"
@@ -31,6 +34,7 @@
             android:textSize="24sp"/>
 
         <RadioButton
+            android:id="@+id/rank_total"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

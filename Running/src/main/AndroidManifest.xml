@@ -73,9 +73,13 @@
             android:name=".MyDetailsActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".RecordActivity">
+        <activity
+            android:name=".RecordActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".RankActivity">
+        <activity
+            android:name=".RankActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity android:name=".NewFrinedActivity">
         </activity>
