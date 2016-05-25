@@ -1,5 +1,6 @@
 package com.running.fragments;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.running.adapters.XiaoxiFragmentAdapter;
+import com.running.android_main.AddFriendActivity;
 import com.running.android_main.MainActivity;
 import com.running.android_main.R;
 import com.running.myviews.TopBar;
@@ -23,8 +26,13 @@ import com.running.myviews.TopBar;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
+import io.rong.imlib.model.MessageContent;
+import io.rong.message.ContactNotificationMessage;
 
 /**
  * Created by mhdong on 2016/4/29.
@@ -37,10 +45,7 @@ public class XiaoxiFragment extends Fragment {
     private XiaoxiFragmentAdapter mAdapter;
     private FragmentManager mFragmentManager;
     private XiaoxiRightFragment mXiaoxiRightFragment;
-
     private TopBar mTopBar;
-
-
     private Fragment mConversationList;
     private Fragment mConversationFragment = null;
     @Nullable
@@ -51,6 +56,9 @@ public class XiaoxiFragment extends Fragment {
         initFragments();
         initViewPager();
         setListeners();
+        //设置消息接收监听器,并发送广播(这广播应该写在Activity,写在这个也可以)
+        setOnReceiveMessageListener();
+
         return mView;
     }
 
@@ -95,6 +103,8 @@ public class XiaoxiFragment extends Fragment {
 
             @Override
             public void onTopbarRightImageClick(ImageView imageView) {
+                //跳转到添加好友界面
+                getActivity().startActivity(new Intent(getActivity(),AddFriendActivity.class));
                 Toast.makeText(mActivity, "添加好友", Toast.LENGTH_SHORT).show();
             }
         });
@@ -133,5 +143,27 @@ public class XiaoxiFragment extends Fragment {
             fragment = mConversationFragment;
         }
         return fragment;
+    }
+
+    //设置消息接收监听器,并发送广播，在好友列表接收广播
+    private void setOnReceiveMessageListener() {
+
+        RongIM.getInstance().getRongIMClient().setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageListener() {
+            @Override
+            public boolean onReceived(Message message, int i) {
+                MessageContent messageContent = message.getContent();
+                if (messageContent instanceof ContactNotificationMessage) {//好友添加消息
+                    //应该发送一个广播
+                    ContactNotificationMessage contactContentMessage = (ContactNotificationMessage) messageContent;
+                    String type = contactContentMessage.getOperation();
+                    Intent in = new Intent();
+                    in.setAction("ContactNtf");
+                    in.putExtra("Friend", contactContentMessage);
+                    getActivity().sendBroadcast(in);
+
+                }
+                return false;
+            }
+        });
     }
 }
