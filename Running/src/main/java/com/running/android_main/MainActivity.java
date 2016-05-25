@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -21,6 +20,7 @@ import com.running.fragments.DongtaiFragment;
 import com.running.fragments.FaxianFragment;
 import com.running.fragments.PaobuFragment;
 import com.running.fragments.XiaoxiFragment;
+import com.running.myviews.CircleImageView;
 import com.running.myviews.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity
     private MyApplication mApplication;
     private DrawerLayout drawer;
     private NavigationView navigationView;
-
     private NoScrollViewPager mViewPager;
     private MyFragmentAdapter mAdapter;
     private List<Fragment> mList;
@@ -42,8 +41,8 @@ public class MainActivity extends AppCompatActivity
     private XiaoxiFragment mXiaoxiFragment;
     private RadioGroup mRadioGroup;
 
-    private String mUserName;
-    private ImageView mUserImage;
+    private String mUserName, mNickName, mCityName;
+    private CircleImageView mUserImage;
     private TextView mUserNickNameText;
     //设置、温度、城市
     private TextView mSettingTextView, mTempTextView, mCityTextView;
@@ -54,19 +53,23 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.slide_main);
         mApplication = (MyApplication) getApplication();
         mApplication.addActivity(this);
-        //获取上个页面传过来的账号
-        mUserName = getIntent().getStringExtra("username");
         initViews();
+        initData();
         initFragments();
         initViewPager();
         initListener();
+    }
+
+    private void initData() {
+        mCityName = mApplication.getCity();
+        mCityTextView.setText(mCityName);
     }
 
     private void initViews() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
-        mUserImage = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
+        mUserImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
         mUserNickNameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_nickname);
         mSettingTextView = (TextView) navigationView.findViewById(R.id.setting);
         mCityTextView = (TextView) navigationView.findViewById(R.id.local_city);
@@ -138,7 +141,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_medal) {
 
         } else if (id == R.id.nav_ranklist) {
-
+            startActivity(new Intent(MainActivity.this, RankActivity.class));
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
