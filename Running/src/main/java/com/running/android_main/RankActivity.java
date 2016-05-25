@@ -112,10 +112,14 @@ public class RankActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 START = 1;
                 if (checkedId == R.id.rank_day) {
+                    mList = new ArrayList<>();
                     loadDayData();
                 } else {
+                    mList = new ArrayList<>();
                     loadTotalData();
                 }
+                mAdapter = new RankActivityAdapter(RankActivity.this, mList, mListView);
+                mListView.setAdapter(mAdapter);
             }
         });
 
