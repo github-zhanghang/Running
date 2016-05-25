@@ -61,5 +61,11 @@ dependencies {
     compile files('libs/baidumapapi_util_v3_7_3.jar')
     //百度地图定位jar包
     compile files('libs/BaiduLBS_Android.jar')
+    //聊天
     compile project(':IMKit')
+    //网络请求
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.okio:okio:1.8.0'
+    compile 'com.zhy:okhttputils:2.4.1'
+    compile 'com.google.code.gson:gson:2.6.2'
 }
