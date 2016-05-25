@@ -1,12 +1,16 @@
 package com.running.android_main;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -103,9 +107,8 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     //体重62kg
     private double mWeight = 62;
 
-    //暂停，停止开关
+    //是否停止
     private boolean isStop;
-    private boolean isOver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,8 +226,6 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
             //将地图位置移动到当前位置
             mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLng(
                     new LatLng(mLatitude, mLongitude)));
-            Log.e("my", "mTempStepCount=" + mTempStepCount +
-                    ";mPreStepCount=" + mPreStepCount + ";mStepCount=" + mStepCount);
             //如果步数没有变化，表示没有跑步的加速度，则不绘制轨迹，
             if (mTempStepCount == mPreStepCount) {
                 Toast.makeText(mContext, "未检测到跑步动作", Toast.LENGTH_SHORT).show();
@@ -279,11 +280,12 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         mBaiduMap.addOverlay(mPolygonOption);
 
         //计算时间，因为时区问题有8小时的时差
-        mTime = endTime - startTime - 8 * 60 * 60 * 1000;
+        mTime = endTime - startTime - 28800000;
         //计算两点距离并加入总时间
         mDistance += DistanceUtil.getDistance(mLatLngList.get(0), mLatLngList.get(1)) / 1000;
+        Log.e("my", "mTime=" + mTime + ";mDistance=" + mDistance);
         //计算平均速度
-        mSpeed = mDistance / (mTime / (1000 * 60 * 60));
+        mSpeed = mDistance / (mTime / 360000);
         //计算消耗的卡路里，跑步热量（kcal）＝体重（kg）×距离（公里）×1.036
         mCalorie = mWeight * mDistance * 1.036;
         //更新数据
@@ -324,14 +326,12 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         mStopButton.setVisibility(View.GONE);
         mContinueButton.setVisibility(View.VISIBLE);
         mOverButton.setVisibility(View.VISIBLE);
-        if (!isStop && !isOver) {
+        if (!isStop) {
             mLocationClient.stop();
             myOrientationListener.stop();
             mStepListener.stop();
             isStop = true;
             Toast.makeText(mContext, "stop", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(mContext, "已暂停", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -339,7 +339,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         mStopButton.setVisibility(View.VISIBLE);
         mContinueButton.setVisibility(View.GONE);
         mOverButton.setVisibility(View.GONE);
-        if (!isOver) {
+        if (isStop) {
             mStepListener.start();
             mLocationClient.start();
             myOrientationListener.start();
@@ -349,18 +349,30 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void handover() {
-        Toast.makeText(mContext, "Run Over", Toast.LENGTH_SHORT).show();
-        if (!isOver) {
-            mLocationClient.unRegisterLocationListener(mMyLocationListener);
-            mLocationClient.stop();
-            mStepListener.stop();
-            myOrientationListener.stop();
-            isStop = true;
-            isOver = true;
-            Toast.makeText(mContext, "over", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(mContext, "已结束", Toast.LENGTH_SHORT).show();
-        }
+        mLocationClient.unRegisterLocationListener(mMyLocationListener);
+        mLocationClient.stop();
+        mStepListener.stop();
+        myOrientationListener.stop();
+        AlertDialog alertDialog = new AlertDialog.Builder(mContext)
+                .setTitle("分享")
+                .setMessage("跑步结束，和朋友分享一下吧!")
+                .setPositiveButton("分享", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RunMapActivity.this.finish();
+                    }
+                }).create();
+        Window window = alertDialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        window.setWindowAnimations(R.style.DialogAnim);
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
     }
 
     @Override
