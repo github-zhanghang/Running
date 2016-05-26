@@ -19,6 +19,7 @@ public class MyApplication extends Application {
 
     private List<Activity> mActivityList;
     public static String sourceUserId;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -56,4 +57,5 @@ public class MyApplication extends Application {
             }
         }
     }
+
 }

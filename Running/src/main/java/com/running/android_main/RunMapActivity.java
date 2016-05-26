@@ -40,7 +40,13 @@ import com.running.utils.MyStepListener;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import static com.running.android_main.R.id.run_distance_txt;
 
@@ -106,9 +112,10 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
 
     //体重62kg
     private double mWeight = 62;
-
     //是否停止
     private boolean isStop;
+    //位置
+    private String mAddress = "北京";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,6 +223,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
                     .latitude(mLatitude)
                     .longitude(mLongitude)
                     .build();
+            mAddress = location.getAddrStr();
             // 设置定位数据
             mBaiduMap.setMyLocationData(mLocationData);
             // 设置自定义图标
@@ -285,7 +293,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         mDistance += DistanceUtil.getDistance(mLatLngList.get(0), mLatLngList.get(1)) / 1000;
         Log.e("my", "mTime=" + mTime + ";mDistance=" + mDistance);
         //计算平均速度
-        mSpeed = mDistance / (mTime / 360000);
+        mSpeed = mDistance * 360000 / mTime;
         //计算消耗的卡路里，跑步热量（kcal）＝体重（kg）×距离（公里）×1.036
         mCalorie = mWeight * mDistance * 1.036;
         //更新数据
@@ -359,7 +367,36 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
                 .setPositiveButton("分享", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        ShareSDK.initSDK(mContext);
+                        OnekeyShare oks = new OnekeyShare();
+                        oks.disableSSOWhenAuthorize();
+                        oks.setTitle("一键分享测试");
+                        oks.setText("我是分享文本");
+                        oks.setImageUrl("https://mmbiz.qlogo.cn/mmbiz/ApQKGiaeucEmibMRttMslYZwBKacWb13zQSM3NeMCN8Bf6SyX5sNCCZFhXWrruvPKNnBfZTgUsj7UJicl6qjXIEbg/0?wx_fmt=png");
+                        oks.setUrl("http://www.baidu.com");
+                        oks.setComment("我是测试评论文本");
+                        oks.setSite(getString(R.string.app_name));
+                        oks.setSiteUrl("http://www.baidu.com");
+                        oks.setAddress(mAddress);
 
+                        oks.setCallback(new PlatformActionListener() {
+                            @Override
+                            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                                RunMapActivity.this.finish();
+                            }
+
+                            @Override
+                            public void onError(Platform platform, int i, Throwable throwable) {
+                                Toast.makeText(RunMapActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onCancel(Platform platform, int i) {
+                                Toast.makeText(RunMapActivity.this, "分享取消", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        // 启动分享GUI
+                        oks.show(mContext);
                     }
                 })
                 .setNegativeButton("退出", new DialogInterface.OnClickListener() {
