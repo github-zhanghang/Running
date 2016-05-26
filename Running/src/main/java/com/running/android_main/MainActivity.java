@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_record) {
             startActivity(new Intent(MainActivity.this, RecordActivity.class));
         } else if (id == R.id.nav_medal) {
-
+            startActivity(new Intent(MainActivity.this, MedalActivity.class));
         } else if (id == R.id.nav_ranklist) {
             startActivity(new Intent(MainActivity.this, RankActivity.class));
         } else if (id == R.id.nav_manage) {

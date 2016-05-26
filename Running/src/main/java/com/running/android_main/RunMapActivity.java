@@ -372,9 +372,9 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
                         oks.disableSSOWhenAuthorize();
                         oks.setTitle("一键分享测试");
                         oks.setText("我是分享文本");
-                        oks.setImageUrl("https://mmbiz.qlogo.cn/mmbiz/ApQKGiaeucEmibMRttMslYZwBKacWb13zQSM3NeMCN8Bf6SyX5sNCCZFhXWrruvPKNnBfZTgUsj7UJicl6qjXIEbg/0?wx_fmt=png");
+                        View windowView = getWindow().getDecorView();
+                        oks.setViewToShare(windowView);
                         oks.setUrl("http://www.baidu.com");
-                        oks.setComment("我是测试评论文本");
                         oks.setSite(getString(R.string.app_name));
                         oks.setSiteUrl("http://www.baidu.com");
                         oks.setAddress(mAddress);
@@ -444,6 +444,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         myOrientationListener.stop();
         mStepListener.stop();
         mApplication.removeActivity(this);
+        ShareSDK.stopSDK();
         super.onDestroy();
     }
 }
