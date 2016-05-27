@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:orientation="vertical">
@@ -23,6 +23,8 @@
 
             <TextView
                 style="@style/login_TextView"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:text="账号"/>
 
             <EditText
@@ -43,6 +45,7 @@
             <EditText
                 android:id="@+id/login_password"
                 style="@style/login_EditText"
+                android:inputType="textPassword"
                 android:hint="请输入密码"/>
         </LinearLayout>
 
@@ -109,6 +112,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <com.running.myviews.ImageTextView
@@ -116,7 +120,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:image="@drawable/ssdk_oks_classic_qq"
+                app:image="@drawable/about_qq"
                 app:text="QQ"
                 app:textColor="@color/orange"/>
 
@@ -127,7 +131,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_weight="1"
-                app:image="@drawable/ssdk_oks_classic_wechat"
+                app:image="@drawable/about_wx"
                 app:text="微信"
                 app:textColor="@color/orange"/>
 
@@ -136,7 +140,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:image="@drawable/ssdk_oks_classic_sinaweibo"
+                app:image="@drawable/about_sina"
                 app:text="微博"
                 app:textColor="@color/orange"/>
         </LinearLayout>

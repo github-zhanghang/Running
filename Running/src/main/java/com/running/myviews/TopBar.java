@@ -46,7 +46,7 @@ public class TopBar extends RelativeLayout {
             leftImageDrable = typedArray.getDrawable(R.styleable.TopBar_leftImage);
             LayoutParams leftImageParams = new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            leftImageParams.addRule(ALIGN_PARENT_LEFT, TRUE);
+            leftImageParams.addRule(ALIGN_PARENT_LEFT | CENTER_VERTICAL, TRUE);
             leftImageView = new ImageView(context);
             leftImageView.setLayoutParams(leftImageParams);
             leftImageView.setImageDrawable(leftImageDrable);
@@ -64,7 +64,7 @@ public class TopBar extends RelativeLayout {
             rightImageDrable = typedArray.getDrawable(R.styleable.TopBar_rightImage);
             LayoutParams rightImageParams = new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            rightImageParams.addRule(ALIGN_PARENT_RIGHT, TRUE);
+            rightImageParams.addRule(ALIGN_PARENT_RIGHT | CENTER_VERTICAL, TRUE);
             rightImageView = new ImageView(context);
             rightImageView.setLayoutParams(rightImageParams);
             rightImageView.setImageDrawable(rightImageDrable);
@@ -122,7 +122,7 @@ public class TopBar extends RelativeLayout {
         typedArray.recycle();
         this.setGravity(CENTER_VERTICAL);
         this.setPadding(15, 5, 15, 5);
-        this.setBackgroundColor(Color.parseColor("#ff9900"));
+        this.setBackgroundResource(R.color.orange);
     }
 
     public void setOnTopbarClickListener(OnTopbarClickListener listener) {

@@ -37,7 +37,7 @@
                     android:id="@+id/run_time_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@drawable/detail1"/>
 
                 <TextView
                     android:id="@+id/run_time_txt"
@@ -70,7 +70,7 @@
                     android:id="@+id/run_speed_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@drawable/detail2"/>
 
                 <TextView
                     android:id="@+id/run_speed_txt"
@@ -110,7 +110,7 @@
                     android:id="@+id/run_distance_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@drawable/detail3"/>
 
                 <TextView
                     android:id="@+id/run_distance_txt"
@@ -143,7 +143,7 @@
                     android:id="@+id/run_calorie_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@drawable/detail4"/>
 
                 <TextView
                     android:id="@+id/run_calorie_txt"
