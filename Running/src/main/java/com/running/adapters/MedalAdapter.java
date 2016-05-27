@@ -4,14 +4,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.running.myviews.MedalView;
+import com.running.myviews.ImageTextView;
 
 import java.util.List;
 
 public class MedalAdapter extends BaseAdapter {
-    private List<MedalView> mList;
+    private List<ImageTextView> mList;
 
-    public MedalAdapter(List<MedalView> list) {
+    public MedalAdapter(List<ImageTextView> list) {
         mList = list;
     }
 

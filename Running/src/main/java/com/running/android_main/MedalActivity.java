@@ -2,6 +2,7 @@ package com.running.android_main;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -10,7 +11,7 @@ import android.widget.Toast;
 
 import com.running.adapters.MedalAdapter;
 import com.running.beans.MedalItemInfo;
-import com.running.myviews.MedalView;
+import com.running.myviews.ImageTextView;
 import com.running.myviews.MyGridView;
 import com.running.myviews.TopBar;
 import com.running.utils.ScreenShot;
@@ -28,11 +29,11 @@ public class MedalActivity extends AppCompatActivity {
     private Activity mContext;
     private TopBar mTopBar;
     private MyGridView mHaveGridView;
-    private List<MedalView> mHaveList = new ArrayList<>();
+    private List<ImageTextView> mHaveList = new ArrayList<>();
     private MedalAdapter mHaveAdapter;
 
     private MyGridView mNotHaveGridView;
-    private List<MedalView> mNotHaveList = new ArrayList<>();
+    private List<ImageTextView> mNotHaveList = new ArrayList<>();
     private MedalAdapter mNotHaveAdapter;
 
     private ScrollView mScrollView;
@@ -58,15 +59,17 @@ public class MedalActivity extends AppCompatActivity {
         mTopBar = (TopBar) findViewById(R.id.medal_topbar);
         mScrollView = (ScrollView) findViewById(R.id.scrollview);
         mHaveGridView = (MyGridView) findViewById(R.id.medal_have);
+        mHaveGridView.setBackgroundColor(Color.WHITE);
         mNotHaveGridView = (MyGridView) findViewById(R.id.medal_nothave);
+        mNotHaveGridView.setBackgroundColor(Color.WHITE);
     }
 
     private void initHaveGridViewData() {
         MedalItemInfo medalItemInfo;
-        MedalView medalView;
+        ImageTextView medalView;
         for (int i = 1; i <= 5; i++) {
             medalItemInfo = new MedalItemInfo(R.mipmap.ic_launcher, "第" + i + "个勋章");
-            medalView = new MedalView(mContext);
+            medalView = new ImageTextView(mContext);
             medalView.setImageResource(medalItemInfo.getImgId());
             medalView.setText(medalItemInfo.getDescription());
             mHaveList.add(medalView);
@@ -75,10 +78,10 @@ public class MedalActivity extends AppCompatActivity {
 
     private void initNotHaveGridViewData() {
         MedalItemInfo medalItemInfo;
-        MedalView medalView;
+        ImageTextView medalView;
         for (int i = 1; i <= 15; i++) {
             medalItemInfo = new MedalItemInfo(R.mipmap.ic_launcher, "第" + i + "个勋章");
-            medalView = new MedalView(mContext);
+            medalView = new ImageTextView(mContext);
             medalView.setImageResource(medalItemInfo.getImgId());
             medalView.setText(medalItemInfo.getDescription());
             mNotHaveList.add(medalView);
@@ -100,7 +103,7 @@ public class MedalActivity extends AppCompatActivity {
                 oks.setTitle("我的勋章");
                 oks.setText("看看我的勋章");
                 Bitmap bitmap = ScreenShot.takeScreenShot(mContext);
-                String path=ScreenShot.saveBitmap(bitmap, mContext);
+                String path = ScreenShot.saveBitmap(bitmap, mContext);
                 oks.setImagePath(path);
                 oks.setUrl("http://www.baidu.com");
                 oks.setSite(getString(R.string.app_name));
