@@ -1,7 +1,9 @@
 package com.running.android_main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -19,7 +21,6 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -36,6 +37,7 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.running.utils.MyOrientationListener;
 import com.running.utils.MyStepListener;
+import com.running.utils.ScreenShot;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -56,7 +58,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     private BaiduMap mBaiduMap;
     private TextView mRunTimeText, mRunSpeedText, mRunDistanceText, mRunCalorieText;
     private Button mStopButton, mContinueButton, mOverButton;
-    private Context mContext;
+    private Activity mContext;
     private WifiManager wifiManager;
 
     //方向
@@ -116,11 +118,11 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     private boolean isStop;
     //位置
     private String mAddress = "北京";
+    private String mImgPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_runmap);
         mApplication = (MyApplication) getApplication();
         mApplication.addActivity(this);
@@ -368,17 +370,13 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ShareSDK.initSDK(mContext);
-                        OnekeyShare oks = new OnekeyShare();
+                        final OnekeyShare oks = new OnekeyShare();
                         oks.disableSSOWhenAuthorize();
                         oks.setTitle("一键分享测试");
                         oks.setText("我是分享文本");
-                        View windowView = getWindow().getDecorView();
-                        oks.setViewToShare(windowView);
-                        oks.setUrl("http://www.baidu.com");
                         oks.setSite(getString(R.string.app_name));
                         oks.setSiteUrl("http://www.baidu.com");
-                        oks.setAddress(mAddress);
-
+                        oks.setUrl("http://www.baidu.com");
                         oks.setCallback(new PlatformActionListener() {
                             @Override
                             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
@@ -395,8 +393,21 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
                                 Toast.makeText(RunMapActivity.this, "分享取消", Toast.LENGTH_SHORT).show();
                             }
                         });
-                        // 启动分享GUI
-                        oks.show(mContext);
+                        //地图截图
+                        mBaiduMap.snapshot(new BaiduMap.SnapshotReadyCallback() {
+                            @Override
+                            public void onSnapshotReady(Bitmap bitmap) {
+                                //去掉状态栏的截图
+                                Bitmap bgBitmap = ScreenShot.takeScreenShot(mContext);
+                                //将两个Bitmap合并成一个
+                                bitmap = ScreenShot.toConformBitmap(bgBitmap, bitmap);
+                                //临时保存在本地
+                                mImgPath = ScreenShot.saveBitmap(bitmap, mContext);
+                                oks.setImagePath(mImgPath);
+                                // 启动分享GUI
+                                oks.show(mContext);
+                            }
+                        });
                     }
                 })
                 .setNegativeButton("退出", new DialogInterface.OnClickListener() {

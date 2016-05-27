@@ -1,9 +1,9 @@
 package com.running.android_main;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -13,6 +13,7 @@ import com.running.beans.MedalItemInfo;
 import com.running.myviews.MedalView;
 import com.running.myviews.MyGridView;
 import com.running.myviews.TopBar;
+import com.running.utils.ScreenShot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,8 +99,9 @@ public class MedalActivity extends AppCompatActivity {
                 oks.disableSSOWhenAuthorize();
                 oks.setTitle("我的勋章");
                 oks.setText("看看我的勋章");
-                View windowView = getWindow().getDecorView();
-                oks.setViewToShare(windowView);
+                Bitmap bitmap = ScreenShot.takeScreenShot(mContext);
+                String path=ScreenShot.saveBitmap(bitmap, mContext);
+                oks.setImagePath(path);
                 oks.setUrl("http://www.baidu.com");
                 oks.setSite(getString(R.string.app_name));
                 oks.setSiteUrl("http://www.baidu.com");
