@@ -1,12 +1,18 @@
 package com.running.android_main;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +21,6 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -32,11 +37,18 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.running.utils.MyOrientationListener;
 import com.running.utils.MyStepListener;
+import com.running.utils.ScreenShot;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import static com.running.android_main.R.id.run_distance_txt;
 
@@ -46,7 +58,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     private BaiduMap mBaiduMap;
     private TextView mRunTimeText, mRunSpeedText, mRunDistanceText, mRunCalorieText;
     private Button mStopButton, mContinueButton, mOverButton;
-    private Context mContext;
+    private Activity mContext;
     private WifiManager wifiManager;
 
     //方向
@@ -102,15 +114,15 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
 
     //体重62kg
     private double mWeight = 62;
-
-    //暂停，停止开关
+    //是否停止
     private boolean isStop;
-    private boolean isOver;
+    //位置
+    private String mAddress = "北京";
+    private String mImgPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_runmap);
         mApplication = (MyApplication) getApplication();
         mApplication.addActivity(this);
@@ -213,6 +225,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
                     .latitude(mLatitude)
                     .longitude(mLongitude)
                     .build();
+            mAddress = location.getAddrStr();
             // 设置定位数据
             mBaiduMap.setMyLocationData(mLocationData);
             // 设置自定义图标
@@ -223,8 +236,6 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
             //将地图位置移动到当前位置
             mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLng(
                     new LatLng(mLatitude, mLongitude)));
-            Log.e("my", "mTempStepCount=" + mTempStepCount +
-                    ";mPreStepCount=" + mPreStepCount + ";mStepCount=" + mStepCount);
             //如果步数没有变化，表示没有跑步的加速度，则不绘制轨迹，
             if (mTempStepCount == mPreStepCount) {
                 Toast.makeText(mContext, "未检测到跑步动作", Toast.LENGTH_SHORT).show();
@@ -279,11 +290,12 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         mBaiduMap.addOverlay(mPolygonOption);
 
         //计算时间，因为时区问题有8小时的时差
-        mTime = endTime - startTime - 8 * 60 * 60 * 1000;
+        mTime = endTime - startTime - 28800000;
         //计算两点距离并加入总时间
         mDistance += DistanceUtil.getDistance(mLatLngList.get(0), mLatLngList.get(1)) / 1000;
+        Log.e("my", "mTime=" + mTime + ";mDistance=" + mDistance);
         //计算平均速度
-        mSpeed = mDistance / (mTime / (1000 * 60 * 60));
+        mSpeed = mDistance * 360000 / mTime;
         //计算消耗的卡路里，跑步热量（kcal）＝体重（kg）×距离（公里）×1.036
         mCalorie = mWeight * mDistance * 1.036;
         //更新数据
@@ -324,14 +336,12 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         mStopButton.setVisibility(View.GONE);
         mContinueButton.setVisibility(View.VISIBLE);
         mOverButton.setVisibility(View.VISIBLE);
-        if (!isStop && !isOver) {
+        if (!isStop) {
             mLocationClient.stop();
             myOrientationListener.stop();
             mStepListener.stop();
             isStop = true;
             Toast.makeText(mContext, "stop", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(mContext, "已暂停", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -339,7 +349,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         mStopButton.setVisibility(View.VISIBLE);
         mContinueButton.setVisibility(View.GONE);
         mOverButton.setVisibility(View.GONE);
-        if (!isOver) {
+        if (isStop) {
             mStepListener.start();
             mLocationClient.start();
             myOrientationListener.start();
@@ -349,18 +359,68 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void handover() {
-        Toast.makeText(mContext, "Run Over", Toast.LENGTH_SHORT).show();
-        if (!isOver) {
-            mLocationClient.unRegisterLocationListener(mMyLocationListener);
-            mLocationClient.stop();
-            mStepListener.stop();
-            myOrientationListener.stop();
-            isStop = true;
-            isOver = true;
-            Toast.makeText(mContext, "over", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(mContext, "已结束", Toast.LENGTH_SHORT).show();
-        }
+        mLocationClient.unRegisterLocationListener(mMyLocationListener);
+        mLocationClient.stop();
+        mStepListener.stop();
+        myOrientationListener.stop();
+        AlertDialog alertDialog = new AlertDialog.Builder(mContext)
+                .setTitle("分享")
+                .setMessage("跑步结束，和朋友分享一下吧!")
+                .setPositiveButton("分享", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ShareSDK.initSDK(mContext);
+                        final OnekeyShare oks = new OnekeyShare();
+                        oks.disableSSOWhenAuthorize();
+                        oks.setTitle("一键分享测试");
+                        oks.setText("我是分享文本");
+                        oks.setSite(getString(R.string.app_name));
+                        oks.setSiteUrl("http://www.baidu.com");
+                        oks.setUrl("http://www.baidu.com");
+                        oks.setCallback(new PlatformActionListener() {
+                            @Override
+                            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                                RunMapActivity.this.finish();
+                            }
+
+                            @Override
+                            public void onError(Platform platform, int i, Throwable throwable) {
+                                Toast.makeText(RunMapActivity.this, "分享失败", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onCancel(Platform platform, int i) {
+                                Toast.makeText(RunMapActivity.this, "分享取消", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        //地图截图
+                        mBaiduMap.snapshot(new BaiduMap.SnapshotReadyCallback() {
+                            @Override
+                            public void onSnapshotReady(Bitmap bitmap) {
+                                //去掉状态栏的截图
+                                Bitmap bgBitmap = ScreenShot.takeScreenShot(mContext);
+                                //将两个Bitmap合并成一个
+                                bitmap = ScreenShot.toConformBitmap(bgBitmap, bitmap);
+                                //临时保存在本地
+                                mImgPath = ScreenShot.saveBitmap(bitmap, mContext);
+                                oks.setImagePath(mImgPath);
+                                // 启动分享GUI
+                                oks.show(mContext);
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        RunMapActivity.this.finish();
+                    }
+                }).create();
+        Window window = alertDialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        window.setWindowAnimations(R.style.DialogAnim);
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
     }
 
     @Override
@@ -395,6 +455,7 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         myOrientationListener.stop();
         mStepListener.stop();
         mApplication.removeActivity(this);
+        ShareSDK.stopSDK();
         super.onDestroy();
     }
 }

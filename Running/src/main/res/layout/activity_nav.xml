@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/nav_bg">
@@ -103,58 +104,41 @@
             android:textSize="20dp"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/QQLogin"
-                style="@style/thirdLogin">
+            <com.running.myviews.ImageTextView
+                android:id="@+id/login_QQ"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:image="@drawable/ssdk_oks_classic_qq"
+                app:text="QQ"
+                app:textColor="@color/orange"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher"/>
+            <com.running.myviews.ImageTextView
+                android:id="@+id/login_WeChat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_weight="1"
+                app:image="@drawable/ssdk_oks_classic_wechat"
+                app:text="微信"
+                app:textColor="@color/orange"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="QQ"
-                    android:textColor="@color/orange"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/WXLogin"
-                style="@style/thirdLogin">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="微信"
-                    android:textColor="@color/orange"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/WBLogin"
-                style="@style/thirdLogin">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="微博"
-                    android:textColor="@color/orange"/>
-            </LinearLayout>
+            <com.running.myviews.ImageTextView
+                android:id="@+id/login_Sina"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:image="@drawable/ssdk_oks_classic_sinaweibo"
+                app:text="微博"
+                app:textColor="@color/orange"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

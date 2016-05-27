@@ -3,6 +3,8 @@ package com.running.android_main;
 import android.app.Activity;
 import android.app.Application;
 
+import com.baidu.mapapi.SDKInitializer;
+
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -19,12 +21,13 @@ public class MyApplication extends Application {
 
     private List<Activity> mActivityList;
     public static String sourceUserId;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        SDKInitializer.initialize(getApplicationContext());
         x.Ext.init(this);
         mActivityList = new ArrayList<>();
-
         /**
          * 初始化融云
          */
@@ -56,4 +59,5 @@ public class MyApplication extends Application {
             }
         }
     }
+
 }

@@ -30,15 +30,6 @@
         <item name="android:textSize">13sp</item>
     </style>
 
-    <style name="thirdLogin">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">15dp</item>
-        <item name="android:layout_marginRight">15dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:orientation">vertical</item>
-    </style>
-
     <style name="login_TextView">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -55,6 +46,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">20dp</item>
         <item name="android:singleLine">true</item>
+        <item name="android:paddingBottom">7dp</item>
+        <item name="android:paddingTop">7dp</item>
         <item name="android:background">@drawable/editbox_background_focus_yellow</item>
     </style>
 
@@ -68,8 +61,8 @@
     </style>
 
     <declare-styleable name="CircleImageView">
-        <attr name="border_width" format="dimension" />
-        <attr name="border_color" format="color" />
+        <attr name="border_width" format="dimension"/>
+        <attr name="border_color" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="MyInfoItemView">
@@ -96,20 +89,15 @@
         <attr name="isMidTextShow" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="RecordBar">
-        <attr name="re_imageView" format="reference"/>
-        <attr name="re_dataText" format="string|reference"/>
-    </declare-styleable>
-    <declare-styleable name="BestBar">
-        <attr name="best_attrText" format="string|reference"/>
-        <attr name="best_dataText" format="string|reference"/>
-    </declare-styleable>
-
-    <style name="dot_style">
-        <item name="android:layout_width">5dip</item>
-        <item name="android:layout_height">5dip</item>
-        <item name="android:background">@drawable/dot_normal</item>
-        <item name="android:layout_marginLeft">1.5dip</item>
-        <item name="android:layout_marginRight">1.5dip</item>
+    <style name="DialogAnim" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/dialog_enter</item>
+        <item name="@android:windowExitAnimation">@anim/dialog_exit</item>
     </style>
+
+    <declare-styleable name="ImageTextView">
+        <attr name="image" format="reference"/>
+        <attr name="text" format="string|reference"/>
+        <attr name="textSize" format="dimension|reference"/>
+        <attr name="textColor" format="color|reference"/>
+    </declare-styleable>
 </resources>
