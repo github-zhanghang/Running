@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.running.adapters.MedalAdapter;
@@ -36,8 +35,6 @@ public class MedalActivity extends AppCompatActivity {
     private List<ImageTextView> mNotHaveList = new ArrayList<>();
     private MedalAdapter mNotHaveAdapter;
 
-    private ScrollView mScrollView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +54,6 @@ public class MedalActivity extends AppCompatActivity {
 
     private void initViews() {
         mTopBar = (TopBar) findViewById(R.id.medal_topbar);
-        mScrollView = (ScrollView) findViewById(R.id.scrollview);
         mHaveGridView = (MyGridView) findViewById(R.id.medal_have);
         mHaveGridView.setBackgroundColor(Color.WHITE);
         mNotHaveGridView = (MyGridView) findViewById(R.id.medal_nothave);
