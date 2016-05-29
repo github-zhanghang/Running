@@ -4,7 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
-    <!--标题栏-->
+
     <com.running.myviews.TopBar
         android:id="@+id/dongtai_topbar"
         android:layout_width="match_parent"
