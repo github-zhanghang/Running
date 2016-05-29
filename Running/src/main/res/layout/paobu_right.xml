@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.running.myviews.MyStartLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.running.myviews.MyStartView
+        android:id="@+id/startView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:drawableBottom="@drawable/finger_down"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="设置目标"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="0.0"
+        android:textColor="@color/white"
+        android:textSize="70sp"/>
+
+    <TextView
+        android:id="@+id/units"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/data"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:singleLine="true"
+        android:text="卡路里(大卡)"
+        android:textColor="@color/white"
+        android:textSize="25sp"/>
+
+    <com.running.myviews.MyStartButton
+        android:id="@+id/startRun2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/btn_oval"
+        android:gravity="center"
+        android:text="开始"
+        android:textColor="@color/white"
+        android:textSize="30sp"/>
+
+</com.running.myviews.MyStartLayout>

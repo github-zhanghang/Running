@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray">
+
+    <com.running.myviews.TopBar
+        android:id="@+id/details_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topbar_height"
+        app:leftImage="@drawable/back"
+        app:leftText="个人资料">
+    </com.running.myviews.TopBar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/details_topbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/details_head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/myinfoitem"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/details_uimg"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@mipmap/ic_launcher"/>
+
+                <TextView
+                    android:id="@+id/details_uaccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="账号:run_1212121"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/nick_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="桃子"
+                app:labelText="昵称:"/>
+
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/height_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="160cm"
+                app:labelText="身高:"/>
+
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/weight_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="45kg"
+                app:labelText="体重:"/>
+
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/sex_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="美女"
+                app:labelText="性别:"/>
+
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/birth_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="1994-01-30"
+                app:labelText="生日:"/>
+
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/address_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="河北 石家庄"
+                app:labelText="地区:"/>
+
+            <com.running.myviews.MyInfoItemView
+                android:id="@+id/signature_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:dataText="从美丽走向痛苦，然后从痛苦中解脱，最后走向永恒。"
+                app:labelText="签名:"/>
+
+            <Button
+                android:id="@+id/saveinfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/roundedcorners"
+                android:text="保存"
+                android:textColor="@color/white"
+                android:textSize="23sp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

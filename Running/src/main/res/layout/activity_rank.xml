@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.running.myviews.TopBar
+        android:id="@+id/rank_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topbar_height"
+        app:leftImage="@drawable/back"
+        app:leftText="排行榜"/>
+
+    <RadioGroup
+        android:id="@+id/rank_group"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/gray"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rank_day"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/ranklist"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="日榜"
+            android:textSize="24sp"/>
+
+        <RadioButton
+            android:id="@+id/rank_total"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/ranklist"
+            android:button="@null"
+            android:gravity="center"
+            android:text="总榜"
+            android:textSize="24sp"/>
+    </RadioGroup>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp">
+
+            <com.running.myviews.CircleImageView
+                android:id="@+id/rank_my_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/game"
+                app:border_color="@color/gray"
+                app:border_width="4dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/rank_my_img"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/rank_my_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="距离:11111km"
+                    android:textSize="23sp"/>
+
+                <TextView
+                    android:id="@+id/rank_my_rank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="排行:1000名以后"
+                    android:textSize="23sp"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/orange"/>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/rank_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:showDividers="none">
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+</LinearLayout>

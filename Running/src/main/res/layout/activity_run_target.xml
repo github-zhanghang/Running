@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.running.myviews.TopBar
+        android:id="@+id/target_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topbar_height"
+        app:leftImage="@drawable/back"
+        app:leftText="设定目标">
+    </com.running.myviews.TopBar>
+
+    <RadioGroup
+        android:id="@+id/target_radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/target_distance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/target_radiobutton_bg"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="距离"
+            android:textColor="@drawable/target_radiobutton_text"
+            android:textSize="25sp"/>
+
+        <RadioButton
+            android:id="@+id/target_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/target_radiobutton_bg"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="时间"
+            android:textColor="@drawable/target_radiobutton_text"
+            android:textSize="25sp"/>
+
+        <RadioButton
+            android:id="@+id/target_calorie"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/target_radiobutton_bg"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="卡路里"
+            android:textColor="@drawable/target_radiobutton_text"
+            android:textSize="25sp"/>
+    </RadioGroup>
+
+    <ListView
+        android:id="@+id/target_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
