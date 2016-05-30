@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -17,25 +19,24 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
-import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.map.PolygonOptions;
-import com.baidu.mapapi.map.Stroke;
+import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
-import com.running.utils.MyOrientationListener;
+import com.baidu.trace.LBSTraceClient;
+import com.baidu.trace.OnEntityListener;
+import com.baidu.trace.OnStartTraceListener;
+import com.baidu.trace.Trace;
+import com.running.model.RealtimeTrackData;
+import com.running.utils.GsonService;
 import com.running.utils.MyStepListener;
 import com.running.utils.ScreenShot;
 
@@ -50,326 +51,192 @@ import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
-import static com.running.android_main.R.id.run_distance_txt;
+public class RunMapActivity extends Activity implements View.OnClickListener {
+    private int gatherInterval = 3;  //位置采集周期 (s)
+    private int packInterval = 10;  //打包周期 (s)
+    private String entityName = null;  // entity标识
+    private long serviceId = 117790;// 鹰眼服务ID
+    private int traceType = 2;  //轨迹服务类型
+    private OnStartTraceListener mStartTraceListener = null;  //开启轨迹服务监听器
+    private MapView mMapView = null;
+    private BaiduMap mBaiduMap = null;
+    private OnEntityListener mEntityListener = null;
+    private RefreshThread mRefreshThread = null;  //刷新地图线程以获取实时点
+    private MapStatusUpdate mMapStatusUpdate = null;
+    private BitmapDescriptor mBitmapDescriptor;  //图标
+    private OverlayOptions mOverlayOptions;  //覆盖物
+    private List<LatLng> mLatLngList = new ArrayList<LatLng>();  //定位点的集合
+    private PolylineOptions mPolylineOptions = null;  //路线覆盖物
+    private Trace mTrace;  // 实例化轨迹服务
+    private LBSTraceClient mTraceClient;  // 实例化轨迹服务客户端
+    //传感器，计步
+    MyStepListener mStepListener;
 
-public class RunMapActivity extends AppCompatActivity implements View.OnClickListener {
-    private MyApplication mApplication;
-    private MapView mMapView;
-    private BaiduMap mBaiduMap;
+    //是否停止
+    private boolean isStop = false;
     private TextView mRunTimeText, mRunSpeedText, mRunDistanceText, mRunCalorieText;
     private Button mStopButton, mContinueButton, mOverButton;
-    private Activity mContext;
-    private WifiManager wifiManager;
+    private String mImgPath;
 
-    //方向
-    private float mDirection;
-    private LocationClient mLocationClient = null;
-    //定位监听
-    private MyLocationListener mMyLocationListener = null;
-    //BaiduMap配置
-    private MyLocationConfiguration mMyLocationConfiguration;
-    //图标
-    private BitmapDescriptor mCurrentMarker;
-    //定位信息
-    private MyLocationData mLocationData;
-    //定位模式
-    private LocationMode mLocationMode;
-    //方向监听
-    private MyOrientationListener myOrientationListener;
-    //计步
-    private MyStepListener mStepListener;
-    //保存经纬度
-    private List<String> mPositionList = new ArrayList<>();
-
-    //绘制路线的上一个点经纬度
-    private double mPreLatitude, mPreLongitude;
-    //绘制路线的当前点经纬度
-    private double mLatitude, mLongitude;
-    //起点和终点坐标
-    private LatLng mLatLng1, mLatLng2;
-    //是否是第一次定位
-    private boolean isFirstLoc = true;
-    //绘制轨迹时的起点和终点集合
-    private List<LatLng> mLatLngList = new ArrayList<>();
-    //绘制多边形
-    private OverlayOptions mPolygonOption;
-
-    //跑步的距离，时间,速度,卡路里,步数
-    private double mDistance;
-    private double mTime;
-    private double mSpeed;
-    private double mCalorie;
-    //当前的确定步数
+    //跑步的距离、速度,卡路里,步数,时间
+    private double mDistance, mSpeed, mCalorie, mTime;
     private long mStepCount;
-    //上一次的确定步数
-    private long mPreStepCount;
-    //当前临时获取的步数,可能包含无效的步数
-    private long mTempStepCount = 1;
-    //开始时间,结束时间
-    private double startTime, endTime;
-    //保留小数点后两位
-    DecimalFormat mDecimalFormat = new DecimalFormat("0.00");
-    //毫秒转成 时:分:秒 格式
-    SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss");//初始化Formatter的转换格式。
-
     //体重62kg
     private double mWeight = 62;
-    //是否停止
-    private boolean isStop;
-    //位置
-    private String mAddress = "北京";
-    private String mImgPath;
+    //毫秒转成 时:分:秒 格式
+    SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss");//初始化Formatter的转换格式。
+    //保留小数点后两位
+    DecimalFormat mDecimalFormat = new DecimalFormat("0.00");
+
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                mTime += 1000;
+                mRunTimeText.setText(mSimpleDateFormat.format(mTime + 1000 - 28800000));
+                mRunDistanceText.setText(mDecimalFormat.format(mDistance) + " km");
+                mSpeed = mDistance * 60 * 60 / mTime;
+                mRunSpeedText.setText(mDecimalFormat.format(mSpeed) + " km/h");
+                mCalorie = mDistance * mWeight * 1.036;
+                mRunCalorieText.setText(mDecimalFormat.format(mCalorie) + " 大卡");
+                mHandler.sendEmptyMessageDelayed(1, 1000);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_runmap);
-        mApplication = (MyApplication) getApplication();
-        mApplication.addActivity(this);
-        mContext = this;
-        openWIFI();
-        initViews();
-        initBaiduMap();
-        //初始化定位
-        initMyLocation();
-        // 开启方向传感器
-        myOrientationListener.start();
-        //开始计步
-        mStepListener.start();
-        //开始定位
-        mLocationClient.start();
-        setListeners();
+        init();
+        initOnEntityListener();
+        mTraceClient.setOnEntityListener(mEntityListener);
+        initOnStartTraceListener();
+        mTraceClient.setOnStartTraceListener(mStartTraceListener);
+        initStepListener();
+        initButtonListener();
+        // 开启轨迹服务
+        mTraceClient.startTrace(mTrace, mStartTraceListener);
+        mHandler.sendEmptyMessage(1);
     }
 
-    private void initViews() {
+    private void init() {
         mMapView = (MapView) findViewById(R.id.mapview);
+        mBaiduMap = mMapView.getMap();
+        mMapView.showZoomControls(false);
+        //手机Imei值的获取，用来充当实体名
+        entityName = getImei(this) + System.currentTimeMillis();
+        //实例化轨迹服务客户端
+        mTraceClient = new LBSTraceClient(this);
+        //实例化轨迹服务
+        mTrace = new Trace(this, serviceId, entityName, traceType);
+        //设置位置采集和打包周期
+        mTraceClient.setInterval(gatherInterval, packInterval);
+        mStepListener = new MyStepListener(this);
+
         mRunTimeText = (TextView) findViewById(R.id.run_time_txt);
         mRunSpeedText = (TextView) findViewById(R.id.run_speed_txt);
-        mRunDistanceText = (TextView) findViewById(run_distance_txt);
+        mRunDistanceText = (TextView) findViewById(R.id.run_distance_txt);
         mRunCalorieText = (TextView) findViewById(R.id.run_calorie_txt);
         mStopButton = (Button) findViewById(R.id.run_stop);
         mContinueButton = (Button) findViewById(R.id.run_continue);
         mOverButton = (Button) findViewById(R.id.run_over);
     }
 
-    private void initBaiduMap() {
-        mBaiduMap = mMapView.getMap();
-        // 开启图层定位
-        mBaiduMap.setMyLocationEnabled(true);
-        //设置默认角度和放大比例
-        MapStatus ms = new MapStatus.Builder().overlook(-5).zoom(17.0f).build();
-        mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(ms));
+    // 初始化设置实体状态监听器
+    private void initOnEntityListener() {
+        //实体状态监听器
+        mEntityListener = new OnEntityListener() {
+            @Override
+            public void onRequestFailedCallback(String arg0) {
+                Looper.prepare();
+                Toast.makeText(getApplicationContext(), "网络状况不佳", Toast.LENGTH_SHORT).show();
+                Looper.loop();
+            }
+
+            @Override
+            public void onQueryEntityListCallback(String arg0) {
+                //查询实体集合回调函数，此时调用实时轨迹方法
+                showRealtimeTrack(arg0);
+                Log.e("my", "请求成功信息:" + arg0);
+            }
+        };
     }
 
-    private void initMyLocation() {
-        // 定位初始化
-        mLocationMode = LocationMode.COMPASS;
-        mLocationClient = new LocationClient(this);
-        mMyLocationListener = new MyLocationListener();
-        //注册监听
-        mLocationClient.registerLocationListener(mMyLocationListener);
-        // 设置定位的相关配置
-        LocationClientOption option = new LocationClientOption();
-        //可选，默认高精度，设置定位模式:高精度，低功耗，仅设备
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        option.setOpenGps(true);// 打开gps
-        option.setTimeOut(5000);
-        //可选，默认false，设置是否需要地址信息
-        option.setIsNeedAddress(true);
-        //可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
-        option.setLocationNotify(true);
-        // 设置坐标类型
-        option.setCoorType("bd09ll");
-        //定位间隔，4秒一次
-        option.setScanSpan(4000);
-        mLocationClient.setLocOption(option);
-        //监听方向
-        myOrientationListener = new MyOrientationListener(mContext);
-        myOrientationListener.setOnOrientationListener(new MyOrientationListener.OnOrientationListener() {
+    //追踪开始
+    private void initOnStartTraceListener() {
+        // 实例化开启轨迹服务回调接口
+        mStartTraceListener = new OnStartTraceListener() {
+            // 开启轨迹服务回调接口（arg0 : 消息编码，arg1 : 消息内容，详情查看类参考）
             @Override
-            public void onOrientationChanged(float direction) {
-                mDirection = (int) direction;
+            public void onTraceCallback(int arg0, String arg1) {
+//                Log.i("my", "onTraceCallback=" + arg1);
+                if (arg0 == 0 || arg0 == 10006) {
+                    startRefreshThread(!isStop);
+                }
             }
-        });
-        //步数监听
-        mStepListener = new MyStepListener(mContext);
+
+            // 轨迹服务推送接口（用于接收服务端推送消息，arg0 : 消息类型，arg1 : 消息内容，详情查看类参考）
+            @Override
+            public void onTracePushCallback(byte arg0, String arg1) {
+//                Log.i("my", "onTracePushCallback=" + arg1);
+            }
+        };
+    }
+
+    private void initStepListener() {
         mStepListener.setOnStepListener(new MyStepListener.OnStepListener() {
             @Override
             public void onOnStepListener(long step) {
-                mTempStepCount = step;
+                if (!isStop) {
+                    mStepCount = step;
+                } else {
+                    mStepListener.setStep(mStepCount);
+                }
             }
         });
     }
 
-    private void setListeners() {
+    private void initButtonListener() {
         mStopButton.setOnClickListener(this);
         mContinueButton.setOnClickListener(this);
         mOverButton.setOnClickListener(this);
-    }
-
-    /**
-     * 实现实位回调监听
-     */
-    public class MyLocationListener implements BDLocationListener {
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            // mapview 销毁后不在处理新接收的位置
-            if (location == null || mMapView == null)
-                return;
-            // 获取经纬度
-            mLatitude = location.getLatitude();
-            mLongitude = location.getLongitude();
-            mLocationData = new MyLocationData.Builder()
-                    .accuracy(location.getRadius())
-                    .direction(mDirection)
-                    .latitude(mLatitude)
-                    .longitude(mLongitude)
-                    .build();
-            mAddress = location.getAddrStr();
-            // 设置定位数据
-            mBaiduMap.setMyLocationData(mLocationData);
-            // 设置自定义图标
-            mCurrentMarker = BitmapDescriptorFactory.fromResource(R.drawable.navi_map_gps_locked);
-            //参数：模式、是否允许自定义图标、图标资源
-            mMyLocationConfiguration = new MyLocationConfiguration(mLocationMode, true, mCurrentMarker);
-            mBaiduMap.setMyLocationConfigeration(mMyLocationConfiguration);
-            //将地图位置移动到当前位置
-            mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLng(
-                    new LatLng(mLatitude, mLongitude)));
-            //如果步数没有变化，表示没有跑步的加速度，则不绘制轨迹，
-            if (mTempStepCount == mPreStepCount) {
-                Toast.makeText(mContext, "未检测到跑步动作", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            //如果位置没改变，类似以原地摇手机，则重置计步数据为变化之前的
-            Toast.makeText(mContext, "当前=" + mLatitude + "," + mLongitude + ";\n" +
-                    "上一次=" + mPreLatitude + "," + mPreLongitude, Toast.LENGTH_SHORT).show();
-            if (mLatitude == mPreLatitude && mLongitude == mPreLongitude) {
-                Toast.makeText(mContext, "未检测到距离变化", Toast.LENGTH_SHORT).show();
-                mStepListener.setStep(mStepCount);
-                return;
-            }
-            mPreStepCount = mStepCount;
-            mStepCount = mTempStepCount;
-            mPreLatitude = mLatitude;
-            mPreLongitude = mLongitude;
-            //保存经纬度坐标
-            savePosition(mLatitude, mLongitude);
-            //绘制路线
-            drawRoute(mLatitude, mLongitude);
-        }
-    }
-
-    private void savePosition(double latitude, double longitude) {
-        mPositionList.add(latitude + "," + longitude + "\n");
-        //每到100条信息就保存到文件
-        if (mPositionList.size() == 100) {
-            //。。。。。。保存到文件。。。。。。
-            mPositionList = new ArrayList<>();//保存后清空list
-        }
-    }
-
-    private void drawRoute(double lantitude, double longitude) {
-        if (isFirstLoc) {
-            //第一次定位时的时间
-            startTime = System.currentTimeMillis();
-            mLatLng1 = new LatLng(lantitude, longitude);
-            mLatLngList.add(mLatLng1);
-            isFirstLoc = false;
-            return;
-        }
-        //当前时间
-        endTime = System.currentTimeMillis();
-        mLatLng2 = new LatLng(lantitude, longitude);
-        mLatLngList.add(mLatLng2);
-        //绘制多边形路径
-        mPolygonOption = new PolygonOptions()
-                .points(mLatLngList)
-                .fillColor(Color.TRANSPARENT)
-                .stroke(new Stroke(10, 0xAA00FF00));
-        mBaiduMap.addOverlay(mPolygonOption);
-
-        //计算时间，因为时区问题有8小时的时差
-        mTime = endTime - startTime - 28800000;
-        //计算两点距离并加入总时间
-        mDistance += DistanceUtil.getDistance(mLatLngList.get(0), mLatLngList.get(1)) / 1000;
-        Log.e("my", "mTime=" + mTime + ";mDistance=" + mDistance);
-        //计算平均速度
-        mSpeed = mDistance * 360000 / mTime;
-        //计算消耗的卡路里，跑步热量（kcal）＝体重（kg）×距离（公里）×1.036
-        mCalorie = mWeight * mDistance * 1.036;
-        //更新数据
-        updateData(mDistance, mTime, mSpeed, mCalorie);
-        //清除起点
-        mLatLngList.remove(0);
-    }
-
-    private void updateData(double distance, double time, double speed, double calorie) {
-        //距离保留两位小数(km)
-        mRunDistanceText.setText(mDecimalFormat.format(distance) + " km");
-        //时间（HH:mm:ss）
-        mRunTimeText.setText(mSimpleDateFormat.format(time));
-        //速度保留两位小数(km/h)
-        mRunSpeedText.setText(mDecimalFormat.format(speed) + " km/h");
-        //卡路里
-        mRunCalorieText.setText(mDecimalFormat.format(mCalorie) + " kcal");
-        //步数
-        Log.e("my", "mStepCount=" + mStepCount);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.run_stop:
-                handStop();
+                isStop = true;
+                mHandler.removeMessages(1);
+                mStopButton.setVisibility(View.GONE);
+                mContinueButton.setVisibility(View.VISIBLE);
+                mOverButton.setVisibility(View.VISIBLE);
+                mTraceClient.stopTrace(mTrace, null);
                 break;
             case R.id.run_continue:
-                handcontinue();
+                isStop = false;
+                mHandler.sendEmptyMessage(1);
+                mStopButton.setVisibility(View.VISIBLE);
+                mContinueButton.setVisibility(View.GONE);
+                mOverButton.setVisibility(View.GONE);
                 break;
             case R.id.run_over:
+                isStop = false;
+                mHandler.removeMessages(1);
                 handover();
                 break;
         }
     }
 
-    private void handStop() {
-        mStopButton.setVisibility(View.GONE);
-        mContinueButton.setVisibility(View.VISIBLE);
-        mOverButton.setVisibility(View.VISIBLE);
-        if (!isStop) {
-            mLocationClient.stop();
-            myOrientationListener.stop();
-            mStepListener.stop();
-            isStop = true;
-            Toast.makeText(mContext, "stop", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void handcontinue() {
-        mStopButton.setVisibility(View.VISIBLE);
-        mContinueButton.setVisibility(View.GONE);
-        mOverButton.setVisibility(View.GONE);
-        if (isStop) {
-            mStepListener.start();
-            mLocationClient.start();
-            myOrientationListener.start();
-            isStop = false;
-        }
-        Toast.makeText(mContext, "continue", Toast.LENGTH_SHORT).show();
-    }
-
     private void handover() {
-        mLocationClient.unRegisterLocationListener(mMyLocationListener);
-        mLocationClient.stop();
-        mStepListener.stop();
-        myOrientationListener.stop();
-        AlertDialog alertDialog = new AlertDialog.Builder(mContext)
+        AlertDialog alertDialog = new AlertDialog.Builder(RunMapActivity.this)
                 .setTitle("分享")
                 .setMessage("跑步结束，和朋友分享一下吧!")
                 .setPositiveButton("分享", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ShareSDK.initSDK(mContext);
+                        ShareSDK.initSDK(RunMapActivity.this);
                         final OnekeyShare oks = new OnekeyShare();
                         oks.disableSSOWhenAuthorize();
                         oks.setTitle("一键分享测试");
@@ -398,14 +265,14 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
                             @Override
                             public void onSnapshotReady(Bitmap bitmap) {
                                 //去掉状态栏的截图
-                                Bitmap bgBitmap = ScreenShot.takeScreenShot(mContext);
+                                Bitmap bgBitmap = ScreenShot.takeScreenShot(RunMapActivity.this);
                                 //将两个Bitmap合并成一个
                                 bitmap = ScreenShot.toConformBitmap(bgBitmap, bitmap);
                                 //临时保存在本地
-                                mImgPath = ScreenShot.saveBitmap(bitmap, mContext);
+                                mImgPath = ScreenShot.saveBitmap(bitmap, RunMapActivity.this);
                                 oks.setImagePath(mImgPath);
                                 // 启动分享GUI
-                                oks.show(mContext);
+                                oks.show(RunMapActivity.this);
                             }
                         });
                     }
@@ -423,39 +290,144 @@ public class RunMapActivity extends AppCompatActivity implements View.OnClickLis
         alertDialog.show();
     }
 
-    @Override
-    protected void onResume() {
-        mMapView.onResume();
-        super.onResume();
-    }
+    //轨迹刷新线程
+    private class RefreshThread extends Thread {
+        protected boolean refresh = true;
 
-    private void openWIFI() {
-        wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
-        if (!wifiManager.isWifiEnabled()) {
-            wifiManager.setWifiEnabled(true);
+        public void run() {
+            while (refresh) {
+                if (!isStop) {
+                    queryRealtimeTrack();
+                }
+                try {
+                    Thread.sleep(packInterval * 1000);
+                } catch (InterruptedException e) {
+                    System.out.println("线程休眠失败");
+                }
+            }
         }
     }
 
-    @Override
-    protected void onPause() {
-        mMapView.onPause();
-        super.onPause();
+    // 查询实时线路
+    private void queryRealtimeTrack() {
+        String entityName = this.entityName;
+        String columnKey = "";
+        int returnType = 0;
+        int activeTime = 0;
+        int pageSize = 10;
+        int pageIndex = 1;
+        this.mTraceClient.queryEntityList(
+                serviceId,
+                entityName,
+                columnKey,
+                returnType,
+                activeTime,
+                pageSize,
+                pageIndex,
+                mEntityListener
+        );
+    }
+
+
+    //展示实时线路图
+    protected void showRealtimeTrack(String realtimeTrack) {
+        if (mRefreshThread == null || !mRefreshThread.refresh) {
+            return;
+        }
+        //数据以JSON形式存取
+        RealtimeTrackData realtimeTrackData = GsonService.parseJson(realtimeTrack, RealtimeTrackData.class);
+        if (realtimeTrackData != null && realtimeTrackData.getStatus() == 0) {
+            LatLng latLng = realtimeTrackData.getRealtimePoint();
+            if (latLng != null) {
+                mLatLngList.add(latLng);
+                drawRealtimePoint(latLng);
+            }
+            //计算距离，单位km
+            if (mLatLngList.size() > 2) {
+                mDistance = DistanceUtil.getDistance(
+                        mLatLngList.get(mLatLngList.size() - 2),
+                        mLatLngList.get(mLatLngList.size() - 1)) / 1000;
+            }
+        }
+    }
+
+    // 画出实时线路点
+    private void drawRealtimePoint(LatLng point) {
+        mBaiduMap.clear();
+        MapStatus mapStatus = new MapStatus.Builder().target(point).zoom(18).build();
+        mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
+        mBitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
+        mOverlayOptions = new MarkerOptions().position(point)
+                .icon(mBitmapDescriptor).zIndex(9).draggable(true);
+        if (mLatLngList.size() >= 2 && mLatLngList.size() <= 1000) {
+            mPolylineOptions = new PolylineOptions().width(10).color(Color.RED).points(mLatLngList);
+        }
+        addMarker();
+    }
+
+    private void addMarker() {
+        if (mMapStatusUpdate != null) {
+            mBaiduMap.setMapStatus(mMapStatusUpdate);
+        }
+        if (mPolylineOptions != null) {
+            mBaiduMap.addOverlay(mPolylineOptions);
+        }
+        if (mOverlayOptions != null) {
+            mBaiduMap.addOverlay(mOverlayOptions);
+        }
+    }
+
+    //启动刷新线程
+    private void startRefreshThread(boolean isStart) {
+        if (mRefreshThread == null) {
+            mRefreshThread = new RefreshThread();
+        }
+        mRefreshThread.refresh = isStart;
+        if (isStart) {
+            if (!mRefreshThread.isAlive()) {
+                mRefreshThread.start();
+            }
+        } else {
+            mRefreshThread = null;
+        }
+    }
+
+    /**
+     * 获取手机的Imei码，作为实体对象的标记值
+     */
+    private String getImei(Context context) {
+        String mImei = "NULL";
+        try {
+            mImei = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+        } catch (Exception e) {
+            System.out.println("获取IMEI码失败");
+            mImei = "NULL";
+        }
+        return mImei;
     }
 
     @Override
     protected void onDestroy() {
-        mMapView.onDestroy();
-        mBaiduMap.setMyLocationEnabled(false);
-        //停止位置监听
-        if (mLocationClient != null) {
-            mLocationClient.unRegisterLocationListener(mMyLocationListener);
-            mLocationClient.stop();
-        }
-        //停止方向传感器
-        myOrientationListener.stop();
-        mStepListener.stop();
-        mApplication.removeActivity(this);
-        ShareSDK.stopSDK();
         super.onDestroy();
+        isStop = true;
+        mTraceClient.stopTrace(mTrace, null);
+        mTraceClient.onDestroy();
+        mMapView.onDestroy();
+        mMapView = null;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
