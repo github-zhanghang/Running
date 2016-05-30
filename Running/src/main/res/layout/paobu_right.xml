@@ -15,11 +15,11 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:drawableLeft="@mipmap/ic_launcher"
+        android:drawableBottom="@drawable/finger_down"
         android:gravity="center"
         android:singleLine="true"
-        android:text="点我设置目标"
-        android:textColor="#ffffff"
+        android:text="设置目标"
+        android:textColor="@color/white"
         android:textSize="16sp"/>
 
     <TextView
@@ -32,7 +32,7 @@
         android:gravity="center"
         android:singleLine="true"
         android:text="0.0"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="70sp"/>
 
     <TextView
@@ -44,8 +44,8 @@
         android:layout_marginTop="10dp"
         android:singleLine="true"
         android:text="卡路里(大卡)"
-        android:textColor="#ffffff"
-        android:textSize="30sp"/>
+        android:textColor="@color/white"
+        android:textSize="25sp"/>
 
     <com.running.myviews.MyStartButton
         android:id="@+id/startRun2"
@@ -54,7 +54,7 @@
         android:background="@drawable/btn_oval"
         android:gravity="center"
         android:text="开始"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="30sp"/>
 
 </com.running.myviews.MyStartLayout>

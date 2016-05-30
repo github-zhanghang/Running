@@ -10,7 +10,7 @@
         android:id="@+id/rank_topbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        app:leftImage="@mipmap/ic_launcher"
+        app:leftImage="@drawable/back"
         app:leftText="排行榜"/>
 
     <RadioGroup
@@ -90,53 +90,15 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/gray"
-            android:gravity="center"
-            android:text="排名"
-            android:textSize="23sp"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
-            android:layout_weight="1"
-            android:background="@color/gray"
-            android:gravity="center"
-            android:text="头像"
-            android:textSize="23sp"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
-            android:layout_weight="1"
-            android:background="@color/gray"
-            android:gravity="center"
-            android:text="昵称"
-            android:textSize="23sp"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="1dp"
-            android:layout_weight="1"
-            android:background="@color/gray"
-            android:gravity="center"
-            android:text="距离"
-            android:textSize="23sp"/>
-    </LinearLayout>
+        android:layout_height="1dp"
+        android:background="@color/orange"/>
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/rank_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:showDividers="none">
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 </LinearLayout>

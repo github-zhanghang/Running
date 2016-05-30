@@ -219,7 +219,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                         break;
                     case R.id.birth_item:
                         mInfoItemView.setDataText(mDatePicker.getYear() + "-"
-                                + mDatePicker.getMonth() + "-"
+                                + (mDatePicker.getMonth() + 1) + "-"
                                 + mDatePicker.getDayOfMonth());
                         break;
                     case R.id.address_item:
@@ -237,6 +237,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
             }
         });
         mAlertDialog = mDialogBuilder.create();
+        mAlertDialog.setCanceledOnTouchOutside(false);
         mAlertDialog.show();
     }
 

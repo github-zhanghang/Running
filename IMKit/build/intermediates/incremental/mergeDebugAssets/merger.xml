@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\GithubDownload\Running\IMKit\src\main\assets"/></dataSet><dataSet config="debug"><source path="D:\GithubDownload\Running\IMKit\src\debug\assets"/></dataSet></merger>
+<<<<<<< HEAD
+<merger version="3"><dataSet config="main"><source path="E:\AndroidStudio\ASworkspace\Running\IMKit\src\main\assets"/><source path="E:\AndroidStudio\ASworkspace\Running\IMKit\build\generated\assets\shaders\debug"/></dataSet><dataSet config="debug"><source path="E:\AndroidStudio\ASworkspace\Running\IMKit\src\debug\assets"/></dataSet></merger>
+=======
+<merger version="3"><dataSet config="main"><source path="D:\Android\WorkSpace\Running3\IMKit\src\main\assets"/></dataSet><dataSet config="debug"><source path="D:\Android\WorkSpace\Running3\IMKit\src\debug\assets"/></dataSet></merger>
+>>>>>>> bb7ca6674e0a134116e532f7c8836a058b3440ee
