@@ -68,4 +68,5 @@ dependencies {
     compile 'com.squareup.okio:okio:1.8.0'
     compile 'com.zhy:okhttputils:2.4.1'
     compile 'com.google.code.gson:gson:2.6.2'
+    compile files('libs/pinyin4j-2.5.0.jar')
 }

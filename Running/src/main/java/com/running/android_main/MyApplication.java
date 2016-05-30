@@ -3,6 +3,9 @@ package com.running.android_main;
 import android.app.Activity;
 import android.app.Application;
 
+import com.running.event.RongCloudEvent;
+import com.running.message.ContactNotificationMessageProvider;
+
 import org.xutils.x;
 
 import java.util.ArrayList;
@@ -30,6 +33,10 @@ public class MyApplication extends Application {
          */
         RongIM.init(this);
         sourceUserId = "当前用户的账号(userId)";
+        //注册融云的监听事件
+        RongCloudEvent.init(this);
+        //注册定义的好友添加消息
+        RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
     }
 
     public String getCity() {
