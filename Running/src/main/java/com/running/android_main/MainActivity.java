@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.running.adapters.MyFragmentAdapter;
 import com.running.fragments.DongtaiFragment;
 import com.running.fragments.FaxianFragment;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.slide_main);
         mApplication = (MyApplication) getApplication();
         mApplication.addActivity(this);

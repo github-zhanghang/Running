@@ -1,9 +1,7 @@
 package com.running.fragments;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,23 +17,14 @@ import com.running.adapters.SortAdapter;
 import com.running.android_main.NewFriendListActivity;
 import com.running.android_main.R;
 import com.running.beans.ApiResult;
-import com.running.myviews.edittextwithdeel.EditTextWithDel;
 import com.running.myviews.sidebar.SideBar;
 import com.running.utils.pinyin.PinyinUtils;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.message.ContactNotificationMessage;
-import okhttp3.Call;
 
 /**
  * Created by ZhangHang on 2016/5/5.
@@ -60,14 +48,13 @@ public class XiaoxiRightFragment extends Fragment {
         getData();
         receiver();
         setOnClickListener();
-        mListView.addHeaderView(header);
-
 
         return mView;
     }
     private void initViews() {
         mListView = (ListView) mView.findViewById(R.id.lv_contact);
         header = LayoutInflater.from(getActivity()).inflate(R.layout.item_header, null);
+        mListView.addHeaderView(header);
         sideBar = (SideBar) mView.findViewById(R.id.sidrbar);
         dialog = (TextView) mView.findViewById(R.id.dialog);
         sideBar.setTextView(dialog);
