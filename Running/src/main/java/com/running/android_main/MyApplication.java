@@ -3,7 +3,8 @@ package com.running.android_main;
 import android.app.Activity;
 import android.app.Application;
 
-import com.baidu.mapapi.SDKInitializer;
+import com.running.event.RongCloudEvent;
+import com.running.message.ContactNotificationMessageProvider;
 
 import org.xutils.x;
 
@@ -21,18 +22,21 @@ public class MyApplication extends Application {
 
     private List<Activity> mActivityList;
     public static String sourceUserId;
-
     @Override
     public void onCreate() {
         super.onCreate();
-        SDKInitializer.initialize(getApplicationContext());
         x.Ext.init(this);
         mActivityList = new ArrayList<>();
+
         /**
          * 初始化融云
          */
         RongIM.init(this);
         sourceUserId = "当前用户的账号(userId)";
+        //注册融云的监听事件
+        RongCloudEvent.init(this);
+        //注册定义的好友添加消息
+        RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
     }
 
     public String getCity() {
@@ -59,5 +63,4 @@ public class MyApplication extends Application {
             }
         }
     }
-
 }
