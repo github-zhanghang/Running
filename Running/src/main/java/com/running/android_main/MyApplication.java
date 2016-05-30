@@ -27,7 +27,6 @@ public class MyApplication extends Application {
         super.onCreate();
         x.Ext.init(this);
         mActivityList = new ArrayList<>();
-
         /**
          * 初始化融云
          */

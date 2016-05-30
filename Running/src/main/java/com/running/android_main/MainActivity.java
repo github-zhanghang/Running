@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.running.adapters.MyFragmentAdapter;
 import com.running.fragments.DongtaiFragment;
 import com.running.fragments.FaxianFragment;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.slide_main);
         mApplication = (MyApplication) getApplication();
         mApplication.addActivity(this);
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
     private void initViews() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView= (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         //navigationView = (NavigationView) findViewById(R.id.nav_view);
         mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         mUserImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
