@@ -58,8 +58,6 @@ public class PublishDynamicActivity extends AppCompatActivity {
     EditText mDynamicPublishContent;
     @Bind(R.id.dynamic_publish_gridView)
     MyGridView mDynamicPublishGridView;
-    @Bind(R.id.dynamic_publish_img_add)
-    ImageView mDynamicPublishImgAdd;
     @Bind(R.id.dynamic_publish_location)
     TextView mDynamicPublishLocation;
     @Bind(R.id.dynamic_publish_location_button)

@@ -218,7 +218,15 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity android:name=".MedalActivity">
         </activity>
+        <!--发布动态界面-->
         <activity android:name=".PublishDynamicActivity">
+        </activity>
+        <!--发布动态有关-->
+        <activity android:name="me.iwf.photopicker.PhotoPickerActivity"
+                  android:theme="@style/myTheme">
+        </activity>
+        <activity android:name="me.iwf.photopicker.PhotoPagerActivity"
+                  android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
     </application>
 

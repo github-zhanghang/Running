@@ -100,4 +100,15 @@
         <attr name="textSize" format="dimension|reference"/>
         <attr name="textColor" format="color|reference"/>
     </declare-styleable>
+    <!--发布动态有关-->
+    <style name="myTheme.actionBar" parent="Theme.AppCompat.Light">
+        <item name="android:textColorPrimary">#8e8e93</item>
+        <item name="android:actionBarSize">32dp</item>
+    </style>
+    <style name="myTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="actionBarTheme">@style/myTheme.actionBar</item>
+        <item name="colorPrimary">#0000FF</item>
+        <item name="actionBarSize">32dp</item>
+    </style>
+
 </resources>

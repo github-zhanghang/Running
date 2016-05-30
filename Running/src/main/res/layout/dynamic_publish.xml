@@ -55,16 +55,10 @@
                 android:id="@+id/dynamic_publish_gridView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:numColumns="4">
+                android:numColumns="4"
+                android:layout_marginLeft="20dp">
             </com.running.myviews.MyGridView>
 
-            <ImageView
-                android:id="@+id/dynamic_publish_img_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@mipmap/ic_launcher"/>
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
