@@ -1,8 +1,6 @@
 package com.running.android_main;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,7 +23,6 @@ import com.running.adapters.DynamicPublishGridViewAdapter;
 import com.running.myviews.MyGridView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +36,14 @@ import me.iwf.photopicker.utils.PhotoPickerIntent;
 public class PublishDynamicActivity extends AppCompatActivity {
 
     public static final int TAKE_PHOTO = 1;
-    public static final int CHOOSE_PHOTO = 3;
-    public static final int CROP_PHOTO = 2;
+    public static final int CHOOSE_PHOTO = 2;
     private List<Object> mList;
     private ArrayList<String> selectPhotos;
     private DynamicPublishGridViewAdapter mAdapter;
 
     private PopupWindow mPopupWindow;
     private Uri mUri;
+    private String path;
 
     @Bind(R.id.dynamic_publish_back_img)
     ImageView mDynamicPublishBackImg;
@@ -127,6 +124,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
         Button cameraButton = (Button) view.findViewById(R.id.dynamic_publish_popupWindow_camera);
         Button pictureButton = (Button) view.findViewById(R.id.dynamic_publish_popupWindow_picture);
         //调用相机拍照
+        //这里有bug
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,6 +138,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                path=outputImage.getPath();
                 mUri = Uri.fromFile(outputImage);
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
@@ -166,21 +165,11 @@ public class PublishDynamicActivity extends AppCompatActivity {
         switch (requestCode) {
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    Intent intent = new Intent("com.android.camera.action.CROP");
-                    intent.setDataAndType(mUri, "image/*");
-                    intent.putExtra("scale", true);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
-                    startActivityForResult(intent, CROP_PHOTO);
-                }
-                break;
-            case CROP_PHOTO:
-                if (resultCode == RESULT_OK) {
-                    try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(
-                                getContentResolver().openInputStream(mUri));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    //有bug
+                    mList.clear();
+                    mList.add(path);
+                    mList.add(R.mipmap.ic_launcher);
+                    mAdapter.notifyDataSetChanged();
                 }
                 break;
             case CHOOSE_PHOTO:

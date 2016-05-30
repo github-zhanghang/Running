@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity
     private void initViews() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView= (NavigationView) findViewById(R.id.nav_view);
-        //navigationView = (NavigationView) findViewById(R.id.nav_view);
         mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         mUserImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
         mUserNickNameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_nickname);
