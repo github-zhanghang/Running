@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PublishDynamicActivity">
+
+    <RelativeLayout
+        android:id="@+id/dynamic_publish_top_Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#d1892a">
+
+        <ImageView
+            android:id="@+id/dynamic_publish_back_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/dynamic_publish_tittle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="发布动态"
+            android:textSize="30sp"/>
+
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/dynamic_publish_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@null"
+                android:hint="说点什么吧...."
+                android:textSize="25sp"/>
+
+            <com.running.myviews.MyGridView
+                android:id="@+id/dynamic_publish_gridView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numColumns="4">
+            </com.running.myviews.MyGridView>
+
+            <ImageView
+                android:id="@+id/dynamic_publish_img_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/ic_launcher"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/dynamic_publish_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="苏州"
+                    android:textSize="20sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"/>
+
+                <ImageButton
+                    android:id="@+id/dynamic_publish_location_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/dynamic_publish_publish_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:text="发布"
+                android:textSize="30sp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

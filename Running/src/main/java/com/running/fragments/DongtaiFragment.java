@@ -1,5 +1,6 @@
 package com.running.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.running.adapters.DynamicAdapter;
 import com.running.android_main.MainActivity;
+import com.running.android_main.PublishDynamicActivity;
 import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.DynamicLinkBean;
@@ -217,6 +219,9 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
             @Override
             public void onTopbarRightImageClick(ImageView imageView) {
                 Toast.makeText(mActivity, "发布动态", Toast.LENGTH_SHORT).show();
+                //跳转至发布动态界面
+                Intent intent=new Intent(getActivity(), PublishDynamicActivity.class);
+                startActivity(intent);
             }
         });
     }
