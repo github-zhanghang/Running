@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.running.android_main.DynamicCommentActivity;
+import com.running.android_main.DynamicOneselfActivity;
 import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.DynamicLinkBean;
@@ -137,8 +138,8 @@ public class DynamicAdapter extends BaseAdapter {
         linkViewHolder.mDynamicLinkItemHeadImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(mContext, OneselfDynamicActivity.class);
-                mContext.startActivity(intent);*/
+                Intent intent = new Intent(mContext, DynamicOneselfActivity.class);
+                mContext.startActivity(intent);
             }
         });
         linkViewHolder.mDynamicLinkItemName.setText(dynamicLinkBean.getName());
@@ -174,8 +175,8 @@ public class DynamicAdapter extends BaseAdapter {
         imgViewHolder.mDynamicImgItemHeadImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(mContext, OneselfDynamicActivity.class);
-                mContext.startActivity(intent);*/
+                Intent intent = new Intent(mContext, DynamicOneselfActivity.class);
+                mContext.startActivity(intent);
             }
         });
         imgViewHolder.mDynamicImgItemName.setText(dynamicImgBean.getName());
