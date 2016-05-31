@@ -28,8 +28,9 @@ import cn.sharesdk.wechat.friends.Wechat;
 import okhttp3.Call;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    private MyApplication mApplication;
     public static final String Login_OK = "0";
-    private static final String mPath = "http://192.168.191.1:8080/Run/loginServlet";
+    private static final String mPath = "http://192.168.191.1:8080/Running/loginServlet";
     public static final String Login_Error_UserName = "1";
     public static final String Login_Error_UserPassword = "2";
 
@@ -51,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
         mContext = LoginActivity.this;
+        mApplication = (MyApplication) getApplication();
         ShareSDK.initSDK(mContext);
         initViews();
         //默认记住密码
@@ -97,7 +99,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //处理登录
                 String uName = mNameEditText.getText().toString();
                 String uPwd = mPasswordEditText.getText().toString();
-                if (uName.equals("") && uPwd.equals("")) {
+                if (uName.equals("run") && uPwd.equals("123")) {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     LoginActivity.this.finish();
                 } else {
@@ -107,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.regist:
                 //跳转注册页面
-                startActivity(new Intent(mContext, RegisterActivity.class));
+                startActivity(new Intent(mContext, Register1Activity.class));
                 break;
             case R.id.login_QQ:
                 thirdLogin(QZone.NAME);
@@ -153,6 +155,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 editor.apply();
                             }
                             //登录成功跳转
+                            mApplication.setAccount(username);
+                            //saveUserInfo(username);
                             startActivity(new Intent(mContext, MainActivity.class));
                             mContext.finish();
                         } else if (response.equals(Login_Error_UserName)) {
@@ -165,6 +169,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             mProgressDialog.dismiss();
                             Toast.makeText(mContext, "登录失败，请稍后重试", Toast.LENGTH_SHORT).show();
                         }
+                    }
+                });
+    }
+
+    private void saveUserInfo(String username) {
+        OkHttpUtils
+                .get()
+                .url(mPath)
+                .addParams("username", username)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+
                     }
                 });
     }
