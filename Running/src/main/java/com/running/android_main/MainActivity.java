@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.running.adapters.MyFragmentAdapter;
 import com.running.fragments.DongtaiFragment;
@@ -155,7 +154,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, MyDetailsActivity.class));
                 break;
             case R.id.setting:
-                Toast.makeText(MainActivity.this, "设置", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,SettingActivity.class));
                 break;
         }
     }
