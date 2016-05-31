@@ -2,15 +2,11 @@ package com.running.android_main;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.HashMap;
 
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
@@ -42,22 +38,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         SMSSDK.registerEventHandler(new EventHandler() {
             @Override
             public void afterEvent(int event, int result, Object data) {
-                if (result == SMSSDK.RESULT_COMPLETE) {
-                    //回调完成
-                    if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                        Log.e("my", "提交验证码成功");
-                    } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                        //验证成功后将注册信息插入数据库
-                        Log.e("my", "获取验证码成功");/*
-                        mGetCodeButton.setClickable(false);
-                        uodateGetCodeButton();*/
-                        submitUserInfo();
-                    } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
-                        //返回支持发送验证码的国家列表
-                    }
-                } else {
-                    ((Throwable) data).printStackTrace();
-                    Log.e("my", "验证失败");
+                switch (event) {
+                    case SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE:
+                        if (result == SMSSDK.RESULT_COMPLETE) {
+                            Log.e("my", "验证成功");
+                        } else {
+                            Log.e("my", "验证失败");
+                        }
+                        break;
+                    case SMSSDK.EVENT_GET_VERIFICATION_CODE:
+                        if (result == SMSSDK.RESULT_COMPLETE) {
+                            Log.e("my", "获取验证码成功");
+                            //默认的智能验证是开启的,我已经在后台关闭
+                        } else {
+                            Log.e("my", "获取验证码失败");
+                        }
+                        break;
                 }
             }
         });
@@ -108,7 +104,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             protected Void doInBackground(Integer... params) {
                 int time = params[0];
-                Log.e("my", "time=" + time);
                 try {
                     while (!isTimeRun) {
                         Thread.sleep(1000);

@@ -13,7 +13,7 @@
         app:isLeftTextShow="true"
         app:isMidTextShow="true"
         app:isRightTextShow="true"
-        app:leftImage="@mipmap/ic_launcher"
+        app:leftImage="@drawable/left"
         app:leftText="跑步"
         app:midText="|"
         app:rightText="目标"/>
