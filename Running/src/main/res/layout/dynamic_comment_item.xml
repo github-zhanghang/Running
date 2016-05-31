@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <!--左边一级评论头像-->
+    <ImageView
+        android:id="@+id/dynamic_comment_item_img"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@mipmap/ic_launcher"/>
+    <!--右边整体布局-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:orientation="vertical">
+        <!--顶部整体布局-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp">
+            <!--顶部左边布局-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom">
+
+                <TextView
+                    android:id="@+id/dynamic_comment_item_firstComment_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="item"
+                    android:textSize="30sp"/>
+
+                <TextView
+                    android:id="@+id/dynamic_comment_item_firstComment_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="04-07 10:12"/>
+            </LinearLayout>
+
+            <!--顶部右边回复-->
+            <TextView
+                android:id="@+id/dynamic_comment_item__reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="回复"
+                android:textSize="25sp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/dynamic_comment_item_firstComment_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:layout_margin="0dp"
+            android:text="content"
+            android:textSize="25sp"/>
+
+        <com.linearlistview.LinearListView
+            android:id="@+id/dynamic_comment_item_twoComment_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerPadding="0dp"
+            android:padding="0dp"
+            android:layout_margin="0dp"
+            android:orientation="vertical">
+        </com.linearlistview.LinearListView>
+    </LinearLayout>
+
+</LinearLayout>

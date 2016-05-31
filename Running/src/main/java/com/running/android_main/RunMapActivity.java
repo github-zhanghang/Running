@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
@@ -107,6 +108,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_runmap);
         init();
         initOnEntityListener();
@@ -416,18 +418,3 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         mMapView = null;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
