@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.running.adapters.RaceAdapter;
@@ -99,7 +100,7 @@ public class FaxianLeftFragment extends Fragment {
 
         //刷新加载
         initSwiprRefresh();
-        // addListener();
+        //addListener();
 
         addClickListener();
         initNoScollView();
@@ -116,9 +117,9 @@ public class FaxianLeftFragment extends Fragment {
                 Bundle bundle=new Bundle();
                 bundle.putString("weburl",mRaceDataList.get(position).getWebUrl());
 
-                Intent intent=new Intent(mMainActivity, RaceActivity.class);
+                Intent intent=new Intent(getActivity(), RaceActivity.class);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                getActivity().startActivity(intent);
             }
         });
     }

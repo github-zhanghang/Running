@@ -85,7 +85,7 @@ public class GoodsActivity extends AppCompatActivity {
     }
 
     private void initRefresh() {
-        mSwipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.swipe_race_detail);
+        mSwipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.swipe_goods_detail);
         mSwipeRefreshLayout.setColorSchemeColors(Color.GREEN,Color.BLUE,Color.RED, Color.YELLOW);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

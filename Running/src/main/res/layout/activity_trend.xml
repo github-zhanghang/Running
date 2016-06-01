@@ -19,27 +19,53 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></TabWidget>
 
-    <android.support.v4.view.ViewPager
-        android:layout_weight="4"
-        android:layout_below="@id/record_topbar"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#123">
-
-    </android.support.v4.view.ViewPager>
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="＜"
+            android:textSize="30sp"
+            android:textColor="#b7b7b7"/>
+        <TextView
+            android:id="@+id/date_trend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="04月25日-05月01日"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:padding="8dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="＞"
+            android:textSize="30sp"
+            android:textColor="#b7b7b7"/>
+    </RelativeLayout>
+    <android.support.v4.view.ViewPager
+       android:id="@+id/vp_trend"
+        android:layout_margin="10dp"
+       android:layout_weight="4"
+       android:layout_below="@id/record_topbar"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+   </android.support.v4.view.ViewPager>
 
     <LinearLayout
         android:background="#f0f0f0"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_alignParentBottom="true">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="100dp">
         <RelativeLayout
-            android:layout_margin="1dp"
+            android:layout_margin="0.5dp"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -57,13 +83,13 @@
                 android:layout_height="wrap_content"
                 android:text="6700"
                 android:textSize="30sp"
-                android:textColor="#ec7520"
+                android:textColor="#ffa114"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="45dp"
                 />
         </RelativeLayout>
         <RelativeLayout
-            android:layout_margin="1dp"
+            android:layout_margin="0.5dp"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -81,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:text="37.2"
                 android:textSize="30sp"
-                android:textColor="#ec7520"
+                android:textColor="#ffa114"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="45dp"
                 />
@@ -92,7 +118,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
         <RelativeLayout
-            android:layout_margin="1dp"
+            android:layout_margin="0.5dp"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -110,13 +136,13 @@
                 android:layout_height="wrap_content"
                 android:text="45"
                 android:textSize="30sp"
-                android:textColor="#ec7520"
+                android:textColor="#ffa114"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="45dp"
                 />
         </RelativeLayout>
         <RelativeLayout
-            android:layout_margin="1dp"
+            android:layout_margin="0.5dp"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -127,20 +153,14 @@
                 android:text="总消耗：千卡"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="15dp"
-                android:textColor
-
-
-
-
-
-                    ="#123"/>
+                android:textColor="#123"/>
             <TextView
                 android:id="@+id/calorie_trend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="897.6"
                 android:textSize="30sp"
-                android:textColor="#ec7520"
+                android:textColor="#ffa114"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="45dp"
                 />

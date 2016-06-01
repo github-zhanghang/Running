@@ -54,7 +54,7 @@ public class GoodsBannerAdapter extends PagerAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,"图片:"+position,Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext,"图片:"+position,Toast.LENGTH_SHORT).show();
 
                 Bundle bundle=new Bundle();
                 bundle.putString("weburl",mGoodsBannerDatas.get(position).getWeburl());

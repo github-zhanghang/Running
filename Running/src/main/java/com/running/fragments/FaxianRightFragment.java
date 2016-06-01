@@ -17,10 +17,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.running.adapters.GoodsAdapter;
 import com.running.adapters.GoodsBannerAdapter;
+import com.running.android_main.GoodsActivity;
 import com.running.android_main.MainActivity;
 import com.running.android_main.R;
 import com.running.android_main.RaceActivity;
@@ -107,13 +109,14 @@ public class FaxianRightFragment extends Fragment {
         mGoodsAdapter.setOnItemClickListener(new GoodsAdapter.onItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                // Toast.makeText(mMainActivity,"装备:"+(position+1),Toast.LENGTH_SHORT).show();
+
+                //Toast.makeText(mMainActivity,"装备:"+(position+1),Toast.LENGTH_SHORT).show();
                 Bundle bundle=new Bundle();
                 bundle.putString("weburl",mGoodsDataList.get(position).getWeburl());
 
-                Intent intent=new Intent(mMainActivity, RaceActivity.class);
+                Intent intent=new Intent(mMainActivity, GoodsActivity.class);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                mMainActivity.startActivity(intent);
             }
         });
     }

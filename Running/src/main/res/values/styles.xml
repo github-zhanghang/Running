@@ -53,11 +53,9 @@
 
     <style name="login_Button">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/orange</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <declare-styleable name="CircleImageView">
@@ -100,4 +98,22 @@
         <attr name="textSize" format="dimension|reference"/>
         <attr name="textColor" format="color|reference"/>
     </declare-styleable>
+
+    <declare-styleable name="RecordBar">
+        <attr name="re_imageView" format="reference"/>
+        <attr name="re_dataText" format="string|reference"/>
+    </declare-styleable>
+    <declare-styleable name="BestBar">
+        <attr name="best_attrText" format="string|reference"/>
+        <attr name="best_dataText" format="string|reference"/>
+    </declare-styleable>
+
+    <style name="dot_style">
+        <item name="android:layout_width">5dip</item>
+        <item name="android:layout_height">5dip</item>
+        <item name="android:background">@drawable/dot_normal</item>
+        <item name="android:layout_marginLeft">1.5dip</item>
+        <item name="android:layout_marginRight">1.5dip</item>
+    </style>
+
 </resources>

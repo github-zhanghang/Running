@@ -10,7 +10,7 @@ import com.running.myviews.TopBar;
 
 public class RecordActivity extends AppCompatActivity  implements View.OnClickListener{
     private TopBar mTopBar;
-   private RecordBar historyRecordBar,trendRecordBar,bestRecordBar;
+    private RecordBar historyRecordBar,trendRecordBar,bestRecordBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
