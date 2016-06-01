@@ -1,6 +1,7 @@
 package com.running.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.running.android_main.DynamicCommentActivity;
+import com.running.android_main.DynamicOneselfActivity;
 import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.DynamicLinkBean;
@@ -135,8 +138,8 @@ public class DynamicAdapter extends BaseAdapter {
         linkViewHolder.mDynamicLinkItemHeadImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(mContext, OneselfDynamicActivity.class);
-                mContext.startActivity(intent);*/
+                Intent intent = new Intent(mContext, DynamicOneselfActivity.class);
+                mContext.startActivity(intent);
             }
         });
         linkViewHolder.mDynamicLinkItemName.setText(dynamicLinkBean.getName());
@@ -154,8 +157,8 @@ public class DynamicAdapter extends BaseAdapter {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                /*Intent intent = new Intent(mContext, DetailActivity.class);
-                mContext.startActivity(intent);*/
+                Intent intent = new Intent(mContext, DynamicCommentActivity.class);
+                mContext.startActivity(intent);
                     }
                 });
         linkViewHolder.mDynamicLinkItemPraiseCount.setText(String.valueOf(dynamicLinkBean
@@ -172,8 +175,8 @@ public class DynamicAdapter extends BaseAdapter {
         imgViewHolder.mDynamicImgItemHeadImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(mContext, OneselfDynamicActivity.class);
-                mContext.startActivity(intent);*/
+                Intent intent = new Intent(mContext, DynamicOneselfActivity.class);
+                mContext.startActivity(intent);
             }
         });
         imgViewHolder.mDynamicImgItemName.setText(dynamicImgBean.getName());
@@ -188,8 +191,8 @@ public class DynamicAdapter extends BaseAdapter {
         imgViewHolder.mDynamicImgItemCommentImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(mContext, DetailActivity.class);
-                mContext.startActivity(intent);*/
+                Intent intent = new Intent(mContext, DynamicCommentActivity.class);
+                mContext.startActivity(intent);
             }
         });
         imgViewHolder.mDynamicImgItemCommentCount.setText(String.valueOf(dynamicImgBean

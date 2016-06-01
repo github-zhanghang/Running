@@ -1,7 +1,6 @@
 package com.running.android_main;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -10,7 +9,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -52,6 +50,7 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class RunMapActivity extends Activity implements View.OnClickListener {
+    private MyApplication mApplication;
     private int gatherInterval = 3;  //位置采集周期 (s)
     private int packInterval = 10;  //打包周期 (s)
     private String entityName = null;  // entity标识
@@ -78,11 +77,11 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     private Button mStopButton, mContinueButton, mOverButton;
     private String mImgPath;
 
+    private double mWeight;
+    private String mAccount;
     //跑步的距离、速度,卡路里,步数,时间
     private double mDistance, mSpeed, mCalorie, mTime;
     private long mStepCount;
-    //体重62kg
-    private double mWeight = 62;
     //毫秒转成 时:分:秒 格式
     SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss");//初始化Formatter的转换格式。
     //保留小数点后两位
@@ -108,6 +107,8 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_runmap);
+        mApplication = (MyApplication) getApplication();
+        mApplication.getWeight();
         init();
         initOnEntityListener();
         mTraceClient.setOnEntityListener(mEntityListener);
@@ -123,9 +124,8 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     private void init() {
         mMapView = (MapView) findViewById(R.id.mapview);
         mBaiduMap = mMapView.getMap();
-        mMapView.showZoomControls(false);
-        //手机Imei值的获取，用来充当实体名
-        entityName = getImei(this) + System.currentTimeMillis();
+        //账号+当前时间来充当实体名
+        entityName = mAccount + System.currentTimeMillis();
         //实例化轨迹服务客户端
         mTraceClient = new LBSTraceClient(this);
         //实例化轨迹服务
@@ -392,20 +392,6 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    /**
-     * 获取手机的Imei码，作为实体对象的标记值
-     */
-    private String getImei(Context context) {
-        String mImei = "NULL";
-        try {
-            mImei = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-        } catch (Exception e) {
-            System.out.println("获取IMEI码失败");
-            mImei = "NULL";
-        }
-        return mImei;
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -416,18 +402,3 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         mMapView = null;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

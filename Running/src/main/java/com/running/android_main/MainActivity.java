@@ -13,9 +13,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.running.adapters.MyFragmentAdapter;
 import com.running.fragments.DongtaiFragment;
 import com.running.fragments.FaxianFragment;
@@ -51,7 +49,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.slide_main);
         mApplication = (MyApplication) getApplication();
         mApplication.addActivity(this);
@@ -145,12 +142,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, MedalActivity.class));
         } else if (id == R.id.nav_ranklist) {
             startActivity(new Intent(MainActivity.this, RankActivity.class));
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -163,7 +154,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, MyDetailsActivity.class));
                 break;
             case R.id.setting:
-                Toast.makeText(MainActivity.this, "设置", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,SettingActivity.class));
                 break;
         }
     }

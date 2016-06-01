@@ -14,10 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.running.myviews.ImageTextView;
-
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.HashMap;
 
@@ -27,10 +25,16 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
+import okhttp3.Call;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+    private MyApplication mApplication;
+    public static final String Login_OK = "0";
+    private static final String mPath = "http://192.168.191.1:8080/Running/loginServlet";
+    public static final String Login_Error_UserName = "1";
+    public static final String Login_Error_UserPassword = "2";
+
     private Activity mContext;
-    private String mPath = "http://192.168.191.1:8080/JavaWeb-0406_homework/forwardServlet";
     private EditText mNameEditText, mPasswordEditText;
     private Button mLoginButton, mRegisterButton;
     private CheckBox mRememberInfoCheckBox;
@@ -48,6 +52,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
         mContext = LoginActivity.this;
+        mApplication = (MyApplication) getApplication();
         ShareSDK.initSDK(mContext);
         initViews();
         //默认记住密码
@@ -75,6 +80,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mLogin_Sina.setOnClickListener(this);
     }
 
+    //取出保存的用户信息
     private void initUserInfo() {
         mSharedPreferences = getSharedPreferences("UserInfo", MODE_PRIVATE);
         isRememberPassword = mSharedPreferences.getBoolean("isRememberPassword", false);
@@ -93,18 +99,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //处理登录
                 String uName = mNameEditText.getText().toString();
                 String uPwd = mPasswordEditText.getText().toString();
-                if (uName.equals("zh") && uPwd.equals("123")) {
-                    if (mRememberInfoCheckBox.isChecked()) {
-                        SharedPreferences.Editor editor = mSharedPreferences.edit();
-                        editor.putString("username", uName);
-                        editor.putString("password", uPwd);
-                        editor.putBoolean("isRememberPassword", true);
-                        editor.apply();
-                    } else {
-                        SharedPreferences.Editor editor = mSharedPreferences.edit();
-                        editor.putBoolean("isRememberPassword", false);
-                        editor.apply();
-                    }
+                if (uName.equals("run") && uPwd.equals("123")) {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     LoginActivity.this.finish();
                 } else {
@@ -114,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.regist:
                 //跳转注册页面
-                startActivity(new Intent(mContext, RegisterActivity.class));
+                startActivity(new Intent(mContext, Register1Activity.class));
                 break;
             case R.id.login_QQ:
                 thirdLogin(QZone.NAME);
@@ -128,38 +123,73 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void handleLogin(String username, String password) {
-        RequestParams params = new RequestParams(mPath);
-        params.addQueryStringParameter("username", username);
-        params.addQueryStringParameter("password", password);
-        x.http().get(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                if (result.equals("success")) {
-                    mProgressDialog.dismiss();
-                    //登录成功跳转
-                    startActivity(new Intent(mContext, MainActivity.class));
-                    mContext.finish();
-                } else {
-                    Toast.makeText(mContext, "用户名或密码错误", Toast.LENGTH_SHORT).show();
-                    mProgressDialog.dismiss();
-                }
-            }
+    private void handleLogin(final String username, final String password) {
+        OkHttpUtils
+                .get()
+                .url(mPath)
+                .addParams("username", username)
+                .addParams("password", password)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+                        mProgressDialog.dismiss();
+                        Toast.makeText(mContext, "登录失败，请检查网络连接", Toast.LENGTH_SHORT).show();
+                    }
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(mContext, "登录失败", Toast.LENGTH_SHORT).show();
-                mProgressDialog.dismiss();
-            }
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("my", response);
+                        if (response.equals(Login_OK)) {
+                            mProgressDialog.dismiss();
+                            //判断是否记住密码
+                            if (mRememberInfoCheckBox.isChecked()) {
+                                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                                editor.putString("username", username);
+                                editor.putString("password", password);
+                                editor.putBoolean("isRememberPassword", true);
+                                editor.apply();
+                            } else {
+                                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                                editor.putBoolean("isRememberPassword", false);
+                                editor.apply();
+                            }
+                            //登录成功跳转
+                            mApplication.setAccount(username);
+                            //saveUserInfo(username);
+                            startActivity(new Intent(mContext, MainActivity.class));
+                            mContext.finish();
+                        } else if (response.equals(Login_Error_UserName)) {
+                            mProgressDialog.dismiss();
+                            Toast.makeText(mContext, "该用户不存在", Toast.LENGTH_SHORT).show();
+                        } else if (response.equals(Login_Error_UserPassword)) {
+                            mProgressDialog.dismiss();
+                            Toast.makeText(mContext, "密码错误", Toast.LENGTH_SHORT).show();
+                        } else {
+                            mProgressDialog.dismiss();
+                            Toast.makeText(mContext, "登录失败，请稍后重试", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
-            @Override
-            public void onCancelled(CancelledException cex) {
-            }
+    private void saveUserInfo(String username) {
+        OkHttpUtils
+                .get()
+                .url(mPath)
+                .addParams("username", username)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
 
-            @Override
-            public void onFinished() {
-            }
-        });
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                });
     }
 
     private void thirdLogin(String platformName) {

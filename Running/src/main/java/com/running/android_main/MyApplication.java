@@ -3,11 +3,10 @@ package com.running.android_main;
 import android.app.Activity;
 import android.app.Application;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.running.event.RongCloudEvent;
 import com.running.message.AgreedFriendRequestMessage;
 import com.running.message.ContactNotificationMessageProvider;
-
-import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +17,20 @@ import io.rong.imkit.RongIM;
  * Created by ZhangHang on 2016/5/21.
  */
 public class MyApplication extends Application {
-    private String mCity = "苏州";
-    private String mAccount = "run_1212121";
+    private String mCity = "苏州";//城市
+    private String mAccount = "";
+    private int mWeight = 60;
 
     private List<Activity> mActivityList;
     public static String sourceUserId;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        x.Ext.init(this);
         mActivityList = new ArrayList<>();
-        /**
-         * 初始化融云
-         */
+        //百度地图
+        SDKInitializer.initialize(getApplicationContext());
+        //初始化融云
         RongIM.init(this);
         sourceUserId = "当前用户的账号(userId)";
         //注册融云的监听事件
@@ -47,6 +47,22 @@ public class MyApplication extends Application {
 
     public void setCity(String city) {
         mCity = city;
+    }
+
+    public String getAccount() {
+        return mAccount;
+    }
+
+    public void setAccount(String account) {
+        mAccount = account;
+    }
+
+    public int getWeight() {
+        return mWeight;
+    }
+
+    public void setWeight(int weight) {
+        mWeight = weight;
     }
 
     public void addActivity(Activity activity) {

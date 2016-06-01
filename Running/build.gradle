@@ -47,15 +47,16 @@ dependencies {
     //短信验证
     compile name: 'SMSSDK-2.0.2', ext: 'aar'
     compile name: 'SMSSDKGUI-2.0.2', ext: 'aar'
-    compile 'org.xutils:xutils:3.3.34'
     //上拉加载下拉刷新
     compile 'com.loopeer.android.thirdparty.pulltorefresh:Android-PullToRefresh:2.1.1'
-    //百度地图jar包
+    //百度地图
     compile files('libs/baidumapapi_base_v3_7_3.jar')
     compile files('libs/baidumapapi_map_v3_7_3.jar')
     compile files('libs/baidumapapi_util_v3_7_3.jar')
-    //百度地图定位jar包
+    //百度地图定位
     compile files('libs/BaiduLBS_Android.jar')
+    //百度鹰眼地图
+    compile files('libs/BaiduTraceSDK_v2_1_10.jar')
     //聊天
     compile project(':IMKit')
     //网络请求
@@ -73,10 +74,17 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-Core-2.7.2.jar')
     compile files('libs/ShareSDK-Wechat-Moments-2.7.2.jar')
     compile 'com.android.support:cardview-v7:23.2.1'
-    compile files('libs/BaiduTraceSDK_v2_1_10.jar')
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.android.support:recyclerview-v7:23.2.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'me.iwf.photopicker:PhotoPicker:0.8.1@aar'
+    compile 'com.github.frankiesardo:linearlistview:1.0.1@aar'
+
+    compile files('libs/pinyin4j-2.5.0.jar')
+
+    compile 'com.android.support:cardview-v7:23.4.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    //图表
+    compile files('libs/achartengine-1.0.0.jar')
 }
