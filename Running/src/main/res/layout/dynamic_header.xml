@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--动态头部-->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--背景图片-->
+    <ImageView
+        android:id="@+id/dynamic_header_background"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/dynamic_test"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+        <!--头像-->
+        <ImageView
+            android:id="@+id/dynamic_header_head_img"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/head_photo"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+            <!--昵称-->
+            <TextView
+                android:id="@+id/dynamic_header_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:text="桃子"
+                android:textColor="#df7878"
+                android:textSize="20sp"/>
+            <!--性别-->
+            <ImageView
+                android:id="@+id/personSex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/sex_women"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

@@ -13,7 +13,7 @@
         app:isMidTextShow="true"
         app:isRightImageShow="true"
         app:isRightTextShow="true"
-        app:leftImage="@mipmap/ic_launcher"
+        app:leftImage="@drawable/left"
         app:leftText="聊天"
         app:midText="|"
         app:rightImage="@drawable/plus2"

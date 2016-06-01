@@ -1,9 +1,7 @@
 package com.running.fragments;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,109 +9,185 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.running.adapters.ContactsSortAdapter;
-import com.running.android_main.NewFrinedActivity;
+import com.running.adapters.SortAdapter;
+import com.running.android_main.NewFriendListActivity;
 import com.running.android_main.R;
-import com.running.myviews.edittextwithdeel.EditTextWithDel;
+import com.running.beans.ApiResult;
 import com.running.myviews.sidebar.SideBar;
+import com.running.utils.pinyin.PinyinUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.rong.imkit.RongIM;
 import io.rong.message.ContactNotificationMessage;
 
 /**
  * Created by ZhangHang on 2016/5/5.
  */
 public class XiaoxiRightFragment extends Fragment {
-    private View mRightView;
-    private View header;
-    private ListView sortListView;
+    View mView;
+    View header;
+    ListView mListView;
+    private SortAdapter adapter;
     private SideBar sideBar;
     private TextView dialog;
-    private ContactsSortAdapter adapter;
-    private EditTextWithDel mEtSearchName;
+    private List<ApiResult> mResultList;
     //接受广播
     BroadcastReceiver mReceiver;
     ContactNotificationMessage contactContentMessage;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRightView = inflater.inflate(R.layout.xiaoxi_right, null);
-        header = LayoutInflater.from(getActivity()).inflate(R.layout.item_header,null);
-
-        receiver();
+        mView = inflater.inflate(R.layout.xiaoxi_right, null);
         initViews();
-        initDatas();
+        getData();
+        receiver();
         setOnClickListener();
 
-        sortListView.addHeaderView(header);
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add("春风十里"+i);
-        }
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1,list);
-        sortListView.setAdapter(adapter);
-        return mRightView;
-    }
-    private void initDatas() {
-        sideBar.setTextView(dialog);
+        return mView;
     }
     private void initViews() {
-        mEtSearchName = (EditTextWithDel) mRightView.findViewById(R.id.et_search);
-        sideBar = (SideBar) mRightView.findViewById(R.id.sidrbar);
-        dialog = (TextView) mRightView.findViewById(R.id.dialog);
-        sortListView = (ListView) mRightView.findViewById(R.id.lv_contact);
+        mListView = (ListView) mView.findViewById(R.id.lv_contact);
+        header = LayoutInflater.from(getActivity()).inflate(R.layout.item_header, null);
+        mListView.addHeaderView(header);
+        sideBar = (SideBar) mView.findViewById(R.id.sidrbar);
+        dialog = (TextView) mView.findViewById(R.id.dialog);
+        sideBar.setTextView(dialog);
+        mResultList = new ArrayList<ApiResult>();
+
+        adapter = new SortAdapter(getActivity(), mResultList);
+        mListView.setAdapter(adapter);
+
+
+    }
+    private void getData() {
+/*
+        OkHttpUtils
+                .get()
+                .url(Api.getGet_Friend())
+                .addParams("flag","FRIEND")
+                .addParams("sourceUserId",App.sourceUserId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+                    }
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            Log.e( "test123: ",jsonArray.toString());
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object =  jsonArray.getJSONObject(i);
+                                ApiResult apiResult = new ApiResult();
+                                apiResult.setId(object.getString("id"));
+                                apiResult.setUsername(object.getString("username"));
+                                //添加首字母
+                                mResultList.add(filledData(apiResult));
+                                //根据a-z进行排序源数据
+                                Collections.sort(mResultList, new PinyinComparator());
+
+                            }
+                            adapter.notifyDataSetChanged();
+                            Log.e( "test123: ","好友个数:"+mResultList.size() );
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                */
     }
 
+    private ApiResult filledData(ApiResult apiResult) {
+        //汉字转换成拼音
+        String pinyin = PinyinUtils.getPingYin(apiResult.getUsername());
+        String sortString = pinyin.substring(0, 1).toUpperCase();
+        // 正则表达式，判断首字母是否是英文字母
+        if(sortString.matches("[A-Z]")){
+            apiResult.setSortLetters(sortString.toUpperCase());
+        }else{
+            apiResult.setSortLetters("#");
+        }
+        return apiResult;
+    }
+    private void receiver() {
+       /* mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                contactContentMessage =
+                        (ContactNotificationMessage) intent.getExtras().get("rongCloud");
+                Log.e("test123: ", "接收到的请求:" + contactContentMessage.getOperation());
+                //小红点可见
+                header.findViewById(R.id.redPoint).setVisibility(View.VISIBLE);
+            }
+        };
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(App.ACTION_RECEIVE_MESSAGE);
+        getActivity().registerReceiver(mReceiver, intentFilter);
+        Log.e("test123: ", "注册接收广播成功");*/
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        /*getActivity().unregisterReceiver(mReceiver);
+        Log.e("test123: ", "注销接收广播成功");*/
+    }
 
     private void setOnClickListener() {
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //跳转到新的朋友
-                Intent intent = new Intent(getActivity(), NewFrinedActivity.class);
-                if (contactContentMessage != null){
-                    intent.putExtra("friend",contactContentMessage);
-                    intent.putExtra("has",true);
+                //跳转到好友添加
+
+                Intent intent = new Intent(getActivity(), NewFriendListActivity.class);
+                if (contactContentMessage != null) {
+                    intent.putExtra("friend", contactContentMessage);
+                    intent.putExtra("has", true);
+                    Log.e("test123:", contactContentMessage.getOperation());
                 }
-                intent.putExtra("has",false);
+                intent.putExtra("has", false);
+
                 startActivity(intent);
                 //消除小红点
                 header.findViewById(R.id.redPoint).setVisibility(View.INVISIBLE);
             }
         });
-    }
+        //设置右侧触摸监听
+        sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
 
-    private void receiver() {
-        mReceiver = new BroadcastReceiver() {
             @Override
-            public void onReceive(Context context, Intent intent) {
-
-                if (intent.getAction().equals("ContactNtf")){
-                    //接收到消息（三种任意）
-                    contactContentMessage =
-                            (ContactNotificationMessage) intent.getExtras().get("Friend");
-                    Log.e("test123: ","接收到的请求:"+contactContentMessage.getOperation() );
-                    //小红点可见
-                    header.findViewById(R.id.redPoint).setVisibility(View.VISIBLE);
-
+            public void onTouchingLetterChanged(String s) {
+                //该字母首次出现的位置
+                int position = adapter.getPositionForSection(s.charAt(0));
+                if(position != -1){
+                    mListView.setSelection(position);
                 }
+
             }
-        };
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("ContactNtf");
-        getActivity().registerReceiver(mReceiver,intentFilter);
-        Log.e( "test123: ", "注册广播成功");
+        });
+
+        //设置mListView点击事件
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(getActivity(), "position:"+position, Toast.LENGTH_SHORT).show();
+                Log.e( "test123: ",mResultList.get(position-1).getUsername() );
+                //启动会话界面
+                if (RongIM.getInstance() != null){
+                    RongIM.getInstance().startPrivateChat
+                            (getActivity(), mResultList.get(position-1).getId(), "这是标题");
+                }
+
+            }
+        });
     }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unregisterReceiver(mReceiver);
-        Log.e( "test123: ", "注销广播成功");
-    }
+
 }

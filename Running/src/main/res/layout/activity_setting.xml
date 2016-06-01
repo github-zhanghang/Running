@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.running.android_main.SettingActivity">
+
+    <com.running.myviews.TopBar
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topbar_height"
+        app:leftImage="@mipmap/ic_launcher"
+        app:leftText="设置">
+
+    </com.running.myviews.TopBar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightgray">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/lightgray"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/setting_setTittle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp"
+                android:text="设置"
+                android:textSize="28sp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="#ffffff">
+
+                <TextView
+                    android:id="@+id/push_message"
+                    style="@style/setting_textView"
+                    android:layout_width="wrap_content"
+                    android:text="推送消息"/>
+
+                <com.running.myviews.MyToggleButton
+                    android:id="@+id/setting_myToggleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/update_password"
+                style="@style/setting_textView"
+                android:text="修改密码"/>
+
+            <TextView
+                android:id="@+id/check_update"
+                style="@style/setting_textView"
+                android:text="检查更新"/>
+
+            <TextView
+                android:id="@+id/feed_back"
+                style="@style/setting_textView"
+                android:text="意见反馈"/>
+
+            <TextView
+                android:id="@+id/recommend_friend"
+                style="@style/setting_textView"
+                android:text="推荐给好友"/>
+
+            <TextView
+                android:id="@+id/about_us"
+                style="@style/setting_textView"
+                android:text="关于我们"/>
+
+            <Button
+                android:id="@+id/quit_account"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="#FF9900"
+                android:text="退出当前账号"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/current_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:gravity="center"
+                android:text="Running v1.0.0"
+                android:textColor="#d4d2d2"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+</LinearLayout>

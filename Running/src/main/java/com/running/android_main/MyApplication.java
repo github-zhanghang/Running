@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
-
-import org.xutils.x;
+import com.running.event.RongCloudEvent;
+import com.running.message.ContactNotificationMessageProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,9 @@ import io.rong.imkit.RongIM;
  * Created by ZhangHang on 2016/5/21.
  */
 public class MyApplication extends Application {
-    private String mCity = "苏州";
-    private String mAccount = "run_1212121";
+    private String mCity = "苏州";//城市
+    private String mAccount = "";
+    private int mWeight = 60;
 
     private List<Activity> mActivityList;
     public static String sourceUserId;
@@ -25,14 +26,16 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SDKInitializer.initialize(getApplicationContext());
-        x.Ext.init(this);
         mActivityList = new ArrayList<>();
-        /**
-         * 初始化融云
-         */
+        //百度地图
+        SDKInitializer.initialize(getApplicationContext());
+        //初始化融云
         RongIM.init(this);
         sourceUserId = "当前用户的账号(userId)";
+        //注册融云的监听事件
+        RongCloudEvent.init(this);
+        //注册定义的好友添加消息
+        RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
     }
 
     public String getCity() {
@@ -41,6 +44,22 @@ public class MyApplication extends Application {
 
     public void setCity(String city) {
         mCity = city;
+    }
+
+    public String getAccount() {
+        return mAccount;
+    }
+
+    public void setAccount(String account) {
+        mAccount = account;
+    }
+
+    public int getWeight() {
+        return mWeight;
+    }
+
+    public void setWeight(int weight) {
+        mWeight = weight;
     }
 
     public void addActivity(Activity activity) {
@@ -59,5 +78,4 @@ public class MyApplication extends Application {
             }
         }
     }
-
 }

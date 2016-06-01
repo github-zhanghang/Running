@@ -12,12 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
         app:isRightImageShow="true"
-        app:leftImage="@mipmap/ic_launcher"
+        app:leftImage="@drawable/back"
         app:leftText="勋章"
-        app:rightImage="@mipmap/ic_launcher"/>
+        app:rightImage="@drawable/share"/>
 
     <ScrollView
-        android:id="@+id/medal_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none">
@@ -39,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:background="@android:color/transparent"
                 android:horizontalSpacing="2dp"
                 android:numColumns="3"
                 android:scrollbars="none"
@@ -58,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:background="@android:color/transparent"
                 android:horizontalSpacing="2dp"
                 android:numColumns="3"
                 android:scrollbars="none"

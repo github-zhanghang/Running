@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.running.adapters.MyFragmentAdapter;
 import com.running.fragments.DongtaiFragment;
@@ -68,6 +67,7 @@ public class MainActivity extends AppCompatActivity
     private void initViews() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //navigationView = (NavigationView) findViewById(R.id.nav_view);
         mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         mUserImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
         mUserNickNameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_nickname);
@@ -142,12 +142,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, MedalActivity.class));
         } else if (id == R.id.nav_ranklist) {
             startActivity(new Intent(MainActivity.this, RankActivity.class));
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -160,7 +154,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, MyDetailsActivity.class));
                 break;
             case R.id.setting:
-                Toast.makeText(MainActivity.this, "设置", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this,SettingActivity.class));
                 break;
         }
     }
