@@ -1,8 +1,10 @@
 package com.running.android_main;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,13 +26,28 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
     private EditText mPhoneEditText, mPasswordEditText, mConfirmEditText, mCodeEditText;
     private Button mGetCodeButton, mRegisterButton;
     private TextView mLoginTextView;
-    private Drawable mLeftDrawable, mOKDrawable, mErrorDrawable;
 
     private String mPhoneNumber;
     private String mPassword, mConfirmPassword;
-
-    //手机号是否验证成功
-    private boolean isSuccess = true;
+    //倒计时
+    private int seconds = 60;
+    //倒计时的开关
+    private boolean isRunning = true;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 1) {
+                if (seconds == 0) {
+                    mHandler.removeMessages(1);
+                    mGetCodeButton.setText("再次获取");
+                    mGetCodeButton.setClickable(true);
+                    mGetCodeButton.setBackgroundColor(Color.parseColor("#99a0dc4d"));
+                } else {
+                    mGetCodeButton.setText(seconds + "秒后重新获取");
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +84,9 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
                     case SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE:
                         if (result == SMSSDK.RESULT_COMPLETE) {
                             Log.e("my", "验证成功");
-                            isSuccess = true;
+                            checkPassword();
                         } else {
                             Log.e("my", "验证失败");
-                            isSuccess = false;
                             Toast.makeText(Register1Activity.this, "手机号验证失败", Toast.LENGTH_SHORT).show();
                         }
                         break;
@@ -86,14 +102,29 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
         });
     }
 
+    private void checkPassword() {
+        //判断两次密码是否一致
+        mPassword = mPasswordEditText.getText().toString();
+        mConfirmPassword = mConfirmEditText.getText().toString();
+        if (mPassword.equals(mConfirmPassword)) {
+            Intent intent = new Intent(Register1Activity.this, Register2Activity.class);
+            intent.putExtra("password", mPassword);
+            intent.putExtra("telephone", mPhoneNumber);
+            startActivity(intent);
+        } else {
+            Toast.makeText(Register1Activity.this, "密码不一致", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.getCode:
                 mPhoneNumber = mPhoneEditText.getText().toString();
-                if (isMobileNO(mPhoneNumber)) {
+                if (!isMobileNO(mPhoneNumber)) {
                     Toast.makeText(Register1Activity.this, "手机号格式不正确", Toast.LENGTH_SHORT).show();
                 } else {
+                    changeButtonStyle();
                     //获取验证码
                     SMSSDK.getVerificationCode("86", mPhoneNumber, new OnSendMessageHandler() {
                         @Override
@@ -105,28 +136,40 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.goRegister:
                 //提交验证码
-                //SMSSDK.submitVerificationCode("86", mPhoneNumber, mCodeEditText.getText().toString());
-                //判断两次密码是否一致
-                mPassword = mPasswordEditText.getText().toString();
-                mConfirmPassword = mConfirmEditText.getText().toString();
-                if (mPassword.equals(mConfirmPassword)) {
-                    if (isSuccess) {
-                        Intent intent = new Intent(Register1Activity.this, Register2Activity.class);
-                        intent.putExtra("password", mPassword);
-                        intent.putExtra("telephone", mPhoneNumber);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(Register1Activity.this, "手机号验证失败", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(Register1Activity.this, "密码不一致", Toast.LENGTH_SHORT).show();
-                }
+                SMSSDK.submitVerificationCode("86", mPhoneNumber, mCodeEditText.getText().toString());
+                startActivity(new Intent(Register1Activity.this, Register2Activity.class));
                 break;
             case R.id.goLogin:
                 startActivity(new Intent(Register1Activity.this, LoginActivity.class));
                 Register1Activity.this.finish();
                 break;
         }
+    }
+
+    private void changeButtonStyle() {
+        seconds = 60;
+        mGetCodeButton.setClickable(false);
+        mGetCodeButton.setBackgroundColor(Color.GRAY);
+        //开启线程读秒
+        new Thread() {
+            @Override
+            public void run() {
+                while (isRunning) {
+                    if (seconds >= 0) {
+                        try {
+                            mHandler.sendEmptyMessage(1);
+                            Thread.sleep(1000);
+                            seconds--;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            isRunning = false;
+                        }
+                    } else {
+                        isRunning = false;
+                    }
+                }
+            }
+        }.start();
     }
 
     /**
@@ -144,5 +187,12 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
         String telRegex = "[1][358]\\d{9}";
         if (TextUtils.isEmpty(mobiles)) return false;
         else return mobiles.matches(telRegex);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isRunning = false;
+        mHandler = null;
     }
 }

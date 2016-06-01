@@ -64,6 +64,7 @@ dependencies {
     compile 'com.squareup.okio:okio:1.8.0'
     compile 'com.zhy:okhttputils:2.4.1'
     compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.yolanda.nohttp:nohttp:1.0.0'
     //第三方分享和登录
     compile files('libs/MobCommons-2016.0426.1819.jar')
     compile files('libs/MobTools-2016.0426.1819.jar')
