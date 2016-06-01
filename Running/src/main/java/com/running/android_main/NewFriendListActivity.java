@@ -90,6 +90,58 @@ public class NewFriendListActivity extends AppCompatActivity {
                         setOnItemButtonClick();
                     }
                 });
+    }
+     private void setOnItemButtonClick() {
+        adapter.setOnItemButtonClick(new NewFriendListAdapter.OnItemButtonClick() {
+            @Override
+            public boolean onButtonClick(int position, View view, int status) {
+                switch (status){
+                    case 1://好友
+
+                        break;
+                    case 2://请求添加
+
+                        break;
+                    case 3://请求被添加
+                        //发送消息给server
+                        sendMessage(mResultList.get(position).getId());
+                        mResultList.get(position).setStatus(1);
+                        adapter.notifyDataSetChanged();
+                        break;
+                    case 4://请求被拒绝
+
+                        break;
+                    case 5://我被对方删除
+
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
+    private void sendMessage(String id) {
+        OkHttpUtils
+                .get()
+                .url(Api.getADD_FRIEND())
+                .addParams("flag", ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)
+                .addParams("sourceUserId",App.sourceUserId)
+                .addParams("targetUserId",id)
+                .addParams("message","")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        if (response.equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)){
+                            Toast.makeText(NewFriendListActivity.this, "添加好友成功", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }*/
 
 

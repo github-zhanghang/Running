@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.running.event.RongCloudEvent;
+import com.running.message.AgreedFriendRequestMessage;
 import com.running.message.ContactNotificationMessageProvider;
 
 import org.xutils.x;
@@ -36,6 +37,8 @@ public class MyApplication extends Application {
         RongCloudEvent.init(this);
         //注册定义的好友添加消息
         RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
+
+        RongIM.registerMessageType(AgreedFriendRequestMessage.class);
     }
 
     public String getCity() {

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.running.android_main.SearchConditionsActivity">
+    <com.running.myviews.TopBar
+        android:id="@+id/xiaoxi_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImage="@mipmap/ic_launcher"
+        app:leftText="按条件查找好友"/>
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+        <ImageView
+            android:id="@+id/xingbie_img"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:padding="3dp"
+            android:src="@drawable/rc_default_portrait" />
+        <TextView
+            android:text="性别"
+            android:textSize="16sp"
+            android:textColor="#353535"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@+id/xingbie_img"
+            android:id="@+id/xingbie_tv"/>
+
+        <Spinner
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/xingbie_spinner"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+        <ImageView
+            android:id="@+id/nianling_img"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:padding="3dp"
+            android:src="@drawable/rc_default_portrait" />
+        <TextView
+            android:text="年龄"
+            android:textSize="16sp"
+            android:textColor="#353535"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@+id/nianling_img"
+            android:id="@+id/nianling_tv"/>
+
+        <Spinner
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/nianling_spinner"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+           />
+
+    </RelativeLayout>
+    <View
+        android:layout_marginRight="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#998181" />
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+        <ImageView
+            android:id="@+id/fujin"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:padding="3dp"
+            android:src="@drawable/rc_default_portrait" />
+        <TextView
+            android:text="所在地"
+            android:textSize="16sp"
+            android:textColor="#353535"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@+id/fujin"
+            android:id="@+id/textView"/>
+
+        <Spinner
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+
+            android:layout_alignTop="@+id/fujin"
+            android:layout_toLeftOf="@+id/spinner2"
+            android:layout_toStartOf="@+id/spinner2"/>
+
+        <Spinner
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+    <Button
+        android:onClick="searchUser"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查找"
+        android:id="@+id/button2"
+        />
+</LinearLayout>

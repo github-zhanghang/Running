@@ -5,15 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.running.android_main.NearbyActivity">
     <com.running.myviews.TopBar
+        android:id="@+id/xiaoxi_topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@mipmap/ic_launcher"
-        app:leftText="聊天中"/>
-    <fragment
-        android:id="@+id/conversation"
-        android:name="io.rong.imkit.fragment.ConversationFragment"
+        app:leftText="附近的人"/>
+    <ListView
+        android:id="@+id/nearby_lv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+    </ListView>
 </LinearLayout>

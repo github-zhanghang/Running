@@ -6,10 +6,10 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS"/>
-    <!--屏幕保持唤醒 不锁屏-->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!--允许应用程序更改主屏幕中的设置和快捷方式-->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 屏幕保持唤醒 不锁屏 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!-- 允许应用程序更改主屏幕中的设置和快捷方式 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <!-- 这个权限用于访问GPS定位 -->
@@ -29,13 +29,12 @@
     <!-- SD卡读取权限，用户写入离线定位数据 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <!--允许应用读取低级别的系统日志文件 -->
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <!--允许访问振动设备-->
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 允许应用读取低级别的系统日志文件 -->
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <!-- 允许访问振动设备 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
-
-    <!--融云权限 最后重复的删掉-->
+    <!-- 融云权限 最后重复的删掉 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -63,7 +62,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -76,6 +74,7 @@
             android:value="VF1H63XXDlPXE8Dm0pj7QhGv"/>
 
         <activity
+            android:windowSoftInputMode="stateUnspecified|adjustPan"
             android:name=".MainActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -107,8 +106,7 @@
             android:exported="true">
         </service>
 
-
-        <!-- 融云-->
+        <!-- 融云 -->
         <!-- 会话页面 -->
         <activity android:name=".ConversationActivity">
             <intent-filter>
@@ -176,9 +174,6 @@
             android:name="RONG_CLOUD_APP_KEY"
             android:value="pwe86ga5eb2r6"/>
 
-
-
-
         <activity
             android:name=".RunTargetActivity"
             android:screenOrientation="portrait">
@@ -229,15 +224,21 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity android:name=".MedalActivity">
         </activity>
-        <!--发布动态界面-->
+        <!-- 发布动态界面 -->
         <activity android:name=".PublishDynamicActivity">
         </activity>
-        <!--发布动态有关-->
-        <activity android:name="me.iwf.photopicker.PhotoPickerActivity"
-                  android:theme="@style/myTheme">
+        <!-- 发布动态有关 -->
+        <activity
+            android:name="me.iwf.photopicker.PhotoPickerActivity"
+            android:theme="@style/myTheme">
         </activity>
-        <activity android:name="me.iwf.photopicker.PhotoPagerActivity"
-                  android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity
+            android:name="me.iwf.photopicker.PhotoPagerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+        </activity>
+        <activity android:name=".NearbyActivity">
+        </activity>
+        <activity android:name=".SearchConditionsActivity">
         </activity>
     </application>
 
