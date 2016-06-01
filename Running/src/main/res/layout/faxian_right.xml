@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#552211ff"
-              android:gravity="center"
-              android:orientation="vertical">
-
-    <TextView
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swiperefresh_goods"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <com.running.myviews.NoScrollView
+        android:id="@+id/goods_noscroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="推荐装备"
-        android:textSize="30sp"/>
+        android:scrollbars="none">
 
-</LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/banner_goods"
+                android:id="@+id/banner_goods_layout"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rcy_goods"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical">
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+    </com.running.myviews.NoScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

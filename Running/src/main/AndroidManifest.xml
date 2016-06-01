@@ -251,6 +251,16 @@
         </activity>
         <activity android:name=".DynamicCommentActivity">
         </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".MedalActivity"></activity>
+
+        <activity android:name=".HistoryActivity"></activity>
+        <activity android:name=".HistoryDetailActivity"></activity>
+        <activity android:name=".TrendActivity"></activity>
+        <activity android:name=".BestActivity"></activity>
+        <activity android:name="org.achartengine.GraphicalActivity" />
+        <activity android:name=".RaceActivity"></activity>
+        <activity android:name=".GoodsActivity"></activity>
     </application>
 
 </manifest>

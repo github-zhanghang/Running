@@ -4,7 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+    <com.running.myviews.TopBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImage="@mipmap/ic_launcher"
+        app:leftText="聊天中"/>
     <fragment
         android:id="@+id/conversation"
         android:name="io.rong.imkit.fragment.ConversationFragment"

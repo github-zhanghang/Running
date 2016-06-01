@@ -14,4 +14,5 @@
     <drawable name="textUp">#333333</drawable>
     <drawable name="textDown">#00D0CB</drawable>
     <color name="text">#484848</color>
+    <color name="colorOrange">#fc6406</color>
 </resources>
