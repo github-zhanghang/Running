@@ -4,54 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.running.android_main.DynamicCommentActivity">
     <!--标题布局-->
-    <RelativeLayout
-        android:id="@+id/dynamic_comment_tittleLayout"
+    <com.running.myviews.TopBar
+        android:id="@+id/dynamic_comment_topBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFAF36">
-
-        <ImageView
-            android:id="@+id/dynamic_comment_backImg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher"/>
-
-        <TextView
-            android:id="@+id/dynamic_comment_backText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/dynamic_comment_backImg"
-            android:text="返回"
-            android:textSize="25sp"/>
-
-        <TextView
-            android:id="@+id/dynamic_comment_Tittle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="详情"
-            android:textSize="30sp"/>
-        <!--分享功能看情况完成-->
-        <ImageView
-            android:id="@+id/dynamic_comment_shareImg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ic_launcher"/>
-
-    </RelativeLayout>
+        android:layout_height="@dimen/topbar_height"
+        app:leftImage="@mipmap/ic_launcher"
+        app:leftText="详情"
+        app:rightImage="@mipmap/ic_launcher">
+    </com.running.myviews.TopBar>
 
     <!--中间内容部分-->
     <ListView
         android:id="@+id/dynamic_comment_listView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dynamic_comment_tittleLayout">
+        android:layout_below="@id/dynamic_comment_topBar">
     </ListView>
 
     <!--底部发表评论部分-->

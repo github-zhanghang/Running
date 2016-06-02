@@ -4,33 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".PublishDynamicActivity">
 
-    <RelativeLayout
-        android:id="@+id/dynamic_publish_top_Layout"
+    <com.running.myviews.TopBar
+        android:id="@+id/dynamic_publish_topBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#d1892a">
-
-        <ImageView
-            android:id="@+id/dynamic_publish_back_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:src="@mipmap/ic_launcher"/>
-
-        <TextView
-            android:id="@+id/dynamic_publish_tittle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="发布动态"
-            android:textSize="30sp"/>
-
-
-    </RelativeLayout>
+        android:layout_height="@dimen/topbar_height"
+        app:leftImage="@mipmap/ic_launcher"
+        app:leftText="发布动态">
+    </com.running.myviews.TopBar>
 
     <ScrollView
         android:layout_width="match_parent"
