@@ -4,7 +4,7 @@ package com.running.beans;
  * Created by ZhangHang on 2016/6/1.
  */
 public class UserInfo {
-    private int mCode;// 状态码
+    private String mCode;// 状态码
     private String mAccount;
     private String mTelephone;
     private String mNickName;
@@ -19,7 +19,7 @@ public class UserInfo {
     private double mLongitude;
     private String mRongToken;
 
-    public UserInfo(int mCode, String mAccount, String mTelephone, String mNickName,
+    public UserInfo(String mCode, String mAccount, String mTelephone, String mNickName,
                     String mImageUrl, String mSingnature, int mAge, String mSex,
                     int mHeight, int mWeight, String mAddress, double mLatitude,
                     double mLongitude, String mRongToken) {
@@ -40,6 +40,13 @@ public class UserInfo {
         this.mRongToken = mRongToken;
     }
 
+    public String getCode() {
+        return mCode;
+    }
+
+    public void setCode(String code) {
+        mCode = code;
+    }
 
     public String getAccount() {
         return mAccount;

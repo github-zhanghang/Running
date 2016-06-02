@@ -52,7 +52,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 public class RunMapActivity extends Activity implements View.OnClickListener {
     private MyApplication mApplication;
     private int gatherInterval = 3;  //位置采集周期 (s)
-    private int packInterval = 10;  //打包周期 (s)
+    private int packInterval = 5;  //打包周期 (s)
     private String entityName = null;  // entity标识
     private long serviceId = 117790;// 鹰眼服务ID
     private int traceType = 2;  //轨迹服务类型
@@ -109,7 +109,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_runmap);
         mApplication = (MyApplication) getApplication();
         mWeight = 60;//mApplication.getUserInfo().getWeight();
-        Log.e("my", "userinfo:" + mApplication.getUserInfo().toString());
+        //Log.e("my", "userinfo:" + mApplication.getUserInfo().toString());
         init();
         initOnEntityListener();
         mTraceClient.setOnEntityListener(mEntityListener);

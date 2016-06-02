@@ -18,6 +18,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.running.beans.UserInfo;
 import com.running.myviews.MyInfoItemView;
 import com.running.myviews.TopBar;
 import com.running.myviews.TopBar.OnTopbarClickListener;
@@ -47,15 +49,36 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     private RadioGroup mRadioGroup;
     private RadioButton mMaleRadioButton, mFemaleRadioButton;
 
+    //用户信息
+    private UserInfo mUserInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mydetails);
         mApplication = (MyApplication) getApplication();
-        mApplication.addActivity(this);
+        mUserInfo = mApplication.getUserInfo();
         initViews();
+        initData();
         mDialogBuilder = new AlertDialog.Builder(this);
         initListeners();
+    }
+
+    private void initData() {
+        //加载头像
+        Glide.with(MyDetailsActivity.this)
+                .load(mUserInfo.getImageUrl())
+                .error(R.drawable.fail)
+                .placeholder(R.mipmap.ic_launcher)
+                .centerCrop()
+                .into(mUserImage);
+        mUserAccount.setText(mUserInfo.getAccount());
+        mNickItem.setDataText(mUserInfo.getNickName());
+        mHeightItem.setDataText("" + mUserInfo.getHeight());
+        mWeightItem.setDataText("" + mUserInfo.getWeight());
+        mSexItem.setDataText(mUserInfo.getNickName());
+        mAddressItem.setDataText(mUserInfo.getAddress());
+        mSignatureItem.setDataText(mUserInfo.getSingnature());
     }
 
     private void initViews() {
@@ -73,7 +96,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         mAddressItem = (MyInfoItemView) findViewById(R.id.address_item);
         mSignatureItem = (MyInfoItemView) findViewById(R.id.signature_item);
         mSaveInfoButton = (Button) findViewById(R.id.saveinfo);
-
     }
 
     private void initListeners() {
@@ -87,12 +109,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         mAddressItem.setOnClickListener(this);
         mSignatureItem.setOnClickListener(this);
         mSaveInfoButton.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mApplication.removeActivity(this);
     }
 
     @Override

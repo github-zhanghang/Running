@@ -9,38 +9,38 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:layout_marginBottom="30dp">
+        android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/login_name"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:hint="请输入手机号"
-                android:drawableLeft="@drawable/iphone"
-                android:textColorHint = "#ef5e5e5e"
-                android:background="#b3ffffff"
-                android:padding="6dp"
-                android:drawablePadding="6dp"
-                android:layout_marginBottom="20dp"
-                android:textSize="16sp"
-                />
-            <EditText
-                android:id="@+id/login_password"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:hint="请输入密码"
-                android:drawableLeft="@drawable/lock"
-                android:textColorHint = "#ef5e5e5e"
-                android:background="#b3ffffff"
-                android:padding="6dp"
-                android:drawablePadding="6dp"
-                android:layout_marginBottom="20dp"
-                android:textSize="16sp"
-                />
+        <EditText
+            android:id="@+id/login_name"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="20dp"
+            android:background="#b3ffffff"
+            android:drawableLeft="@drawable/iphone"
+            android:drawablePadding="6dp"
+            android:hint="请输入手机号"
+            android:padding="6dp"
+            android:textColorHint="#ef5e5e5e"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/login_password"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="20dp"
+            android:background="#b3ffffff"
+            android:drawableLeft="@drawable/lock"
+            android:drawablePadding="6dp"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:padding="6dp"
+            android:textColorHint="#ef5e5e5e"
+            android:textSize="16sp"/>
 
 
         <RelativeLayout
@@ -70,17 +70,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:orientation="horizontal"
-            android:layout_marginBottom="50dp">
+            android:layout_marginBottom="50dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/login"
                 style="@style/login_Button"
-                android:layout_weight="1"
                 android:layout_centerInParent="true"
+                android:layout_weight="1"
                 android:background="#b3f96c08"
-                android:textColor="#ffffff"
-                android:text="登录"/>
+                android:text="登录"
+                android:textColor="#ffffff"/>
 
             <Button
                 android:id="@+id/regist"
@@ -88,26 +88,29 @@
                 android:layout_marginLeft="30dp"
                 android:layout_weight="1"
                 android:background="#b399c931"
-                android:textColor="#ffffff"
-                android:text="注册"/>
+                android:text="注册"
+                android:textColor="#ffffff"/>
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
+
             <View
                 android:layout_width="150dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="5dp"
                 android:background="#58ffffff"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="  or  "
-                android:textSize="20sp"
-                android:textColor="@color/orange"/>
+                android:textColor="@color/orange"
+                android:textSize="20sp"/>
+
             <View
                 android:layout_width="150dp"
                 android:layout_height="1dp"
@@ -121,15 +124,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
             <com.running.myviews.ImageTextView
                 android:id="@+id/login_QQ"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:image="@drawable/ssdk_oks_classic_qq"
+                app:image="@drawable/about_qq"
                 app:text="QQ"
                 app:textColor="@color/orange"/>
 
@@ -140,7 +143,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_weight="1"
-                app:image="@drawable/ssdk_oks_classic_wechat"
+                app:image="@drawable/about_wx"
                 app:text="微信"
                 app:textColor="@color/orange"/>
 
@@ -149,7 +152,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:image="@drawable/ssdk_oks_classic_sinaweibo"
+                app:image="@drawable/about_sina"
                 app:text="微博"
                 app:textColor="@color/orange"/>
         </LinearLayout>
