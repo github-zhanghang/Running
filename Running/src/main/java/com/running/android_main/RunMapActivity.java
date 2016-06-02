@@ -108,7 +108,8 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_runmap);
         mApplication = (MyApplication) getApplication();
-        mApplication.getWeight();
+        mWeight = 60;//mApplication.getUserInfo().getWeight();
+        Log.e("my", "userinfo:" + mApplication.getUserInfo().toString());
         init();
         initOnEntityListener();
         mTraceClient.setOnEntityListener(mEntityListener);
