@@ -39,6 +39,7 @@
                     android:id="@+id/details_uimg"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:layout_margin="5dp"
                     android:scaleType="fitXY"
                     android:src="@mipmap/ic_launcher"/>
 
@@ -80,7 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                app:dataText="美女"
+                app:dataText="女"
                 app:labelText="性别:"/>
 
             <com.running.myviews.MyInfoItemView
@@ -90,7 +91,6 @@
                 android:layout_marginTop="2dp"
                 app:dataText="1994-01-30"
                 app:labelText="生日:"/>
-            0
 
             <com.running.myviews.MyInfoItemView
                 android:id="@+id/address_item"

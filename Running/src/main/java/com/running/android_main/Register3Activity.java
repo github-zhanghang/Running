@@ -50,7 +50,8 @@ public class Register3Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register3);
-        mApplication = new MyApplication();
+        mApplication = (MyApplication) getApplication();
+        mApplication.addActivity(this);
         Intent intent = getIntent();
         mPassword = intent.getStringExtra("password");
         mTelephone = intent.getStringExtra("telephone");
@@ -150,7 +151,7 @@ public class Register3Activity extends AppCompatActivity {
                 mApplication.setUserInfo(userInfo);
                 //跳转
                 startActivity(new Intent(Register3Activity.this, MainActivity.class));
-                Register3Activity.this.finish();
+                mApplication.finish();
             }
         }
 

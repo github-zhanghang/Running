@@ -1,11 +1,13 @@
 package com.running.android_main;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -19,17 +21,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.running.beans.UserInfo;
 import com.running.myviews.MyInfoItemView;
 import com.running.myviews.TopBar;
 import com.running.myviews.TopBar.OnTopbarClickListener;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.OnResponseListener;
+import com.yolanda.nohttp.Request;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.RequestQueue;
+import com.yolanda.nohttp.Response;
 
 import java.util.Calendar;
 
 public class MyDetailsActivity extends AppCompatActivity implements View.OnClickListener, OnTopbarClickListener {
     private MyApplication mApplication;
-    private TopBar mTopBar;
+    private static final String mPath = "http://192.168.191.1:8080/Running/changeUserInfoServlet";
+    private static final int WHAT = 1;
 
+    private TopBar mTopBar;
     private View mDetailsHeadView;
     private ImageView mUserImage;
     private TextView mUserAccount;
@@ -49,8 +60,12 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     private RadioGroup mRadioGroup;
     private RadioButton mMaleRadioButton, mFemaleRadioButton;
 
+    //等待框
+    private ProgressDialog mProgressDialog;
+
     //用户信息
     private UserInfo mUserInfo;
+    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +89,12 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 .into(mUserImage);
         mUserAccount.setText(mUserInfo.getAccount());
         mNickItem.setDataText(mUserInfo.getNickName());
-        mHeightItem.setDataText("" + mUserInfo.getHeight());
-        mWeightItem.setDataText("" + mUserInfo.getWeight());
-        mSexItem.setDataText(mUserInfo.getNickName());
+        mHeightItem.setDataText(mUserInfo.getHeight() + "cm");
+        mWeightItem.setDataText(mUserInfo.getWeight() + "kg");
+        mSexItem.setDataText(mUserInfo.getSex());
+        mBirthdayItem.setDataText(mUserInfo.getBirthday());
         mAddressItem.setDataText(mUserInfo.getAddress());
-        mSignatureItem.setDataText(mUserInfo.getSingnature());
+        mSignatureItem.setDataText(mUserInfo.getSignature());
     }
 
     private void initViews() {
@@ -115,8 +131,31 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.saveinfo:
-                //保存用户修改后的信息,提交到服务器
-                Toast.makeText(MyDetailsActivity.this, "saveinfo", Toast.LENGTH_SHORT).show();
+                //保存用户修改后的信息
+                String u_nickName = mNickItem.getDataText();
+                String u_height = mHeightItem.getDataText();
+                String u_weight = mWeightItem.getDataText();
+                String u_sex = mSexItem.getDataText();
+                String u_birthday = mBirthdayItem.getDataText();
+                String u_address = mAddressItem.getDataText();
+                String u_signature = mSignatureItem.getDataText();
+                Log.e("my", "u_nickName=" + mUserInfo.getNickName() + ";u_height=" +
+                        mUserInfo.getHeight() + "cm" + ";u_weight=" + mUserInfo.getWeight() + "kg"
+                        + ";u_sex=" + mUserInfo.getSex() +
+                        ";u_birthday=" + mUserInfo.getBirthday() + ";u_address=" + mUserInfo.getAddress() +
+                        ";u_signature=" + mUserInfo.getSignature());
+                //如果信息未改变，则不提交服务器
+                if (u_nickName.equals(mUserInfo.getNickName()) &&
+                        u_height.equals(mUserInfo.getHeight() + "cm") &&
+                        u_weight.equals(mUserInfo.getWeight() + "kg") &&
+                        u_sex.equals(mUserInfo.getSex()) &&
+                        u_birthday.equals(mUserInfo.getBirthday()) &&
+                        u_address.equals(mUserInfo.getAddress()) &&
+                        u_signature.equals(mUserInfo.getSignature())) {
+                    Toast.makeText(MyDetailsActivity.this, "个人信息未发生变化", Toast.LENGTH_SHORT).show();
+                } else {
+                    saveUserInfo(u_nickName, u_height, u_weight, u_sex, u_birthday, u_address, u_signature);
+                }
                 break;
             case R.id.details_head:
                 Toast.makeText(MyDetailsActivity.this, "修改头像", Toast.LENGTH_SHORT).show();
@@ -158,9 +197,9 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 mRadioGroup.setOrientation(LinearLayout.VERTICAL);
                 mRadioGroup.setGravity(Gravity.CENTER);
                 mMaleRadioButton = new RadioButton(this);
-                mMaleRadioButton.setText("帅哥");
+                mMaleRadioButton.setText("男");
                 mFemaleRadioButton = new RadioButton(this);
-                mFemaleRadioButton.setText("美女");
+                mFemaleRadioButton.setText("女");
                 mRadioGroup.addView(mMaleRadioButton);
                 mRadioGroup.addView(mFemaleRadioButton);
                 mMaleRadioButton.setChecked(true);
@@ -198,6 +237,55 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    private void saveUserInfo(String u_nickName, String u_height, String u_weight, String u_sex,
+                              String u_birthday, String u_address, String u_signature) {
+        mProgressDialog = ProgressDialog.show(this, "请等待...", "正在提交信息...");
+        requestQueue = NoHttp.newRequestQueue(1);
+        Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
+        request.add("account", mUserInfo.getAccount());
+        request.add("nickname", u_nickName);
+        request.add("height", u_height.substring(0, u_height.length() - 2));
+        request.add("weight", u_weight.substring(0, u_weight.length() - 2));
+        request.add("sex", u_sex);
+        request.add("birthday", u_birthday);
+        request.add("address", u_address);
+        request.add("signature", u_signature);
+        requestQueue.add(WHAT, request, onResponseListener);
+        requestQueue.start();
+    }
+
+    private OnResponseListener onResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            mProgressDialog.dismiss();
+            if (what == WHAT) {
+                String result = response.get();
+                UserInfo userinfo = new Gson().fromJson(result, UserInfo.class);
+                if (userinfo.getCode().equals("1")) {
+                    Toast.makeText(MyDetailsActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                    Log.e("my", userinfo.toString());
+                    mApplication.setUserInfo(userinfo);
+                } else {
+                    Toast.makeText(MyDetailsActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+            mProgressDialog.dismiss();
+            Toast.makeText(MyDetailsActivity.this, "error", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onFinish(int what) {
+        }
+    };
+
     private void initEditText(String text) {
         //文本显示的位置在EditText的最上方
         mEditText.setGravity(Gravity.TOP);
@@ -206,8 +294,10 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         //水平滚动设置为False
         mEditText.setHorizontallyScrolling(false);
         mEditText.setTextSize(20);
-        //光标在文字末尾
-        mEditText.setSelection(text.length());
+        if (text != null && !text.equals("")) {
+            //光标在文字末尾
+            mEditText.setSelection(text.length());
+        }
         mEditText.setBackgroundResource(R.drawable.editbox_background_focus_yellow);
         mDialogBuilder.setView(mEditText);
         showAlertDialog();

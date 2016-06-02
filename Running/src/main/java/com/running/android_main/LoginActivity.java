@@ -126,9 +126,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         editor.putBoolean("isRememberPassword", false);
                         editor.apply();
                     }
-                    UserInfo userinfo = new UserInfo("0", mAccount, "15106200759", mAccount,
+                    UserInfo userinfo = new UserInfo("0", 3333, mAccount, "15106200759", mAccount,
                             "\"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1564533037,3918553373&fm=116&gp=0.jpg\"",
-                            "", 20, "男", 170, 66,
+                            "", "", 20, "男", 170, 66,
                             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                             0.0, 0.0, "zzzz");
                     mApplication.setUserInfo(userinfo);
@@ -169,6 +169,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 UserInfo userInfo = new Gson().fromJson(result, UserInfo.class);
                 if (userInfo.getCode().equals(Login_OK)) {
                     mApplication.setUserInfo(userInfo);
+                    Log.e("my", userInfo.toString());
                     //判断是否记住密码
                     if (mRememberInfoCheckBox.isChecked()) {
                         SharedPreferences.Editor editor = mSharedPreferences.edit();
