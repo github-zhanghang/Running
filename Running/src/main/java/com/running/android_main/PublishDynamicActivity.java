@@ -16,11 +16,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.running.adapters.DynamicPublishGridViewAdapter;
 import com.running.myviews.MyGridView;
+import com.running.myviews.TopBar;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,12 +45,8 @@ public class PublishDynamicActivity extends AppCompatActivity {
     private Uri mUri;
     private String path;
 
-    @Bind(R.id.dynamic_publish_back_img)
-    ImageView mDynamicPublishBackImg;
-    @Bind(R.id.dynamic_publish_tittle)
-    TextView mDynamicPublishTittle;
-    @Bind(R.id.dynamic_publish_top_Layout)
-    RelativeLayout mDynamicPublishTopLayout;
+    @Bind(R.id.dynamic_publish_topBar)
+    TopBar mDynamicPublishTopBar;
     @Bind(R.id.dynamic_publish_content)
     EditText mDynamicPublishContent;
     @Bind(R.id.dynamic_publish_gridView)
@@ -84,6 +80,21 @@ public class PublishDynamicActivity extends AppCompatActivity {
                     intent.putExtra(PhotoPagerActivity.EXTRA_SHOW_DELETE, true);
                     startActivityForResult(intent, CHOOSE_PHOTO);
                 }
+            }
+        });
+        addListener();
+    }
+
+    private void addListener() {
+        mDynamicPublishTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+
             }
         });
     }
@@ -138,7 +149,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                path=outputImage.getPath();
+                path = outputImage.getPath();
                 mUri = Uri.fromFile(outputImage);
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, mUri);
@@ -173,14 +184,14 @@ public class PublishDynamicActivity extends AppCompatActivity {
                 }
                 break;
             case CHOOSE_PHOTO:
-                List<String> photos=null;
-                if (resultCode==RESULT_OK) {
+                List<String> photos = null;
+                if (resultCode == RESULT_OK) {
                     if (data != null) {
-                        photos=data.getStringArrayListExtra(PhotoPickerActivity
+                        photos = data.getStringArrayListExtra(PhotoPickerActivity
                                 .KEY_SELECTED_PHOTOS);
                     }
                     selectPhotos.clear();
-                    if (photos!=null) {
+                    if (photos != null) {
                         selectPhotos.addAll(photos);
                     }
                     mList.clear();
