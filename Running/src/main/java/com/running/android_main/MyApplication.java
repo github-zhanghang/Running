@@ -18,8 +18,6 @@ import io.rong.imkit.RongIM;
  * Created by ZhangHang on 2016/5/21.
  */
 public class MyApplication extends Application {
-    private String mCity = "苏州";//城市
-    public String mAccount = "";
     public UserInfo mUserInfo;
 
     private List<Activity> mActivityList;
@@ -40,22 +38,6 @@ public class MyApplication extends Application {
         RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
         //NoHttp
         NoHttp.init(this);
-    }
-
-    public String getCity() {
-        return mCity;
-    }
-
-    public void setCity(String city) {
-        mCity = city;
-    }
-
-    public String getAccount() {
-        return mAccount;
-    }
-
-    public void setAccount(String account) {
-        mAccount = account;
     }
 
     public UserInfo getUserInfo() {

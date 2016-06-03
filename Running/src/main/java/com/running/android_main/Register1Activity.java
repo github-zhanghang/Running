@@ -19,6 +19,7 @@ import cn.smssdk.OnSendMessageHandler;
 import cn.smssdk.SMSSDK;
 
 public class Register1Activity extends AppCompatActivity implements View.OnClickListener {
+    private MyApplication mApplication;
     //短信验证
     private final static String APP_KEY = "12a1127a423ef";
     private final static String APP_SECRET = "4d8275b912a9aceb7f39fdbf91b92da4";
@@ -53,6 +54,8 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register1);
+        mApplication = (MyApplication) getApplication();
+        mApplication.addActivity(this);
         initView();
         initListener();
         initMobileSDK();

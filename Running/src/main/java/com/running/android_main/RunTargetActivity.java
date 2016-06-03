@@ -33,8 +33,7 @@ public class RunTargetActivity extends AppCompatActivity {
     private ArrayAdapter<String> mAdapter;
 
     private List<String> mDistanceList, mTimeList, mCalorieList;
-    //时间转为分钟
-    private int timeMinute;
+
     private int mSelectedItem;
 
     @Override

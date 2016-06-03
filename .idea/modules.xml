@@ -3,8 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IMKit/IMKit.iml" filepath="$PROJECT_DIR$/IMKit/IMKit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Running/Running.iml" filepath="$PROJECT_DIR$/Running/Running.iml" />
       <module fileurl="file://$PROJECT_DIR$/Running.iml" filepath="$PROJECT_DIR$/Running.iml" />
       <module fileurl="file://$PROJECT_DIR$/Running/Running-Running.iml" filepath="$PROJECT_DIR$/Running/Running-Running.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Running3.iml" filepath="$PROJECT_DIR$/Running3.iml" />
     </modules>
   </component>
 </project>
