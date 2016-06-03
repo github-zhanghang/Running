@@ -128,9 +128,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                     UserInfo userinfo = new UserInfo("0", 3333, mAccount, "15106200759", mAccount,
                             "\"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1564533037,3918553373&fm=116&gp=0.jpg\"",
-                            "", "", 20, "男", 170, 66,
-                            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                            0.0, 0.0, "zzzz");
+                            "个性签名---------------------", "1994-01-30", 20, "男", 170, 66,
+                            "湖北孝感",
+                            0.0, 0.0, "zzzzzzzzzzzzz");
                     mApplication.setUserInfo(userinfo);
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     LoginActivity.this.finish();

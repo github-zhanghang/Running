@@ -370,6 +370,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         mProgressDialog = ProgressDialog.show(this, "请等待...", "正在提交信息...");
         requestQueue = NoHttp.newRequestQueue(1);
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
+        request.add("type", "userinfo");
         request.add("account", mUserInfo.getAccount());
         request.add("nickname", u_nickName);
         request.add("height", u_height.substring(0, u_height.length() - 2));

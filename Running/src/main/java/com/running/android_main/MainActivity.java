@@ -14,25 +14,39 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.bumptech.glide.Glide;
 import com.running.adapters.MyFragmentAdapter;
+import com.running.beans.UserInfo;
 import com.running.fragments.DongtaiFragment;
 import com.running.fragments.FaxianFragment;
 import com.running.fragments.PaobuFragment;
 import com.running.fragments.XiaoxiFragment;
 import com.running.myviews.CircleImageView;
 import com.running.myviews.NoScrollViewPager;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.OnResponseListener;
+import com.yolanda.nohttp.Request;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.RequestQueue;
+import com.yolanda.nohttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+    public static final String juheKey = "614e1a0a60edc2c5f8e91dd885df7eeb";
     private MyApplication mApplication;
+    private UserInfo mUserInfo;
     //定位
     private LocationClient mLocationClient;
     private BDLocationListener mBDLocationListener;
@@ -49,22 +63,24 @@ public class MainActivity extends AppCompatActivity
     private XiaoxiFragment mXiaoxiFragment;
     private RadioGroup mRadioGroup;
 
-    private String mUserName, mNickName, mCityName;
     private CircleImageView mUserImage;
     private TextView mUserNickNameText;
     //设置、温度、城市
     private TextView mSettingTextView, mTempTextView, mCityTextView;
+    //请求队列
+    private RequestQueue mRequestQueue = NoHttp.newRequestQueue(2);
+    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.slide_main);
         mApplication = (MyApplication) getApplication();
+        mUserInfo = mApplication.getUserInfo();
         mApplication.addActivity(this);
+        initViews();
         //定位
         startLocating();
-        initViews();
-        initTemperature();
         initFragments();
         initViewPager();
         initListener();
@@ -84,27 +100,88 @@ public class MainActivity extends AppCompatActivity
                 double longitude = bdLocation.getLongitude();
                 String city = bdLocation.getCity();
                 Log.e("my", "latitude=" + latitude + ";longitude=" + longitude + ";city=" + city);
-                mApplication.setCity(city);
-                mCityTextView.setText(mCityName);
-                mApplication.getUserInfo().setLatitude(latitude);
-                mApplication.getUserInfo().setLongitude(longitude);
+                mCityTextView.setText(city);
+                //获取温度
+                getTemperature(city);
+                mUserInfo.setLatitude(latitude);
+                mUserInfo.setLongitude(longitude);
+                //更新数据库位置信息
+                updateUserLocation(latitude, longitude);
             }
         };
         mLocationClient.registerLocationListener(mBDLocationListener);
         mLocationClient.start();
     }
 
-    //获取温度
-    private void initTemperature() {
+    private OnResponseListener onResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            if (what == 2) {
+                String result = response.get();
+                //Log.e("my", "result=" + result);
+                try {
+                    JSONObject resultObject = new JSONObject(result);
+                    String resultcode = resultObject.getString("resultcode");
+                    if (resultcode.equals("200")) {
+                        JSONObject weatherObject = resultObject.getJSONObject("result");
+                        JSONObject skObject = weatherObject.getJSONObject("sk");
+                        String temp = skObject.getString("temp");
+                        mTempTextView.setText(temp + "℃");
+                    } else {
+                        Toast.makeText(MainActivity.this, "获取气温失败", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+            Toast.makeText(MainActivity.this, "获取气温失败", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onFinish(int what) {
+        }
+    };
+
+    private void updateUserLocation(double latitude, double longitude) {
+        String url = "http://192.168.191.1:8080/Running/changeUserInfoServlet";
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
+        request.add("type", "location");
+        request.add("account", mUserInfo.getAccount());
+        request.add("latitude", "" + latitude);
+        request.add("longitude", "" + longitude);
+        mRequestQueue.add(1, request, onResponseListener);
+        mRequestQueue.start();
+    }
+
+    private void getTemperature(String city) {
+        String url = "http://v.juhe.cn/weather/index";
+        Request<String> request = NoHttp.createStringRequest(url, RequestMethod.GET);
+        request.add("cityname", city);
+        request.add("key", juheKey);
+        mRequestQueue.add(2, request, onResponseListener);
+        mRequestQueue.start();
     }
 
     private void initViews() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        //navigationView = (NavigationView) findViewById(R.id.nav_view);
         mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         mUserImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
+        Glide.with(MainActivity.this)
+                .load(mUserInfo.getImageUrl())
+                .centerCrop()
+                .placeholder(R.drawable.fail)
+                .into(mUserImage);
         mUserNickNameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_nickname);
+        mUserNickNameText.setText(mUserInfo.getNickName());
         mSettingTextView = (TextView) navigationView.findViewById(R.id.setting);
         mCityTextView = (TextView) navigationView.findViewById(R.id.local_city);
         mTempTextView = (TextView) navigationView.findViewById(R.id.local_temperature);

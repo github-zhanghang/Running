@@ -35,6 +35,7 @@ import com.baidu.trace.OnStartTraceListener;
 import com.baidu.trace.Trace;
 import com.running.model.RealtimeTrackData;
 import com.running.utils.GsonService;
+import com.running.utils.MyOrientationListener;
 import com.running.utils.MyStepListener;
 import com.running.utils.ScreenShot;
 
@@ -87,6 +88,11 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     //保留小数点后两位
     DecimalFormat mDecimalFormat = new DecimalFormat("0.00");
 
+    //方向
+    private float mDirection;
+    private MyOrientationListener mOrientationListener;
+
+
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -120,12 +126,17 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         //开启计步
         mStepListener.start();
         initButtonListener();
-        mHandler.sendEmptyMessage(1);
+        //获取方向
+        mOrientationListener = new MyOrientationListener(RunMapActivity.this);
+        initOrientationListener();
+        mOrientationListener.start();
     }
 
     private void init() {
         mMapView = (MapView) findViewById(R.id.mapview);
+
         mBaiduMap = mMapView.getMap();
+//        mBaiduMap.enable
         //地图移动到当前位置
         double latitude = mApplication.getUserInfo().getLatitude();
         double longitude = mApplication.getUserInfo().getLongitude();
@@ -139,6 +150,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding));
             //在地图上添加Marker，并显示
             mBaiduMap.addOverlay(option);
+            mHandler.sendEmptyMessage(1);
         }
 
         //账号+当前时间来充当实体名
@@ -209,6 +221,16 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
                     mStepListener.setStep(mStepCount);
                 }
                 Log.e("my", "mStepCount=" + mStepCount);
+            }
+        });
+    }
+
+    private void initOrientationListener() {
+        mOrientationListener.setOnOrientationListener(new MyOrientationListener.OnOrientationListener() {
+            @Override
+            public void onOrientationChanged(float x) {
+                mDirection = x;
+                Log.e("my", "direction=" + mDirection);
             }
         });
     }
@@ -370,8 +392,23 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     // 画出实时线路点
     private void drawRealtimePoint(LatLng point) {
         mBaiduMap.clear();
-        MapStatus mapStatus = new MapStatus.Builder().target(point).zoom(18).build();
+        /*// 构造定位数据
+        MyLocationData locData = new MyLocationData.Builder()
+                // 此处设置开发者获取到的方向信息，顺时针0-360
+                .direction(mDirection)
+                .latitude(point.latitude)
+                .longitude(point.longitude)
+                .build();
+        // 设置定位数据
+        mBaiduMap.setMyLocationData(locData);*/
+        MapStatus mapStatus = new MapStatus.Builder()
+                .target(point)
+                .zoom(16)
+                .overlook(-3)
+                .rotate(mDirection)
+                .build();
         mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
+
         mBitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
         mOverlayOptions = new MarkerOptions().position(point)
                 .icon(mBitmapDescriptor).zIndex(9).draggable(true);
@@ -383,7 +420,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
 
     private void addMarker() {
         if (mMapStatusUpdate != null) {
-            mBaiduMap.setMapStatus(mMapStatusUpdate);
+            mBaiduMap.animateMapStatus(mMapStatusUpdate);
         }
         if (mPolylineOptions != null) {
             mBaiduMap.addOverlay(mPolylineOptions);
@@ -443,6 +480,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         mTraceClient.stopTrace(mTrace, null);
         mTraceClient.onDestroy();
         mStepListener.stop();
+        mOrientationListener.stop();
         mMapView.onDestroy();
         mMapView = null;
     }
