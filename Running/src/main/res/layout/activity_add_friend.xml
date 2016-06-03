@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:text="搜索"
             android:id="@+id/button"
-            android:onClick="addFriend"
+            android:onClick="addNewFriend"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
     </RelativeLayout>
@@ -45,7 +45,7 @@
         android:onClick="searchNearby"
         android:layout_width="match_parent"
         android:layout_height="70dp">
-        <io.rong.imkit.widget.AsyncImageView
+        <ImageView
             android:id="@+id/fujin"
             android:layout_width="56dp"
             android:layout_height="56dp"
@@ -67,16 +67,16 @@
 
     </RelativeLayout>
     <View
-        android:layout_marginRight="25dp"
+        android:layout_marginRight="3dp"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#998181" />
 
     <RelativeLayout
-        android:onClick="search"
+        android:onClick="searchWithConditions"
         android:layout_width="match_parent"
         android:layout_height="70dp">
-        <io.rong.imkit.widget.AsyncImageView
+        <ImageView
             android:id="@+id/chazhao"
             android:layout_width="56dp"
             android:layout_height="56dp"

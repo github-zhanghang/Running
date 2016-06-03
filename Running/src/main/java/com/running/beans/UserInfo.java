@@ -1,10 +1,13 @@
 package com.running.beans;
 
+import java.io.Serializable;
+
 /**
  * Created by ZhangHang on 2016/6/1.
  */
-public class UserInfo {
+public class UserInfo implements Serializable{
     private int mCode;// 状态码
+    private int mUid;
     private String mAccount;
     private String mTelephone;
     private String mNickName;
@@ -40,7 +43,13 @@ public class UserInfo {
         this.mRongToken = mRongToken;
     }
 
+    public int getmUid() {
+        return mUid;
+    }
 
+    public void setmUid(int mUid) {
+        this.mUid = mUid;
+    }
     public String getAccount() {
         return mAccount;
     }
