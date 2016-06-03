@@ -2,12 +2,18 @@ package com.running.android_main;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +39,7 @@ import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.RequestQueue;
 import com.yolanda.nohttp.Response;
 
+import java.io.File;
 import java.util.Calendar;
 
 public class MyDetailsActivity extends AppCompatActivity implements View.OnClickListener, OnTopbarClickListener {
@@ -66,6 +73,14 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     //用户信息
     private UserInfo mUserInfo;
     private RequestQueue requestQueue;
+    //修改头像
+    private String[] items = new String[]{"选择本地图片", "拍照"};
+    /* 请求码*/
+    private static final int IMAGE_REQUEST_CODE = 0;
+    private static final int CAMERA_REQUEST_CODE = 1;
+    private static final int RESULT_REQUEST_CODE = 2;
+    /*头像名称*/
+    private static final String IMAGE_FILE_NAME = "faceImage.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,11 +154,11 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 String u_birthday = mBirthdayItem.getDataText();
                 String u_address = mAddressItem.getDataText();
                 String u_signature = mSignatureItem.getDataText();
-                Log.e("my", "u_nickName=" + mUserInfo.getNickName() + ";u_height=" +
+                /*Log.e("my", "u_nickName=" + mUserInfo.getNickName() + ";u_height=" +
                         mUserInfo.getHeight() + "cm" + ";u_weight=" + mUserInfo.getWeight() + "kg"
                         + ";u_sex=" + mUserInfo.getSex() +
                         ";u_birthday=" + mUserInfo.getBirthday() + ";u_address=" + mUserInfo.getAddress() +
-                        ";u_signature=" + mUserInfo.getSignature());
+                        ";u_signature=" + mUserInfo.getSignature());*/
                 //如果信息未改变，则不提交服务器
                 if (u_nickName.equals(mUserInfo.getNickName()) &&
                         u_height.equals(mUserInfo.getHeight() + "cm") &&
@@ -159,6 +174,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.details_head:
                 Toast.makeText(MyDetailsActivity.this, "修改头像", Toast.LENGTH_SHORT).show();
+                showChangeImageDialog();
                 break;
             case R.id.nick_item:
                 mInfoItemView = (MyInfoItemView) v;
@@ -237,6 +253,118 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    private void showChangeImageDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("设置头像")
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                Intent intentFromGallery = new Intent();
+                                intentFromGallery.setType("image/*"); // 设置文件类型
+                                intentFromGallery
+                                        .setAction(Intent.ACTION_GET_CONTENT);
+                                startActivityForResult(intentFromGallery,
+                                        IMAGE_REQUEST_CODE);
+                                break;
+                            case 1:
+
+                                Intent intentFromCapture = new Intent(
+                                        MediaStore.ACTION_IMAGE_CAPTURE);
+                                // 判断存储卡是否可以用，可用进行存储
+                                if (hasSdcard()) {
+                                    intentFromCapture.putExtra(
+                                            MediaStore.EXTRA_OUTPUT,
+                                            Uri.fromFile(new File(Environment
+                                                    .getExternalStorageDirectory(),
+                                                    IMAGE_FILE_NAME)));
+                                }
+
+                                startActivityForResult(intentFromCapture,
+                                        CAMERA_REQUEST_CODE);
+                                break;
+                        }
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
+    }
+
+    //检查是否存在SD卡
+    private boolean hasSdcard() {
+        String state = Environment.getExternalStorageState();
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //结果码不等于操作取消时候
+        if (resultCode != RESULT_CANCELED)
+            switch (requestCode) {
+                case IMAGE_REQUEST_CODE:
+                    startPhotoZoom(data.getData());
+                    break;
+                case CAMERA_REQUEST_CODE:
+                    if (hasSdcard()) {
+                        File tempFile = new File(
+                                Environment.getExternalStorageDirectory()
+                                        + "/" + IMAGE_FILE_NAME);
+                        startPhotoZoom(Uri.fromFile(tempFile));
+                    } else {
+                        Toast.makeText(MyDetailsActivity.this, "未找到存储卡，无法存储照片！",
+                                Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case RESULT_REQUEST_CODE:
+                    if (data != null) {
+                        getImageToView(data);
+                    }
+                    break;
+            }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * 裁剪图片方法实现
+     */
+    public void startPhotoZoom(Uri uri) {
+
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // 设置裁剪
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // outputX outputY 是裁剪图片宽高
+        intent.putExtra("outputX", 200);
+        intent.putExtra("outputY", 200);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, 2);
+    }
+
+    /**
+     * 保存裁剪之后的图片数据
+     */
+    private void getImageToView(Intent data) {
+        Bundle extras = data.getExtras();
+        if (extras != null) {
+            Bitmap photo = extras.getParcelable("data");
+            Drawable drawable = new BitmapDrawable(photo);
+            mUserImage.setImageDrawable(drawable);
+        }
+    }
+
+
     private void saveUserInfo(String u_nickName, String u_height, String u_weight, String u_sex,
                               String u_birthday, String u_address, String u_signature) {
         mProgressDialog = ProgressDialog.show(this, "请等待...", "正在提交信息...");
@@ -267,7 +395,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 UserInfo userinfo = new Gson().fromJson(result, UserInfo.class);
                 if (userinfo.getCode().equals("1")) {
                     Toast.makeText(MyDetailsActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-                    Log.e("my", userinfo.toString());
                     mApplication.setUserInfo(userinfo);
                 } else {
                     Toast.makeText(MyDetailsActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
@@ -350,7 +477,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onTopbarLeftImageClick(ImageView imageView) {
         this.finish();
-        mApplication.removeActivity(this);
+        MyDetailsActivity.this.finish();
     }
 
     @Override

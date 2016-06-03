@@ -51,6 +51,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class RunMapActivity extends Activity implements View.OnClickListener {
     private MyApplication mApplication;
+
     private int gatherInterval = 3;  //位置采集周期 (s)
     private int packInterval = 5;  //打包周期 (s)
     private String entityName = null;  // entity标识
@@ -78,7 +79,6 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     private String mImgPath;
 
     private double mWeight;
-    private String mAccount;
     //跑步的距离、速度,卡路里,步数,时间
     private double mDistance, mSpeed, mCalorie, mTime;
     private long mStepCount;
@@ -108,25 +108,41 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_runmap);
         mApplication = (MyApplication) getApplication();
-        mWeight = 60;//mApplication.getUserInfo().getWeight();
-        //Log.e("my", "userinfo:" + mApplication.getUserInfo().toString());
+        mWeight = mApplication.getUserInfo().getWeight();
         init();
         initOnEntityListener();
         mTraceClient.setOnEntityListener(mEntityListener);
         initOnStartTraceListener();
         mTraceClient.setOnStartTraceListener(mStartTraceListener);
-        initStepListener();
-        initButtonListener();
         // 开启轨迹服务
         mTraceClient.startTrace(mTrace, mStartTraceListener);
+        initStepListener();
+        //开启计步
+        mStepListener.start();
+        initButtonListener();
         mHandler.sendEmptyMessage(1);
     }
 
     private void init() {
         mMapView = (MapView) findViewById(R.id.mapview);
         mBaiduMap = mMapView.getMap();
+        //地图移动到当前位置
+        double latitude = mApplication.getUserInfo().getLatitude();
+        double longitude = mApplication.getUserInfo().getLongitude();
+        if (latitude != 0 && longitude != 0) {
+            LatLng point = new LatLng(latitude, longitude);
+            MapStatus mapStatus = new MapStatus.Builder().target(point).zoom(18).build();
+            mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(mapStatus));
+            //构建MarkerOption，用于在地图上添加Marker
+            OverlayOptions option = new MarkerOptions()
+                    .position(point)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding));
+            //在地图上添加Marker，并显示
+            mBaiduMap.addOverlay(option);
+        }
+
         //账号+当前时间来充当实体名
-        entityName = mAccount + System.currentTimeMillis();
+        entityName = mApplication.getUserInfo().getAccount() + System.currentTimeMillis();
         //实例化轨迹服务客户端
         mTraceClient = new LBSTraceClient(this);
         //实例化轨迹服务
@@ -171,7 +187,6 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
             // 开启轨迹服务回调接口（arg0 : 消息编码，arg1 : 消息内容，详情查看类参考）
             @Override
             public void onTraceCallback(int arg0, String arg1) {
-//                Log.i("my", "onTraceCallback=" + arg1);
                 if (arg0 == 0 || arg0 == 10006) {
                     startRefreshThread(!isStop);
                 }
@@ -180,7 +195,6 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
             // 轨迹服务推送接口（用于接收服务端推送消息，arg0 : 消息类型，arg1 : 消息内容，详情查看类参考）
             @Override
             public void onTracePushCallback(byte arg0, String arg1) {
-//                Log.i("my", "onTracePushCallback=" + arg1);
             }
         };
     }
@@ -194,6 +208,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
                 } else {
                     mStepListener.setStep(mStepCount);
                 }
+                Log.e("my", "mStepCount=" + mStepCount);
             }
         });
     }
@@ -223,7 +238,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
                 mOverButton.setVisibility(View.GONE);
                 break;
             case R.id.run_over:
-                isStop = false;
+                isStop = true;
                 mHandler.removeMessages(1);
                 handover();
                 break;
@@ -394,11 +409,40 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
+    public void onBackPressed() {
+        if (!isStop) {
+            AlertDialog alertDialog = new AlertDialog
+                    .Builder(RunMapActivity.this)
+                    .setMessage("是否结束跑步?")
+                    .setNegativeButton("结束", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            isStop = false;
+                            mHandler.removeMessages(1);
+                            handover();
+                        }
+                    })
+                    .setPositiveButton("继续", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create();
+            alertDialog.show();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         isStop = true;
         mTraceClient.stopTrace(mTrace, null);
         mTraceClient.onDestroy();
+        mStepListener.stop();
         mMapView.onDestroy();
         mMapView = null;
     }

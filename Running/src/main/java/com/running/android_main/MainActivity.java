@@ -8,12 +8,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.running.adapters.MyFragmentAdapter;
 import com.running.fragments.DongtaiFragment;
 import com.running.fragments.FaxianFragment;
@@ -28,6 +33,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     private MyApplication mApplication;
+    //定位
+    private LocationClient mLocationClient;
+    private BDLocationListener mBDLocationListener;
+
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private NoScrollViewPager mViewPager;
@@ -52,16 +61,41 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.slide_main);
         mApplication = (MyApplication) getApplication();
         mApplication.addActivity(this);
+        //定位
+        startLocating();
         initViews();
-        initData();
+        initTemperature();
         initFragments();
         initViewPager();
         initListener();
     }
 
-    private void initData() {
-        mCityName = mApplication.getCity();
-        mCityTextView.setText(mCityName);
+    private void startLocating() {
+        mLocationClient = new LocationClient(MainActivity.this);
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true);        //是否打开GPS
+        option.setCoorType("bd09ll");       //设置返回值的坐标类型。
+        option.setIsNeedAddress(true);
+        mLocationClient.setLocOption(option);
+        mBDLocationListener = new BDLocationListener() {
+            @Override
+            public void onReceiveLocation(BDLocation bdLocation) {
+                double latitude = bdLocation.getLatitude();
+                double longitude = bdLocation.getLongitude();
+                String city = bdLocation.getCity();
+                Log.e("my", "latitude=" + latitude + ";longitude=" + longitude + ";city=" + city);
+                mApplication.setCity(city);
+                mCityTextView.setText(mCityName);
+                mApplication.getUserInfo().setLatitude(latitude);
+                mApplication.getUserInfo().setLongitude(longitude);
+            }
+        };
+        mLocationClient.registerLocationListener(mBDLocationListener);
+        mLocationClient.start();
+    }
+
+    //获取温度
+    private void initTemperature() {
     }
 
     private void initViews() {
@@ -154,7 +188,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, MyDetailsActivity.class));
                 break;
             case R.id.setting:
-                startActivity(new Intent(this,SettingActivity.class));
+                startActivity(new Intent(this, SettingActivity.class));
                 break;
         }
     }
@@ -179,6 +213,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mApplication.removeActivity(this);
+        mLocationClient.unRegisterLocationListener(mBDLocationListener);
+        mLocationClient = null;
     }
 }

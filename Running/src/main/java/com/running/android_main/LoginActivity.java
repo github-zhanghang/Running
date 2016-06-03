@@ -169,7 +169,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 UserInfo userInfo = new Gson().fromJson(result, UserInfo.class);
                 if (userInfo.getCode().equals(Login_OK)) {
                     mApplication.setUserInfo(userInfo);
-                    Log.e("my", userInfo.toString());
                     //判断是否记住密码
                     if (mRememberInfoCheckBox.isChecked()) {
                         SharedPreferences.Editor editor = mSharedPreferences.edit();
