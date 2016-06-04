@@ -8,33 +8,35 @@ import java.util.List;
  * ImgItem动态bean
  */
 public class DynamicImgBean implements Serializable {
-    private int headImg;
+    private int dId;
     private String name;
-    private String time;
+    private String headPhoto;
+    private List<String> imgList;
     private String content;
-    private List<Integer> mImgList;
+    private String time;
+    private String location;
     private int praiseCount;
     private int commentCount;
-    private String type;
 
-    public DynamicImgBean(int headImg, String name, String time, String content, List<Integer>
-            imgList, int praiseCount, int commentCount, String type) {
-        this.headImg = headImg;
+    public DynamicImgBean(int dId, String name, String headPhoto, List<String> imgList, String
+            content, String time, String location, int praiseCount, int commentCount) {
+        this.dId = dId;
         this.name = name;
-        this.time = time;
+        this.headPhoto = headPhoto;
+        this.imgList = imgList;
         this.content = content;
-        mImgList = imgList;
+        this.time = time;
+        this.location = location;
         this.praiseCount = praiseCount;
         this.commentCount = commentCount;
-        this.type=type;
     }
 
-    public int getHeadImg() {
-        return headImg;
+    public int getdId() {
+        return dId;
     }
 
-    public void setHeadImg(int headImg) {
-        this.headImg = headImg;
+    public void setdId(int dId) {
+        this.dId = dId;
     }
 
     public String getName() {
@@ -45,12 +47,20 @@ public class DynamicImgBean implements Serializable {
         this.name = name;
     }
 
-    public String getTime() {
-        return time;
+    public String getHeadPhoto() {
+        return headPhoto;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setHeadPhoto(String headPhoto) {
+        this.headPhoto = headPhoto;
+    }
+
+    public List<String> getImgList() {
+        return imgList;
+    }
+
+    public void setImgList(List<String> imgList) {
+        this.imgList = imgList;
     }
 
     public String getContent() {
@@ -61,12 +71,20 @@ public class DynamicImgBean implements Serializable {
         this.content = content;
     }
 
-    public List<Integer> getImgList() {
-        return mImgList;
+    public String getTime() {
+        return time;
     }
 
-    public void setImgList(List<Integer> imgList) {
-        mImgList = imgList;
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public int getPraiseCount() {
@@ -83,13 +101,5 @@ public class DynamicImgBean implements Serializable {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }
