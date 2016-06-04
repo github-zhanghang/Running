@@ -2,6 +2,7 @@ package com.running.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,16 +62,16 @@ public class RaceAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof RaceViewHolder){
             //((RaceViewHolder) holder).mImageView.setImageResource(mData.get(position).getPic());
             Glide.with(mContext)
-                    .load(mData.get(position).getPicUrl())
+                    .load(mData.get(position).getImg())
                     .transform(new GlideRoundTransform(mContext,20))
                     .placeholder(R.color.colorOrange)
                     .error(R.drawable.fail)
                     .crossFade()
                     .centerCrop()
                     .into(((RaceViewHolder) holder).mImageView);
-            ((RaceViewHolder) holder).titleTextView.setText(mData.get(position).getTitle());
+            ((RaceViewHolder) holder).titleTextView.setText(mData.get(position).getName());
             ((RaceViewHolder) holder).timeTextView.setText(mData.get(position).getTime());
-            ((RaceViewHolder) holder).numTextView.setText(mData.get(position).getNum());
+            ((RaceViewHolder) holder).numTextView.setText(mData.get(position).getLocation());
             //将数据保存在itemView的Tag中，以便点击时进行获取
             // holder.itemView.setTag(mData.get(position));
             if (mOnItemClickListener !=null){
@@ -92,7 +93,10 @@ public class RaceAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (position +1 == getItemCount()) {
+       /* Log.e( "taozi123","getItemCount: "+getItemCount() );
+        Log.e( "taozi123","getItemCount + position: "+position );*/
+        if (position+1  == getItemCount()) {
+           /* Log.e( "taozi123","name: "+mData.get(position).getName() );*/
             return TYPE_FOOTER;
         } else {
             return TYPE_ITEM;

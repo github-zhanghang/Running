@@ -17,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.running.adapters.GoodsAdapter;
@@ -25,16 +24,22 @@ import com.running.adapters.GoodsBannerAdapter;
 import com.running.android_main.GoodsActivity;
 import com.running.android_main.MainActivity;
 import com.running.android_main.R;
-import com.running.android_main.RaceActivity;
-import com.running.beans.GoodsBannerData;
 import com.running.beans.GoodsData;
 import com.running.myviews.NoScrollView;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
 
 /**
  * Created by ZhangHang on 2016/5/5.
@@ -44,9 +49,8 @@ public class FaxianRightFragment extends Fragment {
     private View mRightView;
 
     //轮播图
-    List<ImageView> mImageViews;
     List<View> dotsViews;
-    List<GoodsBannerData> mGoodsBannerDatas=new ArrayList<>();
+    List<GoodsData> mGoodsBannerDatas=new ArrayList<>();
     ViewPager mBannerViewPager;
     GoodsBannerAdapter mGoodsBannerAdapter;
     private int oldPosition = 0;//记录上一次点的位置
@@ -63,7 +67,7 @@ public class FaxianRightFragment extends Fragment {
 
         @Override
         public void run() {
-            currentItem=(currentItem+1)%mImageViews.size();
+            currentItem=(currentItem+1)%mGoodsBannerDatas.size();
             //更新页面
             bannerHandler.obtainMessage().sendToTarget();
         }
@@ -80,7 +84,7 @@ public class FaxianRightFragment extends Fragment {
     boolean isRefreshing=false;
     SwipeRefreshLayout mSwipeRefreshLayout;
     Handler recyclerhandler =new Handler();
-    int[] lastVisibleItemPosition;
+    int page=1;
 
     private NoScrollView mNoScrollView;
 
@@ -90,103 +94,56 @@ public class FaxianRightFragment extends Fragment {
         mMainActivity= (MainActivity) getActivity();
         mRightView = inflater.inflate(R.layout.faxian_right, null);
 
-        initBannerData();
         initBannerView();
+        initBannerData();
+
         addBannerListener();
 
         initGoodView();
         initGoodData();
 
         initSwiprRefresh();
-        //addListener();
+        initNoScollView();
 
         addClickListener();
-        initNoScollView();
         return mRightView;
     }
 
-    private void addClickListener() {
-        mGoodsAdapter.setOnItemClickListener(new GoodsAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-                //Toast.makeText(mMainActivity,"装备:"+(position+1),Toast.LENGTH_SHORT).show();
-                Bundle bundle=new Bundle();
-                bundle.putString("weburl",mGoodsDataList.get(position).getWeburl());
-
-                Intent intent=new Intent(mMainActivity, GoodsActivity.class);
-                intent.putExtras(bundle);
-                mMainActivity.startActivity(intent);
-            }
-        });
-    }
-
-    private void initNoScollView() {
-
-        mNoScrollView= (NoScrollView) mRightView.findViewById(R.id.goods_noscroll);
-        mNoScrollView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        //在这里进行监听，滑动布局滑到了底部，然后又进行加载数据
-                        int scrollY = v.getScrollY();
-                        int height = v.getHeight();
-                        int scrollViewMeasureHeight = mNoScrollView.getChildAt(0).getMeasuredHeight();
-
-                        if (scrollY==0){
-//                          Log.e(TAG,"--------滑到了顶端 scrollY" + scrollY );
-                        }
-                        if((scrollY+height) + 50 >=scrollViewMeasureHeight){
-
-                            if(!isloading) {
-
-                                isloading = true;
-                                loadData();
-                                mGoodsBannerAdapter.notifyDataSetChanged();
-                                mGoodsAdapter.notifyItemRemoved(mGoodsAdapter.getItemCount());
-                                isloading = false;
-
-                            }
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-
-                        break;
-                }
-                return false;
-            }
-        });
-    }
-
     private void initBannerData() {
-        GoodsBannerData b1=new GoodsBannerData(R.drawable.gb1,"https://iem.taobao.com/item.htm?spm=a219r.lm944.14.71.Tl70OR&id=526213215934&ns=1&abbucket=19#detail");
-        GoodsBannerData b2=new GoodsBannerData(R.drawable.gb2,"https://item.taobao.com/item.htm?spm=a219r.lm944.14.71.Tl70OR&id=526213215934&ns=1&abbucket=19#detail");
-        GoodsBannerData b3=new GoodsBannerData(R.drawable.gb3,"https://item.taobao.com/item.htm?spm=a219r.lm944.14.71.Tl70OR&id=526213215934&ns=1&abbucket=19#detail");
-        GoodsBannerData b4=new GoodsBannerData(R.drawable.gb4,"https://item.taobao.com/item.htm?spm=a219r.lm944.14.71.Tl70OR&id=526213215934&ns=1&abbucket=19#detail");
-        GoodsBannerData b5=new GoodsBannerData(R.drawable.gb5,"https://item.taobao.com/item.htm?spm=a219r.lm944.14.71.Tl70OR&id=526213215934&ns=1&abbucket=19#detail");
-        mGoodsBannerDatas.add(b1);
-        mGoodsBannerDatas.add(b2);
-        mGoodsBannerDatas.add(b3);
-        mGoodsBannerDatas.add(b4);
-        mGoodsBannerDatas.add(b5);
+        OkHttpUtils.get()
+                .url("http://10.201.1.172:8080/Run_zt/goodsBannerServlet")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONArray jsonArray=new JSONArray(response);
+                            for (int i = 0; i <jsonArray.length() ; i++) {
+                                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                                String name=jsonObject.getString("name");
+                                double price=jsonObject.getDouble("price");
+                                String img=jsonObject.getString("img");
+                                String  html=jsonObject.getString("html");
+                                GoodsData goodsBannerData=new GoodsData(name,price,img,html);
+                               mGoodsBannerDatas.add( goodsBannerData);
+                            }
+                            Log.e("taozier", "initGoodsData:"+mGoodsBannerDatas.size()+"");
+                            mGoodsBannerAdapter=new GoodsBannerAdapter(mMainActivity,mGoodsBannerDatas);
+                            mBannerViewPager.setAdapter(mGoodsBannerAdapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     private void initBannerView() {
-        //图片
-        mImageViews =new ArrayList<>();
-        for (int i = 0; i <mGoodsBannerDatas.size() ; i++) {
-            ImageView imageView=new ImageView(mMainActivity);
-            //imageView.setImageResource(mBannerDatas.get(i).getPic());
-            Glide.with(mMainActivity)
-                    .load(mGoodsBannerDatas.get(i).getPic())
-                    .error(R.drawable.fail)
-                    .centerCrop()
-                    .into(imageView);
-            mImageViews.add(imageView);
-        }
         //点
         dotsViews=new ArrayList<>();
         dotsViews.add(mRightView.findViewById(R.id.g_dot0));
@@ -196,8 +153,7 @@ public class FaxianRightFragment extends Fragment {
         dotsViews.add(mRightView.findViewById(R.id.g_dot4));
         //viewpager
         mBannerViewPager= (ViewPager) mRightView.findViewById(R.id.vp_banner_goods);
-        mGoodsBannerAdapter=new GoodsBannerAdapter(mMainActivity,mGoodsBannerDatas,mImageViews);
-        mBannerViewPager.setAdapter(mGoodsBannerAdapter);
+
     }
 
     private void addBannerListener() {
@@ -230,19 +186,14 @@ public class FaxianRightFragment extends Fragment {
         scheduledExecutorService.scheduleWithFixedDelay(new ViewPagerTask(),3,3, TimeUnit.SECONDS);
     }
 
+
     private void initGoodData() {
-        GoodsData g1=new GoodsData(R.drawable.p1,"我是推荐装备1","9999","https://item.taobao.com/item.htm?spm=a230r.1.14.23.KUPW1T&id=526925343827&ns=1&abbucket=19#detail");
-        GoodsData g2=new GoodsData(R.drawable.p12,"我是推荐装备2","9999","https://item.taobao.com/item.htm?spm=a230r.1.14.45.KUPW1T&id=528481007031&ns=1&abbucket=19#detail");
-        GoodsData g3=new GoodsData(R.drawable.p11,"我是推荐装备3","9999","https://item.taobao.com/item.htm?spm=a230r.1.14.16.KUPW1T&id=531563358148&ns=1&abbucket=19#detail");
-        GoodsData g4=new GoodsData(R.drawable.p10,"我是推荐装备4","9999","https://item.taobao.com/item.htm?spm=a230r.1.14.65.KUPW1T&id=528503126638&ns=1&abbucket=19#detail");
-        GoodsData g5=new GoodsData(R.drawable.p11,"我是推荐装备5","9999","https://item.taobao.com/item.htm?spm=a219r.lm944.14.1.MX7uR6&id=43268531240&ns=1&abbucket=19#detail");
-        GoodsData g6=new GoodsData(R.drawable.p3,"我是推荐装备6","9999","https://item.taobao.com/item.htm?spm=a219r.lm944.14.48.MX7uR6&id=530800618134&ns=1&abbucket=19#detail");
-        mGoodsDataList.add(g1);
-        mGoodsDataList.add(g2);
-        mGoodsDataList.add(g3);
-        mGoodsDataList.add(g4);
-        mGoodsDataList.add(g5);
-        mGoodsDataList.add(g6);
+        recyclerhandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getData();
+            }
+        }, 1500);
     }
 
     private void initGoodView() {
@@ -260,85 +211,129 @@ public class FaxianRightFragment extends Fragment {
         mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.WHITE);
         mSwipeRefreshLayout.setColorSchemeColors(Color.GREEN,Color.BLUE,Color.RED, Color.YELLOW);
 
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 recyclerhandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        page=1;
+                        mGoodsDataList.clear();
                         refreshData();
-                        mGoodsAdapter.notifyDataSetChanged();
-                        mGoodsAdapter.notifyItemRemoved(mGoodsAdapter.getItemCount());
-                        mSwipeRefreshLayout.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                mSwipeRefreshLayout.setRefreshing(false);
-                            }
-                        });
                     }
                 }, 1000);
             }
         });
     }
-    private void addListener() {
-        goodRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
 
-                lastVisibleItemPosition=mStaggeredGridLayoutManager.findLastVisibleItemPositions(null);
-                if (lastVisibleItemPosition[1]+1==mGoodsAdapter.getItemCount()||
-                        (lastVisibleItemPosition[1]+2==mGoodsAdapter.getItemCount())) {
-                    Log.d("test", "loading executed");
-                    boolean isRefreshing = mSwipeRefreshLayout.isRefreshing();
-                    if (isRefreshing) {
-                        mGoodsAdapter.notifyItemRemoved(mGoodsAdapter.getItemCount());
-                        return;
-                    }
-                    if (!isRefreshing) {
-                        isloading = true;
-                        recyclerhandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                loadData();
-                                mSwipeRefreshLayout.post(new Runnable() {
+    private void initNoScollView() {
+
+        mNoScrollView= (NoScrollView) mRightView.findViewById(R.id.goods_noscroll);
+        mNoScrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        //在这里进行监听，滑动布局滑到了底部，然后又进行加载数据
+                        int scrollY = v.getScrollY();
+                        int height = v.getHeight();
+                        int scrollViewMeasureHeight = mNoScrollView.getChildAt(0).getMeasuredHeight();
+
+                        if (scrollY==0){
+//                          Log.e(TAG,"--------滑到了顶端 scrollY" + scrollY );
+                        }
+                        if((scrollY+height) + 30 >=scrollViewMeasureHeight){
+
+                            if (isRefreshing){
+                                mGoodsAdapter.notifyItemRemoved(mGoodsAdapter.getItemCount());
+                            }
+                            if(!isloading) {
+                                isloading = true;
+                                recyclerhandler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        mSwipeRefreshLayout.setRefreshing(false);
+                                        refreshData();
+                                        isloading=false;
                                     }
-                                });
-                                mGoodsAdapter.notifyDataSetChanged();
-                                mGoodsAdapter.notifyItemRemoved(mGoodsAdapter.getItemCount());
-                                isloading = false;
+                                }, 1000);
+                                page++;
                             }
-                        }, 500);
-                    }
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+
+                        break;
                 }
+                return false;
             }
         });
     }
-
-    private void refreshData() {
-        int count= mGoodsDataList.size();
-        GoodsData g1=new GoodsData(R.drawable.p10,"新增装备"+(count+1),"9999","https://item.taobao.com/item.htm?spm=a219r.lm944.14.48.MX7uR6&id=530800618134&ns=1&abbucket=19#detail");
-        GoodsData g2=new GoodsData(R.drawable.p11,"新增装备"+(count+2),"9999","https://item.taobao.com/item.htm?spm=a219r.lm944.14.48.MX7uR6&id=530800618134&ns=1&abbucket=19#detail");
-        GoodsData g3=new GoodsData(R.drawable.p12,"新增装备"+(count+3),"9999","https://item.taobao.com/item.htm?spm=a219r.lm944.14.48.MX7uR6&id=530800618134&ns=1&abbucket=19#detail");
-        mGoodsDataList.add(0,g3);
-        mGoodsDataList.add(1,g2);
-        mGoodsDataList.add(2,g1);
+    private void getData() {
+        refreshData();
     }
-    private void loadData() {
-        int count= mGoodsDataList.size();
-        GoodsData g1=new GoodsData(R.drawable.p3,"加载装备"+(count+1),"9999","https://item.taobao.com/item.htm?spm=a219r.lm944.14.48.MX7uR6&id=530800618134&ns=1&abbucket=19#detail");
-        GoodsData g2=new GoodsData(R.drawable.p11,"加载装备"+(count+2),"9999","https://item.taobao.com/item.htm?spm=a219r.lm944.14.48.MX7uR6&id=530800618134&ns=1&abbucket=19#detail");
-        GoodsData g3=new GoodsData(R.drawable.p12,"新增装备"+(count+3),"9999","https://item.taobao.com/item.htm?spm=a219r.lm944.14.48.MX7uR6&id=530800618134&ns=1&abbucket=19#detail");
-        mGoodsDataList.add(g1);
-        mGoodsDataList.add(g2);
-        mGoodsDataList.add(g3);
+    private void refreshData() {
+        OkHttpUtils.get()
+                .url("http://10.201.1.172:8080/Run_zt/goodsServlet")
+                .addParams("page",page+"")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+                        Log.e("taozi ",e.getMessage() );
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONArray jsonArray=new JSONArray(response);
+                            for (int i = 0; i <jsonArray.length() ; i++) {
+                                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                                String name=jsonObject.getString("name");
+                                double price=jsonObject.getDouble("price");
+                                String img=jsonObject.getString("img");
+                                String  html=jsonObject.getString("html");
+                                GoodsData goodsData=new GoodsData(name,price,img,html);
+                                mGoodsDataList.add(goodsData);
+                            }
+                            mGoodsAdapter.notifyDataSetChanged();
+                            mGoodsAdapter.notifyItemRemoved(mGoodsAdapter.getItemCount());
+                            mSwipeRefreshLayout.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mSwipeRefreshLayout.setRefreshing(false);
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+
+    private void addClickListener() {
+        mGoodsAdapter.setOnItemClickListener(new GoodsAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                //Toast.makeText(mMainActivity,"装备:"+(position+1),Toast.LENGTH_SHORT).show();
+                Bundle bundle=new Bundle();
+                bundle.putString("weburl",mGoodsDataList.get(position).getHtml());
+
+                Intent intent=new Intent(mMainActivity, GoodsActivity.class);
+                intent.putExtras(bundle);
+                mMainActivity.startActivity(intent);
+            }
+        });
     }
 }

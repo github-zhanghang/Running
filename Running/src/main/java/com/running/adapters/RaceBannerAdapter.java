@@ -9,31 +9,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.running.android_main.R;
 import com.running.android_main.RaceActivity;
-import com.running.beans.RaceBannerData;
+import com.running.beans.RaceData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by C5-0 on 2016/5/27.
  */
 public class RaceBannerAdapter  extends PagerAdapter {
-    List<RaceBannerData> mRaceBannerDatas;
+    List<RaceData> mRaceBannerDatas;
     List<ImageView> mImageViews;
     Context mContext;
     LayoutInflater mInflater;
 
-    public RaceBannerAdapter(List<RaceBannerData> raceBannerDatas, List<ImageView> imageViews, Context context) {
+    public RaceBannerAdapter(List<RaceData> raceBannerDatas,Context context) {
         mRaceBannerDatas = raceBannerDatas;
-        mImageViews = imageViews;
         mContext = context;
         mInflater.from(mContext).inflate(R.layout.banner_race,null);
+
     }
 
     @Override
     public int getCount() {
-        return mImageViews.size();
+        return mRaceBannerDatas.size();
     }
 
     @Override
@@ -43,12 +45,25 @@ public class RaceBannerAdapter  extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
+
         container.removeView(mImageViews.get(position));
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
 
+        //图片
+        mImageViews =new ArrayList<>();
+        for (int i = 0; i <mRaceBannerDatas.size() ; i++) {
+            ImageView imageView=new ImageView(mContext);
+            //imageView.setImageResource(mBannerDatas.get(i).getPic());
+            Glide.with(mContext)
+                    .load(mRaceBannerDatas.get(i).getImg())
+                    .error(R.drawable.fail)
+                    .centerCrop()
+                    .into(imageView);
+            mImageViews.add(imageView);
+        }
         ImageView imageView=mImageViews.get(position);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +71,7 @@ public class RaceBannerAdapter  extends PagerAdapter {
                 //Toast.makeText(mContext,"图片:"+position,Toast.LENGTH_SHORT).show();
 
                 Bundle bundle=new Bundle();
-                bundle.putString("weburl",mRaceBannerDatas.get(position).getWeburl());
+                bundle.putString("weburl",mRaceBannerDatas.get(position).getHtml());
 
                 Intent intent=new Intent(mContext, RaceActivity.class);
                 intent.putExtras(bundle);
