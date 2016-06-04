@@ -88,7 +88,6 @@ public class DynamicOneselfActivity extends AppCompatActivity {
         mOneselfSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mOneselfSwipe.setRefreshing(false);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -113,6 +112,7 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                         mList.addAll(1,list);
                         mAdapter.notifyItemRemoved(mAdapter.getItemCount());
                         mAdapter.notifyDataSetChanged();
+                        mOneselfSwipe.setRefreshing(false);
                     }
                 }, 2000);
             }

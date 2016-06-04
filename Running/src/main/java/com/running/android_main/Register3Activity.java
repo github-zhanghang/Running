@@ -50,14 +50,12 @@ public class Register3Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register3);
-        mApplication = new MyApplication();
+        mApplication = (MyApplication) getApplication();
+        mApplication.addActivity(this);
         Intent intent = getIntent();
         mPassword = intent.getStringExtra("password");
         mTelephone = intent.getStringExtra("telephone");
         mSex = intent.getStringExtra("sex");
-        /*mPassword = "zzia";
-        mSex = "男";
-        mTelephone = "15106200759";*/
 
         initView();
         addListener();
@@ -150,6 +148,7 @@ public class Register3Activity extends AppCompatActivity {
                 mApplication.setUserInfo(userInfo);
                 //跳转
                 startActivity(new Intent(Register3Activity.this, MainActivity.class));
+                mApplication.finish();
             }
         }
 

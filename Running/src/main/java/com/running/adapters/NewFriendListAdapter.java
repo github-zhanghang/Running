@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
 import com.running.android_main.R;
 import com.running.beans.ApiResult;
+import com.running.beans.Friend;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
-    private List<ApiResult> mResults;
+    private List<Friend> mResults;
     OnItemButtonClick mOnItemButtonClick;
 
     public OnItemButtonClick getOnItemButtonClick() {
@@ -35,7 +37,7 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
         this.mOnItemButtonClick = onItemButtonClick;
     }
 
-    public NewFriendListAdapter(List<ApiResult> results, Context context){
+    public NewFriendListAdapter(List<Friend> results, Context context){
         this.mResults = results;
         this.mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
@@ -74,8 +76,11 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
         }
 
         if(viewHolder != null) {
+            Glide.with(mContext)
+                    .load(mResults.get(position).getPortrait())
+                    .into(viewHolder.mPortraitImg);
+            viewHolder.mFrienduUserName.setText(mResults.get(position).getRemark());
 
-            viewHolder.mFrienduUserName.setText(mResults.get(position).getUsername());
             viewHolder.mFrienduState.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

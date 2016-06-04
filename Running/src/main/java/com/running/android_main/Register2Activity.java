@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class Register2Activity extends AppCompatActivity implements View.OnClickListener {
+    private MyApplication mApplication;
     private ImageView girlImageView, boyImageView;
     private String mPassword, mTelephone, mSex;
 
@@ -15,6 +16,8 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
+        mApplication = (MyApplication) getApplication();
+        mApplication.addActivity(this);
         Intent intent = getIntent();
         mPassword = intent.getStringExtra("password");
         mTelephone = intent.getStringExtra("telephone");

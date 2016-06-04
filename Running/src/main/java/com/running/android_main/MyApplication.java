@@ -2,6 +2,7 @@ package com.running.android_main;
 
 import android.app.Activity;
 import android.app.Application;
+import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.running.beans.UserInfo;
@@ -18,8 +19,6 @@ import io.rong.imkit.RongIM;
  * Created by ZhangHang on 2016/5/21.
  */
 public class MyApplication extends Application {
-    private String mCity = "苏州";//城市
-    public String mAccount = "";
     public UserInfo mUserInfo;
 
     private List<Activity> mActivityList;
@@ -42,22 +41,6 @@ public class MyApplication extends Application {
         NoHttp.init(this);
     }
 
-    public String getCity() {
-        return mCity;
-    }
-
-    public void setCity(String city) {
-        mCity = city;
-    }
-
-    public String getAccount() {
-        return mAccount;
-    }
-
-    public void setAccount(String account) {
-        mAccount = account;
-    }
-
     public UserInfo getUserInfo() {
         return mUserInfo;
     }
@@ -76,6 +59,7 @@ public class MyApplication extends Application {
 
     public void finish() {
         for (int i = 0; i < mActivityList.size(); i++) {
+            Log.e("my", "size" + mActivityList.size());
             Activity activity = mActivityList.get(i);
             if (activity != null) {
                 activity.finish();

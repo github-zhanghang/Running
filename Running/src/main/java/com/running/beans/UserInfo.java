@@ -1,15 +1,19 @@
 package com.running.beans;
 
+import java.io.Serializable;
+
 /**
  * Created by ZhangHang on 2016/6/1.
  */
-public class UserInfo {
-    private int mCode;// 状态码
+public class UserInfo implements Serializable {
+    private String mCode;// 状态码
+    private int mUid;
     private String mAccount;
     private String mTelephone;
     private String mNickName;
     private String mImageUrl;
-    private String mSingnature;
+    private String mSignature;
+    private String mBirthday;
     private int mAge;
     private String mSex;
     private int mHeight;
@@ -19,17 +23,19 @@ public class UserInfo {
     private double mLongitude;
     private String mRongToken;
 
-    public UserInfo(int mCode, String mAccount, String mTelephone, String mNickName,
-                    String mImageUrl, String mSingnature, int mAge, String mSex,
+    public UserInfo(String mCode, int mUid, String mAccount, String mTelephone, String mNickName,
+                    String mImageUrl, String mSignature, String mBirthday, int mAge, String mSex,
                     int mHeight, int mWeight, String mAddress, double mLatitude,
                     double mLongitude, String mRongToken) {
         super();
+        this.mUid = mUid;
         this.mCode = mCode;
         this.mAccount = mAccount;
         this.mTelephone = mTelephone;
         this.mNickName = mNickName;
         this.mImageUrl = mImageUrl;
-        this.mSingnature = mSingnature;
+        this.mSignature = mSignature;
+        this.mBirthday = mBirthday;
         this.mAge = mAge;
         this.mSex = mSex;
         this.mHeight = mHeight;
@@ -40,6 +46,21 @@ public class UserInfo {
         this.mRongToken = mRongToken;
     }
 
+    public int getUid() {
+        return mUid;
+    }
+
+    public void setUid(int uid) {
+        mUid = uid;
+    }
+
+    public String getCode() {
+        return mCode;
+    }
+
+    public void setCode(String code) {
+        mCode = code;
+    }
 
     public String getAccount() {
         return mAccount;
@@ -73,12 +94,20 @@ public class UserInfo {
         mImageUrl = imageUrl;
     }
 
-    public String getSingnature() {
-        return mSingnature;
+    public String getSignature() {
+        return mSignature;
     }
 
-    public void setSingnature(String singnature) {
-        mSingnature = singnature;
+    public void setSignature(String singnature) {
+        mSignature = singnature;
+    }
+
+    public String getBirthday() {
+        return mBirthday;
+    }
+
+    public void setBirthday(String birthday) {
+        mBirthday = birthday;
     }
 
     public int getAge() {
@@ -153,7 +182,7 @@ public class UserInfo {
                 ", mTelephone='" + mTelephone + '\'' +
                 ", mNickName='" + mNickName + '\'' +
                 ", mImageUrl='" + mImageUrl + '\'' +
-                ", mSingnature='" + mSingnature + '\'' +
+                ", mSingnature='" + mSignature + '\'' +
                 ", mAge=" + mAge +
                 ", mSex='" + mSex + '\'' +
                 ", mHeight=" + mHeight +

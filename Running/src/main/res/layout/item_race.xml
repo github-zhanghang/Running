@@ -6,7 +6,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="#f0f0f0"
-                 android:layout_centerInParent="true">
+                android:layout_centerInParent="true">
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="220dp"
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="哥德堡马拉松"
             android:textColor="#3d3c3c"
-            android:textSize="20sp"
+            android:textSize="18sp"
             />
         <LinearLayout
             android:layout_marginTop="182dp"
@@ -50,7 +50,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="比赛时间："/>
+                android:text="时间："/>
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
@@ -60,12 +60,12 @@
                 android:layout_marginLeft="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="浏览人数："/>
+                android:text="地点："/>
             <TextView
                 android:id="@+id/num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="75616"/>
+                android:text="石家庄"/>
 
         </LinearLayout>
 

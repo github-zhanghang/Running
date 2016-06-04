@@ -26,10 +26,13 @@ public class PaobuRightFragment extends Fragment implements View.OnClickListener
     private TextView mTitleText, mTargetText, mUnitsText;
 
     private TranslateAnimation mTranslateAnimation;
-
+    //单位
     private static final String mDisUnits = "公里";
     private static final String mTimeUnits = "分钟";
     private static final String mCalUnits = "大卡";
+
+    //目标
+    private String mTarget;
 
     @Nullable
     @Override
@@ -65,11 +68,13 @@ public class PaobuRightFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.startRun2:
-                startActivity(new Intent(getContext(), RunMapActivity.class));
+                Intent intent = new Intent(getContext(), RunMapActivity.class);
+                //将目标传给跑步页面
+                intent.putExtra("target", mTarget);
+                startActivity(intent);
                 break;
             case R.id.data:
-                Intent intent = new Intent(getContext(), RunTargetActivity.class);
-                startActivityForResult(intent, REQUEST_CODE);
+                startActivityForResult(new Intent(getContext(), RunTargetActivity.class), REQUEST_CODE);
                 break;
         }
     }
@@ -94,7 +99,11 @@ public class PaobuRightFragment extends Fragment implements View.OnClickListener
                 } else if (text.endsWith("马拉松")) {
                     mUnitsText.setText(mDisUnits);
                     mTargetText.setText("42.2");
+                } else {
+                    mUnitsText.setText("大卡");
+                    mTargetText.setText("600");
                 }
+                mTarget = mTargetText.getText().toString() + mUnitsText.getText().toString();
             }
         }
     }
