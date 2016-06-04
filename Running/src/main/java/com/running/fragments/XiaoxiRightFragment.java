@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,31 +15,45 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.running.adapters.SortAdapter;
 import com.running.android_main.NewFriendListActivity;
 import com.running.android_main.R;
-import com.running.beans.ApiResult;
+import com.running.beans.Friend;
+import com.running.myviews.edittextwithdeel.EditTextWithDel;
 import com.running.myviews.sidebar.SideBar;
+import com.running.utils.pinyin.PinyinComparator;
 import com.running.utils.pinyin.PinyinUtils;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.message.ContactNotificationMessage;
+import okhttp3.Call;
 
 /**
  * Created by ZhangHang on 2016/5/5.
  */
 public class XiaoxiRightFragment extends Fragment {
+    public static final String GetFriendList =
+            "http://10.201.1.185:8080/Running/GetFriendList";
     View mView;
     View header;
     ListView mListView;
     private SortAdapter adapter;
     private SideBar sideBar;
     private TextView dialog;
-    private List<ApiResult> mResultList;
+    private List<Friend> mFriendList;
+    private EditTextWithDel mEtSearchName;
     //接受广播
     BroadcastReceiver mReceiver;
     ContactNotificationMessage contactContentMessage;
@@ -52,26 +69,26 @@ public class XiaoxiRightFragment extends Fragment {
         return mView;
     }
     private void initViews() {
+        mEtSearchName = (EditTextWithDel) mView.findViewById(R.id.et_search);
+
         mListView = (ListView) mView.findViewById(R.id.lv_contact);
         header = LayoutInflater.from(getActivity()).inflate(R.layout.item_header, null);
         mListView.addHeaderView(header);
         sideBar = (SideBar) mView.findViewById(R.id.sidrbar);
         dialog = (TextView) mView.findViewById(R.id.dialog);
         sideBar.setTextView(dialog);
-        mResultList = new ArrayList<ApiResult>();
-
-        adapter = new SortAdapter(getActivity(), mResultList);
+        mFriendList = new ArrayList<Friend>();
+        adapter = new SortAdapter(getActivity(), mFriendList);
         mListView.setAdapter(adapter);
-
 
     }
     private void getData() {
-/*
+
         OkHttpUtils
                 .get()
-                .url(Api.getGet_Friend())
-                .addParams("flag","FRIEND")
-                .addParams("sourceUserId",App.sourceUserId)
+                .url(GetFriendList)
+                .addParams("meid","1")
+                .addParams("status","1")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -84,38 +101,28 @@ public class XiaoxiRightFragment extends Fragment {
                             Log.e( "test123: ",jsonArray.toString());
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object =  jsonArray.getJSONObject(i);
-                                ApiResult apiResult = new ApiResult();
-                                apiResult.setId(object.getString("id"));
-                                apiResult.setUsername(object.getString("username"));
+                                Friend friend = new Friend();
+                                friend.setFriendid(object.getInt("friendid"));
+                                friend.setAccount(object.getString("account"));
+                                friend.setRemark(object.getString("remark"));
+                                friend.setPortrait(object.getString("portrait"));
+                                friend.setFriendtime(object.getString("friendtime"));
                                 //添加首字母
-                                mResultList.add(filledData(apiResult));
+                                mFriendList.add(filledData(friend));
                                 //根据a-z进行排序源数据
-                                Collections.sort(mResultList, new PinyinComparator());
-
+                                Collections.sort(mFriendList, new PinyinComparator());
                             }
                             adapter.notifyDataSetChanged();
-                            Log.e( "test123: ","好友个数:"+mResultList.size() );
+                            Log.e( "test123: ","好友个数:"+ mFriendList.size() );
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 });
-                */
+
     }
 
-    private ApiResult filledData(ApiResult apiResult) {
-        //汉字转换成拼音
-        String pinyin = PinyinUtils.getPingYin(apiResult.getUsername());
-        String sortString = pinyin.substring(0, 1).toUpperCase();
-        // 正则表达式，判断首字母是否是英文字母
-        if(sortString.matches("[A-Z]")){
-            apiResult.setSortLetters(sortString.toUpperCase());
-        }else{
-            apiResult.setSortLetters("#");
-        }
-        return apiResult;
-    }
     private void receiver() {
        /* mReceiver = new BroadcastReceiver() {
             @Override
@@ -172,22 +179,78 @@ public class XiaoxiRightFragment extends Fragment {
 
             }
         });
-
         //设置mListView点击事件
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getActivity(), "position:"+position, Toast.LENGTH_SHORT).show();
-                Log.e( "test123: ",mResultList.get(position-1).getUsername() );
+                Log.e( "test123: ", mFriendList.get(position-1).getRemark() );
+                Toast.makeText(getActivity(),
+                        mFriendList.get(position-1).getRemark(), Toast.LENGTH_SHORT).show();
                 //启动会话界面
-                if (RongIM.getInstance() != null){
+                /*if (RongIM.getInstance() != null){
                     RongIM.getInstance().startPrivateChat
-                            (getActivity(), mResultList.get(position-1).getId(), "这是标题");
-                }
+                            (getActivity(), mFriendList.get(position-1).getAccount(), "这是标题");
+                }*/
+            }
+        });
+
+        //根据输入框输入值的改变来过滤搜索
+        mEtSearchName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
+                filterData(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
 
             }
         });
+
     }
+
+    private Friend filledData(Friend friend) {
+        //汉字转换成拼音
+        String pinyin = PinyinUtils.getPingYin(friend.getRemark());
+        String sortString = pinyin.substring(0, 1).toUpperCase();
+        // 正则表达式，判断首字母是否是英文字母
+        if(sortString.matches("[A-Z]")){
+            friend.setSortLetters(sortString.toUpperCase());
+        }else{
+            friend.setSortLetters("#");
+        }
+        return friend;
+    }
+    /**
+     * 根据输入框中的值来过滤数据并更新ListView
+     *
+     * @param filterStr
+     */
+    private void filterData(String filterStr) {
+        List<Friend> friends = new ArrayList<>();
+        if (TextUtils.isEmpty(filterStr)) {
+            friends = mFriendList;
+        }else {
+            friends.clear();
+            for (Friend f:mFriendList) {
+                String name = f.getRemark();
+                if (name.toUpperCase().indexOf(filterStr.toString().toUpperCase()) != -1 || PinyinUtils.getPingYin(name).toUpperCase().startsWith(filterStr.toString().toUpperCase())) {
+                    friends.add(f);
+                }
+            }
+        }
+        // 根据a-z进行排序
+        Collections.sort(friends, new PinyinComparator());
+        adapter.updateListView(friends);
+
+    }
+
 
 }

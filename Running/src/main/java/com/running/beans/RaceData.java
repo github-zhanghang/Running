@@ -1,59 +1,56 @@
 package com.running.beans;
 
+
 /**
  * Created by C5-0 on 2016/5/27.
  */
 public class RaceData {
-    private String picUrl;
-    private String title;
+    private String name;
     private String time;
-    private String num;
-    private String webUrl;
-    public RaceData(String picUrl, String title, String time, String num, String webUrl) {
-        this.picUrl = picUrl;
-        this.title = title;
+    private String img;
+    private String html;
+    private String location;
+    public RaceData() {
+        super();
+    }
+    public RaceData(String name, String time, String img, String html,
+                String location) {
+        super();
+        this.name = name;
         this.time = time;
-        this.num = num;
-        this.webUrl = webUrl;
+        this.img = img;
+        this.html = html;
+        this.location = location;
     }
-
-    public String getPicUrl() {
-        return picUrl;
+    public String getName() {
+        return name;
     }
-
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTime() {
         return time;
     }
-
     public void setTime(String time) {
         this.time = time;
     }
-
-    public String getNum() {
-        return num;
+    public String getImg() {
+        return img;
     }
-
-    public void setNum(String num) {
-        this.num = num;
+    public void setImg(String img) {
+        this.img = img;
     }
-
-    public String getWebUrl() {
-        return webUrl;
+    public String getHtml() {
+        return html;
     }
-
-    public void setWebUrl(String webUrl) {
-        this.webUrl = webUrl;
+    public void setHtml(String html) {
+        this.html = html;
+    }
+    public String getLocation() {
+        return location;
+    }
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

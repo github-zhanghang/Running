@@ -48,14 +48,14 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHol
     public void onBindViewHolder(final GoodsViewHolder holder, int position) {
         //holder.mImageView.setImageResource(mGoodsDatas.get(position).getPic());
         Glide.with(mContext)
-                .load(mGoodsDatas.get(position).getPic())
+                .load(mGoodsDatas.get(position).getImg())
                 .transform(new GlideRoundTransform(mContext,6))
                 .placeholder(R.color.colorOrange)//显示一个占位符
                 .error(R.drawable.fail)//错误占位符
                 .crossFade()//入淡出动画
                 .into(holder.mImageView);
-        holder.goodTextView.setText(mGoodsDatas.get(position).getGoodname());
-        holder.priceTextView.setText(mGoodsDatas.get(position).getPrice());
+        holder.goodTextView.setText(mGoodsDatas.get(position).getName());
+        holder.priceTextView.setText("$ "+mGoodsDatas.get(position).getPrice());
 
         if (mOnItemClickListener!=null){
             holder.itemView.setOnClickListener(new View.OnClickListener() {

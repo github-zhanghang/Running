@@ -10,8 +10,10 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
 import com.running.android_main.R;
 import com.running.beans.ApiResult;
+import com.running.beans.Friend;
 
 import java.util.List;
 
@@ -21,9 +23,9 @@ import java.util.List;
  */
 public class SortAdapter extends BaseAdapter implements SectionIndexer {
     private Context mContext;
-    private List<ApiResult> list;
+    private List<Friend> list;
 
-    public SortAdapter(Context mContext, List<ApiResult> list) {
+    public SortAdapter(Context mContext, List<Friend> list) {
         this.mContext = mContext;
         this.list = list;
     }
@@ -32,7 +34,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
      *
      * @param list
      */
-    public void updateListView(List<ApiResult> list) {
+    public void updateListView(List<Friend> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -62,7 +64,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder =null;
-        final ApiResult apiResult = list.get(position);
+        final Friend friend = list.get(position);
         if (convertView == null){
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_contact,null);
@@ -77,16 +79,16 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 
         if (position == getPositionForSection(section)) {
             viewHolder.tvLetter.setVisibility(View.VISIBLE);
-            viewHolder.tvLetter.setText(apiResult.getSortLetters());
+            viewHolder.tvLetter.setText(friend.getSortLetters());
         } else {
             viewHolder.tvLetter.setVisibility(View.GONE);
         }
 
-        viewHolder.tvTitle.setText(this.list.get(position).getUsername());
-        /*Glide.with(mContext)
+        viewHolder.tvTitle.setText(this.list.get(position).getRemark());
+        Glide.with(mContext)
                     .load(list.get(position).getPortrait())
-                    .into(viewHolder.txImage);*/
-        viewHolder.txImage.setImageResource(R.drawable.rc_default_portrait);
+                    .into(viewHolder.txImage);
+        //viewHolder.txImage.setImageResource(R.drawable.rc_default_portrait);
 
 
         return convertView;

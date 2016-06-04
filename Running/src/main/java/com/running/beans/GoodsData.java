@@ -4,47 +4,47 @@ package com.running.beans;
  * Created by C5-0 on 2016/5/27.
  */
 public class GoodsData {
-    private int pic;
-    private String goodname;
-    private  String price;
-    private String weburl;
+    private String name;
+    private double price;
+    private String img;
+    private String html;
 
-    public GoodsData(int pic, String goodname, String price, String weburl) {
-        this.pic = pic;
-        this.goodname = goodname;
+    public GoodsData(String name, double price, String img, String html) {
+        this.name = name;
         this.price = price;
-        this.weburl = weburl;
+        this.img = img;
+        this.html = html;
     }
 
-    public int getPic() {
-        return pic;
+    public String getName() {
+        return name;
     }
 
-    public void setPic(int pic) {
-        this.pic = pic;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getGoodname() {
-        return goodname;
-    }
-
-    public void setGoodname(String goodname) {
-        this.goodname = goodname;
-    }
-
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public String getWeburl() {
-        return weburl;
+    public String getImg() {
+        return img;
     }
 
-    public void setWeburl(String weburl) {
-        this.weburl = weburl;
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getHtml() {
+        return html;
+    }
+
+    public void setHtml(String html) {
+        this.html = html;
     }
 }

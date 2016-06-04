@@ -3,8 +3,8 @@ package com.running.beans;
 /**
  * Created by ZhangHang on 2016/6/1.
  */
-public class UserInfo {
-    private String mCode;// 状态码
+public class UserInfo implements Serializable{
+    private int mCode;// 状态码
     private int mUid;
     private String mAccount;
     private String mTelephone;
@@ -176,12 +176,11 @@ public class UserInfo {
     public String toString() {
         return "UserInfo{" +
                 "mCode=" + mCode +
-                ", mUid='" + mUid + '\'' +
                 ", mAccount='" + mAccount + '\'' +
                 ", mTelephone='" + mTelephone + '\'' +
                 ", mNickName='" + mNickName + '\'' +
                 ", mImageUrl='" + mImageUrl + '\'' +
-                ", mSignature='" + mSignature + '\'' +
+                ", mSingnature='" + mSingnature + '\'' +
                 ", mAge=" + mAge +
                 ", mSex='" + mSex + '\'' +
                 ", mHeight=" + mHeight +
