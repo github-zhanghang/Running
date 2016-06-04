@@ -56,9 +56,6 @@ public class Register3Activity extends AppCompatActivity {
         mPassword = intent.getStringExtra("password");
         mTelephone = intent.getStringExtra("telephone");
         mSex = intent.getStringExtra("sex");
-        /*mPassword = "zzia";
-        mSex = "男";
-        mTelephone = "15106200759";*/
 
         initView();
         addListener();

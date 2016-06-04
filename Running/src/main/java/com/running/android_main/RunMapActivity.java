@@ -2,6 +2,7 @@ package com.running.android_main;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,11 +34,18 @@ import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.OnEntityListener;
 import com.baidu.trace.OnStartTraceListener;
 import com.baidu.trace.Trace;
+import com.running.beans.UserInfo;
 import com.running.model.RealtimeTrackData;
 import com.running.utils.GsonService;
 import com.running.utils.MyOrientationListener;
 import com.running.utils.MyStepListener;
 import com.running.utils.ScreenShot;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.OnResponseListener;
+import com.yolanda.nohttp.Request;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.RequestQueue;
+import com.yolanda.nohttp.Response;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -52,6 +60,9 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class RunMapActivity extends Activity implements View.OnClickListener {
     private MyApplication mApplication;
+    private UserInfo mUserInfo;
+    private static final String mPath = "http://192.168.191.1:8080/Running/runDataServlet";
+    private RequestQueue requestQueue = NoHttp.newRequestQueue(1);
 
     private int gatherInterval = 3;  //位置采集周期 (s)
     private int packInterval = 5;  //打包周期 (s)
@@ -82,7 +93,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     private double mWeight;
     //跑步的距离、速度,卡路里,步数,时间
     private double mDistance, mSpeed, mCalorie, mTime;
-    private long mStepCount;
+    private long mStepCount, mStartTime;
     //毫秒转成 时:分:秒 格式
     SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss");//初始化Formatter的转换格式。
     //保留小数点后两位
@@ -91,13 +102,16 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     //方向
     private float mDirection;
     private MyOrientationListener mOrientationListener;
-
+    //目标,是否完成
+    private String mTarget;
+    private int mComplete = 1;
 
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == 1) {
                 mTime += 1000;
+                //减去8小时的时差
                 mRunTimeText.setText(mSimpleDateFormat.format(mTime + 1000 - 28800000));
                 mRunDistanceText.setText(mDecimalFormat.format(mDistance) + " km");
                 mSpeed = mDistance * 60 * 60 / mTime;
@@ -113,17 +127,23 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_runmap);
+        //获取目标
+        Intent intent = getIntent();
+        mTarget = intent.getStringExtra("target");
+
         mApplication = (MyApplication) getApplication();
-        mWeight = mApplication.getUserInfo().getWeight();
+        mUserInfo = mApplication.getUserInfo();
+        mWeight = mUserInfo.getWeight();
+
         init();
         initOnEntityListener();
         mTraceClient.setOnEntityListener(mEntityListener);
+        // 开启轨迹服务
         initOnStartTraceListener();
         mTraceClient.setOnStartTraceListener(mStartTraceListener);
-        // 开启轨迹服务
         mTraceClient.startTrace(mTrace, mStartTraceListener);
-        initStepListener();
         //开启计步
+        initStepListener();
         mStepListener.start();
         initButtonListener();
         //获取方向
@@ -132,11 +152,10 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         mOrientationListener.start();
     }
 
+
     private void init() {
         mMapView = (MapView) findViewById(R.id.mapview);
-
         mBaiduMap = mMapView.getMap();
-//        mBaiduMap.enable
         //地图移动到当前位置
         double latitude = mApplication.getUserInfo().getLatitude();
         double longitude = mApplication.getUserInfo().getLongitude();
@@ -151,6 +170,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
             //在地图上添加Marker，并显示
             mBaiduMap.addOverlay(option);
             mHandler.sendEmptyMessage(1);
+            mStartTime = System.currentTimeMillis();
         }
 
         //账号+当前时间来充当实体名
@@ -217,10 +237,10 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
             public void onOnStepListener(long step) {
                 if (!isStop) {
                     mStepCount = step;
+                    Log.e("my", "mStepCount=" + mStepCount);
                 } else {
                     mStepListener.setStep(mStepCount);
                 }
-                Log.e("my", "mStepCount=" + mStepCount);
             }
         });
     }
@@ -230,7 +250,6 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
             @Override
             public void onOrientationChanged(float x) {
                 mDirection = x;
-                Log.e("my", "direction=" + mDirection);
             }
         });
     }
@@ -250,7 +269,6 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
                 mStopButton.setVisibility(View.GONE);
                 mContinueButton.setVisibility(View.VISIBLE);
                 mOverButton.setVisibility(View.VISIBLE);
-                mTraceClient.stopTrace(mTrace, null);
                 break;
             case R.id.run_continue:
                 isStop = false;
@@ -262,10 +280,55 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
             case R.id.run_over:
                 isStop = true;
                 mHandler.removeMessages(1);
+                //将跑步数据插入数据库
+                saveRunData();
                 handover();
                 break;
         }
     }
+
+    private void saveRunData() {
+        Log.e("my", "mPath=" + mPath);
+        Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
+        request.add("uid", mApplication.getUserInfo().getUid());
+        request.add("distance", mDistance);
+        request.add("runtime", mTime);
+        request.add("speed", mSpeed);
+        request.add("calorie", mCalorie);
+        request.add("stepcount", mStepCount);
+        request.add("starttime", mStartTime);
+        request.add("target", mTarget);
+        request.add("complete", mComplete);
+        requestQueue.add(1, request, onResponseListener);
+        requestQueue.start();
+    }
+
+    private OnResponseListener onResponseListener = new OnResponseListener<String>() {
+        @Override
+        public void onStart(int what) {
+        }
+
+        @Override
+        public void onSucceed(int what, Response<String> response) {
+            if (what == 1) {
+                String result = response.get();
+                if (result != null && !result.equals("")) {
+                    Log.e("my", "result=" + result);
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+            if (what == 1) {
+                Toast.makeText(RunMapActivity.this, "提交数据失败", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onFinish(int what) {
+        }
+    };
 
     private void handover() {
         AlertDialog alertDialog = new AlertDialog.Builder(RunMapActivity.this)
@@ -382,7 +445,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
             }
             //计算距离，单位km
             if (mLatLngList.size() > 2) {
-                mDistance = DistanceUtil.getDistance(
+                mDistance += DistanceUtil.getDistance(
                         mLatLngList.get(mLatLngList.size() - 2),
                         mLatLngList.get(mLatLngList.size() - 1)) / 1000;
             }
@@ -392,15 +455,6 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     // 画出实时线路点
     private void drawRealtimePoint(LatLng point) {
         mBaiduMap.clear();
-        /*// 构造定位数据
-        MyLocationData locData = new MyLocationData.Builder()
-                // 此处设置开发者获取到的方向信息，顺时针0-360
-                .direction(mDirection)
-                .latitude(point.latitude)
-                .longitude(point.longitude)
-                .build();
-        // 设置定位数据
-        mBaiduMap.setMyLocationData(locData);*/
         MapStatus mapStatus = new MapStatus.Builder()
                 .target(point)
                 .zoom(16)

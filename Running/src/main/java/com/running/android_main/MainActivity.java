@@ -142,7 +142,9 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-            Toast.makeText(MainActivity.this, "获取气温失败", Toast.LENGTH_SHORT).show();
+            if (what == 2) {
+                Toast.makeText(MainActivity.this, "获取气温失败", Toast.LENGTH_SHORT).show();
+            }
         }
 
         @Override
