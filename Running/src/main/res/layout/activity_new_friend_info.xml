@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".NewFriendInfoActivity">
+    <com.running.myviews.TopBar
+        android:id="@+id/xiaoxi_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImage="@mipmap/ic_launcher"
+        app:leftText="添加好友"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F2F2F2"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#ffffff">
+
+            <ImageView
+                android:id="@+id/near_information_headImg"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/ic_launcher"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/near_information_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:text="无名"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/near_information_sexAndAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="男 23岁"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#ffffff">
+
+            <TextView
+                style="@style/information_textView"
+                android:layout_weight="1"
+                android:text="账号信息"/>
+
+            <TextView
+                android:id="@+id/near_information_account"
+                style="@style/information_textView"
+                android:layout_weight="3"
+                android:text="run_10001"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="#ffffff">
+
+            <TextView
+                style="@style/information_textView"
+                android:layout_weight="1"
+                android:text="地区"/>
+
+            <TextView
+                android:id="@+id/near_information_location"
+                style="@style/information_textView"
+                android:layout_weight="3"
+                android:text="河南 安阳"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="#ffffff">
+
+            <TextView
+                style="@style/information_textView"
+                android:layout_weight="1"
+                android:text="总里程"/>
+
+            <TextView
+                android:id="@+id/near_information_sumDistance"
+                style="@style/information_textView"
+                android:layout_weight="3"
+                android:text="91.2km"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="#ffffff">
+
+            <TextView
+                style="@style/information_textView"
+                android:layout_weight="1"
+                android:text="总时间"/>
+
+            <TextView
+                android:id="@+id/near_information_sumTime"
+                style="@style/information_textView"
+                android:layout_weight="3"
+                android:text="23:25:12"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_addNewFriend"
+            android:onClick="onClickAddNewFriend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:background="#ff9900"
+            android:text="加为好友"
+            android:textSize="20sp"/>
+    </LinearLayout>
+</LinearLayout>

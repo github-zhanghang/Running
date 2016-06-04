@@ -9,6 +9,7 @@
     tools:context="com.running.android_main.AboutUsActivity">
 
     <com.running.myviews.TopBar
+        android:id="@+id/about_us_topBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
         app:leftImage="@mipmap/ic_launcher"

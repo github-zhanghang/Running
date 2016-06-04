@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 
 import com.running.android_main.NewFriendListActivity;
+import com.running.message.AgreedFriendRequestMessage;
 import com.sea_monster.network.AbstractHttpRequest;
 
 import io.rong.imkit.RongIM;
@@ -21,6 +22,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.ContactNotificationMessage;
+import io.rong.message.InformationNotificationMessage;
 
 /**
  * 融云SDK事件监听处理。
@@ -39,8 +41,6 @@ import io.rong.message.ContactNotificationMessage;
  */
 public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMessageListener,
         RongIM.UserInfoProvider,RongIM.ConversationListBehaviorListener{
-
-
     private static final String TAG = "RongCloudEvent";
 
     private static RongCloudEvent mRongCloudInstance;
@@ -90,7 +90,6 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
     }
     /**
      * 连接成功注册。
-     * <p/>
      * 在RongIM-connect-onSuccess后调用。
      */
     public void setOtherListener(){
@@ -122,6 +121,9 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
             in.putExtra("rongCloud", contactContentMessage);
             in.putExtra("has_message", true);
             mContext.sendBroadcast(in);*/
+        } else if (messageContent instanceof InformationNotificationMessage){
+            InformationNotificationMessage informationNotificationMessage = (InformationNotificationMessage) messageContent;
+            Log.e(TAG, "onReceived-informationNotificationMessage:" + informationNotificationMessage.getMessage());
         }
 
         return false;
@@ -173,8 +175,13 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
             //跳转到新的好友列表
             context.startActivity(new Intent(context, NewFriendListActivity.class));
             return true;
-        }
+        }else if (messageContent instanceof  InformationNotificationMessage){
+            InformationNotificationMessage ifm =
+                    (InformationNotificationMessage) messageContent;
 
+            //Log.e(TAG, "---会话列表点击事件--小灰条通知消息-userId:"+ifm.getUserInfo().getUserId());
+        }
         return false;
     }
+
 }

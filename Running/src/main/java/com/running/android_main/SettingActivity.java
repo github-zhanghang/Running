@@ -7,12 +7,14 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.running.myviews.MyToggleButton;
+import com.running.myviews.TopBar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,6 +25,8 @@ public class SettingActivity extends AppCompatActivity implements
 
     private PopupWindow mPopupWindow;
 
+    @Bind(R.id.setting_topBar)
+    TopBar mSettingTopBar;
     @Bind(R.id.setting_setTittle)
     TextView mSettingSetTittle;
     @Bind(R.id.push_message)
@@ -31,6 +35,8 @@ public class SettingActivity extends AppCompatActivity implements
     MyToggleButton mSettingMyToggleButton;
     @Bind(R.id.update_password)
     TextView mUpdatePassword;
+    @Bind(R.id.update_phone)
+    TextView mUpdatePhone;
     @Bind(R.id.check_update)
     TextView mCheckUpdate;
     @Bind(R.id.feed_back)
@@ -51,6 +57,21 @@ public class SettingActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
         mSettingMyToggleButton.setToggleState(true);
         mSettingMyToggleButton.setOnToggleStateChangeListener(this);
+        addListener();
+    }
+
+    private void addListener() {
+        mSettingTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+
+            }
+        });
     }
 
     //监听开启与关闭消息推送
@@ -64,13 +85,17 @@ public class SettingActivity extends AppCompatActivity implements
     }
 
 
-    @OnClick({R.id.update_password, R.id.check_update, R.id.feed_back,
+    @OnClick({R.id.update_password, R.id.update_phone, R.id.check_update, R.id.feed_back,
             R.id.recommend_friend, R.id.about_us, R.id.quit_account})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.update_password:
                 show("update_password");
                 startActivity(new Intent(this, UpdatePasswordActivity.class));
+                break;
+            case R.id.update_phone:
+                show("update_phone");
+                startActivity(new Intent(this, UpdatePhoneActivity.class));
                 break;
             case R.id.check_update:
                 show("check_update");
@@ -115,7 +140,7 @@ public class SettingActivity extends AppCompatActivity implements
                 break;
             case R.id.about_us:
                 show("about_us");
-                startActivity(new Intent(this,AboutUsActivity.class));
+                startActivity(new Intent(this, AboutUsActivity.class));
                 break;
             case R.id.quit_account:
                 show("quit_account");

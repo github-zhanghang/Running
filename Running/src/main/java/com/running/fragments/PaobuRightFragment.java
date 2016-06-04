@@ -26,10 +26,13 @@ public class PaobuRightFragment extends Fragment implements View.OnClickListener
     private TextView mTitleText, mTargetText, mUnitsText;
 
     private TranslateAnimation mTranslateAnimation;
-
+    //单位
     private static final String mDisUnits = "公里";
     private static final String mTimeUnits = "分钟";
     private static final String mCalUnits = "大卡";
+
+    //目标
+    private String mTarget;
 
     @Nullable
     @Override

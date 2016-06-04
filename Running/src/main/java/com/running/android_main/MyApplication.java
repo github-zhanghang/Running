@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.running.beans.UserInfo;
 import com.running.event.RongCloudEvent;
 import com.running.message.ContactNotificationMessageProvider;
+import com.yolanda.nohttp.NoHttp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +18,7 @@ import io.rong.imkit.RongIM;
  * Created by ZhangHang on 2016/5/21.
  */
 public class MyApplication extends Application {
-    private String mCity = "苏州";//城市
-    private String mAccount = "";
-    private int mWeight = 60;
+    public UserInfo mUserInfo;
 
     private List<Activity> mActivityList;
     public static String sourceUserId;
@@ -36,30 +36,16 @@ public class MyApplication extends Application {
         RongCloudEvent.init(this);
         //注册定义的好友添加消息
         RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
+        //NoHttp
+        NoHttp.init(this);
     }
 
-    public String getCity() {
-        return mCity;
+    public UserInfo getUserInfo() {
+        return mUserInfo;
     }
 
-    public void setCity(String city) {
-        mCity = city;
-    }
-
-    public String getAccount() {
-        return mAccount;
-    }
-
-    public void setAccount(String account) {
-        mAccount = account;
-    }
-
-    public int getWeight() {
-        return mWeight;
-    }
-
-    public void setWeight(int weight) {
-        mWeight = weight;
+    public void setUserInfo(UserInfo userInfo) {
+        mUserInfo = userInfo;
     }
 
     public void addActivity(Activity activity) {

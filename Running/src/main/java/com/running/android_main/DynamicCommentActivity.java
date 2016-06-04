@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +16,7 @@ import com.running.adapters.DynamicImgGridViewAdapter;
 import com.running.beans.FirstCommentBean;
 import com.running.beans.SecondCommentBean;
 import com.running.myviews.MyGridView;
+import com.running.myviews.TopBar;
 import com.running.utils.MySpan;
 
 import java.util.ArrayList;
@@ -39,16 +39,8 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
     private List<HashMap<String, Object>> mList;
     private DynamicCommentItemAdapter mAdapter;
 
-    @Bind(R.id.dynamic_comment_backImg)
-    ImageView mDynamicCommentBackImg;
-    @Bind(R.id.dynamic_comment_backText)
-    TextView mDynamicCommentBackText;
-    @Bind(R.id.dynamic_comment_Tittle)
-    TextView mDynamicCommentTittle;
-    @Bind(R.id.dynamic_comment_shareImg)
-    ImageView mDynamicCommentShareImg;
-    @Bind(R.id.dynamic_comment_tittleLayout)
-    RelativeLayout mDynamicCommentTittleLayout;
+    @Bind(R.id.dynamic_comment_topBar)
+    TopBar mDynamicCommentTopBar;
     @Bind(R.id.dynamic_comment_listView)
     ListView mDynamicCommentListView;
     @Bind(R.id.dynamic_comment_footEdit)
@@ -62,6 +54,22 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         setContentView(R.layout.dynamic_comment);
         ButterKnife.bind(this);
         initData();
+        addListener();
+    }
+
+    private void addListener() {
+        mDynamicCommentTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                Toast.makeText(DynamicCommentActivity.this, "返回", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+                Toast.makeText(DynamicCommentActivity.this, "分享", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     private void initData() {
