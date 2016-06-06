@@ -17,6 +17,9 @@ import com.running.beans.DynamicImgBean;
 import com.running.beans.DynamicLinkBean;
 import com.running.myviews.MyGridView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,7 +82,7 @@ public class DynamicAdapter extends BaseAdapter {
 
     public boolean getType(int position) {
         boolean flag = true;
-        if (mList.get(position).get("type").equals("image")) {
+        if (mList.get(position).get("type").equals("img")) {
             flag = true;
         } else if (mList.get(position).get("type").equals("link")) {
             flag = false;
@@ -105,7 +108,7 @@ public class DynamicAdapter extends BaseAdapter {
             } else {
                 imgViewHolder = (ImgViewHolder) convertView.getTag();
             }
-            DynamicImgBean dynamicImgBean = (DynamicImgBean) mList.get(position).get("img");
+            DynamicImgBean dynamicImgBean = (DynamicImgBean) mList.get(position).get("DynamicBean");
             //显示普通动态
             showDynamicImg(imgViewHolder, dynamicImgBean);
         } else {
@@ -157,8 +160,8 @@ public class DynamicAdapter extends BaseAdapter {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                Intent intent = new Intent(mContext, DynamicCommentActivity.class);
-                mContext.startActivity(intent);
+                        Intent intent = new Intent(mContext, DynamicCommentActivity.class);
+                        mContext.startActivity(intent);
                     }
                 });
         linkViewHolder.mDynamicLinkItemPraiseCount.setText(String.valueOf(dynamicLinkBean
@@ -168,8 +171,8 @@ public class DynamicAdapter extends BaseAdapter {
     //显示普通动态
     private void showDynamicImg(ImgViewHolder imgViewHolder, DynamicImgBean dynamicImgBean) {
         Glide.with(mContext).
-                load(dynamicImgBean.getHeadImg()).
-                placeholder(dynamicImgBean.getHeadImg()).
+                load(dynamicImgBean.getHeadPhoto()).
+                placeholder(R.mipmap.ic_launcher).
                 into(imgViewHolder.mDynamicImgItemHeadImg);
         //头像设置点击事件
         imgViewHolder.mDynamicImgItemHeadImg.setOnClickListener(new View.OnClickListener() {
@@ -180,6 +183,7 @@ public class DynamicAdapter extends BaseAdapter {
             }
         });
         imgViewHolder.mDynamicImgItemName.setText(dynamicImgBean.getName());
+        imgViewHolder.mDynamicImgItemTime.setText(timeChange(dynamicImgBean.getTime()));
         imgViewHolder.mDynamicImgItemContent.setText(dynamicImgBean.getContent());
         //img GridView的添加值
         mAdapter = new DynamicImgGridViewAdapter(mContext, dynamicImgBean.getImgList(),
@@ -197,6 +201,20 @@ public class DynamicAdapter extends BaseAdapter {
         });
         imgViewHolder.mDynamicImgItemCommentCount.setText(String.valueOf(dynamicImgBean
                 .getCommentCount()));
+    }
+
+
+    private String timeChange(String time) {
+        String s="";
+        SimpleDateFormat formatTime=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = formatTime.parse(time);
+            SimpleDateFormat formatString=new SimpleDateFormat("MM-dd HH:mm");
+            s=formatString.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return s;
     }
 
 

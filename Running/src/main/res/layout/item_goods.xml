@@ -33,16 +33,18 @@
                 android:id="@+id/name_good"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:textSize="20sp"
+                android:textSize="14sp"
                 android:text="我就是人见人爱花见花开的跑步鞋"
+                android:textColor="#1e1e1e"
               />
             <TextView
-                android:id="@+id/name_price"
-                android:layout_width="match_parent"
+                android:id="@+id/name_price"                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="$1000"
+                android:textSize="16sp"
                 android:textColor="#f70703"
              />
         </LinearLayout>

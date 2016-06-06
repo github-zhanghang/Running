@@ -2,6 +2,7 @@ package com.running.android_main;
 
 import android.app.Activity;
 import android.app.Application;
+import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.running.beans.UserInfo;
@@ -58,6 +59,7 @@ public class MyApplication extends Application {
 
     public void finish() {
         for (int i = 0; i < mActivityList.size(); i++) {
+            Log.e("my", "size" + mActivityList.size());
             Activity activity = mActivityList.get(i);
             if (activity != null) {
                 activity.finish();

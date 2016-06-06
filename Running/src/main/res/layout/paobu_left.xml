@@ -10,25 +10,25 @@
         android:layout_height="match_parent"/>
 
     <TextView
-        android:id="@+id/txt"
+        android:id="@+id/run_totaldistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60sp"
         android:singleLine="true"
         android:text="0.00"
-        android:textColor="#ffffff"
-        android:textSize="70sp"/>
+        android:textColor="@color/white"
+        android:textSize="60sp"/>
 
     <TextView
         android:id="@+id/txt1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txt"
+        android:layout_below="@id/run_totaldistance"
         android:layout_centerHorizontal="true"
         android:singleLine="true"
         android:text="跑步总里程(公里)"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="20sp"/>
 
 
@@ -48,12 +48,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt2"
+                android:id="@+id/run_totaltime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="0.0"
-                android:textColor="#ffffff"
+                android:textColor="@color/white"
                 android:textSize="30sp"/>
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="累计用时(小时)"
-                android:textColor="#ffffff"
+                android:textColor="@color/white"
                 android:textSize="20sp"/>
         </LinearLayout>
 
@@ -75,12 +75,12 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt4"
+                android:id="@+id/run_totalcount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="0"
-                android:textColor="#ffffff"
+                android:textColor="@color/white"
                 android:textSize="30sp"/>
 
             <TextView
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="运动次数"
-                android:textColor="#ffffff"
+                android:textColor="@color/white"
                 android:textSize="20sp"/>
         </LinearLayout>
     </LinearLayout>
@@ -101,6 +101,6 @@
         android:background="@drawable/btn_oval"
         android:gravity="center"
         android:text="开始"
-        android:textColor="#ffffff"
+        android:textColor="@color/white"
         android:textSize="30sp"/>
 </com.running.myviews.MyStartLayout>
