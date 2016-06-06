@@ -55,10 +55,9 @@ public class PaobuLeftFragment extends Fragment {
     }
 
     private void getRunData() {
-        Log.e("my", "mPath=" + mPath);
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
         request.add("type", "totaldata");
-        request.add("uid", "" + mApplication.getUserInfo().getUid());
+        request.add("uid",mApplication.getUserInfo().getUid());
         requestQueue.add(1, request, onResponseListener);
         requestQueue.start();
     }

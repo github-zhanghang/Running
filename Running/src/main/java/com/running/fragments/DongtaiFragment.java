@@ -245,11 +245,14 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     mListView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            if (mList.size() == 0) {
+                                mLinearLayout.setVisibility(View.GONE);
+                                return;
+                            }
                             //加载相关操作
                             DynamicImgBean bean = (DynamicImgBean) mList.get(mList.size() - 1)
                                     .get("DynamicBean");
                             getDynamicList(1, bean.getTime(), "normal");
-                            mLinearLayout.setVisibility(View.GONE);
                             //mDynamicAdapter.notifyDataSetChanged();
                             IS_LOADING = false;
                         }
