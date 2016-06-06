@@ -37,7 +37,7 @@ public class NewFriendInfoActivity extends AppCompatActivity {
                 .url(ADD_FRIEND)
                 .addParams("flag", ContactNotificationMessage.CONTACT_OPERATION_REQUEST)
                 .addParams("sourceUserId","1")//用户id
-                .addParams("targetUserId",mUserInfo.getmUid()+"")
+                .addParams("targetUserId",mUserInfo.getUid()+"")
                 .addParams("message",mUserInfo.getNickName()+"请求加你为好友")
                 .build()
                 .execute(new StringCallback() {

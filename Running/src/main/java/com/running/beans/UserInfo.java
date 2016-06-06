@@ -1,10 +1,12 @@
 package com.running.beans;
 
+import java.io.Serializable;
+
 /**
  * Created by ZhangHang on 2016/6/1.
  */
-public class UserInfo implements Serializable{
-    private int mCode;// 状态码
+public class UserInfo implements Serializable {
+    private String mCode;// 状态码
     private int mUid;
     private String mAccount;
     private String mTelephone;
@@ -180,7 +182,7 @@ public class UserInfo implements Serializable{
                 ", mTelephone='" + mTelephone + '\'' +
                 ", mNickName='" + mNickName + '\'' +
                 ", mImageUrl='" + mImageUrl + '\'' +
-                ", mSingnature='" + mSingnature + '\'' +
+                ", mSingnature='" + mSignature + '\'' +
                 ", mAge=" + mAge +
                 ", mSex='" + mSex + '\'' +
                 ", mHeight=" + mHeight +

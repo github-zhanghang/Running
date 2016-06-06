@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="80dp">
+                android:layout_width="match_parent"
+                android:background="@color/__picker_item_photo_border_selected"
+                android:layout_height="80dp">
     <ImageView
         android:id="@+id/item_nearby_portrait"
         android:layout_width="56dp"
@@ -10,6 +11,7 @@
         android:layout_marginLeft="12dp"
         android:padding="5dp"
         android:src="@drawable/rc_default_portrait" />
+
     <TextView
         android:id="@+id/item_nearby_username"
         android:text="依山观澜"
@@ -24,7 +26,7 @@
         android:layout_toRightOf="@+id/item_nearby_portrait" />
 
     <TextView
-        android:id="@+id/item_nearby_juli"
+        android:id="@+id/item_nearby_distance"
         android:textSize="16sp"
         android:text="200米"
         android:textColor="#353535"
