@@ -140,7 +140,6 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
             case R.id.goRegister:
                 //提交验证码
                 SMSSDK.submitVerificationCode("86", mPhoneNumber, mCodeEditText.getText().toString());
-                startActivity(new Intent(Register1Activity.this, Register2Activity.class));
                 break;
             case R.id.goLogin:
                 startActivity(new Intent(Register1Activity.this, LoginActivity.class));
@@ -150,6 +149,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
     }
 
     private void changeButtonStyle() {
+        isRunning = true;
         seconds = 60;
         mGetCodeButton.setClickable(false);
         mGetCodeButton.setBackgroundColor(Color.GRAY);

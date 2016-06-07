@@ -92,8 +92,8 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
 
     private double mWeight;
     //跑步的距离、速度,卡路里,步数,时间
-    private double mDistance, mSpeed, mCalorie, mTime;
-    private long mStepCount, mStartTime;
+    private double mDistance, mSpeed, mCalorie;
+    private long mStepCount, mStartTime, mTime;
     //毫秒转成 时:分:秒 格式
     SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss");//初始化Formatter的转换格式。
     //保留小数点后两位
