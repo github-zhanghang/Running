@@ -19,9 +19,11 @@ import io.rong.imkit.RongIM;
  * Created by ZhangHang on 2016/5/21.
  */
 public class MyApplication extends Application {
+    //用户信息
     public UserInfo mUserInfo;
-
-    private List<Activity> mActivityList;
+    //总距离
+    public String mDistance;
+    public List<Activity> mActivityList;
     public static String sourceUserId;
 
     @Override
@@ -47,6 +49,14 @@ public class MyApplication extends Application {
 
     public void setUserInfo(UserInfo userInfo) {
         mUserInfo = userInfo;
+    }
+
+    public String getDistance() {
+        return mDistance;
+    }
+
+    public void setDistance(String distance) {
+        mDistance = distance;
     }
 
     public void addActivity(Activity activity) {

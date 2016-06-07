@@ -140,7 +140,7 @@
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:re_imageView="@drawable/userinfo_medal"
+            app:re_imageView="@drawable/icon_medal"
             app:re_dataText="最好成绩"
             />
     </RelativeLayout>
