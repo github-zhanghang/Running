@@ -80,7 +80,7 @@ public class PaobuLeftFragment extends Fragment {
                     String[] data = result.split(",");
                     mTotalDistanceText.setText(data[0]);
                     mApplication.setDistance(data[0]);
-                    mTotalTimeText.setText(mSimpleDateFormat.format(Integer.parseInt(data[1])));
+                    mTotalTimeText.setText(mSimpleDateFormat.format(Integer.parseInt(data[1]) - 8 * 60 * 60 * 1000));
                     mTotalCount.setText(data[2]);
                 }
             }

@@ -154,11 +154,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 String u_birthday = mBirthdayItem.getDataText();
                 String u_address = mAddressItem.getDataText();
                 String u_signature = mSignatureItem.getDataText();
-                /*Log.e("my", "u_nickName=" + mUserInfo.getNickName() + ";u_height=" +
-                        mUserInfo.getHeight() + "cm" + ";u_weight=" + mUserInfo.getWeight() + "kg"
-                        + ";u_sex=" + mUserInfo.getSex() +
-                        ";u_birthday=" + mUserInfo.getBirthday() + ";u_address=" + mUserInfo.getAddress() +
-                        ";u_signature=" + mUserInfo.getSignature());*/
                 //如果信息未改变，则不提交服务器
                 if (u_nickName.equals(mUserInfo.getNickName()) &&
                         u_height.equals(mUserInfo.getHeight() + "cm") &&

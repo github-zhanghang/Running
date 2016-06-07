@@ -114,6 +114,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
             intent.putExtra("password", mPassword);
             intent.putExtra("telephone", mPhoneNumber);
             startActivity(intent);
+            Register1Activity.this.finish();
         } else {
             Toast.makeText(Register1Activity.this, "密码不一致", Toast.LENGTH_SHORT).show();
         }

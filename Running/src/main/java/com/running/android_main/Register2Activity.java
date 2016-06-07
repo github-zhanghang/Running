@@ -53,5 +53,6 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
         intent.putExtra("telephone", mTelephone);
         intent.putExtra("sex", mSex);
         startActivity(intent);
+        Register2Activity.this.finish();
     }
 }
