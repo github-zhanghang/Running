@@ -1,8 +1,11 @@
 package com.running.android_main;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -34,7 +37,9 @@ public class NearbyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nearby);
         initViews();
         initData();
+        Listener();
     }
+
 
 
     private void initViews() {
@@ -61,7 +66,6 @@ public class NearbyActivity extends AppCompatActivity {
                     public void onError(Call call, Exception e) {
                         Log.e("NearbyActivity", "onError: "+e.getMessage() );
                     }
-
                     @Override
                     public void onResponse(String response) {
                         Log.e("test123", "NearbyActivity: "+response );
@@ -80,6 +84,18 @@ public class NearbyActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void Listener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(NearbyActivity.this,NewFriendInfoActivity.class);
+                intent.putExtra("NearbyActivity",mUserInfoList.get(position));
+                startActivity(intent);
+
+            }
+        });
     }
 
 }
