@@ -10,13 +10,16 @@ import android.widget.TextView;
 import com.running.android_main.R;
 import com.running.beans.History;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
  * Created by C5-0 on 2016/5/27.
  */
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder> {
-
+public class HistoryAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder>  {
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_FOOTER = 1;
     private List<History> mHistories;
     private Context mContext;
     //创建一个实现点击接口
@@ -36,26 +39,36 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     }
 
     @Override
-    public HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(mContext).inflate(R.layout.item_history,parent,false);
-        return new HistoryViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType==TYPE_ITEM){
+            View view= LayoutInflater.from(mContext).inflate(R.layout.item_history,parent,false);
+            return new HistoryViewHolder(view);
+        }else if (viewType==TYPE_FOOTER){
+            View view= LayoutInflater.from(mContext).inflate(R.layout.recycler_item_foot,parent,false);
+            return new FootViewHolder(view);
+        }
+        return null;
     }
 
     @Override
-    public void onBindViewHolder(final HistoryViewHolder holder, int position) {
-        holder.dateTextView.setText(mHistories.get(position).getDate());
-        holder.distanceTextView.setText(mHistories.get(position).getDistance());
-        holder.timeTextView.setText(mHistories.get(position).getTime());
-        if (mOnItemClickListener !=null){
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position=holder.getLayoutPosition();
-                    mOnItemClickListener.onItemClick(holder.itemView, position);
-                }
-            });
-        }
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof HistoryViewHolder) {
 
+            DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            DateFormat dateFormat2=new SimpleDateFormat("hh:mm:ss");
+            ((HistoryViewHolder) holder).dateTextView.setText(dateFormat.format(mHistories.get(position).getRuntime()) + "");
+            ((HistoryViewHolder) holder).distanceTextView.setText(mHistories.get(position).getRundistance() + "");
+            ((HistoryViewHolder) holder).timeTextView.setText(dateFormat2.format(mHistories.get(position).getRunstarttime()) + "");
+            if (mOnItemClickListener != null) {
+                ((HistoryViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int position = holder.getLayoutPosition();
+                        mOnItemClickListener.onItemClick(holder.itemView, position);
+                    }
+                });
+            }
+        }
     }
 
     @Override
@@ -63,6 +76,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         return mHistories.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (position+1 == getItemCount()) {
+            return TYPE_FOOTER;
+        } else {
+            return TYPE_ITEM;
+        }
+    }
     public class HistoryViewHolder extends RecyclerView.ViewHolder {
         TextView dateTextView,distanceTextView,timeTextView;
         public HistoryViewHolder(View itemView) {
@@ -70,6 +91,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
             dateTextView= (TextView) itemView.findViewById(R.id.date_histoy);
             distanceTextView= (TextView) itemView.findViewById(R.id.distance_history);
             timeTextView= (TextView) itemView.findViewById(R.id.time_history);
+        }
+    }
+    public class FootViewHolder extends RecyclerView.ViewHolder{
+
+        public FootViewHolder(View itemView) {
+            super(itemView);
         }
     }
 }
