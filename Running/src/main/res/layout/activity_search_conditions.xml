@@ -39,9 +39,10 @@
             android:id="@+id/xingbie_tv"/>
 
         <Spinner
+            android:entries="@array/gender"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:id="@+id/xingbie_spinner"
+            android:id="@+id/gender_spinner"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
@@ -112,16 +113,16 @@
         <Spinner
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner"
+            android:id="@+id/sheng_spinner"
 
             android:layout_alignTop="@+id/fujin"
-            android:layout_toLeftOf="@+id/spinner2"
-            android:layout_toStartOf="@+id/spinner2"/>
+            android:layout_toLeftOf="@+id/shi_spinner"
+            android:layout_toStartOf="@+id/shi_spinner"/>
 
         <Spinner
             android:layout_width="110dp"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner2"
+            android:id="@+id/shi_spinner"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>

@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.running.adapters.SortAdapter;
 import com.running.android_main.NewFriendListActivity;
 import com.running.android_main.R;
@@ -83,7 +84,6 @@ public class XiaoxiRightFragment extends Fragment {
 
     }
     private void getData() {
-
         OkHttpUtils
                 .get()
                 .url(GetFriendList)
@@ -98,15 +98,18 @@ public class XiaoxiRightFragment extends Fragment {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
-                            Log.e( "test123: ",jsonArray.toString());
+
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object =  jsonArray.getJSONObject(i);
-                                Friend friend = new Friend();
+                                Log.e( "test123: ","object:"+object.toString());
+                                Friend friend =
+                                        new Gson().fromJson(object.toString(),Friend.class);
+                                /*Friend friend = new Friend();
                                 friend.setFriendid(object.getInt("friendid"));
                                 friend.setAccount(object.getString("account"));
                                 friend.setRemark(object.getString("remark"));
                                 friend.setPortrait(object.getString("portrait"));
-                                friend.setFriendtime(object.getString("friendtime"));
+                                friend.setFriendtime(object.getString("friendtime"));*/
                                 //添加首字母
                                 mFriendList.add(filledData(friend));
                                 //根据a-z进行排序源数据

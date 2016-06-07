@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.running.adapters.XiaoxiFragmentAdapter;
-import com.running.android_main.AddFriendActivity;
+import com.running.android_main.FriendAddActivity;
 import com.running.android_main.MainActivity;
 import com.running.android_main.R;
 import com.running.myviews.TopBar;
@@ -103,7 +103,7 @@ public class XiaoxiFragment extends Fragment {
             @Override
             public void onTopbarRightImageClick(ImageView imageView) {
                 //跳转到添加好友界面
-                getActivity().startActivity(new Intent(getActivity(),AddFriendActivity.class));
+                getActivity().startActivity(new Intent(getActivity(),FriendAddActivity.class));
                 Toast.makeText(mActivity, "添加好友", Toast.LENGTH_SHORT).show();
             }
         });

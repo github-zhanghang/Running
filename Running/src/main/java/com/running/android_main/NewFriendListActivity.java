@@ -42,7 +42,7 @@ public class NewFriendListActivity extends AppCompatActivity {
     ContactNotificationMessage contactContentMessage;
 
     private ListView mNewFriendList;
-    //ApiResult 是看demo里的改的 方便扩展
+
     private List<Friend> mResultList;
     private NewFriendListAdapter adapter;
     @Override
