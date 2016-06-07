@@ -186,14 +186,14 @@ public class XiaoxiRightFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getActivity(), "position:"+position, Toast.LENGTH_SHORT).show();
-                Log.e( "test123: ", mFriendList.get(position-1).getRemark() );
+
+                Friend friend = (Friend) adapter.getItem(position-1);
                 Toast.makeText(getActivity(),
-                        mFriendList.get(position-1).getRemark(), Toast.LENGTH_SHORT).show();
+                       friend.getRemark(), Toast.LENGTH_SHORT).show();
                 //启动会话界面
                 /*if (RongIM.getInstance() != null){
                     RongIM.getInstance().startPrivateChat
-                            (getActivity(), mFriendList.get(position-1).getAccount(), "这是标题");
+                            (getActivity(), friend.get(position-1).getAccount(), "这是标题");
                 }*/
             }
         });

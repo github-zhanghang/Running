@@ -259,8 +259,6 @@
         <activity android:name=".GoodsActivity"/>
         <activity android:name=".PersonInformationActivity">
         </activity>
-        <activity android:name=".NearPersonInformationActivity">
-        </activity>
         <activity android:name=".UpdatePhoneActivity">
         </activity>
         <activity android:name=".SettingActivity"/>

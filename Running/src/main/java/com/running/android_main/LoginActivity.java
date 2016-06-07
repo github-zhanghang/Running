@@ -31,6 +31,8 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private MyApplication mApplication;
@@ -182,8 +184,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         editor.putBoolean("isRememberPassword", false);
                         editor.apply();
                     }
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    LoginActivity.this.finish();
+                    //连接融云 成功
+                    connect(mApplication.getUserInfo().getRongToken());
+
                 } else if (userInfo.getCode().equals(Login_Error_UserName)) {
                     Toast.makeText(LoginActivity.this, "该用户不存在", Toast.LENGTH_SHORT).show();
                 } else if (userInfo.getCode().equals(Login_Error_UserPassword)) {
@@ -253,4 +256,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onDestroy();
         ShareSDK.stopSDK();
     }
+    //融云的连接
+    private void connect(String token) {
+
+        RongIM.connect(token, new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+                Log.e("12345: ", "过期");
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                Log.e("12345: ", "融云连接成功");
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                LoginActivity.this.finish();
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.e("12345: ", errorCode.toString());
+            }
+        });
+    }
+
+
 }
