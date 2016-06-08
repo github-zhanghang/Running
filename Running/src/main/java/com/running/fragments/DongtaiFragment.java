@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.running.adapters.DynamicAdapter;
 import com.running.android_main.MainActivity;
+import com.running.android_main.MyApplication;
 import com.running.android_main.PublishDynamicActivity;
 import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
@@ -133,6 +134,11 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 load(R.drawable.dynamic_test).
                 thumbnail(0.1f).
                 into(imageView);
+        ImageView uImg = (ImageView) mHeaderView.findViewById(R.id.dynamic_header_head_img);
+        Glide.with(this).
+                load(((MyApplication) getActivity().getApplication()).getUserInfo().getImageUrl()).
+                thumbnail(0.1f).
+                into(uImg);
         mListView.addHeaderView(mHeaderView);
 
         //添加FootView
@@ -157,7 +163,6 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 .build()
                 .execute(dynamicCallBack);
     }
-
 
     private void addLinkDynamic() {
         HashMap<String, Object> map = new HashMap<>();
