@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.baidu.platform.comapi.map.L;
 import com.bumptech.glide.Glide;
 import com.running.android_main.R;
 import com.running.beans.UserInfo;

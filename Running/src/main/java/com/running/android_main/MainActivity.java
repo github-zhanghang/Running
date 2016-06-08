@@ -20,7 +20,6 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.bumptech.glide.Glide;
 import com.running.adapters.MyFragmentAdapter;
 import com.running.beans.UserInfo;
 import com.running.fragments.DongtaiFragment;

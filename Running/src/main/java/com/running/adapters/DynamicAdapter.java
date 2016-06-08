@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.running.android_main.DynamicCommentActivity;
 import com.running.android_main.DynamicOneselfActivity;
+import com.running.android_main.MainActivity;
+import com.running.android_main.MyApplication;
 import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.DynamicLinkBean;
@@ -59,10 +61,13 @@ public class DynamicAdapter extends BaseAdapter {
     @Bind(R.id.dynamic_img_item_comment_count)
     TextView mDynamicImgItemCommentCount;
 
+    MyApplication mMyApplication;
+
     public DynamicAdapter(Context context, List<HashMap<String, Object>> list) {
         mContext = context;
         mList = list;
         mInflater = LayoutInflater.from(mContext);
+        mMyApplication = (MyApplication) ((MainActivity)mContext).getApplication();
     }
 
     @Override
@@ -169,7 +174,7 @@ public class DynamicAdapter extends BaseAdapter {
     }
 
     //显示普通动态
-    private void showDynamicImg(ImgViewHolder imgViewHolder, DynamicImgBean dynamicImgBean) {
+    private void showDynamicImg(ImgViewHolder imgViewHolder, final DynamicImgBean dynamicImgBean) {
         Glide.with(mContext).
                 load(dynamicImgBean.getHeadPhoto()).
                 placeholder(R.mipmap.ic_launcher).
@@ -179,6 +184,7 @@ public class DynamicAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DynamicOneselfActivity.class);
+                intent.putExtra("dId",dynamicImgBean.getdId());
                 mContext.startActivity(intent);
             }
         });
@@ -192,10 +198,13 @@ public class DynamicAdapter extends BaseAdapter {
 
         imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(dynamicImgBean
                 .getPraiseCount()));
+        //跳转到评论界面
         imgViewHolder.mDynamicImgItemCommentImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DynamicCommentActivity.class);
+                intent.putExtra("myId",mMyApplication.getUserInfo().getUid());
+                intent.putExtra("dynamicBean",dynamicImgBean);
                 mContext.startActivity(intent);
             }
         });

@@ -34,7 +34,8 @@ import cn.sharesdk.wechat.friends.Wechat;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener ,
+        RongIM.UserInfoProvider{
     private MyApplication mApplication;
     public static final String Login_OK = "0";
     private static final String mPath = "http://192.168.191.1:8080/Running/loginServlet";
@@ -270,6 +271,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onSuccess(String s) {
                 Log.e("12345: ", "融云连接成功");
                 mProgressDialog.dismiss();
+                RongIM.setUserInfoProvider(LoginActivity.this, true);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 LoginActivity.this.finish();
             }
@@ -289,5 +291,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mToast = Toast.makeText(mContext, text, Toast.LENGTH_SHORT);
         mToast.show();
     }
+    //消息提供者
+    @Override
+    public io.rong.imlib.model.UserInfo getUserInfo(String s) {
 
+        io.rong.imlib.model.UserInfo userInfo = new io.rong.imlib.model.UserInfo(
+                mApplication.getUserInfo().getAccount(),
+                mApplication.getUserInfo().getNickName(),
+                Uri.parse(mApplication.getUserInfo().getImageUrl()));
+        RongIM.getInstance().setCurrentUserInfo(userInfo);
+        RongIM.getInstance().setMessageAttachedUserInfo(true);
+        return userInfo;
+
+    }
 }

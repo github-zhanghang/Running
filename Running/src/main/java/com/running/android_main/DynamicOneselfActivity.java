@@ -1,7 +1,9 @@
 package com.running.android_main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,8 +13,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.running.adapters.DynamicOneselfAdapter;
+import com.running.beans.DynamicOneselfBean;
 import com.running.myviews.TopBar;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +27,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 public class DynamicOneselfActivity extends AppCompatActivity {
 
@@ -39,18 +47,58 @@ public class DynamicOneselfActivity extends AppCompatActivity {
     @Bind(R.id.dynamic_oneself_swipe)
     SwipeRefreshLayout mOneselfSwipe;
 
+    private DynamicOneselfCallBack mOneselfCallBack;
+    String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    for (int i = 0; i < mOneselfCallBack.mOneselfBeen.size(); i++) {
+                        HashMap<String, Object> map = new HashMap<>();
+                        if (i==0) {
+                            map.put("type", IMG);
+                            map.put("DynamicOneselfBean", mOneselfCallBack.mOneselfBeen.get(i));
+                            mList.add(map);
+                        }
+                        map.put("type", IMG);
+                        map.put("DynamicOneselfBean", mOneselfCallBack.mOneselfBeen.get(i));
+                        mList.add(map);
+                    }
+                    mAdapter.notifyDataSetChanged();
+                    mOneselfSwipe.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mOneselfSwipe.setRefreshing(false);
+                        }
+                    });
+
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dynamic_oneself);
         ButterKnife.bind(this);
-        initData();
 
         //设置刷新颜色
         mOneselfSwipe.setColorSchemeResources(
                 android.R.color.holo_blue_bright,
                 android.R.color.holo_blue_dark
         );
+        mOneselfSwipe.post(new Runnable() {
+            @Override
+            public void run() {
+                mOneselfSwipe.setRefreshing(true);
+            }
+        });
+
+        initData();
 
         //设置RecyclerView
         mManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -91,27 +139,6 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        List<HashMap<String,Object>> list=new ArrayList<HashMap<String, Object>>();
-                        HashMap<String,Object> map=new HashMap<String, Object>();
-                        List<String> imgList = new ArrayList<>();
-                        imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP." +
-                                "pVXXXXcAXXXXXXXXXXXX_!!2237636884.jpg");
-                        imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP." +
-                                "pVXXXXcAXXXXXXXXXXXX_!!2237636884.jpg");
-                        imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP." +
-                                "pVXXXXcAXXXXXXXXXXXX_!!2237636884.jpg");
-                        imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP." +
-                                "pVXXXXcAXXXXXXXXXXXX_!!2237636884.jpg");
-
-                        map.put("time", "2016-05-25 15:30");
-                        map.put("content", "四月，你好");
-                        map.put("imgList", imgList);
-                        map.put("type", IMG);
-
-                        list.add(map);
-                        mList.addAll(1,list);
-                        mAdapter.notifyItemRemoved(mAdapter.getItemCount());
-                        mAdapter.notifyDataSetChanged();
                         mOneselfSwipe.setRefreshing(false);
                     }
                 }, 2000);
@@ -141,27 +168,6 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                         mOneselfRecyclerView.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                List<HashMap<String, Object>> list = new
-                                        ArrayList<HashMap<String, Object>>();
-                                HashMap<String,Object> map=new HashMap<String, Object>();
-                                List<String> imgList = new ArrayList<>();
-                                imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP." +
-                                        "pVXXXXcAXXXXXXXXXXXX_!!2237636884.jpg");
-                                imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP." +
-                                        "pVXXXXcAXXXXXXXXXXXX_!!2237636884.jpg");
-                                imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP." +
-                                        "pVXXXXcAXXXXXXXXXXXX_!!2237636884.jpg");
-                                imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP." +
-                                        "pVXXXXcAXXXXXXXXXXXX_!!2237636884.jpg");
-
-                                map.put("time", "2016-05-25 15:30");
-                                map.put("content", "四月，你好");
-                                map.put("imgList", imgList);
-                                map.put("type", IMG);
-
-                                list.add(map);
-                                mList.addAll(list);
-                                mAdapter.notifyDataSetChanged();
                                 onLoading = false;
                             }
                         }, 2000);
@@ -174,28 +180,42 @@ public class DynamicOneselfActivity extends AppCompatActivity {
     private void initData() {
         mList = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();
-        map.put("backImg",0);
-        map.put("headImg",1);
-        map.put("name","桃子");
-        map.put("sex","女");
-        mList.add(map);
-        map=new HashMap<>();
-        List<String> imgList = new ArrayList<>();
-        imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP.pVXXXXcAXXXXXXXXXXXX_" +
-                "!!2237636884.jpg");
-        imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP.pVXXXXcAXXXXXXXXXXXX_" +
-                "!!2237636884.jpg");
-        imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP.pVXXXXcAXXXXXXXXXXXX_" +
-                "!!2237636884.jpg");
-        imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP.pVXXXXcAXXXXXXXXXXXX_" +
-                "!!2237636884.jpg");
+        List<Object> objectList = new ArrayList<>();
+        Intent intent = getIntent();
+        int dId = intent.getIntExtra("dId", -1);
+        if (dId == -1) {
+        } else {
+            OkHttpUtils.post()
+                    .url(url)
+                    .addParams("appRequest", "DynamicOneself")
+                    .addParams("dId", String.valueOf(dId))
+                    .build()
+                    .execute(mOneselfCallBack = new DynamicOneselfCallBack());
 
-        map.put("time", "2016-05-25 15:30");
-        map.put("content", "四月，你好");
-        map.put("imgList", imgList);
-        map.put("type", IMG);
+        }
+    }
 
-        mList.add(map);
-        mList.add(map);
+    public class DynamicOneselfCallBack extends StringCallback {
+        List<DynamicOneselfBean> mOneselfBeen = new ArrayList<>();
+
+        @Override
+        public void onError(Call call, Exception e) {
+
+        }
+
+        @Override
+        public void onResponse(String response) {
+            Gson gson = new Gson();
+            mOneselfBeen = gson.fromJson(response, new TypeToken<List<DynamicOneselfBean>>() {
+            }.getType());
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Message message = new Message();
+                    message.what = 1;
+                    mHandler.sendMessage(message);
+                }
+            }).start();
+        }
     }
 }
