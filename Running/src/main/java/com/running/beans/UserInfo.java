@@ -6,6 +6,9 @@ import java.io.Serializable;
  * Created by ZhangHang on 2016/6/1.
  */
 public class UserInfo implements Serializable {
+    public UserInfo() {
+    }
+
     private String mCode;// 状态码
     private int mUid;
     private String mAccount;

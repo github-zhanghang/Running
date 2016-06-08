@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.running.adapters.MedalAdapter;
 import com.running.beans.MedalItemInfo;
-import com.running.myviews.ImageTextView;
 import com.running.myviews.MyGridView;
 import com.running.myviews.TopBar;
 import com.running.utils.ScreenShot;
@@ -28,12 +27,18 @@ public class MedalActivity extends AppCompatActivity {
     private Activity mContext;
     private TopBar mTopBar;
     private MyGridView mHaveGridView;
-    private List<ImageTextView> mHaveList = new ArrayList<>();
+    private List<ImageView> mHaveList = new ArrayList<>();
     private MedalAdapter mHaveAdapter;
 
     private MyGridView mNotHaveGridView;
-    private List<ImageTextView> mNotHaveList = new ArrayList<>();
+    private List<ImageView> mNotHaveList = new ArrayList<>();
     private MedalAdapter mNotHaveAdapter;
+    private int[] mHaveImage = {R.drawable.ic_medal_l_day1, R.drawable.ic_medal_l_run5,
+            R.drawable.ic_medal_l_run10, R.drawable.ic_medal_l_run21,
+            R.drawable.ic_medal_l_run42};
+    private int[] mNotHaveImage = {R.drawable.ic_medal_l_day1_p, R.drawable.ic_medal_l_run5_p,
+            R.drawable.ic_medal_l_run10_p, R.drawable.ic_medal_l_run21_p,
+            R.drawable.ic_medal_l_run42_p};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,24 +67,24 @@ public class MedalActivity extends AppCompatActivity {
 
     private void initHaveGridViewData() {
         MedalItemInfo medalItemInfo;
-        ImageTextView medalView;
-        for (int i = 1; i <= 5; i++) {
-            medalItemInfo = new MedalItemInfo(R.mipmap.ic_launcher, "第" + i + "个勋章");
-            medalView = new ImageTextView(mContext);
+        ImageView medalView;
+        for (int i = 0; i < mHaveImage.length; i++) {
+            medalItemInfo = new MedalItemInfo(mHaveImage[i], "第" + i + "个勋章");
+            medalView = new ImageView(mContext);
             medalView.setImageResource(medalItemInfo.getImgId());
-            medalView.setText(medalItemInfo.getDescription());
+            medalView.setBackgroundColor(Color.GRAY);
             mHaveList.add(medalView);
         }
     }
 
     private void initNotHaveGridViewData() {
         MedalItemInfo medalItemInfo;
-        ImageTextView medalView;
-        for (int i = 1; i <= 15; i++) {
-            medalItemInfo = new MedalItemInfo(R.mipmap.ic_launcher, "第" + i + "个勋章");
-            medalView = new ImageTextView(mContext);
+        ImageView medalView;
+        for (int i = 0; i < mNotHaveImage.length; i++) {
+            medalItemInfo = new MedalItemInfo(mNotHaveImage[i], "第" + i + "个勋章");
+            medalView = new ImageView(mContext);
             medalView.setImageResource(medalItemInfo.getImgId());
-            medalView.setText(medalItemInfo.getDescription());
+            medalView.setBackgroundColor(Color.GRAY);
             mNotHaveList.add(medalView);
         }
     }

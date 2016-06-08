@@ -1,8 +1,8 @@
 package com.running.android_main;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,7 +11,6 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.running.adapters.NearByAdapter;
 import com.running.beans.NearUserInfo;
-import com.running.beans.UserInfo;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -27,10 +26,11 @@ import okhttp3.Call;
 public class NearbyActivity extends AppCompatActivity {
 
     public static final String NearbyServlet
-            = "http://10.201.1.185:8080/Running/NearbyServlet";
-    private ListView  mListView;
+            = "http://192.168.191.1:8080/Running/NearbyServlet";
+    private ListView mListView;
     private List<NearUserInfo> mUserInfoList;
     private NearByAdapter mNearByAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,41 +41,43 @@ public class NearbyActivity extends AppCompatActivity {
     }
 
 
-
     private void initViews() {
         mUserInfoList = new ArrayList<>();
-        mNearByAdapter = new NearByAdapter(NearbyActivity.this,mUserInfoList);
+        mNearByAdapter = new NearByAdapter(NearbyActivity.this, mUserInfoList);
         mListView = (ListView) findViewById(R.id.nearby_lv);
         mListView.setAdapter(mNearByAdapter);
 
     }
+
     private void initData() {
         request();
     }
+
     private void request() {
         double mLatitude = 0;
         double mLongitude = 0;
-        OkHttpUtils.get()
+        OkHttpUtils.post()
                 .url(NearbyServlet)
-                .addParams("Uid",1+"")
-                .addParams("Longitude",mLongitude+"")
-                .addParams("Latitude",mLatitude+"")
+                .addParams("Uid", ((MyApplication) getApplication()).getUserInfo().getUid() + "")
+                .addParams("Longitude", mLongitude + "")
+                .addParams("Latitude", mLatitude + "")
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e) {
-                        Log.e("NearbyActivity", "onError: "+e.getMessage() );
+                        Log.e("NearbyActivity", "onError: " + e.getMessage());
                     }
+
                     @Override
                     public void onResponse(String response) {
-                        Log.e("test123", "NearbyActivity: "+response );
+                        Log.e("test123", "NearbyActivity: " + response);
                         try {
                             JSONArray jsonArray = new JSONArray(response);
 
-                            for (int i = 0; i <jsonArray.length() ; i++) {
-                                JSONObject object =  jsonArray.getJSONObject(i);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(i);
                                 NearUserInfo userInfo =
-                                        new Gson().fromJson(object.toString(),NearUserInfo.class);
+                                        new Gson().fromJson(object.toString(), NearUserInfo.class);
                                 mUserInfoList.add(userInfo);
                             }
                             mNearByAdapter.notifyDataSetChanged();
@@ -90,8 +92,8 @@ public class NearbyActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(NearbyActivity.this,NewFriendInfoActivity.class);
-                intent.putExtra("NearbyActivity",mUserInfoList.get(position));
+                Intent intent = new Intent(NearbyActivity.this, NewFriendInfoActivity.class);
+                intent.putExtra("NearbyActivity", mUserInfoList.get(position));
                 startActivity(intent);
 
             }

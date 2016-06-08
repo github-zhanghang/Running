@@ -129,7 +129,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
 
                 <data
-                    android:host="com.ezio.myim"
+                    android:host="com.running.android_main"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong"/>
             </intent-filter>

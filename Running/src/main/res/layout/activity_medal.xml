@@ -29,8 +29,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:text="已获得"
-                android:textSize="20sp"/>
+                android:textColor="@color/orange"
+                android:textSize="25sp"/>
 
             <com.running.myviews.MyGridView
                 android:id="@+id/medal_have"
@@ -42,15 +44,16 @@
                 android:horizontalSpacing="2dp"
                 android:numColumns="3"
                 android:scrollbars="none"
-                android:stretchMode="columnWidth"
                 android:verticalSpacing="2dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_marginTop="20dp"
                 android:text="未获得"
-                android:textSize="20sp"/>
+                android:textColor="@color/orange"
+                android:textSize="25sp"/>
 
             <com.running.myviews.MyGridView
                 android:id="@+id/medal_nothave"
@@ -62,7 +65,6 @@
                 android:horizontalSpacing="2dp"
                 android:numColumns="3"
                 android:scrollbars="none"
-                android:stretchMode="columnWidth"
                 android:verticalSpacing="2dp"/>
         </LinearLayout>
     </ScrollView>

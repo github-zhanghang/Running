@@ -143,6 +143,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.regist:
                 startActivity(new Intent(mContext, Register1Activity.class));
+                LoginActivity.this.finish();
                 break;
             case R.id.login_QQ:
                 thirdLogin(QZone.NAME);
