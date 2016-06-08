@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.running.android_main.ConFriendActivity">
+    <com.running.myviews.TopBar
+        android:id="@+id/xiaoxi_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:leftImage="@mipmap/ic_launcher"
+        app:leftText="查找结果"/>
+    <ListView
+        android:id="@+id/confriend_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+</LinearLayout>

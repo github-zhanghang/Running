@@ -52,7 +52,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
     private List<CommentBean> mList;
     private DynamicCommentItemAdapter mAdapter;
     private DynamicImgBean mDynamicImgBean;
-    private String url = "http://10.201.1.176:8080/RunningAppTest/dynamicOperateServlet";
+    private String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
     private CommentCallBack mCommentCallBack;
     private HashMap<String, Object> mMap = new HashMap<>();
 

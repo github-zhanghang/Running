@@ -1,17 +1,17 @@
 package com.running.android_main;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.running.adapters.NewFriendListAdapter;
-import com.running.beans.ApiResult;
 import com.running.beans.Friend;
-import com.running.utils.pinyin.PinyinComparator;
+import com.running.beans.UserInfo;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -20,7 +20,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import io.rong.message.ContactNotificationMessage;
@@ -37,12 +36,12 @@ import okhttp3.Call;
  */
 public class NewFriendListActivity extends AppCompatActivity {
     public static final String GetNewFriendList
-            = "http://10.201.1.185:8080/Running/GetFriendList";
+            = "http://192.168.191.1:8080/Running/GetFriendList";
     TextView mTextView;
     ContactNotificationMessage contactContentMessage;
 
     private ListView mNewFriendList;
-    //ApiResult 是看demo里的改的 方便扩展
+
     private List<Friend> mResultList;
     private NewFriendListAdapter adapter;
     @Override
@@ -61,9 +60,9 @@ public class NewFriendListActivity extends AppCompatActivity {
     }
     private void request() {
          OkHttpUtils
-                .get()
+                .post()
                 .url(GetNewFriendList)
-                .addParams("meid","1")
+                .addParams("meid",((MyApplication) getApplication()).getUserInfo().getUid()+"")
                 .addParams("status","0")
                 .build()
                 .execute(new StringCallback() {
@@ -92,28 +91,8 @@ public class NewFriendListActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-
-                        /*try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            Log.e( "test123: ",jsonArray.toString());
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject object =  jsonArray.getJSONObject(i);
-                                ApiResult apiResult = new ApiResult();
-                                apiResult.setId(object.getString("id"));
-                                apiResult.setUsername(object.getString("username"));
-                                apiResult.setStatus(object.getInt("status"));
-                                mResultList.add(apiResult);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.e( "test123: ",mResultList.size()+"");
-                        adapter = new NewFriendListAdapter(mResultList, NewFriendListActivity.this);
-                        mNewFriendList.setAdapter(adapter);*/
                         //adapter的点击事件
-
-                       // setOnItemButtonClick();
+                        setOnItemButtonClick();
                     }
                 });
     }
@@ -131,7 +110,12 @@ public class NewFriendListActivity extends AppCompatActivity {
                         break;
                     case 3://请求被添加
                         //发送消息给server
-                       // sendMessage(mResultList.get(position).getId());
+                        Friend friend =mResultList.get(position);
+                        UserInfo userInfo =new UserInfo();
+                        userInfo.setUid(friend.getFriendid());
+                        userInfo.setNickName(friend.getRemark());
+                        userInfo.setAccount(friend.getAccount());
+                        sendMessage(userInfo);
                         mResultList.get(position).setStatus(1);
                         adapter.notifyDataSetChanged();
                         break;
@@ -146,14 +130,14 @@ public class NewFriendListActivity extends AppCompatActivity {
             }
         });
     }
-/*
-    private void sendMessage(String id) {
+
+    private void sendMessage(UserInfo userInfo) {
         OkHttpUtils
-                .get()
-                .url(Api.getADD_FRIEND())
+                .post()
+                .url(NewFriendInfoActivity.ADD_FRIEND)
                 .addParams("flag", ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)
-                .addParams("sourceUserId",App.sourceUserId)
-                .addParams("targetUserId",id)
+                .addParams("sourceUserId",new Gson().toJson(((MyApplication) getApplication()).getUserInfo()))
+                .addParams("targetUserId",new Gson().toJson(userInfo))
                 .addParams("message","")
                 .build()
                 .execute(new StringCallback() {
@@ -169,7 +153,7 @@ public class NewFriendListActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }*/
+    }
 
 
 }

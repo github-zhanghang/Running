@@ -6,17 +6,14 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import com.bumptech.glide.Glide;
 import com.running.android_main.R;
-import com.running.beans.ApiResult;
 import com.running.beans.Friend;
 
 import java.util.List;
-
-import io.rong.imkit.widget.AsyncImageView;
 
 /**
  * Created by Bob on 2015/3/26.
@@ -69,7 +66,7 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.mFrienduUserName = (TextView) convertView.findViewById(R.id.item_friend_username);
             viewHolder.mFrienduState = (TextView) convertView.findViewById(R.id.item_friend_state);
-            viewHolder.mPortraitImg = (AsyncImageView) convertView.findViewById(R.id.item_friend_portrait);
+            viewHolder.mPortraitImg = (ImageView) convertView.findViewById(R.id.item_friend_portrait);
             convertView.setTag(viewHolder);
         }else{
             viewHolder= (ViewHolder) convertView.getTag();
@@ -126,6 +123,6 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
         TextView mFrienduUserName;
 
         TextView mFrienduState;
-        AsyncImageView mPortraitImg;
+        ImageView mPortraitImg;
     }
 }

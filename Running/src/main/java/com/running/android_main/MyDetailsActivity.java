@@ -3,6 +3,7 @@ package com.running.android_main;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -15,7 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,11 +27,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.running.beans.City;
+import com.running.beans.District;
+import com.running.beans.Provence;
 import com.running.beans.UserInfo;
 import com.running.myviews.MyInfoItemView;
 import com.running.myviews.TopBar;
@@ -39,8 +47,16 @@ import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.RequestQueue;
 import com.yolanda.nohttp.Response;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MyDetailsActivity extends AppCompatActivity implements View.OnClickListener, OnTopbarClickListener {
     private MyApplication mApplication;
@@ -81,6 +97,14 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     private static final int RESULT_REQUEST_CODE = 2;
     /*头像名称*/
     private static final String IMAGE_FILE_NAME = "faceImage.jpg";
+
+    //省市区三级联动
+    private List<Provence> provences;
+    private Provence provence;
+    ArrayAdapter<Provence> adapter01;
+    ArrayAdapter<City> adapter02;
+    ArrayAdapter<District> adapter03;
+    private Spinner spinner01, spinner02, spinner03;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,26 +171,21 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.saveinfo:
                 //保存用户修改后的信息
-                String u_nickName = mNickItem.getDataText();
-                String u_height = mHeightItem.getDataText();
-                String u_weight = mWeightItem.getDataText();
-                String u_sex = mSexItem.getDataText();
-                String u_birthday = mBirthdayItem.getDataText();
-                String u_address = mAddressItem.getDataText();
-                String u_signature = mSignatureItem.getDataText();
-                /*Log.e("my", "u_nickName=" + mUserInfo.getNickName() + ";u_height=" +
-                        mUserInfo.getHeight() + "cm" + ";u_weight=" + mUserInfo.getWeight() + "kg"
-                        + ";u_sex=" + mUserInfo.getSex() +
-                        ";u_birthday=" + mUserInfo.getBirthday() + ";u_address=" + mUserInfo.getAddress() +
-                        ";u_signature=" + mUserInfo.getSignature());*/
+                String u_nickName = mNickItem.getDataText() + "";
+                String u_height = mHeightItem.getDataText() + "";
+                String u_weight = mWeightItem.getDataText() + "";
+                String u_sex = mSexItem.getDataText() + "";
+                String u_birthday = mBirthdayItem.getDataText() + "";
+                String u_address = mAddressItem.getDataText() + "";
+                String u_signature = mSignatureItem.getDataText() + "";
                 //如果信息未改变，则不提交服务器
-                if (u_nickName.equals(mUserInfo.getNickName()) &&
+                if (u_nickName.equals(mUserInfo.getNickName() + "") &&
                         u_height.equals(mUserInfo.getHeight() + "cm") &&
                         u_weight.equals(mUserInfo.getWeight() + "kg") &&
-                        u_sex.equals(mUserInfo.getSex()) &&
-                        u_birthday.equals(mUserInfo.getBirthday()) &&
-                        u_address.equals(mUserInfo.getAddress()) &&
-                        u_signature.equals(mUserInfo.getSignature())) {
+                        u_sex.equals(mUserInfo.getSex() + "") &&
+                        u_birthday.equals(mUserInfo.getBirthday() + "") &&
+                        u_address.equals(mUserInfo.getAddress() + "") &&
+                        u_signature.equals(mUserInfo.getSignature() + "")) {
                     Toast.makeText(MyDetailsActivity.this, "个人信息未发生变化", Toast.LENGTH_SHORT).show();
                 } else {
                     saveUserInfo(u_nickName, u_height, u_weight, u_sex, u_birthday, u_address, u_signature);
@@ -227,6 +246,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 // 获取日历对象
                 mCalendar = Calendar.getInstance();
                 mDatePicker = new DatePicker(this);
+                mDatePicker.setCalendarViewShown(false);
                 mDatePicker.init(2000,
                         mCalendar.get(Calendar.MONTH) + 1,
                         mCalendar.get(Calendar.DAY_OF_MONTH),
@@ -236,10 +256,10 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.address_item:
                 mInfoItemView = (MyInfoItemView) v;
-                mEditText = new EditText(this);
-                String address = mInfoItemView.getDataText();
-                mEditText.setText(address);
-                initEditText(address);
+                View view = LayoutInflater.from(MyDetailsActivity.this).inflate(R.layout.city, null);
+                initSpinner(view);
+                mDialogBuilder.setView(view);
+                showAlertDialog();
                 break;
             case R.id.signature_item:
                 mInfoItemView = (MyInfoItemView) v;
@@ -251,6 +271,160 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 initEditText(signature);
                 break;
         }
+    }
+
+    private void initSpinner(View view) {
+        spinner01 = (Spinner) view.findViewById(R.id.spinner01);
+        spinner02 = (Spinner) view.findViewById(R.id.spinner02);
+        spinner03 = (Spinner) view.findViewById(R.id.spinner03);
+
+        try {
+            provences = getProvinces();
+        } catch (XmlPullParserException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        adapter01 = new ArrayAdapter<Provence>(this,
+                android.R.layout.simple_list_item_1, provences);
+        spinner01.setAdapter(adapter01);
+        spinner01.setSelection(0, true);
+
+        adapter02 = new ArrayAdapter<City>(this,
+                android.R.layout.simple_list_item_1, provences.get(0)
+                .getCitys());
+        spinner02.setAdapter(adapter02);
+        spinner02.setSelection(0, true);
+
+        adapter03 = new ArrayAdapter<District>(this,
+                android.R.layout.simple_list_item_1, provences.get(0)
+                .getCitys().get(0).getDistricts());
+        spinner03.setAdapter(adapter03);
+        spinner03.setSelection(0, true);
+
+        spinner01.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                provence = provences.get(position);
+                adapter02 = new ArrayAdapter<City>(MyDetailsActivity.this,
+                        android.R.layout.simple_list_item_1, provences.get(
+                        position).getCitys());
+                spinner02.setAdapter(adapter02);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        spinner02.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                adapter03 = new ArrayAdapter<District>(MyDetailsActivity.this,
+                        android.R.layout.simple_list_item_1, provence.getCitys().get(position)
+                        .getDistricts());
+                spinner03.setAdapter(adapter03);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+    }
+
+    public List<Provence> getProvinces() throws XmlPullParserException,
+            IOException {
+        List<Provence> provinces = null;
+        Provence province = null;
+        List<City> citys = null;
+        City city = null;
+        List<District> districts = null;
+        District district = null;
+        Resources resources = getResources();
+
+        InputStream in = resources.openRawResource(R.raw.citys_weather);
+
+        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+        XmlPullParser parser = factory.newPullParser();
+
+        parser.setInput(in, "utf-8");
+        int event = parser.getEventType();
+        while (event != XmlPullParser.END_DOCUMENT) {
+            switch (event) {
+                case XmlPullParser.START_DOCUMENT:
+                    provinces = new ArrayList<Provence>();
+                    break;
+                case XmlPullParser.START_TAG:
+                    String tagName = parser.getName();
+                    if ("p".equals(tagName)) {
+                        province = new Provence();
+                        citys = new ArrayList<City>();
+                        int count = parser.getAttributeCount();
+                        for (int i = 0; i < count; i++) {
+                            String attrName = parser.getAttributeName(i);
+                            String attrValue = parser.getAttributeValue(i);
+                            if ("p_id".equals(attrName))
+                                province.setId(attrValue);
+                        }
+                    }
+                    if ("pn".equals(tagName)) {
+                        province.setName(parser.nextText());
+                    }
+                    if ("c".equals(tagName)) {
+                        city = new City();
+                        districts = new ArrayList<District>();
+                        int count = parser.getAttributeCount();
+                        for (int i = 0; i < count; i++) {
+                            String attrName = parser.getAttributeName(i);
+                            String attrValue = parser.getAttributeValue(i);
+                            if ("c_id".equals(attrName))
+                                city.setId(attrValue);
+                        }
+                    }
+                    if ("cn".equals(tagName)) {
+                        city.setName(parser.nextText());
+                    }
+                    if ("d".equals(tagName)) {
+                        district = new District();
+                        int count = parser.getAttributeCount();
+                        for (int i = 0; i < count; i++) {
+                            String attrName = parser.getAttributeName(i);
+                            String attrValue = parser.getAttributeValue(i);
+                            if ("d_id".equals(attrName))
+                                district.setId(attrValue);
+                        }
+                        district.setName(parser.nextText());
+                        districts.add(district);
+                    }
+                    break;
+                case XmlPullParser.END_TAG:
+                    if ("c".equals(parser.getName())) {
+                        city.setDistricts(districts);
+                        citys.add(city);
+                    }
+                    if ("p".equals(parser.getName())) {
+                        province.setCitys(citys);
+                        provinces.add(province);
+                    }
+
+                    break;
+
+            }
+            event = parser.next();
+
+        }
+        return provinces;
     }
 
     private void showChangeImageDialog() {
@@ -457,7 +631,9 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                                 + mDatePicker.getDayOfMonth());
                         break;
                     case R.id.address_item:
-                        mInfoItemView.setDataText(mEditText.getText().toString());
+                        mInfoItemView.setDataText(spinner01.getSelectedItem().toString() + " "
+                                + spinner02.getSelectedItem().toString() + " "
+                                + spinner03.getSelectedItem().toString());
                         break;
                     case R.id.signature_item:
                         mInfoItemView.setDataText(mEditText.getText().toString());
@@ -484,4 +660,5 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onTopbarRightImageClick(ImageView imageView) {
     }
+
 }

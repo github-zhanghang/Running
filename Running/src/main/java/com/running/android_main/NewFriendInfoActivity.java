@@ -4,8 +4,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.running.beans.NearUserInfo;
 import com.running.beans.UserInfo;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -14,18 +19,43 @@ import io.rong.message.ContactNotificationMessage;
 import okhttp3.Call;
 
 public class NewFriendInfoActivity extends AppCompatActivity {
+    private ImageView mImageView;
+    private TextView nameTextView,accountTextView,addressTextView;
 
     public static final String ADD_FRIEND
-            = "http://10.201.1.185:8080/Running/RequestFriendServlet";
+            = "http://192.168.191.1:8080/Running/RequestFriendServlet";
     public static final String TAG = "NewFriendInfoActivity";
-    UserInfo mUserInfo;
+    NearUserInfo mUserInfo;
+    UserInfo userInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_friend_info);
-        mUserInfo = (UserInfo) getIntent().getSerializableExtra("NewFriendInfo");
-        Log.e("test123", "NewFriendInfoActivity: "+mUserInfo.getNickName());
+
+        initViews();
+        initData();
     }
+
+
+    private void initViews() {
+        mImageView = (ImageView) findViewById(R.id.near_information_headImg);
+        nameTextView = (TextView) findViewById(R.id.near_information_name);
+        accountTextView  = (TextView) findViewById(R.id.near_information_account);
+        addressTextView = (TextView) findViewById(R.id.near_information_location);
+    }
+    private void initData() {
+      //  mUserInfo = (NearUserInfo)getIntent().getExtras().get("NearbyActivity");
+        userInfo = (UserInfo) getIntent().getExtras().get("NewFriendInfo");;
+        Log.e("test123", "NewFriendInfoActivity: "+userInfo.getNickName());
+        Glide.with(NewFriendInfoActivity.this)
+                .load(userInfo.getImageUrl())
+                .into(mImageView);
+        nameTextView.setText(userInfo.getNickName());
+        accountTextView.setText(userInfo.getAccount());
+        addressTextView.setText(userInfo.getAddress());
+    }
+
+
 
     public void onClickAddNewFriend(View view) {
         request();
@@ -33,12 +63,12 @@ public class NewFriendInfoActivity extends AppCompatActivity {
 
     private void request() {
         OkHttpUtils
-                .get()
+                .post()
                 .url(ADD_FRIEND)
                 .addParams("flag", ContactNotificationMessage.CONTACT_OPERATION_REQUEST)
-                .addParams("sourceUserId","1")//用户id
-                .addParams("targetUserId",mUserInfo.getUid()+"")
-                .addParams("message",mUserInfo.getNickName()+"请求加你为好友")
+                .addParams("sourceUserId",new Gson().toJson(((MyApplication) getApplication()).getUserInfo()))//user信息
+                .addParams("targetUserId",new Gson().toJson(userInfo))//用户信息
+                .addParams("message",((MyApplication) getApplication()).getUserInfo().getNickName()+"请求加你为好友")
                 .build()
                 .execute(new StringCallback() {
                     @Override

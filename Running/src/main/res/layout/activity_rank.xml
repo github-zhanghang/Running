@@ -60,7 +60,7 @@
                 android:id="@+id/rank_my_img"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/game"
+                android:src="@mipmap/ic_launcher"
                 app:border_color="@color/gray"
                 app:border_width="4dp"/>
 
@@ -76,7 +76,7 @@
                     android:id="@+id/rank_my_distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="距离:11111km"
+                    android:text="距离:0km"
                     android:textSize="23sp"/>
 
                 <TextView
@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="排行:1000名以后"
+                    android:text="排行:100名以后"
                     android:textSize="23sp"/>
             </LinearLayout>
         </RelativeLayout>

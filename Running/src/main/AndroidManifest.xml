@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.running.android_main"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.running.android_main">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
@@ -129,7 +129,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
 
                 <data
-                    android:host="com.ezio.myim"
+                    android:host="com.running.android_main"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong"/>
             </intent-filter>
@@ -206,8 +206,6 @@
         </activity>
         <activity android:name=".NewFriendListActivity">
         </activity>
-        <activity android:name=".AddFriendActivity">
-        </activity>
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -261,15 +259,29 @@
         <activity android:name=".GoodsActivity"/>
         <activity android:name=".PersonInformationActivity">
         </activity>
-        <activity android:name=".NearPersonInformationActivity">
-        </activity>
         <activity android:name=".UpdatePhoneActivity">
         </activity>
         <activity android:name=".SettingActivity"/>
         <activity android:name=".AboutUsActivity"/>
         <activity android:name=".UpdatePasswordActivity"/>
         <activity android:name=".DynamicOneselfActivity"/>
-        <activity android:name=".NewFriendInfoActivity">
+        <activity
+            android:name=".NewFriendInfoActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".FriendAddActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".SearchConditionsActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".NearbyActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".ConFriendActivity">
         </activity>
     </application>
 

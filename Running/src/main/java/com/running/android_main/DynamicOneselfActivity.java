@@ -180,7 +180,7 @@ public class DynamicOneselfActivity extends AppCompatActivity {
     private void initData() {
         mList = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();
-        String url = "http://10.201.1.176:8080/RunningAppTest/dynamicOperateServlet";
+        String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
         List<Object> objectList = new ArrayList<>();
         Intent intent = getIntent();
         int dId = intent.getIntExtra("dId", -1);

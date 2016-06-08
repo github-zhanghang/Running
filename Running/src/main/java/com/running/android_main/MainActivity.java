@@ -20,7 +20,6 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.bumptech.glide.Glide;
 import com.running.adapters.MyFragmentAdapter;
 import com.running.beans.UserInfo;
 import com.running.fragments.DongtaiFragment;
@@ -177,11 +176,11 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         mUserImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
-        Glide.with(MainActivity.this)
+       /* Glide.with(MainActivity.this)
                 .load(mUserInfo.getImageUrl())
                 .centerCrop()
                 .placeholder(R.drawable.fail)
-                .into(mUserImage);
+                .into(mUserImage);*/
         mUserNickNameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_nickname);
         mUserNickNameText.setText(mUserInfo.getNickName());
         mSettingTextView = (TextView) navigationView.findViewById(R.id.setting);

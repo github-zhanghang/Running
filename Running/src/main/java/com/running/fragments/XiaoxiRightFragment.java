@@ -17,7 +17,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.running.adapters.SortAdapter;
+import com.running.android_main.MyApplication;
 import com.running.android_main.NewFriendListActivity;
 import com.running.android_main.R;
 import com.running.beans.Friend;
@@ -45,7 +47,7 @@ import okhttp3.Call;
  */
 public class XiaoxiRightFragment extends Fragment {
     public static final String GetFriendList =
-            "http://10.201.1.185:8080/Running/GetFriendList";
+            "http://192.168.191.1:8080/Running/GetFriendList";
     View mView;
     View header;
     ListView mListView;
@@ -57,6 +59,7 @@ public class XiaoxiRightFragment extends Fragment {
     //接受广播
     BroadcastReceiver mReceiver;
     ContactNotificationMessage contactContentMessage;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,6 +71,7 @@ public class XiaoxiRightFragment extends Fragment {
 
         return mView;
     }
+
     private void initViews() {
         mEtSearchName = (EditTextWithDel) mView.findViewById(R.id.et_search);
 
@@ -82,38 +86,43 @@ public class XiaoxiRightFragment extends Fragment {
         mListView.setAdapter(adapter);
 
     }
-    private void getData() {
 
+    private void getData() {
         OkHttpUtils
-                .get()
+                .post()
                 .url(GetFriendList)
-                .addParams("meid","1")
-                .addParams("status","1")
+                .addParams("meid", ((MyApplication) getActivity().getApplication()).getUserInfo().getUid() + "")
+                .addParams("status", "1")
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e) {
+                        Log.e("test123", "onError: " + e.getMessage());
                     }
+
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
-                            Log.e( "test123: ",jsonArray.toString());
+
                             for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject object =  jsonArray.getJSONObject(i);
-                                Friend friend = new Friend();
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                Log.e("test123: ", "object:" + object.toString());
+                                Friend friend =
+                                        new Gson().fromJson(object.toString(), Friend.class);
+                                /*Friend friend = new Friend();
                                 friend.setFriendid(object.getInt("friendid"));
                                 friend.setAccount(object.getString("account"));
                                 friend.setRemark(object.getString("remark"));
                                 friend.setPortrait(object.getString("portrait"));
-                                friend.setFriendtime(object.getString("friendtime"));
+                                friend.setFriendtime(object.getString("friendtime"));*/
                                 //添加首字母
                                 mFriendList.add(filledData(friend));
                                 //根据a-z进行排序源数据
                                 Collections.sort(mFriendList, new PinyinComparator());
                             }
                             adapter.notifyDataSetChanged();
-                            Log.e( "test123: ","好友个数:"+ mFriendList.size() );
+                            Log.e("test123: ", "好友个数:" + mFriendList.size());
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -173,7 +182,7 @@ public class XiaoxiRightFragment extends Fragment {
             public void onTouchingLetterChanged(String s) {
                 //该字母首次出现的位置
                 int position = adapter.getPositionForSection(s.charAt(0));
-                if(position != -1){
+                if (position != -1) {
                     mListView.setSelection(position);
                 }
 
@@ -183,15 +192,15 @@ public class XiaoxiRightFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getActivity(), "position:"+position, Toast.LENGTH_SHORT).show();
-                Log.e( "test123: ", mFriendList.get(position-1).getRemark() );
+
+                Friend friend = (Friend) adapter.getItem(position - 1);
                 Toast.makeText(getActivity(),
-                        mFriendList.get(position-1).getRemark(), Toast.LENGTH_SHORT).show();
+                        friend.getRemark(), Toast.LENGTH_SHORT).show();
                 //启动会话界面
-                /*if (RongIM.getInstance() != null){
+                if (RongIM.getInstance() != null){
                     RongIM.getInstance().startPrivateChat
-                            (getActivity(), mFriendList.get(position-1).getAccount(), "这是标题");
-                }*/
+                            (getActivity(), friend.getAccount(), friend.getRemark());
+                }
             }
         });
 
@@ -221,13 +230,14 @@ public class XiaoxiRightFragment extends Fragment {
         String pinyin = PinyinUtils.getPingYin(friend.getRemark());
         String sortString = pinyin.substring(0, 1).toUpperCase();
         // 正则表达式，判断首字母是否是英文字母
-        if(sortString.matches("[A-Z]")){
+        if (sortString.matches("[A-Z]")) {
             friend.setSortLetters(sortString.toUpperCase());
-        }else{
+        } else {
             friend.setSortLetters("#");
         }
         return friend;
     }
+
     /**
      * 根据输入框中的值来过滤数据并更新ListView
      *
@@ -237,9 +247,9 @@ public class XiaoxiRightFragment extends Fragment {
         List<Friend> friends = new ArrayList<>();
         if (TextUtils.isEmpty(filterStr)) {
             friends = mFriendList;
-        }else {
+        } else {
             friends.clear();
-            for (Friend f:mFriendList) {
+            for (Friend f : mFriendList) {
                 String name = f.getRemark();
                 if (name.toUpperCase().indexOf(filterStr.toString().toUpperCase()) != -1 || PinyinUtils.getPingYin(name).toUpperCase().startsWith(filterStr.toString().toUpperCase())) {
                     friends.add(f);

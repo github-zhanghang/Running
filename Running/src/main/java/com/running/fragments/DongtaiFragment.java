@@ -147,7 +147,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
     }
 
     private void getDynamicList(int id, String start, String timeType) {
-        String url = "http://10.201.1.176:8080/RunningAppTest/dynamicOperateServlet";
+        String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
         OkHttpUtils.post()
                 .url(url)
                 .addParams("appRequest", "GetDynamicLoad")
@@ -211,7 +211,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     return;
                 }
                 DynamicImgBean bean = (DynamicImgBean) mList.get(0).get("DynamicBean");
-                String url = "http://10.201.1.176:8080/RunningAppTest/dynamicOperateServlet";
+                String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
                 OkHttpUtils.post()
                         .url(url)
                         .addParams("appRequest", "GetDynamicRefresh")
@@ -248,7 +248,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     mListView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (mList.size()==0){
+                            if (mList.size() == 0) {
                                 mLinearLayout.setVisibility(View.GONE);
                                 return;
                             }
