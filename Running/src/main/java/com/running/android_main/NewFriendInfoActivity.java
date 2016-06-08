@@ -23,7 +23,7 @@ public class NewFriendInfoActivity extends AppCompatActivity {
     private TextView nameTextView,accountTextView,addressTextView;
 
     public static final String ADD_FRIEND
-            = "http://10.201.1.185:8080/Running/RequestFriendServlet";
+            = "http://192.168.191.1:8080/Running/RequestFriendServlet";
     public static final String TAG = "NewFriendInfoActivity";
     NearUserInfo mUserInfo;
     UserInfo userInfo;
@@ -44,15 +44,15 @@ public class NewFriendInfoActivity extends AppCompatActivity {
         addressTextView = (TextView) findViewById(R.id.near_information_location);
     }
     private void initData() {
-        mUserInfo = (NearUserInfo)getIntent().getExtras().get("NearbyActivity");
-        userInfo = mUserInfo;
+      //  mUserInfo = (NearUserInfo)getIntent().getExtras().get("NearbyActivity");
+        userInfo = (UserInfo) getIntent().getExtras().get("NewFriendInfo");;
         Log.e("test123", "NewFriendInfoActivity: "+userInfo.getNickName());
         Glide.with(NewFriendInfoActivity.this)
-                .load(mUserInfo.getImageUrl())
+                .load(userInfo.getImageUrl())
                 .into(mImageView);
-        nameTextView.setText(mUserInfo.getNickName());
-        accountTextView.setText(mUserInfo.getAccount());
-        addressTextView.setText(mUserInfo.getAddress());
+        nameTextView.setText(userInfo.getNickName());
+        accountTextView.setText(userInfo.getAccount());
+        addressTextView.setText(userInfo.getAddress());
     }
 
 
@@ -63,12 +63,12 @@ public class NewFriendInfoActivity extends AppCompatActivity {
 
     private void request() {
         OkHttpUtils
-                .get()
+                .post()
                 .url(ADD_FRIEND)
                 .addParams("flag", ContactNotificationMessage.CONTACT_OPERATION_REQUEST)
-                .addParams("sourceUserId",new Gson().toJson(userInfo))//user信息
+                .addParams("sourceUserId",new Gson().toJson(((MyApplication) getApplication()).getUserInfo()))//user信息
                 .addParams("targetUserId",new Gson().toJson(userInfo))//用户信息
-                .addParams("message",mUserInfo.getNickName()+"请求加你为好友")
+                .addParams("message",((MyApplication) getApplication()).getUserInfo().getNickName()+"请求加你为好友")
                 .build()
                 .execute(new StringCallback() {
                     @Override

@@ -84,6 +84,7 @@ public class MedalActivity extends AppCompatActivity {
             medalItemInfo = new MedalItemInfo(mNotHaveImage[i], "第" + i + "个勋章");
             medalView = new ImageView(mContext);
             medalView.setImageResource(medalItemInfo.getImgId());
+            medalView.setBackgroundColor(Color.GRAY);
             mNotHaveList.add(medalView);
         }
     }
