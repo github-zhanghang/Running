@@ -177,7 +177,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
 
     private void setListeners() {
-        //头部左右两边图片的点击事件
+        //顶部左右两边图片的点击事件
         mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             //左边
             @Override
@@ -207,6 +207,9 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
             public void run() {
                 mSwipeRefreshLayout.setRefreshing(false);
                 //刷新相关逻辑操作
+                if (mList.size()==0) {
+                    return;
+                }
                 DynamicImgBean bean = (DynamicImgBean) mList.get(0).get("DynamicBean");
                 String url = "http://10.201.1.176:8080/RunningAppTest/dynamicOperateServlet";
                 OkHttpUtils.post()
@@ -245,6 +248,10 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     mListView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            if (mList.size()==0){
+                                mLinearLayout.setVisibility(View.GONE);
+                                return;
+                            }
                             //加载相关操作
                             DynamicImgBean bean = (DynamicImgBean) mList.get(mList.size() - 1)
                                     .get("DynamicBean");

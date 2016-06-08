@@ -8,9 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.linearlistview.LinearListView;
+import com.running.android_main.DynamicCommentActivity;
 import com.running.android_main.R;
-import com.running.beans.FirstCommentBean;
+import com.running.beans.CommentBean;
 import com.running.beans.SecondCommentBean;
 
 import java.util.HashMap;
@@ -23,10 +25,11 @@ import java.util.List;
 public class DynamicCommentItemAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<HashMap<String, Object>> mList;
+    private List<CommentBean> mList;
     private LayoutInflater mInflater;
+    private HashMap<String, Object> map = new HashMap<>();
 
-    public DynamicCommentItemAdapter(Context context, List<HashMap<String, Object>> list) {
+    public DynamicCommentItemAdapter(Context context, List<CommentBean> list) {
         mContext = context;
         mList = list;
         mInflater = LayoutInflater.from(mContext);
@@ -48,7 +51,7 @@ public class DynamicCommentItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.dynamic_comment_item, parent, false);
@@ -57,13 +60,28 @@ public class DynamicCommentItemAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        FirstCommentBean firstCommentBean = (FirstCommentBean) mList.get(position)
-                .get("firstComment");
-        viewHolder.firstCommentName.setText(firstCommentBean.getName());
-        List<SecondCommentBean> list = (List<SecondCommentBean>) mList.get(position)
-                .get("secondComment");
+        CommentBean commentBean = mList.get(position);
+        Glide.with(mContext)
+                .load(commentBean.getfUImg())
+                .placeholder(R.drawable.head_photo)
+                .into(viewHolder.img);
+        viewHolder.firstCommentName.setText(commentBean.getfName());
+        viewHolder.firstCommentTime.setText(commentBean.getfTime());
+        viewHolder.firstCommentContent.setText(commentBean.getfContent());
+        List<SecondCommentBean> list = commentBean.getList();
         DynamicReplyItemAdapter replyItemAdapter = new DynamicReplyItemAdapter(mContext, list);
         viewHolder.twoCommentListView.setAdapter(replyItemAdapter);
+        viewHolder.reply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //showPopupWindow(v, map);
+                map.put("position",position);
+                map.put("sFCId", mList.get(position).getfCId());
+                map.put("uId1", mList.get(position).getfUId());
+                map.put("uName1", mList.get(position).getfName());
+                ((DynamicCommentActivity) mContext).getFocus(true);
+            }
+        });
         return convertView;
     }
 
@@ -90,5 +108,9 @@ public class DynamicCommentItemAdapter extends BaseAdapter {
                     .dynamic_comment_item_twoComment_listView);
             this.root = root;
         }
+    }
+
+    public HashMap<String, Object> getMap() {
+        return map;
     }
 }

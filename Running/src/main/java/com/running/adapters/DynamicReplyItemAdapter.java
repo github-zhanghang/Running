@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.running.android_main.R;
 import com.running.beans.SecondCommentBean;
@@ -67,46 +68,48 @@ public class DynamicReplyItemAdapter extends BaseAdapter {
         viewHolder.mTextView= (TextView) convertView.findViewById(
                 R.id.dynamic_comment_reply_content);
         SecondCommentBean secondCommentBean=mList.get(position);
-        SpannableStringBuilder stringBuilder=addMyClickableSpan(
-                secondCommentBean.getId(),
-                secondCommentBean.getToId(),
-                secondCommentBean.getcId(),
-                secondCommentBean.getName(),
-                secondCommentBean.getToName(),
-                secondCommentBean.getContent(),
+        SpannableStringBuilder stringBuilder=addMyClickableSpan(secondCommentBean,
                 (MySpan.OnClickListener) mContext);
         viewHolder.mTextView.setText(stringBuilder);
         viewHolder.mTextView.setMovementMethod(LinkMovementMethod.getInstance());
         viewHolder.mTextView.setHighlightColor(Color.TRANSPARENT);
+        viewHolder.mTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "TEST", Toast.LENGTH_SHORT).show();
+            }
+        });
         return convertView;
     }
 
     //对回复textView格式进行设置
-    private SpannableStringBuilder addMyClickableSpan(Integer nId, Integer tNid, Integer cId,
-                                                      String name, String toName, String content,
+    private SpannableStringBuilder addMyClickableSpan(SecondCommentBean bean ,
                                                       MySpan.OnClickListener context) {
         mOnClickListener=context;
-        String s=name+" 回复 "+toName+" : "+content;
+        String s=bean.getuName0()+" 回复 "+bean.getuName1()+" : "+bean.getsContent();
         SpannableStringBuilder stringBuilder=new SpannableStringBuilder(s);
         MySpan span=new MySpan(mContext,0xffFF4081,mOnClickListener);
-        span.setId(nId);
-        span.setContent(name);
+        span.setId(bean.getuId0());
+        span.setContent(bean.getuName0());
+        span.setBean(bean);
         stringBuilder.setSpan(span,
-                0, name.length(),
+                0, bean.getuName0().length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         span=new MySpan(mContext,0xffFF4081,mOnClickListener);
-        span.setId(tNid);
-        span.setContent(toName);
+        span.setId(bean.getuId1());
+        span.setContent(bean.getuName1());
+        span.setBean(bean);
         stringBuilder.setSpan(span,
-                name.length()+4,
-                name.length()+4+toName.length(),
+                bean.getuName0().length()+4,
+                bean.getuName0().length()+4+bean.getuName1().length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         span=new MySpan(mContext,mOnClickListener);
-        span.setId(cId);
-        span.setContent(content);
+        span.setId(bean.getsFCId());
+        span.setContent(bean.getsContent());
+        span.setBean(bean);
         stringBuilder.setSpan(span,
-                name.length()+7+toName.length(),
-                name.length()+content.length()+toName.length()+7,
+                bean.getuName0().length()+7+bean.getuName1().length(),
+                bean.getuName0().length()+bean.getsContent().length()+bean.getuName1().length()+7,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return stringBuilder;
     }
