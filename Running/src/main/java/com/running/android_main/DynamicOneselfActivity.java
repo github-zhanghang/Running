@@ -48,7 +48,7 @@ public class DynamicOneselfActivity extends AppCompatActivity {
     SwipeRefreshLayout mOneselfSwipe;
 
     private DynamicOneselfCallBack mOneselfCallBack;
-    String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
+    String url = "http://192.168.191.1:8080/Running/dynamicOperateServlet";
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
