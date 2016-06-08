@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,8 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
     boolean IS_LOADING = false;
     private DynamicAdapter mDynamicAdapter;
 
+    String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
+
     private DynamicCallBack dynamicCallBack = new DynamicCallBack();
     private Handler mHandler = new Handler() {
         @Override
@@ -72,6 +75,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     }
                     //mLinearLayout.setVisibility(View.GONE);
                     mDynamicAdapter.notifyDataSetChanged();
+                    Log.d("TAG",""+mList.size());
 
                     break;
                 case 2:
@@ -147,7 +151,6 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
     }
 
     private void getDynamicList(int id, String start, String timeType) {
-        String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
         OkHttpUtils.post()
                 .url(url)
                 .addParams("appRequest", "GetDynamicLoad")
@@ -211,7 +214,6 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     return;
                 }
                 DynamicImgBean bean = (DynamicImgBean) mList.get(0).get("DynamicBean");
-                String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
                 OkHttpUtils.post()
                         .url(url)
                         .addParams("appRequest", "GetDynamicRefresh")

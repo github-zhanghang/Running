@@ -48,7 +48,7 @@ public class DynamicOneselfActivity extends AppCompatActivity {
     SwipeRefreshLayout mOneselfSwipe;
 
     private DynamicOneselfCallBack mOneselfCallBack;
-
+    String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -180,7 +180,6 @@ public class DynamicOneselfActivity extends AppCompatActivity {
     private void initData() {
         mList = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();
-        String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
         List<Object> objectList = new ArrayList<>();
         Intent intent = getIntent();
         int dId = intent.getIntExtra("dId", -1);
