@@ -283,9 +283,9 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
         @Override
         public void onResponse(String response) {
             Gson gson = new Gson();
-            imgBeanList = gson.fromJson(response, new TypeToken<List<DynamicImgBean>>
+           /* imgBeanList = gson.fromJson(response, new TypeToken<List<DynamicImgBean>>
                     () {
-            }.getType());
+            }.getType());*/
             new Thread(new Runnable() {
                 @Override
                 public void run() {

@@ -21,7 +21,6 @@ import okhttp3.Call;
 public class NewFriendInfoActivity extends AppCompatActivity {
     private ImageView mImageView;
     private TextView nameTextView,accountTextView,addressTextView;
-
     public static final String ADD_FRIEND
             = "http://10.201.1.185:8080/Running/RequestFriendServlet";
     public static final String TAG = "NewFriendInfoActivity";
@@ -54,8 +53,6 @@ public class NewFriendInfoActivity extends AppCompatActivity {
         accountTextView.setText(mUserInfo.getAccount());
         addressTextView.setText(mUserInfo.getAddress());
     }
-
-
 
     public void onClickAddNewFriend(View view) {
         request();
