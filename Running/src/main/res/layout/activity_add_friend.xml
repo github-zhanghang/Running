@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <com.running.myviews.TopBar
-        android:id="@+id/xiaoxi_topbar"
+        android:id="@+id/friendadd_topbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
         app:leftImage="@drawable/back"

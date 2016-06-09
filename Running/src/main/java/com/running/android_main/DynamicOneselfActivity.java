@@ -123,7 +123,7 @@ public class DynamicOneselfActivity extends AppCompatActivity {
         mDynamicOneselfTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
             public void onTopbarLeftImageClick(ImageView imageView) {
-                Toast.makeText(DynamicOneselfActivity.this, "返回", Toast.LENGTH_SHORT).show();
+                DynamicOneselfActivity.this.finish();
             }
 
             @Override

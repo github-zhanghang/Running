@@ -2,18 +2,19 @@ package com.running.android_main;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.running.adapters.HistoryAdapter;
 import com.running.beans.History;
+import com.running.myviews.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -27,7 +28,7 @@ import java.util.List;
 import okhttp3.Call;
 
 public class HistoryActivity extends AppCompatActivity {
-
+    private TopBar mTopBar;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private List<History> mHistoryList=new ArrayList<>();
@@ -70,6 +71,7 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mTopBar = (TopBar) findViewById(R.id.history_topbar);
         mRecyclerView= (RecyclerView) findViewById(R.id.recyclerview_history);
         mSwipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.swiperefresh_history);
         mLinearLayoutManager=new LinearLayoutManager(HistoryActivity.this);
@@ -199,12 +201,22 @@ public class HistoryActivity extends AppCompatActivity {
         mHistoryAdapter.setOnItemClickListener(new HistoryAdapter.onItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("history",mHistoryList.get(position));
                 Intent intent=new Intent(HistoryActivity.this,HistoryDetailActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
+
+            }
+        });
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                HistoryActivity.this.finish();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
 
             }
         });

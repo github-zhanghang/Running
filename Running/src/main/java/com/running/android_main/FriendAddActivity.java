@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.running.beans.UserInfo;
+import com.running.myviews.TopBar;
 import com.running.myviews.edittextwithdeel.EditTextWithDel;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -17,7 +19,8 @@ import okhttp3.Call;
 
 public class FriendAddActivity extends AppCompatActivity {
     private MyApplication mApplication;
-    public static final String GetNewFriend = MyApplication.HOST + "Running/GetNewFriend";
+    public static final String GetNewFriend = MyApplication.HOST + "GetNewFriend";
+    private TopBar mTopBar;
     private EditTextWithDel mEditTextWithDel;
 
     @Override
@@ -29,7 +32,19 @@ public class FriendAddActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        mTopBar = (TopBar) findViewById(R.id.friendadd_topbar);
         mEditTextWithDel = (EditTextWithDel) findViewById(R.id.addFirend_et);
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                FriendAddActivity.this.finish();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+
+            }
+        });
     }
 
     public void addNewFriend(View view) {
