@@ -56,9 +56,9 @@ public class HistoryAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolde
 
             DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             DateFormat dateFormat2=new SimpleDateFormat("hh:mm:ss");
-            ((HistoryViewHolder) holder).dateTextView.setText(dateFormat.format(mHistories.get(position).getRuntime()) + "");
+            ((HistoryViewHolder) holder).dateTextView.setText(dateFormat.format(mHistories.get(position).getRunstarttime()) + "");
             ((HistoryViewHolder) holder).distanceTextView.setText(mHistories.get(position).getRundistance() + "");
-            ((HistoryViewHolder) holder).timeTextView.setText(dateFormat2.format(mHistories.get(position).getRunstarttime()) + "");
+            ((HistoryViewHolder) holder).timeTextView.setText(dateFormat2.format(mHistories.get(position).getRuntime()) + "");
             if (mOnItemClickListener != null) {
                 ((HistoryViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

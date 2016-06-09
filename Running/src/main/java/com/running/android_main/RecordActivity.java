@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import okhttp3.Call;
 
 public class RecordActivity extends AppCompatActivity  implements View.OnClickListener{
+    private MyApplication myApplication;
     private TopBar mTopBar;
     private RecordBar historyRecordBar,trendRecordBar,bestRecordBar;
     TextView countTextView,disTextView,avgTextView;
@@ -29,6 +30,9 @@ public class RecordActivity extends AppCompatActivity  implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
         mTopBar = (TopBar) findViewById(R.id.record_topbar);
+
+       /* myApplication = (MyApplication) getApplication();
+        suid=myApplication.getUserInfo().getUid();*/
 
         initView();
         addListener();
@@ -53,25 +57,8 @@ public class RecordActivity extends AppCompatActivity  implements View.OnClickLi
                         SumRecord sumRecord = new Gson().fromJson(response,SumRecord.class);
                         countTextView.setText(sumRecord.getSumcount()+"");
                         disTextView.setText(sumRecord.getSumrundistance()+"");
-                        java.text.DecimalFormat df=new java.text.DecimalFormat("#.00");
-                        avgTextView.setText(df.format(sumRecord.getSumrundistance()/sumRecord.getSumcount())+"");
-                      /*  try {
-                            JSONObject jsonObject=new JSONObject(response);
-                            int sumuid=jsonObject.getInt("sumuid");
-                            Log.e("taozisumuid",sumuid+"" );
-                            double sumrundistance=jsonObject.getDouble("sumrundistance");
-                            long sumruntime=jsonObject.getLong("sumruntime");
-                            int sumcalories=jsonObject.getInt("sumcalories");
-                            long sumstep=jsonObject.getLong("sumstep");
-                            int sumcount=jsonObject.getInt("sumcount");
-                            SumRecord sumRecord=new SumRecord(sumuid,sumrundistance,sumruntime,sumcalories, sumstep, sumcount);
-                            countTextView.setText(sumRecord.getSumcount());
-                            disTextView.setText(sumRecord.getSumrundistance()+"");
-                            avgTextView.setText((sumRecord.getSumrundistance()/sumRecord.getSumcount())+"");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/
-
+                        java.text.DecimalFormat df=new java.text.DecimalFormat("#0.00");//保留两位小数
+                        avgTextView.setText(df.format(sumRecord.getSumrundistance()/sumRecord.getSumcount()));
                     }
                 });
     }

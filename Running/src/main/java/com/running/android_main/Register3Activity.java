@@ -56,9 +56,6 @@ public class Register3Activity extends AppCompatActivity {
         mPassword = intent.getStringExtra("password");
         mTelephone = intent.getStringExtra("telephone");
         mSex = intent.getStringExtra("sex");
-        /*mPassword = "zzia";
-        mSex = "男";
-        mTelephone = "15106200759";*/
 
         initView();
         addListener();
@@ -130,7 +127,8 @@ public class Register3Activity extends AppCompatActivity {
             if (what == WHAT_ONE) {
                 // 请求成功
                 String result = response.get();// 响应结果
-                Log.e("my", result);
+                //获取最大的账号
+                // Log.e("my", result);
                 if (result == null || result.equals("")) {
                     mProgressDialog.dismiss();
                     Toast.makeText(Register3Activity.this, "提交注册信息失败，请稍后重试", Toast.LENGTH_LONG).show();
@@ -145,6 +143,7 @@ public class Register3Activity extends AppCompatActivity {
             } else if (what == WHAT_TWO) {
                 mProgressDialog.dismiss();
                 String result = response.get();// 响应结果
+                //注册成功返回的用户信息
                 Log.e("my", result);
                 //将用户信息保存在Application中
                 UserInfo userInfo = new Gson().fromJson(result, UserInfo.class);

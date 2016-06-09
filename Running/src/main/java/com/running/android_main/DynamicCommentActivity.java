@@ -114,11 +114,15 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         mHeaderName.setText("无名");
         mHeaderTime.setText("04-07 07:05");
         mHeaderContent.setText("四月，你好");
-        List<Integer> imgList = new ArrayList<>();
-        imgList.add(R.drawable.dynamic_test);
-        imgList.add(R.drawable.dynamic_test);
-        imgList.add(R.drawable.dynamic_test);
-        imgList.add(R.drawable.dynamic_test);
+        List<String> imgList = new ArrayList<>();
+        imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP.pVXXXXcAXXXXXXXXXXXX_" +
+                "!!2237636884.jpg");
+        imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP.pVXXXXcAXXXXXXXXXXXX_" +
+                "!!2237636884.jpg");
+        imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP.pVXXXXcAXXXXXXXXXXXX_" +
+                "!!2237636884.jpg");
+        imgList.add("https://img.alicdn.com/imgextra/i2/2237636884/TB2gaP.pVXXXXcAXXXXXXXXXXXX_" +
+                "!!2237636884.jpg");
         DynamicImgGridViewAdapter adapter = new DynamicImgGridViewAdapter(this, imgList,
                 mHeaderGridView);
         mHeaderGridView.setAdapter(adapter);

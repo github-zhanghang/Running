@@ -36,7 +36,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
         Bundle bundle=intent.getExtras();
         if (bundle!=null){
             history= (History) bundle.getSerializable("history");
-            Log.e("taozihistory", history.toString() );
+            //Log.e("taozihistory", history.toString() );
         }
     }
 
@@ -46,7 +46,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
         distanceTextView=(TextView) findViewById(R.id.distance_his_detail);
         timeTextView=(TextView) findViewById(R.id.time_his_detail);
         speedTextView=(TextView) findViewById(R.id.speed_his_detail);
-        walkTextView=(TextView) findViewById(R.id.speed_his_detail);
+        walkTextView=(TextView) findViewById(R.id.walk_his_detail3);
         calorieTextView=(TextView) findViewById(R.id.calorie_his_detail);
     }
 
@@ -55,7 +55,6 @@ public class HistoryDetailActivity extends AppCompatActivity {
         DateFormat dateFormat2=new SimpleDateFormat("hh:mm:ss");
         dateTextView.setText(dateFormat.format(history.getRunstarttime()));
         distanceTextView.setText(history.getRundistance()+"");
-        Log.e("taozihistory",history.getRundistance()+"" );
         timeTextView.setText(dateFormat2.format(history.getRuntime()));
         speedTextView.setText(history.getRunspeed()+"");
         walkTextView.setText(history.getStepcount()+"");

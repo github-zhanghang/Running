@@ -14,8 +14,8 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import okhttp3.Call;
+public class FriendAddActivity extends AppCompatActivity {
 
-public class AddFriendActivity extends AppCompatActivity {
     public static final String GetNewFriend
             = "http://10.201.1.185:8080/Running/GetNewFriend";
     private EditTextWithDel mEditTextWithDel;
@@ -51,7 +51,7 @@ public class AddFriendActivity extends AppCompatActivity {
      */
     public void searchWithConditions(View view) {
         Toast.makeText(this, "条件查找", Toast.LENGTH_SHORT).show();
-       // startActivity(new Intent(AddFriendActivity.this,SearchConditionsActivity.class));
+         startActivity(new Intent(FriendAddActivity.this,SearchConditionsActivity.class));
     }
     /**
      * 搜索附近的点击事件
@@ -59,7 +59,7 @@ public class AddFriendActivity extends AppCompatActivity {
      */
     public void searchNearby(View view) {
         Toast.makeText(this, "搜附近", Toast.LENGTH_SHORT).show();
-        //startActivity(new Intent(AddFriendActivity.this,NearbyActivity.class));
+        startActivity(new Intent(FriendAddActivity.this,NearbyActivity.class));
     }
 
     private void request(String account) {
@@ -80,12 +80,12 @@ public class AddFriendActivity extends AppCompatActivity {
                         UserInfo userInfo =
                                 new Gson().fromJson(response,UserInfo.class);
                         if (userInfo != null){
-                            Intent intent = new Intent(AddFriendActivity.this,NewFriendInfoActivity.class);
+                            Intent intent = new Intent(FriendAddActivity.this,NewFriendInfoActivity.class);
                             intent.putExtra("NewFriendInfo",userInfo);
                             startActivity(intent);
                             //Toast.makeText(AddFriendActivity.this, userInfo.getNickName(), Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(AddFriendActivity.this, "无此用户", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FriendAddActivity.this, "无此用户", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

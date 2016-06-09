@@ -43,10 +43,15 @@ public class HistoryActivity extends AppCompatActivity {
     //用户
     int uid=1;
     int page=1;
+
+    private MyApplication myApplication;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+      /*  myApplication = (MyApplication) getApplication();
+        uid=myApplication.getUserInfo().getUid();*/
 
         initView();
         initData();
@@ -197,7 +202,6 @@ public class HistoryActivity extends AppCompatActivity {
 
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("history",mHistoryList.get(position));
-                Log.e("taozihistory:qian",mHistoryList.get(position).toString() );
                 Intent intent=new Intent(HistoryActivity.this,HistoryDetailActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);

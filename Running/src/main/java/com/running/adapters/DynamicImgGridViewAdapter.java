@@ -23,13 +23,13 @@ import butterknife.ButterKnife;
  */
 public class DynamicImgGridViewAdapter extends BaseAdapter {
     Context mContext;
-    List<Integer> mList;
+    List<String> mList;
     LayoutInflater mInflater;
     int size;
     LinearLayout.LayoutParams mParams;
     GridView mGridView;
 
-    public DynamicImgGridViewAdapter(Context context, List<Integer> list, GridView gridView) {
+    public DynamicImgGridViewAdapter(Context context, List<String> list, GridView gridView) {
         mContext = context;
         mList = list;
         mGridView = gridView;
@@ -62,7 +62,7 @@ public class DynamicImgGridViewAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        int img = mList.get(position);
+        String img = mList.get(position);
         Glide.with(mContext).load(img).thumbnail(0.1f).into(viewHolder.mDynamicGridViewItemImg);
         //通过屏幕宽度及照片数量确定GridView显示几行几列
         if (size == 1) {
