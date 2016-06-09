@@ -19,6 +19,8 @@ import com.running.myviews.TopBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class SettingActivity extends AppCompatActivity implements
         MyToggleButton.OnToggleStateChangeListener {
@@ -64,12 +66,11 @@ public class SettingActivity extends AppCompatActivity implements
         mSettingTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
             public void onTopbarLeftImageClick(ImageView imageView) {
-
+                SettingActivity.this.finish();
             }
 
             @Override
             public void onTopbarRightImageClick(ImageView imageView) {
-
             }
         });
     }
@@ -78,27 +79,23 @@ public class SettingActivity extends AppCompatActivity implements
     @Override
     public void onToggleStateChange(boolean state) {
         if (state) {
-            show("开关开启");
+            show("已开启推送");
         } else {
-            show("开关关闭");
+            show("已关闭推送");
         }
     }
-
 
     @OnClick({R.id.update_password, R.id.update_phone, R.id.check_update, R.id.feed_back,
             R.id.recommend_friend, R.id.about_us, R.id.quit_account})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.update_password:
-                show("update_password");
                 startActivity(new Intent(this, UpdatePasswordActivity.class));
                 break;
             case R.id.update_phone:
-                show("update_phone");
                 startActivity(new Intent(this, UpdatePhoneActivity.class));
                 break;
             case R.id.check_update:
-                show("check_update");
                 final View prompt = getLayoutInflater().inflate(
                         R.layout.check_update_popup_window, null);
                 mPopupWindow = new PopupWindow(prompt, LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -117,7 +114,6 @@ public class SettingActivity extends AppCompatActivity implements
                 break;
             case R.id.feed_back:
                 //意见反馈
-                show("feed_back");
                 final View feedBack = getLayoutInflater().inflate(
                         R.layout.feed_back_popup_window, null);
                 mPopupWindow = new PopupWindow(feedBack, LinearLayout.LayoutParams.MATCH_PARENT,
@@ -136,14 +132,20 @@ public class SettingActivity extends AppCompatActivity implements
                 break;
             case R.id.recommend_friend:
                 //推荐给好友(一键分享)
-                show("recommend_friend");
+                ShareSDK.initSDK(SettingActivity.this);
+                OnekeyShare oks = new OnekeyShare();
+                oks.disableSSOWhenAuthorize();
+                oks.setTitle("Running");
+                oks.setImageUrl("http://img5.imgtn.bdimg.com/it/u=4183830072,930741777&fm=21&gp=0.jpg");
+                oks.show(SettingActivity.this);
                 break;
             case R.id.about_us:
-                show("about_us");
                 startActivity(new Intent(this, AboutUsActivity.class));
                 break;
             case R.id.quit_account:
-                show("quit_account");
+                startActivity(new Intent(SettingActivity.this, LoginActivity.class));
+                ((MyApplication) getApplication()).finish();
+                SettingActivity.this.finish();
                 break;
         }
     }

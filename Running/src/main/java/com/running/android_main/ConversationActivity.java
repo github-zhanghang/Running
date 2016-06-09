@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.running.myviews.TopBar;
 
 public class ConversationActivity extends AppCompatActivity {
     private TopBar mTopBar;
+
     /**
      * 会话界面
+     *
      * @param savedInstanceState
      */
     @Override
@@ -24,12 +27,21 @@ public class ConversationActivity extends AppCompatActivity {
     private void initViews() {
         Intent intent = getIntent();
         //获取 userid 和标题
-        String  id = intent.getData().getQueryParameter("targetId");
+        String id = intent.getData().getQueryParameter("targetId");
         String title = intent.getData().getQueryParameter("title");
         String type = intent.getData().getQueryParameter("type");
-        Log.e("test123", "id: "+id+"  title:"+title +"  type:"+ type);
+        Log.e("test123", "id: " + id + "  title:" + title + "  type:" + type);
         mTopBar = (TopBar) findViewById(R.id.conversation_TopBar);
         mTopBar.setLeftText(title);
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                ConversationActivity.this.finish();
+            }
 
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+            }
+        });
     }
 }
