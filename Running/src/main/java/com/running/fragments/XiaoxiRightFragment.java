@@ -48,8 +48,7 @@ import okhttp3.Call;
  * Created by ZhangHang on 2016/5/5.
  */
 public class XiaoxiRightFragment extends Fragment {
-    public static final String GetFriendList =
-            "http://192.168.191.1:8080/Running/GetFriendList";
+    public String GetFriendList = MyApplication.HOST + "GetFriendList";
     View mView;
     View header;
     ListView mListView;
@@ -137,10 +136,10 @@ public class XiaoxiRightFragment extends Fragment {
                         (ContactNotificationMessage) intent.getExtras().get("rongCloud");
                 Log.e("test123: ", "接收到的请求:" + contactContentMessage.getOperation());
                 String operation = contactContentMessage.getOperation();
-                if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_REQUEST)){
+                if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_REQUEST)) {
                     //小红点可见
                     header.findViewById(R.id.redPoint).setVisibility(View.VISIBLE);
-                }else if(operation.equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)){
+                } else if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)) {
                     //对方同意加为好友 更新好友列表
                     getData();
                 }
@@ -201,7 +200,7 @@ public class XiaoxiRightFragment extends Fragment {
                 Toast.makeText(getActivity(),
                         friend.getRemark(), Toast.LENGTH_SHORT).show();
                 //启动会话界面
-                if (RongIM.getInstance() != null){
+                if (RongIM.getInstance() != null) {
                     RongIM.getInstance().startPrivateChat
                             (getActivity(), friend.getAccount(), friend.getRemark());
                 }

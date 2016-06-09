@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         RongIM.UserInfoProvider {
     private MyApplication mApplication;
     public static final String Login_OK = "0";
-    private String mPath = "http://192.168.191.1:8080/Running/loginServlet";
+    private String mPath = MyApplication.HOST + "loginServlet";
     public static final String Login_Error_UserName = "1";
     public static final String Login_Error_UserPassword = "2";
 

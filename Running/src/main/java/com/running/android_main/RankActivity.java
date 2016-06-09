@@ -40,7 +40,7 @@ public class RankActivity extends AppCompatActivity {
     private PullToRefreshListView mListView;
     private RankActivityAdapter mAdapter;
     private List<RankItemInfo> mList = new ArrayList<>();
-    private static final String mPath = "http://192.168.191.1:8080/Running/rankServlet";
+    private static final String mPath = MyApplication.HOST + "rankServlet";
     private static final int WHAT_DAY = 1;
     private static final int WHAT_TOTAL = 2;
     private RequestQueue mRequestQueue = NoHttp.newRequestQueue();

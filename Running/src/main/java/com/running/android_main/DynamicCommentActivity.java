@@ -52,7 +52,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
     private List<CommentBean> mList;
     private DynamicCommentItemAdapter mAdapter;
     private DynamicImgBean mDynamicImgBean;
-    private String url = "http://192.168.191.1:8080/Running/dynamicOperateServlet";
+    private String url = MyApplication.HOST + "dynamicOperateServlet";
     private CommentCallBack mCommentCallBack;
     private HashMap<String, Object> mMap = new HashMap<>();
 
@@ -117,14 +117,14 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
                 String time = format.format(new Date());
                 SecondCommentBean bean = new SecondCommentBean((int) mMap.get("sFCId"), uId0,
                         uName0, (int) mMap.get("uId1"), (String) mMap.get("uName1"), content, time);
-                mList.get((int)mMap.get("position")).getList().add(bean);
+                mList.get((int) mMap.get("position")).getList().add(bean);
                 Gson gson = new Gson();
                 String secondComment = gson.toJson(bean);
-                Log.d("TAG",secondComment);
+                Log.d("TAG", secondComment);
                 OkHttpUtils.post()
                         .url(url)
-                        .addParams("appRequest","AddSecondComment")
-                        .addParams("secondComment",secondComment)
+                        .addParams("appRequest", "AddSecondComment")
+                        .addParams("secondComment", secondComment)
                         .build()
                         .execute(new StringCallback() {
                             @Override
@@ -184,9 +184,9 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         Toast.makeText(DynamicCommentActivity.this, span.getId() + "：" + span.getContent(),
                 Toast.LENGTH_SHORT).show();
         for (int i = 0; i < mList.size(); i++) {
-            if (mList.get(i).getfCId()==span.getBean().getsFCId()) {
-                mMap.put("position",i);
-                mMap.put("sFCId",span.getBean().getsFCId());
+            if (mList.get(i).getfCId() == span.getBean().getsFCId()) {
+                mMap.put("position", i);
+                mMap.put("sFCId", span.getBean().getsFCId());
                 mMap.put("uId1", span.getBean().getuId0());
                 mMap.put("uName1", span.getBean().getuName0());
                 mDynamicCommentFootEdit.requestFocus();

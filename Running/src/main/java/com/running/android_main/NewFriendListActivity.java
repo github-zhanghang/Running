@@ -38,8 +38,7 @@ import okhttp3.Call;
  * 1 好友, 2 请求添加, 3 请求被添加,4请求拒绝 ,5 请求被拒绝
  */
 public class NewFriendListActivity extends AppCompatActivity {
-    public static final String GetNewFriendList
-            = "http://192.168.191.1:8080/Running/GetFriendList";
+    public static final String GetNewFriendList = MyApplication.HOST + "GetFriendList";
     public static final int requestCode = 100;
     private TopBar mTopBar;
     ContactNotificationMessage contactContentMessage;

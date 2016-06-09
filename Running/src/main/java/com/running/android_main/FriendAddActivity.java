@@ -17,8 +17,7 @@ import okhttp3.Call;
 
 public class FriendAddActivity extends AppCompatActivity {
     private MyApplication mApplication;
-    public static final String GetNewFriend
-            = "http://192.168.191.1:8080/Running/GetNewFriend";
+    public static final String GetNewFriend = MyApplication.HOST + "Running/GetNewFriend";
     private EditTextWithDel mEditTextWithDel;
 
     @Override

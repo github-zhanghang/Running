@@ -11,7 +11,7 @@
         android:id="@+id/record_topbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        app:leftImage="@mipmap/ic_launcher"
+        app:leftImage="@drawable/back"
         app:leftText="详细记录"
         app:rightImage="@mipmap/ic_launcher"/>
 

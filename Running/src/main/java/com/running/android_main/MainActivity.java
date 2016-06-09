@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity
     };
 
     private void updateUserLocation(double latitude, double longitude) {
-        String url = "http://192.168.191.1:8080/Running/changeUserInfoServlet";
+        String url = MyApplication.HOST + "changeUserInfoServlet";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.add("type", "location");
         request.add("account", mUserInfo.getAccount());

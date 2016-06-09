@@ -20,7 +20,7 @@ import com.yolanda.nohttp.RequestQueue;
 import com.yolanda.nohttp.Response;
 
 public class Register3Activity extends AppCompatActivity {
-    private static final String mPath = "http://192.168.191.1:8080/Running/registerServlet";
+    private static final String mPath = MyApplication.HOST + "registerServlet";
     private MyApplication mApplication;
 
     private ScaleRulerView mHeightWheelView;

@@ -34,7 +34,7 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class MedalActivity extends AppCompatActivity {
-    private String mPath = "http://192.168.191.1:8080/Running/medalServlet";
+    private String mPath = MyApplication.HOST + "medalServlet";
     private Activity mContext;
     private TopBar mTopBar;
     private GridView mGridView;
