@@ -8,14 +8,21 @@ import java.util.Date;
  */
 public class TrendData {
 
-    private Date Monday;
+    private String Monday;
+    private String Sunday;
     private int walkStep;
     private double distance;
-    private int time;
+    private long time;
     private double calorie;
-    private double[] value;
-    public TrendData(Date monday, int walkStep, double distance, int time, double calorie, double[] value) {
-        this.Monday = monday;
+    private double[] value={0,0,0,0,0,0,0};
+
+    public TrendData() {
+
+    }
+
+    public TrendData(String monday, String sunday, int walkStep, double distance, long time, double calorie, double[] value) {
+        Monday = monday;
+        Sunday = sunday;
         this.walkStep = walkStep;
         this.distance = distance;
         this.time = time;
@@ -23,12 +30,20 @@ public class TrendData {
         this.value = value;
     }
 
-    public Date getMonday() {
+    public String getMonday() {
         return Monday;
     }
 
-    public void setMonday(Date monday) {
+    public void setMonday(String monday) {
         Monday = monday;
+    }
+
+    public String getSunday() {
+        return Sunday;
+    }
+
+    public void setSunday(String sunday) {
+        Sunday = sunday;
     }
 
     public int getWalkStep() {
@@ -47,11 +62,11 @@ public class TrendData {
         this.distance = distance;
     }
 
-    public int getTime() {
+    public long  getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

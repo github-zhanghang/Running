@@ -1,17 +1,16 @@
 package com.running.android_main;
 
 import android.graphics.Color;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.PolylineOptions;
@@ -24,9 +23,12 @@ import com.running.utils.GsonService;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.running.beans.History;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class HistoryDetailActivity extends AppCompatActivity {
-    private MyApplication mApplication;
 
     private MapView mHisDetailMapView;
     private long serviceId = 117790;// 鹰眼服务ID
@@ -41,6 +43,10 @@ public class HistoryDetailActivity extends AppCompatActivity {
     private int endTime = 0;
 
     private LBSTraceClient mClient;
+
+    MapView mHisDetailMapView;
+    TextView dateTextView,distanceTextView,timeTextView,speedTextView,walkTextView,calorieTextView;
+    History history;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,5 +185,40 @@ public class HistoryDetailActivity extends AppCompatActivity {
         if (null != polyline) {
             mBaiduMap.addOverlay(polyline);
         }
+
+        getData();
+        initView();
+        setData();
+    }
+
+    private void getData() {
+        // 接收到网址
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();
+        if (bundle!=null){
+            history= (History) bundle.getSerializable("history");
+            //Log.e("taozihistory", history.toString() );
+        }
+    }
+
+    private void initView() {
+        mHisDetailMapView= (MapView) findViewById(R.id.map_his_detail);
+        dateTextView= (TextView) findViewById(R.id.starttime_his_detail);
+        distanceTextView=(TextView) findViewById(R.id.distance_his_detail);
+        timeTextView=(TextView) findViewById(R.id.time_his_detail);
+        speedTextView=(TextView) findViewById(R.id.speed_his_detail);
+        walkTextView=(TextView) findViewById(R.id.walk_his_detail3);
+        calorieTextView=(TextView) findViewById(R.id.calorie_his_detail);
+    }
+
+    private void setData() {
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        DateFormat dateFormat2=new SimpleDateFormat("hh:mm:ss");
+        dateTextView.setText(dateFormat.format(history.getRunstarttime()));
+        distanceTextView.setText(history.getRundistance()+"");
+        timeTextView.setText(dateFormat2.format(history.getRuntime()));
+        speedTextView.setText(history.getRunspeed()+"");
+        walkTextView.setText(history.getStepcount()+"");
+        calorieTextView.setText(history.getCalories()+"");
     }
 }

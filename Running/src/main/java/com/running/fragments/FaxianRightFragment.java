@@ -133,7 +133,7 @@ public class FaxianRightFragment extends Fragment {
                                 GoodsData goodsBannerData=new GoodsData(name,price,img,html);
                                mGoodsBannerDatas.add( goodsBannerData);
                             }
-                            Log.e("taozier", "initGoodsData:"+mGoodsBannerDatas.size()+"");
+                            //Log.e("taozier", "initGoodsData:"+mGoodsBannerDatas.size()+"");
                             mGoodsBannerAdapter=new GoodsBannerAdapter(mMainActivity,mGoodsBannerDatas);
                             mBannerViewPager.setAdapter(mGoodsBannerAdapter);
                         } catch (JSONException e) {

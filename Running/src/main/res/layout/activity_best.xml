@@ -14,13 +14,28 @@
         app:leftText="最好成绩">
     </com.running.myviews.TopBar>
     <com.running.myviews.BestBar
+        android:id="@+id/distance_best"
+        android:padding="10dp"
+        android:layout_marginBottom="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:best_attrText="最远距离"
+        />
+    <com.running.myviews.BestBar
         android:id="@+id/time_best"
         android:padding="10dp"
         android:layout_marginBottom="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:best_attrText="最长时间"
-        app:best_dataText="02:30:09"
+        />
+    <com.running.myviews.BestBar
+        android:id="@+id/caloie_best"
+        android:padding="10dp"
+        android:layout_marginBottom="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:best_attrText="最大卡路里"
         />
     <com.running.myviews.BestBar
         android:id="@+id/speed_best"
@@ -29,7 +44,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:best_attrText="最快配速"
-        app:best_dataText="05'31”"
         />
     <com.running.myviews.BestBar
         android:id="@+id/five_best"
@@ -38,7 +52,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:best_attrText="5公里最快"
-        app:best_dataText="未完成"
         />
     <com.running.myviews.BestBar
         android:id="@+id/ten_best"
@@ -47,7 +60,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:best_attrText="10公里最快"
-        app:best_dataText="未完成"
         />
     <com.running.myviews.BestBar
         android:id="@+id/half_best"
@@ -56,7 +68,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:best_attrText="半马最快"
-        app:best_dataText="未完成"
         />
     <com.running.myviews.BestBar
         android:id="@+id/whole_best"
@@ -65,6 +76,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:best_attrText="全马最快"
-        app:best_dataText="未完成"
         />
 </LinearLayout>
