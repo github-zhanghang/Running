@@ -116,14 +116,15 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
             Log.e(TAG, "加好友消息接收监听-id:" + contactContentMessage.getSourceUserId());
             Log.e(TAG, "加好友消息接收监听-Message:" + contactContentMessage.getMessage().toString());
             //发送广播
-           /* Intent in = new Intent();
-            in.setAction(App.ACTION_RECEIVE_MESSAGE);
+            Intent in = new Intent();
+            in.setAction("ACTION_RECEIVE_MESSAGE");
             in.putExtra("rongCloud", contactContentMessage);
             in.putExtra("has_message", true);
-            mContext.sendBroadcast(in);*/
+            mContext.sendBroadcast(in);
         } else if (messageContent instanceof InformationNotificationMessage){
             InformationNotificationMessage informationNotificationMessage = (InformationNotificationMessage) messageContent;
             Log.e(TAG, "onReceived-informationNotificationMessage:" + informationNotificationMessage.getMessage());
+
         }
 
         return false;

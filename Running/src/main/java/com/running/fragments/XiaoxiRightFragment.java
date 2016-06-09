@@ -1,7 +1,9 @@
 package com.running.fragments;
 
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -102,20 +104,15 @@ public class XiaoxiRightFragment extends Fragment {
 
                     @Override
                     public void onResponse(String response) {
+                        mFriendList.clear();
                         try {
-                            JSONArray jsonArray = new JSONArray(response);
 
+                            JSONArray jsonArray = new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 Log.e("test123: ", "object:" + object.toString());
                                 Friend friend =
                                         new Gson().fromJson(object.toString(), Friend.class);
-                                /*Friend friend = new Friend();
-                                friend.setFriendid(object.getInt("friendid"));
-                                friend.setAccount(object.getString("account"));
-                                friend.setRemark(object.getString("remark"));
-                                friend.setPortrait(object.getString("portrait"));
-                                friend.setFriendtime(object.getString("friendtime"));*/
                                 //添加首字母
                                 mFriendList.add(filledData(friend));
                                 //根据a-z进行排序源数据
@@ -133,27 +130,34 @@ public class XiaoxiRightFragment extends Fragment {
     }
 
     private void receiver() {
-       /* mReceiver = new BroadcastReceiver() {
+        mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 contactContentMessage =
                         (ContactNotificationMessage) intent.getExtras().get("rongCloud");
                 Log.e("test123: ", "接收到的请求:" + contactContentMessage.getOperation());
-                //小红点可见
-                header.findViewById(R.id.redPoint).setVisibility(View.VISIBLE);
+                String operation = contactContentMessage.getOperation();
+                if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_REQUEST)){
+                    //小红点可见
+                    header.findViewById(R.id.redPoint).setVisibility(View.VISIBLE);
+                }else if(operation.equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)){
+                    //对方同意加为好友 更新好友列表
+                    getData();
+                }
+
             }
         };
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(App.ACTION_RECEIVE_MESSAGE);
+        intentFilter.addAction("ACTION_RECEIVE_MESSAGE");
         getActivity().registerReceiver(mReceiver, intentFilter);
-        Log.e("test123: ", "注册接收广播成功");*/
+        Log.e("test123: ", "注册加好友接收广播成功");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        /*getActivity().unregisterReceiver(mReceiver);
-        Log.e("test123: ", "注销接收广播成功");*/
+        getActivity().unregisterReceiver(mReceiver);
+        Log.e("test123: ", "注销加好友接收广播成功");
     }
 
     private void setOnClickListener() {

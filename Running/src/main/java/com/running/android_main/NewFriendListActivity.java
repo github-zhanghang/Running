@@ -1,9 +1,11 @@
 package com.running.android_main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +39,7 @@ import okhttp3.Call;
 public class NewFriendListActivity extends AppCompatActivity {
     public static final String GetNewFriendList
             = "http://192.168.191.1:8080/Running/GetFriendList";
+    public static final int requestCode = 100;
     TextView mTextView;
     ContactNotificationMessage contactContentMessage;
 
@@ -50,7 +53,11 @@ public class NewFriendListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_frined);
         initView();
         request();
+        clickListener();
+
     }
+
+
 
     private void initView() {
         mNewFriendList = (ListView) findViewById(R.id.new_friend_list);
@@ -87,16 +94,55 @@ public class NewFriendListActivity extends AppCompatActivity {
                                 mResultList.add(friend);
                             }
                             adapter.notifyDataSetChanged();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                         //adapter的点击事件
                         setOnItemButtonClick();
                     }
                 });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode ==requestCode){
+            int p = (int) data.getExtras().get("position");
+            boolean flag = (boolean) data.getExtras().get("flag");
+            Friend friend =mResultList.get(p);
+            UserInfo userInfo =new UserInfo();
+            userInfo.setUid(friend.getFriendid());
+            userInfo.setNickName(friend.getRemark());
+            userInfo.setAccount(friend.getAccount());
+            if (flag){
+                sendMessage(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE,userInfo);
+                mResultList.get(p).setStatus(1);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(this, "同意", Toast.LENGTH_SHORT).show();
+            }else {
+                sendMessage(ContactNotificationMessage.CONTACT_OPERATION_REJECT_RESPONSE,userInfo);
+                mResultList.get(p).setStatus(4);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(this, "拒绝", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void clickListener() {
+        mNewFriendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(NewFriendListActivity.this, mResultList.get(position).getRemark(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(NewFriendListActivity.this,RejectAddActivity.class);
+                intent.putExtra("Friend",  mResultList.get(position));
+                intent.putExtra("Position",position);
+                startActivityForResult(intent,requestCode);
+            }
+        });
+    }
+
+    //adapter的点击事件
      private void setOnItemButtonClick() {
         adapter.setOnItemButtonClick(new NewFriendListAdapter.OnItemButtonClick() {
             @Override
@@ -115,14 +161,14 @@ public class NewFriendListActivity extends AppCompatActivity {
                         userInfo.setUid(friend.getFriendid());
                         userInfo.setNickName(friend.getRemark());
                         userInfo.setAccount(friend.getAccount());
-                        sendMessage(userInfo);
+                        sendMessage(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE,userInfo);
                         mResultList.get(position).setStatus(1);
                         adapter.notifyDataSetChanged();
                         break;
-                    case 4://请求被拒绝
+                    case 4://拒绝
 
                         break;
-                    case 5://我被对方删除
+                    case 5://请求被拒绝
 
                         break;
                 }
@@ -131,11 +177,11 @@ public class NewFriendListActivity extends AppCompatActivity {
         });
     }
 
-    private void sendMessage(UserInfo userInfo) {
+    private void sendMessage(String mark,UserInfo userInfo) {
         OkHttpUtils
                 .post()
                 .url(NewFriendInfoActivity.ADD_FRIEND)
-                .addParams("flag", ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)
+                .addParams("flag", mark)
                 .addParams("sourceUserId",new Gson().toJson(((MyApplication) getApplication()).getUserInfo()))
                 .addParams("targetUserId",new Gson().toJson(userInfo))
                 .addParams("message","")
