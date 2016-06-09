@@ -7,78 +7,84 @@ import java.io.Serializable;
  * 二级评论bean
  */
 public class SecondCommentBean implements Serializable {
-    private int id;
-    private int toId;
-    private String name;
-    private String toName;
-    private int cId;
-    private String content;
-    private String time;
+    private int sCId;
+    private int sFCId;
+    private int uId0;
+    private String uName0;
+    private int uId1;
+    private String uName1;
+    private String sContent;
+    private String sTime;
 
-    public SecondCommentBean(int id, int toId, String name, String toName, String content, String
-            time) {
-        this.id = id;
-        this.toId = toId;
-        this.name = name;
-        this.toName = toName;
-        this.cId = 2333;
-        this.content = content;
-        this.time = time;
+    public SecondCommentBean(int sFCId, int uId0, String uName0, int uId1, String uName1, String
+            sContent, String sTime) {
+        this.sFCId = sFCId;
+        this.uId0 = uId0;
+        this.uName0 = uName0;
+        this.uId1 = uId1;
+        this.uName1 = uName1;
+        this.sContent = sContent;
+        this.sTime = sTime;
     }
 
-    public int getId() {
-        return id;
+    public SecondCommentBean(int sCId, int sFCId, int uId0, String uName0,
+                             int uId1, String uName1, String sContent, String sTime) {
+        super();
+        this.sCId = sCId;
+        this.sFCId = sFCId;
+        this.uId0 = uId0;
+        this.uName0 = uName0;
+        this.uId1 = uId1;
+        this.uName1 = uName1;
+        this.sContent = sContent;
+        this.sTime = sTime;
     }
-
-    public void setId(int id) {
-        this.id = id;
+    public int getsCId() {
+        return sCId;
     }
-
-    public int getToId() {
-        return toId;
+    public void setsCId(int sCId) {
+        this.sCId = sCId;
     }
-
-    public void setToId(int toId) {
-        this.toId = toId;
+    public int getsFCId() {
+        return sFCId;
     }
-
-    public String getName() {
-        return name;
+    public void setsFCId(int sFCId) {
+        this.sFCId = sFCId;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    public int getuId0() {
+        return uId0;
     }
-
-    public String getToName() {
-        return toName;
+    public void setuId0(int uId0) {
+        this.uId0 = uId0;
     }
-
-    public void setToName(String toName) {
-        this.toName = toName;
+    public String getuName0() {
+        return uName0;
     }
-
-    public int getcId() {
-        return cId;
+    public void setuName0(String uName0) {
+        this.uName0 = uName0;
     }
-
-    public void setcId(int cId) {
-        this.cId = cId;
+    public int getuId1() {
+        return uId1;
     }
-
-    public String getContent() {
-        return content;
+    public void setuId1(int uId1) {
+        this.uId1 = uId1;
     }
-
-    public void setContent(String content) {
-        this.content = content;
+    public String getuName1() {
+        return uName1;
     }
-
-    public String getTime() {
-        return time;
+    public void setuName1(String uName1) {
+        this.uName1 = uName1;
     }
-
-    public void setTime(String time) {
-        this.time = time;
+    public String getsContent() {
+        return sContent;
+    }
+    public void setsContent(String sContent) {
+        this.sContent = sContent;
+    }
+    public String getsTime() {
+        return sTime;
+    }
+    public void setsTime(String sTime) {
+        this.sTime = sTime;
     }
 }

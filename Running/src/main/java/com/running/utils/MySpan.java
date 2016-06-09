@@ -6,6 +6,7 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 
 import com.running.android_main.R;
+import com.running.beans.SecondCommentBean;
 
 /**
  * Created by ldd on 2016/5/30.
@@ -17,6 +18,7 @@ public class MySpan extends ClickableSpan {
     private Context mContext;
     private int id;
     private String mContent;
+    private SecondCommentBean mBean;
 
     private int mColor;
     private OnClickListener mOnClickListener;
@@ -45,6 +47,14 @@ public class MySpan extends ClickableSpan {
 
     public void setContent(String content) {
         mContent = content;
+    }
+
+    public SecondCommentBean getBean() {
+        return mBean;
+    }
+
+    public void setBean(SecondCommentBean bean) {
+        mBean = bean;
     }
 
     @Override

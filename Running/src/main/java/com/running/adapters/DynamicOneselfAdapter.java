@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.running.android_main.PersonInformationActivity;
 import com.running.android_main.R;
+import com.running.beans.DynamicOneselfBean;
 import com.running.myviews.MyGridView;
 
 import java.text.ParseException;
@@ -77,6 +78,8 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HeaderViewHolder) {
+            DynamicOneselfBean bean = (DynamicOneselfBean) mList.get(position).get
+                    ("DynamicOneselfBean");
             ((HeaderViewHolder) holder).mBackImageView.setImageResource(R.drawable.dynamic_test);
             ((HeaderViewHolder) holder).mHeadImageView.setImageResource(R.drawable.head_photo);
             ((HeaderViewHolder) holder).mHeadImageView.setOnClickListener(
@@ -87,19 +90,26 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                     PersonInformationActivity.class));
                         }
                     });
-            ((HeaderViewHolder) holder).mNameTextView.setText("桃子");
-            ((HeaderViewHolder) holder).mSexImageView.setImageResource(R.drawable.sex_women);
+            ((HeaderViewHolder) holder).mNameTextView.setText(bean.getuName());
+            if (bean.getuSex().equals("男")) {
+                ((HeaderViewHolder) holder).mSexImageView.setImageResource(R.drawable.sex_women);
+            } else if (bean.getuSex().equals("女")) {
+                ((HeaderViewHolder) holder).mSexImageView.setImageResource(R.drawable.sex_women);
+            }
         } else if (holder instanceof FooterViewHolder) {
             ((FooterViewHolder) holder).mLoadText.setText("加载中");
         } else if (holder instanceof ViewHolder) {
-            HashMap<String, Object> map = mList.get(position);
-            SpannableStringBuilder time = formatDateTime(map.get("time").toString());
+            DynamicOneselfBean bean = (DynamicOneselfBean) mList.get(position).get
+                    ("DynamicOneselfBean");
+            SpannableStringBuilder time = formatDateTime(bean.getTime());
             ((ViewHolder) holder).mTime.setText(time);
-            ((ViewHolder) holder).mContent.setText(map.get("content").toString());
+            ((ViewHolder) holder).mContent.setText(bean.getContent());
             DynamicImgGridViewAdapter adapter = new DynamicImgGridViewAdapter(mContext,
-                    (List<String>) map.get("imgList"),
+                    bean.getImgList(),
                     ((ViewHolder) holder).mGridView);
             ((ViewHolder) holder).mGridView.setAdapter(adapter);
+            ((ViewHolder) holder).mPraiseCount.setText(String.valueOf(bean.getPraiseCount()));
+            ((ViewHolder) holder).mCommentCount.setText(String.valueOf(bean.getCommentCount()));
 
             if (mListener == null) {
                 return;

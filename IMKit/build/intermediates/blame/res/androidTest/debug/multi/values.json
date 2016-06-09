@@ -1,6 +1,10 @@
 [
     {
+<<<<<<< HEAD
+        "outputFile": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+=======
         "outputFile": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
         "map": [
             {
                 "to": {
@@ -12,7 +16,11 @@
                     "endOffset": 4322
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -33,7 +41,11 @@
                     "endOffset": 9213
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 132,
                         "startColumn": 4,
@@ -53,7 +65,11 @@
                     "endOffset": 9274
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 262,
                         "startColumn": 4,
@@ -72,7 +88,11 @@
                     "endOffset": 9328
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 263,
                         "startColumn": 4,
@@ -91,7 +111,11 @@
                     "endOffset": 9373
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 264,
                         "startColumn": 4,
@@ -110,7 +134,11 @@
                     "endOffset": 9419
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 265,
                         "startColumn": 4,
@@ -129,7 +157,11 @@
                     "endOffset": 9476
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 266,
                         "startColumn": 4,
@@ -148,7 +180,11 @@
                     "endOffset": 9525
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 267,
                         "startColumn": 4,
@@ -167,7 +203,11 @@
                     "endOffset": 9571
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 268,
                         "startColumn": 4,
@@ -186,7 +226,11 @@
                     "endOffset": 9626
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 269,
                         "startColumn": 4,
@@ -205,7 +249,11 @@
                     "endOffset": 9673
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 270,
                         "startColumn": 4,
@@ -224,7 +272,11 @@
                     "endOffset": 9726
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 271,
                         "startColumn": 4,
@@ -243,7 +295,11 @@
                     "endOffset": 9775
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 272,
                         "startColumn": 4,
@@ -262,7 +318,11 @@
                     "endOffset": 9829
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 273,
                         "startColumn": 4,
@@ -281,7 +341,11 @@
                     "endOffset": 9882
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 274,
                         "startColumn": 4,
@@ -300,7 +364,11 @@
                     "endOffset": 9930
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 275,
                         "startColumn": 4,
@@ -319,7 +387,11 @@
                     "endOffset": 9986
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 276,
                         "startColumn": 4,
@@ -338,7 +410,11 @@
                     "endOffset": 10063
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 277,
                         "startColumn": 4,
@@ -357,7 +433,11 @@
                     "endOffset": 10121
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 278,
                         "startColumn": 4,
@@ -376,7 +456,11 @@
                     "endOffset": 10178
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 279,
                         "startColumn": 4,
@@ -395,7 +479,11 @@
                     "endOffset": 10226
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 280,
                         "startColumn": 4,
@@ -414,7 +502,11 @@
                     "endOffset": 10275
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 281,
                         "startColumn": 4,
@@ -433,7 +525,11 @@
                     "endOffset": 11679
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 286,
                         "startColumn": 4,
@@ -452,7 +548,11 @@
                     "endOffset": 11741
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 287,
                         "startColumn": 4,
@@ -471,7 +571,11 @@
                     "endOffset": 11806
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 288,
                         "startColumn": 4,
@@ -490,7 +594,11 @@
                     "endOffset": 11848
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 289,
                         "startColumn": 4,
@@ -509,7 +617,11 @@
                     "endOffset": 11885
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 290,
                         "startColumn": 4,
@@ -528,7 +640,11 @@
                     "endOffset": 11928
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 291,
                         "startColumn": 4,
@@ -547,7 +663,11 @@
                     "endOffset": 11967
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 292,
                         "startColumn": 4,
@@ -566,7 +686,11 @@
                     "endOffset": 12008
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 293,
                         "startColumn": 4,
@@ -585,7 +709,11 @@
                     "endOffset": 12048
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 294,
                         "startColumn": 4,
@@ -604,7 +732,11 @@
                     "endOffset": 12101
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 295,
                         "startColumn": 4,
@@ -623,7 +755,11 @@
                     "endOffset": 12156
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 296,
                         "startColumn": 4,
@@ -642,7 +778,11 @@
                     "endOffset": 12208
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 297,
                         "startColumn": 4,
@@ -661,7 +801,11 @@
                     "endOffset": 12258
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 298,
                         "startColumn": 4,
@@ -680,7 +824,11 @@
                     "endOffset": 12309
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 299,
                         "startColumn": 4,
@@ -699,7 +847,11 @@
                     "endOffset": 12350
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 300,
                         "startColumn": 4,
@@ -718,7 +870,11 @@
                     "endOffset": 12388
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 301,
                         "startColumn": 4,
@@ -737,7 +893,11 @@
                     "endOffset": 12425
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 302,
                         "startColumn": 4,
@@ -756,7 +916,11 @@
                     "endOffset": 12461
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 303,
                         "startColumn": 4,
@@ -775,7 +939,11 @@
                     "endOffset": 12509
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 304,
                         "startColumn": 4,
@@ -794,7 +962,11 @@
                     "endOffset": 12552
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 305,
                         "startColumn": 4,
@@ -813,7 +985,11 @@
                     "endOffset": 12597
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 306,
                         "startColumn": 4,
@@ -832,7 +1008,11 @@
                     "endOffset": 12635
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 307,
                         "startColumn": 4,
@@ -851,7 +1031,11 @@
                     "endOffset": 12673
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 308,
                         "startColumn": 4,
@@ -870,7 +1054,11 @@
                     "endOffset": 12711
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 309,
                         "startColumn": 4,
@@ -889,7 +1077,11 @@
                     "endOffset": 12749
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 310,
                         "startColumn": 4,
@@ -908,7 +1100,11 @@
                     "endOffset": 12787
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 311,
                         "startColumn": 4,
@@ -927,7 +1123,11 @@
                     "endOffset": 12825
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 312,
                         "startColumn": 4,
@@ -946,7 +1146,11 @@
                     "endOffset": 12863
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 313,
                         "startColumn": 4,
@@ -965,7 +1169,11 @@
                     "endOffset": 12901
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 314,
                         "startColumn": 4,
@@ -984,7 +1192,11 @@
                     "endOffset": 12939
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 315,
                         "startColumn": 4,
@@ -1003,7 +1215,11 @@
                     "endOffset": 12977
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 316,
                         "startColumn": 4,
@@ -1022,7 +1238,11 @@
                     "endOffset": 13027
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 317,
                         "startColumn": 4,
@@ -1041,7 +1261,11 @@
                     "endOffset": 13066
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 318,
                         "startColumn": 4,
@@ -1060,7 +1284,11 @@
                     "endOffset": 13103
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 319,
                         "startColumn": 4,
@@ -1079,7 +1307,11 @@
                     "endOffset": 13140
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 320,
                         "startColumn": 4,
@@ -1098,7 +1330,11 @@
                     "endOffset": 13177
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 321,
                         "startColumn": 4,
@@ -1117,7 +1353,11 @@
                     "endOffset": 13229
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 322,
                         "startColumn": 4,
@@ -1136,7 +1376,11 @@
                     "endOffset": 13265
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 323,
                         "startColumn": 4,
@@ -1155,7 +1399,11 @@
                     "endOffset": 13301
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 324,
                         "startColumn": 4,
@@ -1174,7 +1422,11 @@
                     "endOffset": 13339
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 325,
                         "startColumn": 4,
@@ -1193,7 +1445,11 @@
                     "endOffset": 13380
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 326,
                         "startColumn": 4,
@@ -1212,7 +1468,11 @@
                     "endOffset": 13427
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 327,
                         "startColumn": 4,
@@ -1231,7 +1491,11 @@
                     "endOffset": 13468
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 328,
                         "startColumn": 4,
@@ -1250,7 +1514,11 @@
                     "endOffset": 13513
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 329,
                         "startColumn": 4,
@@ -1269,7 +1537,11 @@
                     "endOffset": 13551
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 330,
                         "startColumn": 4,
@@ -1288,7 +1560,11 @@
                     "endOffset": 13588
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 331,
                         "startColumn": 4,
@@ -1307,7 +1583,11 @@
                     "endOffset": 13632
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 332,
                         "startColumn": 4,
@@ -1326,7 +1606,11 @@
                     "endOffset": 13669
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 333,
                         "startColumn": 4,
@@ -1345,7 +1629,11 @@
                     "endOffset": 13707
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 334,
                         "startColumn": 4,
@@ -1364,7 +1652,11 @@
                     "endOffset": 13752
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 335,
                         "startColumn": 4,
@@ -1383,7 +1675,11 @@
                     "endOffset": 13788
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 336,
                         "startColumn": 4,
@@ -1402,7 +1698,11 @@
                     "endOffset": 13835
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 337,
                         "startColumn": 4,
@@ -1421,7 +1721,11 @@
                     "endOffset": 13888
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 338,
                         "startColumn": 4,
@@ -1440,7 +1744,11 @@
                     "endOffset": 13928
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 339,
                         "startColumn": 4,
@@ -1459,7 +1767,11 @@
                     "endOffset": 13990
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 340,
                         "startColumn": 4,
@@ -1478,7 +1790,11 @@
                     "endOffset": 14060
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 341,
                         "startColumn": 4,
@@ -1497,7 +1813,11 @@
                     "endOffset": 14131
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 342,
                         "startColumn": 4,
@@ -1516,7 +1836,11 @@
                     "endOffset": 14181
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 343,
                         "startColumn": 4,
@@ -1535,7 +1859,11 @@
                     "endOffset": 14229
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 344,
                         "startColumn": 4,
@@ -1554,7 +1882,11 @@
                     "endOffset": 14284
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 345,
                         "startColumn": 4,
@@ -1573,7 +1905,11 @@
                     "endOffset": 14341
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 346,
                         "startColumn": 4,
@@ -1592,7 +1928,11 @@
                     "endOffset": 14396
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 347,
                         "startColumn": 4,
@@ -1611,7 +1951,11 @@
                     "endOffset": 14448
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 348,
                         "startColumn": 4,
@@ -1630,7 +1974,11 @@
                     "endOffset": 14520
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 349,
                         "startColumn": 4,
@@ -1649,7 +1997,11 @@
                     "endOffset": 14595
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 350,
                         "startColumn": 4,
@@ -1668,7 +2020,11 @@
                     "endOffset": 14674
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 351,
                         "startColumn": 4,
@@ -1687,7 +2043,11 @@
                     "endOffset": 14746
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 352,
                         "startColumn": 4,
@@ -1706,7 +2066,11 @@
                     "endOffset": 14818
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 353,
                         "startColumn": 4,
@@ -1725,7 +2089,11 @@
                     "endOffset": 14888
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 354,
                         "startColumn": 4,
@@ -1744,7 +2112,11 @@
                     "endOffset": 14959
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 355,
                         "startColumn": 4,
@@ -1763,7 +2135,11 @@
                     "endOffset": 15026
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 356,
                         "startColumn": 4,
@@ -1782,7 +2158,11 @@
                     "endOffset": 15100
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 357,
                         "startColumn": 4,
@@ -1801,7 +2181,11 @@
                     "endOffset": 15169
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 358,
                         "startColumn": 4,
@@ -1820,7 +2204,11 @@
                     "endOffset": 15232
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 359,
                         "startColumn": 4,
@@ -1839,7 +2227,11 @@
                     "endOffset": 15312
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 360,
                         "startColumn": 4,
@@ -1858,7 +2250,11 @@
                     "endOffset": 15383
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 361,
                         "startColumn": 4,
@@ -1877,7 +2273,11 @@
                     "endOffset": 15454
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 362,
                         "startColumn": 4,
@@ -1896,7 +2296,11 @@
                     "endOffset": 15521
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 363,
                         "startColumn": 4,
@@ -1915,7 +2319,11 @@
                     "endOffset": 15590
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 364,
                         "startColumn": 4,
@@ -1934,7 +2342,11 @@
                     "endOffset": 15664
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 365,
                         "startColumn": 4,
@@ -1953,7 +2365,11 @@
                     "endOffset": 15708
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 366,
                         "startColumn": 4,
@@ -1972,7 +2388,11 @@
                     "endOffset": 15768
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 367,
                         "startColumn": 4,
@@ -1991,7 +2411,11 @@
                     "endOffset": 15830
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 368,
                         "startColumn": 4,
@@ -2010,7 +2434,11 @@
                     "endOffset": 15874
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 369,
                         "startColumn": 4,
@@ -2029,7 +2457,11 @@
                     "endOffset": 15922
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 370,
                         "startColumn": 4,
@@ -2048,7 +2480,11 @@
                     "endOffset": 15983
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 371,
                         "startColumn": 4,
@@ -2067,7 +2503,11 @@
                     "endOffset": 16046
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 372,
                         "startColumn": 4,
@@ -2086,7 +2526,11 @@
                     "endOffset": 16090
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 373,
                         "startColumn": 4,
@@ -2105,7 +2549,11 @@
                     "endOffset": 16171
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 374,
                         "startColumn": 4,
@@ -2124,7 +2572,11 @@
                     "endOffset": 16252
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 375,
                         "startColumn": 4,
@@ -2143,7 +2595,11 @@
                     "endOffset": 16324
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 376,
                         "startColumn": 4,
@@ -2162,7 +2618,11 @@
                     "endOffset": 16413
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 377,
                         "startColumn": 4,
@@ -2181,7 +2641,11 @@
                     "endOffset": 16501
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 378,
                         "startColumn": 4,
@@ -2200,7 +2664,11 @@
                     "endOffset": 16579
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 379,
                         "startColumn": 4,
@@ -2219,7 +2687,11 @@
                     "endOffset": 16660
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 380,
                         "startColumn": 4,
@@ -2238,7 +2710,11 @@
                     "endOffset": 16746
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 381,
                         "startColumn": 4,
@@ -2257,7 +2733,11 @@
                     "endOffset": 16807
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 382,
                         "startColumn": 4,
@@ -2276,7 +2756,11 @@
                     "endOffset": 16861
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 383,
                         "startColumn": 4,
@@ -2295,7 +2779,11 @@
                     "endOffset": 16913
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 384,
                         "startColumn": 4,
@@ -2314,7 +2802,11 @@
                     "endOffset": 16979
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 385,
                         "startColumn": 4,
@@ -2333,7 +2825,11 @@
                     "endOffset": 17044
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 386,
                         "startColumn": 4,
@@ -2352,7 +2848,11 @@
                     "endOffset": 17104
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 387,
                         "startColumn": 4,
@@ -2371,7 +2871,11 @@
                     "endOffset": 17166
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 388,
                         "startColumn": 4,
@@ -2390,7 +2894,11 @@
                     "endOffset": 17221
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 389,
                         "startColumn": 4,
@@ -2409,7 +2917,11 @@
                     "endOffset": 17271
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 390,
                         "startColumn": 4,
@@ -2428,7 +2940,11 @@
                     "endOffset": 17316
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 391,
                         "startColumn": 4,
@@ -2447,7 +2963,11 @@
                     "endOffset": 17365
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 392,
                         "startColumn": 4,
@@ -2466,7 +2986,11 @@
                     "endOffset": 17426
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 393,
                         "startColumn": 4,
@@ -2485,7 +3009,11 @@
                     "endOffset": 17484
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 394,
                         "startColumn": 4,
@@ -2504,7 +3032,11 @@
                     "endOffset": 17542
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 395,
                         "startColumn": 4,
@@ -2523,7 +3055,11 @@
                     "endOffset": 17603
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 396,
                         "startColumn": 4,
@@ -2542,7 +3078,11 @@
                     "endOffset": 17665
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 397,
                         "startColumn": 4,
@@ -2561,7 +3101,11 @@
                     "endOffset": 17723
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 398,
                         "startColumn": 4,
@@ -2580,7 +3124,11 @@
                     "endOffset": 17784
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 399,
                         "startColumn": 4,
@@ -2599,7 +3147,11 @@
                     "endOffset": 17842
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 400,
                         "startColumn": 4,
@@ -2618,7 +3170,11 @@
                     "endOffset": 17881
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 401,
                         "startColumn": 4,
@@ -2637,7 +3193,11 @@
                     "endOffset": 17933
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 402,
                         "startColumn": 4,
@@ -2656,7 +3216,11 @@
                     "endOffset": 17992
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 403,
                         "startColumn": 4,
@@ -2675,7 +3239,11 @@
                     "endOffset": 18044
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 404,
                         "startColumn": 4,
@@ -2694,7 +3262,11 @@
                     "endOffset": 18101
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 405,
                         "startColumn": 4,
@@ -2713,7 +3285,11 @@
                     "endOffset": 18165
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 406,
                         "startColumn": 4,
@@ -2732,7 +3308,11 @@
                     "endOffset": 18234
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 407,
                         "startColumn": 4,
@@ -2751,7 +3331,11 @@
                     "endOffset": 18294
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 408,
                         "startColumn": 4,
@@ -2770,7 +3354,11 @@
                     "endOffset": 18352
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 409,
                         "startColumn": 4,
@@ -2789,7 +3377,11 @@
                     "endOffset": 18410
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 410,
                         "startColumn": 4,
@@ -2808,7 +3400,11 @@
                     "endOffset": 18469
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 411,
                         "startColumn": 4,
@@ -2827,7 +3423,11 @@
                     "endOffset": 18539
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 412,
                         "startColumn": 4,
@@ -2846,7 +3446,11 @@
                     "endOffset": 18599
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 413,
                         "startColumn": 4,
@@ -2865,7 +3469,11 @@
                     "endOffset": 18665
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 414,
                         "startColumn": 4,
@@ -2884,7 +3492,11 @@
                     "endOffset": 18740
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 415,
                         "startColumn": 4,
@@ -2903,7 +3515,11 @@
                     "endOffset": 18796
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 416,
                         "startColumn": 4,
@@ -2922,7 +3538,11 @@
                     "endOffset": 18863
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 417,
                         "startColumn": 4,
@@ -2941,7 +3561,11 @@
                     "endOffset": 18941
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 418,
                         "startColumn": 4,
@@ -2960,7 +3584,11 @@
                     "endOffset": 19006
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 419,
                         "startColumn": 4,
@@ -2979,7 +3607,11 @@
                     "endOffset": 19055
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 420,
                         "startColumn": 4,
@@ -2998,7 +3630,11 @@
                     "endOffset": 19103
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 421,
                         "startColumn": 4,
@@ -3017,7 +3653,11 @@
                     "endOffset": 19154
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 422,
                         "startColumn": 4,
@@ -3036,7 +3676,11 @@
                     "endOffset": 19203
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 423,
                         "startColumn": 4,
@@ -3055,7 +3699,11 @@
                     "endOffset": 19268
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 424,
                         "startColumn": 4,
@@ -3074,7 +3722,11 @@
                     "endOffset": 19333
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 425,
                         "startColumn": 4,
@@ -3093,7 +3745,11 @@
                     "endOffset": 19393
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 426,
                         "startColumn": 4,
@@ -3112,7 +3768,11 @@
                     "endOffset": 19451
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 427,
                         "startColumn": 4,
@@ -3131,7 +3791,11 @@
                     "endOffset": 19513
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 428,
                         "startColumn": 4,
@@ -3150,7 +3814,11 @@
                     "endOffset": 19570
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 429,
                         "startColumn": 4,
@@ -3169,7 +3837,11 @@
                     "endOffset": 19615
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 430,
                         "startColumn": 4,
@@ -3188,7 +3860,11 @@
                     "endOffset": 19691
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 431,
                         "startColumn": 4,
@@ -3207,7 +3883,11 @@
                     "endOffset": 19743
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 432,
                         "startColumn": 4,
@@ -3226,7 +3906,11 @@
                     "endOffset": 19804
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 433,
                         "startColumn": 4,
@@ -3245,7 +3929,11 @@
                     "endOffset": 19865
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 434,
                         "startColumn": 4,
@@ -3264,7 +3952,11 @@
                     "endOffset": 19934
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 435,
                         "startColumn": 4,
@@ -3283,7 +3975,11 @@
                     "endOffset": 19998
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 436,
                         "startColumn": 4,
@@ -3302,7 +3998,11 @@
                     "endOffset": 20063
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 437,
                         "startColumn": 4,
@@ -3321,7 +4021,11 @@
                     "endOffset": 20137
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 438,
                         "startColumn": 4,
@@ -3340,7 +4044,11 @@
                     "endOffset": 20215
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 439,
                         "startColumn": 4,
@@ -3359,7 +4067,11 @@
                     "endOffset": 20262
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 440,
                         "startColumn": 4,
@@ -3378,7 +4090,11 @@
                     "endOffset": 20312
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 441,
                         "startColumn": 4,
@@ -3397,7 +4113,11 @@
                     "endOffset": 20371
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 442,
                         "startColumn": 4,
@@ -3416,7 +4136,11 @@
                     "endOffset": 20425
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 443,
                         "startColumn": 4,
@@ -3435,7 +4159,11 @@
                     "endOffset": 20491
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 444,
                         "startColumn": 4,
@@ -3454,7 +4182,11 @@
                     "endOffset": 20551
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 445,
                         "startColumn": 4,
@@ -3473,7 +4205,11 @@
                     "endOffset": 20613
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 446,
                         "startColumn": 4,
@@ -3492,7 +4228,11 @@
                     "endOffset": 20664
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 447,
                         "startColumn": 4,
@@ -3511,7 +4251,11 @@
                     "endOffset": 20715
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 448,
                         "startColumn": 4,
@@ -3530,7 +4274,11 @@
                     "endOffset": 20765
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 449,
                         "startColumn": 4,
@@ -3549,7 +4297,11 @@
                     "endOffset": 20828
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 450,
                         "startColumn": 4,
@@ -3568,7 +4320,11 @@
                     "endOffset": 20871
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 451,
                         "startColumn": 4,
@@ -3587,7 +4343,11 @@
                     "endOffset": 20908
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 452,
                         "startColumn": 4,
@@ -3606,7 +4366,11 @@
                     "endOffset": 20964
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 453,
                         "startColumn": 4,
@@ -3626,7 +4390,11 @@
                     "endOffset": 21595
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 454,
                         "startColumn": 4,
@@ -3647,7 +4415,11 @@
                     "endOffset": 21817
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 463,
                         "startColumn": 4,
@@ -3668,7 +4440,11 @@
                     "endOffset": 22025
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 467,
                         "startColumn": 4,
@@ -3689,7 +4465,11 @@
                     "endOffset": 22293
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 471,
                         "startColumn": 4,
@@ -3710,7 +4490,11 @@
                     "endOffset": 22788
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 476,
                         "startColumn": 4,
@@ -3731,7 +4515,11 @@
                     "endOffset": 22871
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 485,
                         "startColumn": 4,
@@ -3752,7 +4540,11 @@
                     "endOffset": 22953
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 488,
                         "startColumn": 4,
@@ -3773,7 +4565,11 @@
                     "endOffset": 23131
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 491,
                         "startColumn": 4,
@@ -3794,7 +4590,11 @@
                     "endOffset": 23214
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 494,
                         "startColumn": 4,
@@ -3815,7 +4615,11 @@
                     "endOffset": 23502
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 497,
                         "startColumn": 4,
@@ -3836,7 +4640,11 @@
                     "endOffset": 23584
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 502,
                         "startColumn": 4,
@@ -3857,7 +4665,11 @@
                     "endOffset": 24046
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 505,
                         "startColumn": 4,
@@ -3878,7 +4690,11 @@
                     "endOffset": 24224
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 513,
                         "startColumn": 4,
@@ -3899,7 +4715,11 @@
                     "endOffset": 24478
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 516,
                         "startColumn": 4,
@@ -3920,7 +4740,11 @@
                     "endOffset": 24655
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 521,
                         "startColumn": 4,
@@ -3941,7 +4765,11 @@
                     "endOffset": 24907
                 },
                 "from": {
+<<<<<<< HEAD
+                    "file": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
                     "file": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> 7ed3d2d85b5c1e2d95e686da9fd6669c2a7e1404
                     "position": {
                         "startLine": 524,
                         "startColumn": 4,

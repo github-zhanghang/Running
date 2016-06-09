@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //请求队列
     private RequestQueue requestQueue;
     private static final int WHAT = 0;
+    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +76,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mRememberInfoCheckBox.setChecked(true);
         initListeners();
         initUserInfo();
-
-
     }
 
     private void initViews() {
@@ -135,7 +134,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     UserInfo userinfo = new UserInfo("0", 3333, mAccount, "15106200759", mAccount,
                             "\"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1564533037,3918553373&fm=116&gp=0.jpg\"",
                             "个性签名---------------------", "1994-01-30", 20, "男", 170, 66,
-                            "湖北 孝感",
+                            "湖北 孝感 大悟",
                             0.0, 0.0, "zzzzzzzzzzzzz");
                     mApplication.setUserInfo(userinfo);
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -169,7 +168,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public void onSucceed(int what, Response<String> response) {
             if (what == WHAT) {
-                mProgressDialog.dismiss();
                 String result = response.get();// 响应结果
                 Log.e("my", result);
                 //将用户信息保存在Application中
@@ -192,11 +190,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     connect(mApplication.getUserInfo().getRongToken());
 
                 } else if (userInfo.getCode().equals(Login_Error_UserName)) {
-                    Toast.makeText(LoginActivity.this, "该用户不存在", Toast.LENGTH_SHORT).show();
+                    showToast("该用户不存在");
                 } else if (userInfo.getCode().equals(Login_Error_UserPassword)) {
-                    Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                    showToast("密码错误");
                 } else {
-                    Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
+                    showToast("error");
                 }
             }
         }
@@ -204,7 +202,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
             mProgressDialog.dismiss();
-            Toast.makeText(LoginActivity.this, "登录失败,请稍后重试", Toast.LENGTH_SHORT).show();
+            showToast("登录失败,请稍后重试");
         }
 
         @Override
@@ -244,12 +242,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onError(Platform platform, int i, Throwable throwable) {
-                Toast.makeText(mContext, "出错", Toast.LENGTH_SHORT).show();
+                showToast("出错");
             }
 
             @Override
             public void onCancel(Platform platform, int i) {
-                Toast.makeText(mContext, "已取消", Toast.LENGTH_SHORT).show();
+                showToast("已取消");
             }
         });
         mPlatform.showUser(null);
@@ -260,18 +258,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onDestroy();
         ShareSDK.stopSDK();
     }
+
     //融云的连接
     private void connect(String token) {
-
         RongIM.connect(token, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
+                mProgressDialog.dismiss();
                 Log.e("12345: ", "过期");
             }
 
             @Override
             public void onSuccess(String s) {
                 Log.e("12345: ", "融云连接成功");
+                mProgressDialog.dismiss();
                 RongIM.setUserInfoProvider(LoginActivity.this, true);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 LoginActivity.this.finish();
@@ -279,11 +279,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
+                mProgressDialog.dismiss();
                 Log.e("12345: ", errorCode.toString());
             }
         });
     }
 
+    public void showToast(String text) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(mContext, text, Toast.LENGTH_SHORT);
+        mToast.show();
+    }
     //消息提供者
     @Override
     public io.rong.imlib.model.UserInfo getUserInfo(String s) {

@@ -82,7 +82,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     private Trace mTrace;  // 实例化轨迹服务
     private LBSTraceClient mTraceClient;  // 实例化轨迹服务客户端
     //传感器，计步
-    MyStepListener mStepListener;
+    private MyStepListener mStepListener;
 
     //是否停止
     private boolean isStop = false;
@@ -104,6 +104,11 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     private MyOrientationListener mOrientationListener;
     //目标,是否完成
     private String mTarget;
+    //目标数据
+    private int mTargetData;
+    //目标单位
+    private String mTargetUnit;
+    //目标是否完成,1表示完成，0表示未完成，-1表示未设置目标
     private int mComplete = 1;
 
     Handler mHandler = new Handler() {
@@ -130,6 +135,13 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         //获取目标
         Intent intent = getIntent();
         mTarget = intent.getStringExtra("target");
+        if (mTarget != null) {
+            mTargetData = Integer.parseInt(mTarget.substring(0, mTarget.length() - 2));
+            mTargetUnit = mTarget.substring(mTarget.length() - 2, mTarget.length());
+            Log.e("my", "mTargetData=" + mTargetData + ";mTartgetUnit=" + mTargetUnit);
+        } else {
+            mComplete = -1;
+        }
 
         mApplication = (MyApplication) getApplication();
         mUserInfo = mApplication.getUserInfo();
@@ -174,7 +186,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         }
 
         //账号+当前时间来充当实体名
-        entityName = mApplication.getUserInfo().getAccount() + System.currentTimeMillis();
+        entityName = "" + mApplication.getUserInfo().getUid() + System.currentTimeMillis();
         //实例化轨迹服务客户端
         mTraceClient = new LBSTraceClient(this);
         //实例化轨迹服务
@@ -288,7 +300,26 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     }
 
     private void saveRunData() {
-        Log.e("my", "mPath=" + mPath);
+        //判断是否达到目标
+        if (mTarget != null && mTargetUnit.equals("公里")) {
+            if (mDistance >= mTargetData) {
+                mComplete = 1;
+            } else {
+                mComplete = 0;
+            }
+        } else if (mTarget != null && mTargetUnit.equals("大卡")) {
+            if (mCalorie >= mTargetData) {
+                mComplete = 1;
+            } else {
+                mComplete = 0;
+            }
+        } else if (mTarget != null && mTargetUnit.equals("分钟")) {
+            if (mTime >= mTargetData * 60 * 1000) {
+                mComplete = 1;
+            } else {
+                mComplete = 0;
+            }
+        }
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
         request.add("uid", mApplication.getUserInfo().getUid());
         request.add("distance", mDistance);
