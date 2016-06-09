@@ -7,6 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <com.running.myviews.TopBar
+        android:id="@+id/conversation_TopBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@mipmap/ic_launcher"

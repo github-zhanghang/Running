@@ -283,6 +283,8 @@
         </activity>
         <activity android:name=".ConFriendActivity">
         </activity>
+        <activity android:name=".RejectAddActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -1,6 +1,8 @@
 package com.running.beans;
 
-public class Friend {
+import java.io.Serializable;
+
+public class Friend implements Serializable {
 
 	private String sortLetters;//显示数据拼音的首字母
 
