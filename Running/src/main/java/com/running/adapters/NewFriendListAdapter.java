@@ -9,15 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.bumptech.glide.Glide;
 import com.running.android_main.R;
-import com.running.beans.ApiResult;
 import com.running.beans.Friend;
 
 import java.util.List;
-
-import io.rong.imkit.widget.AsyncImageView;
 
 /**
  * Created by Bob on 2015/3/26.
@@ -104,11 +100,11 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
 
                         break;
                     case 4://请求被拒绝
-                        viewHolder.mFrienduState.setText("请求被拒绝");
+                        viewHolder.mFrienduState.setText("已拒绝");
                         viewHolder.mFrienduState.setBackground(null);
                         break;
                     case 5://我被对方删除
-                        viewHolder.mFrienduState.setText("被删除");
+                        viewHolder.mFrienduState.setText("请求被拒绝");
                         viewHolder.mFrienduState.setBackground(null);
                         break;
 

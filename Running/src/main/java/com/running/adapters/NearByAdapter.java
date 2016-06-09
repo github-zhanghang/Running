@@ -10,12 +10,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.running.android_main.R;
-import com.running.beans.Friend;
 import com.running.beans.NearUserInfo;
 
 import java.util.List;
-
-import io.rong.imkit.widget.AsyncImageView;
 
 /**
  * Created by Ezio on 2016/6/4.

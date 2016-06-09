@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,8 @@ import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.RequestQueue;
 import com.yolanda.nohttp.Response;
+
+import java.text.SimpleDateFormat;
 
 /**
  * Created by ZhangHang on 2016/5/5.
@@ -57,7 +58,7 @@ public class PaobuLeftFragment extends Fragment {
     private void getRunData() {
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
         request.add("type", "totaldata");
-        request.add("uid",mApplication.getUserInfo().getUid());
+        request.add("uid", mApplication.getUserInfo().getUid());
         requestQueue.add(1, request, onResponseListener);
         requestQueue.start();
     }
@@ -67,15 +68,19 @@ public class PaobuLeftFragment extends Fragment {
         public void onStart(int what) {
         }
 
+        //毫秒转成 时:分:秒 格式
+        SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+
         @Override
         public void onSucceed(int what, Response<String> response) {
             if (what == 1) {
                 String result = response.get();
                 if (result != null && !result.equals("")) {
-                    Log.e("my", "result=" + result);
+                    //Log.e("my", "result=" + result);
                     String[] data = result.split(",");
                     mTotalDistanceText.setText(data[0]);
-                    mTotalTimeText.setText(data[1]);
+                    mApplication.setDistance(data[0]);
+                    mTotalTimeText.setText(mSimpleDateFormat.format(Integer.parseInt(data[1]) - 8 * 60 * 60 * 1000));
                     mTotalCount.setText(data[2]);
                 }
             }

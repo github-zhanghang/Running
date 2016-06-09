@@ -1,5 +1,6 @@
 package com.running.android_main;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,11 +17,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
 
 public class SearchConditionsActivity extends AppCompatActivity {
+    public static final String SearchConditions
+            ="http://10.201.1.185:8080/Running/SearchConditionServlet";
     private Spinner genderSpinner,nlSpinner,shengSpinner,shiSpinner;
     private List<UserInfo> mUserInfoList;
     @Override
@@ -33,6 +38,7 @@ public class SearchConditionsActivity extends AppCompatActivity {
 
 
     private void initViews() {
+        mUserInfoList = new ArrayList<>();
         genderSpinner = (Spinner) findViewById(R.id.gender_spinner);
         nlSpinner = (Spinner) findViewById(R.id.nianling_spinner);
     }
@@ -43,13 +49,14 @@ public class SearchConditionsActivity extends AppCompatActivity {
     public void searchUser(View view) {
         String gender = "男";
         int age = 20;
-        String address = "河南省安阳";
+        String address = "河南省安阳市";
+
         request(gender,age,address);
     }
 
     private void request(String gender, int age, String address) {
         OkHttpUtils.get()
-                .url("")
+                .url(SearchConditions)
                 .addParams("sex",gender)
                 .addParams("age",age+"")
                 .addParams("address",address)
@@ -61,16 +68,20 @@ public class SearchConditionsActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onResponse(String response) {
-                        Log.e("test123", "NearbyActivity: "+response );
+                        Log.e("test123", "SearchConditionsActivity: "+response );
                         try {
                             JSONArray jsonArray = new JSONArray(response);
 
                             for (int i = 0; i <jsonArray.length() ; i++) {
                                 JSONObject object =  jsonArray.getJSONObject(i);
-                                NearUserInfo userInfo =
+                                UserInfo userInfo =
                                         new Gson().fromJson(object.toString(),NearUserInfo.class);
                                 mUserInfoList.add(userInfo);
                             }
+                            Intent intent =
+                                    new Intent(SearchConditionsActivity.this,ConFriendActivity.class);
+                            intent.putExtra("SearchConditions",(Serializable)mUserInfoList);
+                            startActivity(intent);
                            // mNearByAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();

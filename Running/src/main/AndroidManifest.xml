@@ -129,7 +129,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
 
                 <data
-                    android:host="com.ezio.myim"
+                    android:host="com.running.android_main"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong"/>
             </intent-filter>
@@ -259,8 +259,6 @@
         <activity android:name=".GoodsActivity"/>
         <activity android:name=".PersonInformationActivity">
         </activity>
-        <activity android:name=".NearPersonInformationActivity">
-        </activity>
         <activity android:name=".UpdatePhoneActivity">
         </activity>
         <activity android:name=".SettingActivity"/>
@@ -284,6 +282,8 @@
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".ConFriendActivity">
+        </activity>
+        <activity android:name=".RejectAddActivity">
         </activity>
     </application>
 

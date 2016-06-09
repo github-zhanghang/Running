@@ -104,6 +104,7 @@ public class PaobuRightFragment extends Fragment implements View.OnClickListener
                     mTargetText.setText("600");
                 }
                 mTarget = mTargetText.getText().toString() + mUnitsText.getText().toString();
+
             }
         }
     }

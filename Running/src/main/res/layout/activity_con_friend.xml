@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:leftImage="@mipmap/ic_launcher"
-        app:leftText="按条件搜索"/>
+        app:leftText="查找结果"/>
     <ListView
         android:id="@+id/confriend_lv"
         android:layout_width="match_parent"

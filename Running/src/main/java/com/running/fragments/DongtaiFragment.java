@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.running.adapters.DynamicAdapter;
 import com.running.android_main.MainActivity;
+import com.running.android_main.MyApplication;
 import com.running.android_main.PublishDynamicActivity;
 import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
@@ -58,6 +60,8 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
     boolean IS_LOADING = false;
     private DynamicAdapter mDynamicAdapter;
 
+    String url = "http://192.168.191.1:8080/Running/dynamicOperateServlet";
+
     private DynamicCallBack dynamicCallBack = new DynamicCallBack();
     private Handler mHandler = new Handler() {
         @Override
@@ -72,6 +76,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     }
                     //mLinearLayout.setVisibility(View.GONE);
                     mDynamicAdapter.notifyDataSetChanged();
+                    Log.d("TAG",""+mList.size());
 
                     break;
                 case 2:
@@ -133,6 +138,11 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 load(R.drawable.dynamic_test).
                 thumbnail(0.1f).
                 into(imageView);
+        ImageView uImg = (ImageView) mHeaderView.findViewById(R.id.dynamic_header_head_img);
+        Glide.with(this).
+                load(((MyApplication) getActivity().getApplication()).getUserInfo().getImageUrl()).
+                thumbnail(0.1f).
+                into(uImg);
         mListView.addHeaderView(mHeaderView);
 
         //添加FootView
@@ -147,7 +157,6 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
     }
 
     private void getDynamicList(int id, String start, String timeType) {
-        String url = "http://10.201.1.176:8080/RunningAppTest/dynamicOperateServlet";
         OkHttpUtils.post()
                 .url(url)
                 .addParams("appRequest", "GetDynamicLoad")
@@ -157,7 +166,6 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 .build()
                 .execute(dynamicCallBack);
     }
-
 
     private void addLinkDynamic() {
         HashMap<String, Object> map = new HashMap<>();
@@ -177,7 +185,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
 
     private void setListeners() {
-        //头部左右两边图片的点击事件
+        //顶部左右两边图片的点击事件
         mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             //左边
             @Override
@@ -207,8 +215,10 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
             public void run() {
                 mSwipeRefreshLayout.setRefreshing(false);
                 //刷新相关逻辑操作
+                if (mList.size()==0) {
+                    return;
+                }
                 DynamicImgBean bean = (DynamicImgBean) mList.get(0).get("DynamicBean");
-                String url = "http://10.201.1.176:8080/RunningAppTest/dynamicOperateServlet";
                 OkHttpUtils.post()
                         .url(url)
                         .addParams("appRequest", "GetDynamicRefresh")
@@ -253,6 +263,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                             DynamicImgBean bean = (DynamicImgBean) mList.get(mList.size() - 1)
                                     .get("DynamicBean");
                             getDynamicList(1, bean.getTime(), "normal");
+                            mLinearLayout.setVisibility(View.GONE);
                             //mDynamicAdapter.notifyDataSetChanged();
                             IS_LOADING = false;
                         }

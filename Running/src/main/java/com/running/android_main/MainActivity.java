@@ -177,11 +177,12 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         mUserImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
-       /* Glide.with(MainActivity.this)
+
+        Glide.with(MainActivity.this)
                 .load(mUserInfo.getImageUrl())
                 .centerCrop()
                 .placeholder(R.drawable.fail)
-                .into(mUserImage);*/
+                .into(mUserImage);
         mUserNickNameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_nickname);
         mUserNickNameText.setText(mUserInfo.getNickName());
         mSettingTextView = (TextView) navigationView.findViewById(R.id.setting);

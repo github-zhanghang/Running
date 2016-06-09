@@ -26,7 +26,7 @@ public class AboutUsActivity extends AppCompatActivity {
         mAboutUsTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
             public void onTopbarLeftImageClick(ImageView imageView) {
-
+                AboutUsActivity.this.finish();
             }
 
             @Override

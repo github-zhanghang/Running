@@ -150,7 +150,7 @@ public class Register3Activity extends AppCompatActivity {
                 mApplication.setUserInfo(userInfo);
                 //跳转
                 startActivity(new Intent(Register3Activity.this, MainActivity.class));
-                mApplication.finish();
+                Register3Activity.this.finish();
             }
         }
 

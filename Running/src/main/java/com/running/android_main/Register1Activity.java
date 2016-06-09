@@ -114,6 +114,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
             intent.putExtra("password", mPassword);
             intent.putExtra("telephone", mPhoneNumber);
             startActivity(intent);
+            Register1Activity.this.finish();
         } else {
             Toast.makeText(Register1Activity.this, "密码不一致", Toast.LENGTH_SHORT).show();
         }
@@ -140,7 +141,6 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
             case R.id.goRegister:
                 //提交验证码
                 SMSSDK.submitVerificationCode("86", mPhoneNumber, mCodeEditText.getText().toString());
-                startActivity(new Intent(Register1Activity.this, Register2Activity.class));
                 break;
             case R.id.goLogin:
                 startActivity(new Intent(Register1Activity.this, LoginActivity.class));
@@ -150,6 +150,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
     }
 
     private void changeButtonStyle() {
+        isRunning = true;
         seconds = 60;
         mGetCodeButton.setClickable(false);
         mGetCodeButton.setBackgroundColor(Color.GRAY);
@@ -178,7 +179,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
     /**
      * 验证手机格式
      */
-    public static boolean isMobileNO(String mobiles) {
+    public boolean isMobileNO(String mobiles) {
         /*
         移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
         联通：130、131、132、152、155、156、185、186

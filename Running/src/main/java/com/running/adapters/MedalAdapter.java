@@ -10,6 +10,7 @@ import java.util.List;
 
 public class MedalAdapter extends BaseAdapter {
     private List<ImageTextView> mList;
+    private ViewGroup.LayoutParams mLayoutParams;
 
     public MedalAdapter(List<ImageTextView> list) {
         mList = list;
