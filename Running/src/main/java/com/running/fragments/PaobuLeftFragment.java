@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat;
  * Created by ZhangHang on 2016/5/5.
  */
 public class PaobuLeftFragment extends Fragment {
-    private static final String mPath = "http://192.168.191.1:8080/Running/sumRecordServlet";
+    private String mPath = MyApplication.HOST + "sumRecordServlet";
     private MyApplication mApplication;
     private View mLeftView;
     private MyStartButton mStartButton;

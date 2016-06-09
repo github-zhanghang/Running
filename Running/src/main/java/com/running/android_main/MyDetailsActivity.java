@@ -60,7 +60,7 @@ import java.util.List;
 
 public class MyDetailsActivity extends AppCompatActivity implements View.OnClickListener, OnTopbarClickListener {
     private MyApplication mApplication;
-    private static final String mPath = "http://192.168.191.1:8080/Running/changeUserInfoServlet";
+    private static final String mPath = MyApplication.HOST + "changeUserInfoServlet";
     private static final int WHAT = 1;
 
     private TopBar mTopBar;

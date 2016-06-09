@@ -60,7 +60,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
     boolean IS_LOADING = false;
     private DynamicAdapter mDynamicAdapter;
 
-    String url = "http://192.168.191.1:8080/Running/dynamicOperateServlet";
+    String url =  MyApplication.HOST + "dynamicOperateServlet";
 
     private DynamicCallBack dynamicCallBack = new DynamicCallBack();
     private Handler mHandler = new Handler() {

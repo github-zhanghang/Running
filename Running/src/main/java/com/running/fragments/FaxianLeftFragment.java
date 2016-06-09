@@ -97,7 +97,6 @@ public class FaxianLeftFragment extends Fragment {
         //轮播
         initBannerView();
         initBannerData();
-
         addBannerListener();
 
         initRecyclerViews();
@@ -237,7 +236,7 @@ public class FaxianLeftFragment extends Fragment {
                                 String location=jsonObject.getString("location");
                                 RaceData raceData=new RaceData(name,time,img,html,location);
                                 mRaceDataList.add(raceData);
-                                Log.e( "taozi1234: ",mRaceDataList.size()+" " );
+                               // Log.e( "taozi1234: ",mRaceDataList.size()+" " );
                             }
                             mRaceAdapter.notifyDataSetChanged();
                             mRaceAdapter.notifyItemRemoved(mRaceAdapter.getItemCount());

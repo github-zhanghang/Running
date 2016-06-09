@@ -41,10 +41,10 @@
                     android:textColor="#ffffff"
                     android:textSize="20sp"/>
                 <TextView
-                    android:id="@+id/re_count"
+                    android:id="@+id/re_sumcount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="8"
+                    android:text=""
                     android:textColor="#ffffff"
                     android:textSize="20sp"/>
                 <TextView
@@ -64,7 +64,7 @@
                     android:id="@+id/re_dis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="73.3"
+                    android:text=""
                     android:textColor="#ffffff"
                     android:textSize="60sp"/>
                 <TextView
@@ -91,7 +91,7 @@
                     android:id="@+id/re_avg_dis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="9.2"
+                    android:text=""
                     android:textColor="#ffffff"
                     android:gravity="center"
                     android:textSize="20sp"/>

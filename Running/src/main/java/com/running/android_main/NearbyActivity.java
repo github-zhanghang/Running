@@ -25,8 +25,7 @@ import okhttp3.Call;
 
 public class NearbyActivity extends AppCompatActivity {
 
-    public static final String NearbyServlet
-            = "http://192.168.191.1:8080/Running/NearbyServlet";
+    public static final String NearbyServlet= MyApplication.HOST + "NearbyServlet";
     private ListView mListView;
     private List<NearUserInfo> mUserInfoList;
     private NearByAdapter mNearByAdapter;

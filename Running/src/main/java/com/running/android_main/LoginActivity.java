@@ -35,11 +35,11 @@ import cn.sharesdk.wechat.friends.Wechat;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener ,
-        RongIM.UserInfoProvider{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener,
+        RongIM.UserInfoProvider {
     private MyApplication mApplication;
     public static final String Login_OK = "0";
-    private static final String mPath = "http://192.168.191.1:8080/Running/loginServlet";
+    private String mPath = MyApplication.HOST + "loginServlet";
     public static final String Login_Error_UserName = "1";
     public static final String Login_Error_UserPassword = "2";
 
@@ -190,10 +190,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     connect(mApplication.getUserInfo().getRongToken());
 
                 } else if (userInfo.getCode().equals(Login_Error_UserName)) {
+                    mProgressDialog.dismiss();
                     showToast("该用户不存在");
                 } else if (userInfo.getCode().equals(Login_Error_UserPassword)) {
+                    mProgressDialog.dismiss();
                     showToast("密码错误");
                 } else {
+                    mProgressDialog.dismiss();
                     showToast("error");
                 }
             }
@@ -292,6 +295,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mToast = Toast.makeText(mContext, text, Toast.LENGTH_SHORT);
         mToast.show();
     }
+
     //消息提供者
     @Override
     public io.rong.imlib.model.UserInfo getUserInfo(String s) {

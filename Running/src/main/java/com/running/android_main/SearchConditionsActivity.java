@@ -24,10 +24,10 @@ import java.util.List;
 import okhttp3.Call;
 
 public class SearchConditionsActivity extends AppCompatActivity {
-    public static final String SearchConditions
-            ="http://10.201.1.185:8080/Running/SearchConditionServlet";
-    private Spinner genderSpinner,nlSpinner,shengSpinner,shiSpinner;
+    public static final String SearchConditions = MyApplication.HOST + "SearchConditionServlet";
+    private Spinner genderSpinner, nlSpinner, shengSpinner, shiSpinner;
     private List<UserInfo> mUserInfoList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +42,7 @@ public class SearchConditionsActivity extends AppCompatActivity {
         genderSpinner = (Spinner) findViewById(R.id.gender_spinner);
         nlSpinner = (Spinner) findViewById(R.id.nianling_spinner);
     }
+
     private void initData() {
 
     }
@@ -51,38 +52,39 @@ public class SearchConditionsActivity extends AppCompatActivity {
         int age = 20;
         String address = "河南省安阳市";
 
-        request(gender,age,address);
+        request(gender, age, address);
     }
 
     private void request(String gender, int age, String address) {
         OkHttpUtils.get()
                 .url(SearchConditions)
-                .addParams("sex",gender)
-                .addParams("age",age+"")
-                .addParams("address",address)
+                .addParams("sex", gender)
+                .addParams("age", age + "")
+                .addParams("address", address)
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e) {
-                        Log.e("SearchConditions", "onError: "+e.getMessage());
+                        Log.e("SearchConditions", "onError: " + e.getMessage());
                     }
+
                     @Override
                     public void onResponse(String response) {
-                        Log.e("test123", "SearchConditionsActivity: "+response );
+                        Log.e("test123", "SearchConditionsActivity: " + response);
                         try {
                             JSONArray jsonArray = new JSONArray(response);
 
-                            for (int i = 0; i <jsonArray.length() ; i++) {
-                                JSONObject object =  jsonArray.getJSONObject(i);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(i);
                                 UserInfo userInfo =
-                                        new Gson().fromJson(object.toString(),NearUserInfo.class);
+                                        new Gson().fromJson(object.toString(), NearUserInfo.class);
                                 mUserInfoList.add(userInfo);
                             }
                             Intent intent =
-                                    new Intent(SearchConditionsActivity.this,ConFriendActivity.class);
-                            intent.putExtra("SearchConditions",(Serializable)mUserInfoList);
+                                    new Intent(SearchConditionsActivity.this, ConFriendActivity.class);
+                            intent.putExtra("SearchConditions", (Serializable) mUserInfoList);
                             startActivity(intent);
-                           // mNearByAdapter.notifyDataSetChanged();
+                            // mNearByAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
