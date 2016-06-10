@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.running.beans.UserInfo;
+import com.running.myviews.TopBar;
 import com.running.myviews.edittextwithdeel.EditTextWithDel;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -19,7 +21,7 @@ public class FriendAddActivity extends AppCompatActivity {
     private MyApplication mApplication;
     public static final String GetNewFriend = MyApplication.HOST + "GetNewFriend";
     private EditTextWithDel mEditTextWithDel;
-
+    private  TopBar mTopBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

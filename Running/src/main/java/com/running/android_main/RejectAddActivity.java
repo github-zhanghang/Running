@@ -19,8 +19,7 @@ public class RejectAddActivity extends AppCompatActivity {
     private TextView nameTextView,resultTextView;
     private Button rejectBtn,agreeBtn;
     private TopBar mTopBar;
-    private ImageView mImageView;
-    private TextView nameTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,30 +28,32 @@ public class RejectAddActivity extends AppCompatActivity {
        /* Intent intent = getIntent();
         position = (int) intent.getExtras().get("Position");
         mFriend = (Friend) intent.getExtras().get("Friend");
-        mTopBar = (TopBar) findViewById(R.id.reject_add_TopBar);
-        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
-            @Override
-            public void onTopbarLeftImageClick(ImageView imageView) {
-                RejectAddActivity.this.finish();
-            }
+
+
         InitViews();
         initData();*/
     }
 
 
     private void InitViews() {
-
-
+        mTopBar = (TopBar) findViewById(R.id.reject_add_TopBar);
         mImageView = (ImageView) findViewById(R.id.reject_add_tx);
         nameTextView = (TextView) findViewById(R.id.reject_add_name);
         resultTextView = (TextView) findViewById(R.id.result_textView);
         rejectBtn = (Button) findViewById(R.id.reject_add_rejectbtn);
         agreeBtn = (Button) findViewById(R.id.reject_add_agreebtn);
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                RejectAddActivity.this.finish();
+            }
 
             @Override
             public void onTopbarRightImageClick(ImageView imageView) {
+
             }
         });
+
     }
 
     private void initData() {
