@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 
 import com.running.android_main.NewFriendListActivity;
-import com.running.message.AgreedFriendRequestMessage;
-import com.sea_monster.network.AbstractHttpRequest;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.UIConversation;
@@ -85,7 +83,7 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
      * RongIM.init(this) 后直接可注册的Listener。
      */
     private void initDefaultListener() {
-        RongIM.setUserInfoProvider(this, true);//设置用户信息提供者。
+        //RongIM.setUserInfoProvider(this, true);//设置用户信息提供者。
         RongIM.setConversationListBehaviorListener(this);//会话列表界面操作的监听器
     }
     /**
@@ -123,7 +121,8 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
             mContext.sendBroadcast(in);
         } else if (messageContent instanceof InformationNotificationMessage){
             InformationNotificationMessage informationNotificationMessage = (InformationNotificationMessage) messageContent;
-            Log.e(TAG, "onReceived-informationNotificationMessage:" + informationNotificationMessage.getMessage());
+            Log.e(TAG, "小灰条消息接收监听:" + informationNotificationMessage.getMessage());
+            Toast.makeText(mContext, informationNotificationMessage.getMessage(), Toast.LENGTH_SHORT).show();
 
         }
 
@@ -136,9 +135,7 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
          * 1.从本地获取
          * 2.从server获取
          */
-        if (s == null){
-            return null;
-        }
+
         return null;
     }
 
