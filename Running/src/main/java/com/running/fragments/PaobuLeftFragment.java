@@ -27,13 +27,12 @@ import java.text.SimpleDateFormat;
  * Created by ZhangHang on 2016/5/5.
  */
 public class PaobuLeftFragment extends Fragment {
-    private String mPath = MyApplication.HOST + "sumRecordServlet";
+    private String mPath = MyApplication.HOST + "totalRecordServlet";
     private MyApplication mApplication;
     private View mLeftView;
     private MyStartButton mStartButton;
     private TextView mTotalDistanceText, mTotalTimeText, mTotalCount;
     private RequestQueue requestQueue = NoHttp.newRequestQueue(1);
-
 
     @Nullable
     @Override
@@ -76,7 +75,7 @@ public class PaobuLeftFragment extends Fragment {
             if (what == 1) {
                 String result = response.get();
                 if (result != null && !result.equals("")) {
-                    //Log.e("my", "result=" + result);
+                    //Log.e("my", "paobuleft.result=" + result);
                     String[] data = result.split(",");
                     mTotalDistanceText.setText(data[0]);
                     mApplication.setDistance(data[0]);

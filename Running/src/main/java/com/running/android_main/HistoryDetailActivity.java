@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,8 +63,8 @@ public class HistoryDetailActivity extends AppCompatActivity {
         getData();
         initView();
         setData();
-        //initOnTrackListener();
-        //queryHistoryTrack();
+        initOnTrackListener();
+        queryHistoryTrack();
     }
 
     private void getData() {
@@ -79,7 +80,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
     private void initView() {
         mTopBar = (TopBar) findViewById(R.id.history_detail_topbar);
         mHisDetailMapView = (MapView) findViewById(R.id.map_his_detail);
-        mBaiduMap=mHisDetailMapView.getMap();
+        mBaiduMap = mHisDetailMapView.getMap();
         dateTextView = (TextView) findViewById(R.id.starttime_his_detail);
         distanceTextView = (TextView) findViewById(R.id.distance_his_detail);
         timeTextView = (TextView) findViewById(R.id.time_his_detail);
@@ -102,10 +103,10 @@ public class HistoryDetailActivity extends AppCompatActivity {
 
     private void setData() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        DateFormat dateFormat2 = new SimpleDateFormat("hh:mm:ss");
+        DateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss");
         dateTextView.setText(dateFormat.format(history.getRunstarttime()));
         distanceTextView.setText(history.getRundistance() + "");
-        timeTextView.setText(dateFormat2.format(history.getRuntime()));
+        timeTextView.setText(dateFormat2.format(history.getRuntime() - 28800000));
         speedTextView.setText(history.getRunspeed() + "");
         walkTextView.setText(history.getStepcount() + "");
         calorieTextView.setText(history.getCalories() + "");
@@ -113,16 +114,12 @@ public class HistoryDetailActivity extends AppCompatActivity {
 
     private void queryHistoryTrack() {
         // entity标识
-        String entityName = "" + mApplication.getUserInfo().getUid();
+        String entityName = "" + mApplication.getUserInfo().getUid() + history.getRunstarttime();
         // 是否返回精简的结果（0 : 否，1 : 是）
         int simpleReturn = 0;
-        // 开始时间
-        if (startTime == 0) {
-            startTime = (int) (System.currentTimeMillis() / 1000 - 12 * 60 * 60);
-        }
-        if (endTime == 0) {
-            endTime = (int) (System.currentTimeMillis() / 1000);
-        }
+
+        startTime = (int) (history.getRunstarttime() / 1000);
+        endTime = startTime + (int) (history.getRuntime() / 1000);
         // 分页大小
         int pageSize = 1000;
         // 分页索引
@@ -153,6 +150,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
             public void onQueryHistoryTrackCallback(String arg0) {
                 // TODO Auto-generated method stub
                 super.onQueryHistoryTrackCallback(arg0);
+                Log.e("my", "trace=" + arg0);
                 showHistoryTrack(arg0);
             }
         };
@@ -195,8 +193,8 @@ public class HistoryDetailActivity extends AppCompatActivity {
                     .include(llC).include(llD).build();
             msUpdate = MapStatusUpdateFactory.newLatLngBounds(bounds);
 
-            bmStart = BitmapDescriptorFactory.fromResource(R.drawable.navi_map_gps_locked);
-            bmEnd = BitmapDescriptorFactory.fromResource(R.drawable.navi_map_gps_locked);
+            bmStart = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
+            bmEnd = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
             // 添加起点图标
             startMarker = new MarkerOptions()
                     .position(points.get(points.size() - 1)).icon(bmStart)
@@ -236,5 +234,11 @@ public class HistoryDetailActivity extends AppCompatActivity {
         if (null != polyline) {
             mBaiduMap.addOverlay(polyline);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mClient.onDestroy();
     }
 }

@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#30f0f0f0">
+    android:background="#30f0f0f0"
+    android:orientation="vertical">
 
     <com.running.myviews.TopBar
         android:id="@+id/record_topbar"
@@ -15,31 +15,37 @@
         app:leftText="记录"
         app:rightImage="@mipmap/ic_launcher">
     </com.running.myviews.TopBar>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:orientation="vertical"
             android:background="#fa870b"
+            android:orientation="vertical"
             >
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#f8f8f8"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginTop="30dp"
+                android:gravity="center"
                 >
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="一共记录跑步"
                     android:textColor="#ffffff"
                     android:textSize="20sp"/>
+
                 <TextView
                     android:id="@+id/re_sumcount"
                     android:layout_width="wrap_content"
@@ -47,6 +53,7 @@
                     android:text=""
                     android:textColor="#ffffff"
                     android:textSize="20sp"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,12 +61,14 @@
                     android:textColor="#ffffff"
                     android:textSize="20sp"/>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_margin="10dp"
+                android:gravity="center"
                 >
+
                 <TextView
                     android:id="@+id/re_dis"
                     android:layout_width="wrap_content"
@@ -67,6 +76,7 @@
                     android:text=""
                     android:textColor="#ffffff"
                     android:textSize="60sp"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -75,26 +85,30 @@
                     android:textSize="20sp"
                     />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 >
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="平均每次"
                     android:textColor="#ffffff"
-                    android:gravity="center"
                     android:textSize="20sp"/>
+
                 <TextView
                     android:id="@+id/re_avg_dis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text=""
                     android:textColor="#ffffff"
-                    android:gravity="center"
                     android:textSize="20sp"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -104,44 +118,45 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/image"
+        <com.running.myviews.CircleImageView
+            android:id="@+id/re_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/c1"
-            android:layout_marginTop="194dp"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_marginTop="194dp"
+            android:src="@drawable/c1"/>
 
         <com.running.myviews.RecordBar
             android:id="@+id/re_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="320dp"
             android:layout_marginBottom="2dp"
+            android:layout_marginTop="320dp"
             android:padding="10dp"
-            app:re_imageView="@drawable/userinfo_accessory"
-            app:re_dataText="历史记录">
+            app:re_dataText="历史记录"
+            app:re_imageView="@drawable/userinfo_accessory">
 
         </com.running.myviews.RecordBar>
+
         <com.running.myviews.RecordBar
             android:id="@+id/re_trend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/re_history"
             android:layout_marginBottom="2dp"
             android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:re_imageView="@drawable/userinfo_record"
             app:re_dataText="运动趋势"
+            app:re_imageView="@drawable/userinfo_record"
             />
+
         <com.running.myviews.RecordBar
             android:id="@+id/re_best"
-            android:layout_below="@id/re_trend"
-            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:re_imageView="@drawable/icon_medal"
+            android:layout_below="@id/re_trend"
+            android:padding="10dp"
             app:re_dataText="最好成绩"
+            app:re_imageView="@drawable/icon_medal"
             />
     </RelativeLayout>
 </LinearLayout>
