@@ -1,5 +1,6 @@
 package com.running.android_main;
 
+import android.app.Application;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,7 +43,7 @@ public class RecordActivity extends AppCompatActivity  implements View.OnClickLi
 
     private void initData() {
         OkHttpUtils.get()
-                .url("http://10.201.1.172:8080/Run_zt/sumRecordServlet")
+                .url(MyApplication.HOST+"sumRecordServlet")
                 .addParams("suid",suid+"")
                 .build()
                 .execute(new StringCallback() {

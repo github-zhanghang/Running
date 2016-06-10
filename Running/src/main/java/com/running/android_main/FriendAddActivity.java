@@ -17,7 +17,7 @@ import okhttp3.Call;
 
 public class FriendAddActivity extends AppCompatActivity {
     private MyApplication mApplication;
-    public static final String GetNewFriend = MyApplication.HOST + "Running/GetNewFriend";
+    public static final String GetNewFriend = MyApplication.HOST + "GetNewFriend";
     private EditTextWithDel mEditTextWithDel;
 
     @Override
@@ -86,11 +86,17 @@ public class FriendAddActivity extends AppCompatActivity {
                         UserInfo userInfo =
                                 new Gson().fromJson(response, UserInfo.class);
                         if (userInfo != null) {
-                            Intent intent = new Intent(FriendAddActivity.this, NewFriendInfoActivity.class);
-                            //NearUserInfo nearUserInfo = (NearUserInfo) userInfo;
-                            intent.putExtra("NewFriendInfo", userInfo);
-                            startActivity(intent);
-                            //Toast.makeText(AddFriendActivity.this, userInfo.getNickName(), Toast.LENGTH_SHORT).show();
+                            if (userInfo.getCode().equals("1")){
+                                Intent intent = new Intent(FriendAddActivity.this, PersonInformationActivity.class);
+                                intent.putExtra("UserInfo", userInfo);
+                                startActivity(intent);
+
+                            }else {
+                                Intent intent = new Intent(FriendAddActivity.this, NewFriendInfoActivity.class);
+                                intent.putExtra("NewFriendInfo", userInfo);
+                                startActivity(intent);
+                            }
+
                         } else {
                             Toast.makeText(FriendAddActivity.this, "无此用户", Toast.LENGTH_SHORT).show();
                         }

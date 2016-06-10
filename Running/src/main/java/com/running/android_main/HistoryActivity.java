@@ -50,8 +50,8 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-      /*  myApplication = (MyApplication) getApplication();
-        uid=myApplication.getUserInfo().getUid();*/
+        myApplication = (MyApplication) getApplication();
+        uid=myApplication.getUserInfo().getUid();
 
         initView();
         initData();
