@@ -52,7 +52,7 @@ public class MedalActivity extends AppCompatActivity {
             R.drawable.ic_medal_m_run10_p, R.drawable.ic_medal_m_run21_p,
             R.drawable.ic_medal_m_run42_p, R.drawable.ic_medal_m_run100_p};
     private String[] mNotHaveString = {"开始运动\n(未获得)", "5公里\n(未获得)", "10公里\n(未获得)",
-            "半程马拉松\n(未获得)", "全称马拉松\n(未获得)", "超级马拉松\n(未获得)"};
+            "半程马拉松\n(未获得)", "全程马拉松\n(未获得)", "超级马拉松\n(未获得)"};
 
     private String[] mDescription = {"开始一次跑步", "单次跑步距离达到5公里",
             "单次跑步距离达到10公里", "单次跑步距离达到21.1公里",
@@ -85,7 +85,7 @@ public class MedalActivity extends AppCompatActivity {
                 if (what == 1) {
                     String result = response.get();
                     Log.e("my", "medal_result=" + result);
-                    if (!result.equals("") || result != null) {
+                    if (!result.equals("[]") || result != null) {
                         String mid[] = result.split(",");
                         for (int i = 0; i < mid.length; i++) {
                             int id = Integer.parseInt(mid[i]);
