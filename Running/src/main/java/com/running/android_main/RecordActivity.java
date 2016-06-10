@@ -2,10 +2,10 @@ package com.running.android_main;
 
 import android.app.Application;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -14,9 +14,6 @@ import com.running.myviews.RecordBar;
 import com.running.myviews.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import okhttp3.Call;
 
@@ -65,6 +62,7 @@ public class RecordActivity extends AppCompatActivity  implements View.OnClickLi
     }
 
     private void initView() {
+        mTopBar = (TopBar) findViewById(R.id.record_topbar);
         historyRecordBar= (RecordBar) findViewById(R.id.re_history);
         trendRecordBar= (RecordBar) findViewById(R.id.re_trend);
         bestRecordBar= (RecordBar) findViewById(R.id.re_best);
@@ -77,6 +75,17 @@ public class RecordActivity extends AppCompatActivity  implements View.OnClickLi
         historyRecordBar.setOnClickListener(this);
         trendRecordBar.setOnClickListener(this);
         bestRecordBar.setOnClickListener(this);
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                RecordActivity.this.finish();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+
+            }
+        });
     }
 
     @Override

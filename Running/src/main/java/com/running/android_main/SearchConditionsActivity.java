@@ -5,11 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.google.gson.Gson;
 import com.running.beans.NearUserInfo;
 import com.running.beans.UserInfo;
+import com.running.myviews.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -27,6 +29,7 @@ public class SearchConditionsActivity extends AppCompatActivity {
     public static final String SearchConditions = MyApplication.HOST + "SearchConditionServlet";
     private Spinner genderSpinner, nlSpinner, shengSpinner, shiSpinner;
     private List<UserInfo> mUserInfoList;
+    private TopBar mTopBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +37,31 @@ public class SearchConditionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_conditions);
         initViews();
         initData();
+        initListener();
     }
 
-
     private void initViews() {
+        mTopBar = (TopBar) findViewById(R.id.search_topbar);
         mUserInfoList = new ArrayList<>();
         genderSpinner = (Spinner) findViewById(R.id.gender_spinner);
         nlSpinner = (Spinner) findViewById(R.id.nianling_spinner);
     }
 
-    private void initData() {
 
+    private void initData() {
+    }
+
+    private void initListener() {
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                SearchConditionsActivity.this.finish();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+            }
+        });
     }
 
     public void searchUser(View view) {

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.OnTrackListener;
 import com.running.beans.History;
 import com.running.model.HistoryTrackData;
+import com.running.myviews.TopBar;
 import com.running.utils.GsonService;
 
 import java.text.DateFormat;
@@ -32,7 +34,7 @@ import java.util.List;
 
 public class HistoryDetailActivity extends AppCompatActivity {
     private MyApplication mApplication;
-
+    private TopBar mTopBar;
     private MapView mHisDetailMapView;
     private long serviceId = 117790;// 鹰眼服务ID
     private OnTrackListener trackListener;
@@ -75,6 +77,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mTopBar = (TopBar) findViewById(R.id.history_detail_topbar);
         mHisDetailMapView = (MapView) findViewById(R.id.map_his_detail);
         mBaiduMap=mHisDetailMapView.getMap();
         dateTextView = (TextView) findViewById(R.id.starttime_his_detail);
@@ -83,6 +86,18 @@ public class HistoryDetailActivity extends AppCompatActivity {
         speedTextView = (TextView) findViewById(R.id.speed_his_detail);
         walkTextView = (TextView) findViewById(R.id.walk_his_detail3);
         calorieTextView = (TextView) findViewById(R.id.calorie_his_detail);
+
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                HistoryDetailActivity.this.finish();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+
+            }
+        });
     }
 
     private void setData() {

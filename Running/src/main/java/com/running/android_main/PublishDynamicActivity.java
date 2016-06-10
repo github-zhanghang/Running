@@ -89,7 +89,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
         mDynamicPublishTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
             public void onTopbarLeftImageClick(ImageView imageView) {
-
+                PublishDynamicActivity.this.finish();
             }
 
             @Override

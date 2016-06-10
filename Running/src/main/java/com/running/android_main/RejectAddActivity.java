@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.running.beans.Friend;
+import com.running.myviews.TopBar;
 
 public class RejectAddActivity extends AppCompatActivity {
     private int position;
@@ -17,6 +18,10 @@ public class RejectAddActivity extends AppCompatActivity {
     private ImageView  mImageView;
     private TextView nameTextView,resultTextView;
     private Button rejectBtn,agreeBtn;
+    private TopBar mTopBar;
+    private ImageView mImageView;
+    private TextView nameTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +29,12 @@ public class RejectAddActivity extends AppCompatActivity {
        /* Intent intent = getIntent();
         position = (int) intent.getExtras().get("Position");
         mFriend = (Friend) intent.getExtras().get("Friend");
+        mTopBar = (TopBar) findViewById(R.id.reject_add_TopBar);
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                RejectAddActivity.this.finish();
+            }
         InitViews();
         initData();*/
     }
@@ -38,7 +49,12 @@ public class RejectAddActivity extends AppCompatActivity {
         rejectBtn = (Button) findViewById(R.id.reject_add_rejectbtn);
         agreeBtn = (Button) findViewById(R.id.reject_add_agreebtn);
 
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+            }
+        });
     }
+
     private void initData() {
         Glide.with(RejectAddActivity.this)
                 .load(mFriend.getPortrait())
@@ -63,22 +79,19 @@ public class RejectAddActivity extends AppCompatActivity {
         }
     }
 
-
-
     public void rejectAgree(View view) {
-        Intent intent = new Intent(RejectAddActivity.this,NewFriendListActivity.class);
-        intent.putExtra("flag",true);
-        intent.putExtra("position",position);
+        Intent intent = new Intent(RejectAddActivity.this, NewFriendListActivity.class);
+        intent.putExtra("flag", true);
+        intent.putExtra("position", position);
         setResult(RESULT_OK, intent);
         RejectAddActivity.this.finish();
     }
 
     public void rejectAdd(View view) {
-        Intent intent = new Intent(RejectAddActivity.this,NewFriendListActivity.class);
-        intent.putExtra("flag",false);
-        intent.putExtra("position",position);
+        Intent intent = new Intent(RejectAddActivity.this, NewFriendListActivity.class);
+        intent.putExtra("flag", false);
+        intent.putExtra("position", position);
         setResult(RESULT_OK, intent);
         RejectAddActivity.this.finish();
     }
-
 }

@@ -51,7 +51,7 @@ public class PersonInformationActivity extends AppCompatActivity {
         mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
             public void onTopbarLeftImageClick(ImageView imageView) {
-                Toast.makeText(PersonInformationActivity.this, "返回", Toast.LENGTH_SHORT).show();
+                PersonInformationActivity.this.finish();
             }
 
             @Override

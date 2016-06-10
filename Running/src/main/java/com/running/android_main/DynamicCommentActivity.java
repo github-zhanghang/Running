@@ -94,7 +94,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         mDynamicCommentTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
             public void onTopbarLeftImageClick(ImageView imageView) {
-                Toast.makeText(DynamicCommentActivity.this, "返回", Toast.LENGTH_SHORT).show();
+                DynamicCommentActivity.this.finish();
             }
 
             @Override

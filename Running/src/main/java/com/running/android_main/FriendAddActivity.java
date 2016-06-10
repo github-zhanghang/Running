@@ -29,7 +29,19 @@ public class FriendAddActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        mTopBar = (TopBar) findViewById(R.id.friendadd_topbar);
         mEditTextWithDel = (EditTextWithDel) findViewById(R.id.addFirend_et);
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                FriendAddActivity.this.finish();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+
+            }
+        });
     }
 
     public void addNewFriend(View view) {
