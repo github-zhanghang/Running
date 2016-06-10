@@ -199,7 +199,12 @@ public class XiaoxiRightFragment extends Fragment {
                 Friend friend = (Friend) adapter.getItem(position - 1);
                 Toast.makeText(getActivity(),
                         friend.getRemark(), Toast.LENGTH_SHORT).show();
+
                 //启动会话界面
+                /*if (RongIM.getInstance() != null) {
+                    RongIM.getInstance().startPrivateChat
+                            (getActivity(), friend.getAccount(), friend.getRemark());
+                }*/
                 if (RongIM.getInstance() != null) {
                     RongIM.getInstance().startPrivateChat
                             (getActivity(), friend.getAccount(), friend.getRemark());

@@ -33,6 +33,7 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
+import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 
@@ -71,12 +72,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_nav);
         mContext = LoginActivity.this;
         mApplication = (MyApplication) getApplication();
+        //设置信息提供者
+        RongIM.setUserInfoProvider(LoginActivity.this, true);
         ShareSDK.initSDK(mContext);
         initViews();
         //默认记住密码
         mRememberInfoCheckBox.setChecked(true);
         initListeners();
         initUserInfo();
+
+
     }
 
     private void initViews() {
@@ -187,7 +192,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         editor.putBoolean("isRememberPassword", false);
                         editor.apply();
                     }
-                    //连接融云 成功
+
+                    //连接融云
                     connect(mApplication.getUserInfo().getRongToken());
 
                 } else if (userInfo.getCode().equals(Login_Error_UserName)) {
@@ -302,9 +308,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onSuccess(String s) {
                 Log.e("12345: ", "融云连接成功");
                 mProgressDialog.dismiss();
-                RongIM.setUserInfoProvider(LoginActivity.this, true);
+                if (RongIM.getInstance() != null){
+                    io.rong.imlib.model.UserInfo userInfo = new io.rong.imlib.model.UserInfo(
+                            mApplication.getUserInfo().getAccount(),
+                            mApplication.getUserInfo().getNickName(),
+                            Uri.parse(mApplication.getUserInfo().getImageUrl()));
+                    Log.e("12345: ", "融云连接成功"+userInfo.getPortraitUri());
+                    RongIM.getInstance().setCurrentUserInfo(userInfo);
+                  /*  RongContext.getInstance().getUserInfoCache().
+                            put(mApplication.getUserInfo().getAccount(),userInfo);*/
+                }
+                RongIM.getInstance().setMessageAttachedUserInfo(true);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                LoginActivity.this.finish();
+               // LoginActivity.this.finish();
             }
 
             @Override
@@ -331,8 +347,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 mApplication.getUserInfo().getAccount(),
                 mApplication.getUserInfo().getNickName(),
                 Uri.parse(mApplication.getUserInfo().getImageUrl()));
-        RongIM.getInstance().setCurrentUserInfo(userInfo);
-        RongIM.getInstance().setMessageAttachedUserInfo(true);
+
+        Log.e("test123", "getUserInfo: getImageUrl "+mApplication.getUserInfo().getImageUrl());
+        Log.e("test123", "getUserInfo: getPortraitUri "+userInfo.getPortraitUri());
+
+        /*RongIM.getInstance().setCurrentUserInfo(userInfo);
+        RongIM.getInstance().setMessageAttachedUserInfo(true);*/
         return userInfo;
 
     }

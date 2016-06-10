@@ -1,5 +1,6 @@
 package com.running.android_main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.running.beans.UserInfo;
 import com.running.myviews.TopBar;
 
 import butterknife.Bind;
@@ -37,11 +39,14 @@ public class PersonInformationActivity extends AppCompatActivity {
     LinearLayout mDynamicLayout;
     @Bind(R.id.person_information_sendMessage)
     Button mSendMessage;
-
+    private UserInfo mUserInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_information);
+        Intent intent = getIntent();
+        mUserInfo = (UserInfo) intent.getExtras().get("UserInfo");
+
         ButterKnife.bind(this);
         addListener();
     }
