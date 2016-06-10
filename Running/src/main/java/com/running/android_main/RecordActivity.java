@@ -4,12 +4,15 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.running.beans.SumRecord;
+import com.running.myviews.CircleImageView;
 import com.running.myviews.RecordBar;
 import com.running.myviews.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -20,6 +23,7 @@ import okhttp3.Call;
 public class RecordActivity extends AppCompatActivity  implements View.OnClickListener{
     private MyApplication myApplication;
     private TopBar mTopBar;
+    CircleImageView mImageView;
     private RecordBar historyRecordBar,trendRecordBar,bestRecordBar;
     TextView countTextView,disTextView,avgTextView;
     int suid=1;
@@ -29,16 +33,18 @@ public class RecordActivity extends AppCompatActivity  implements View.OnClickLi
         setContentView(R.layout.activity_record);
         mTopBar = (TopBar) findViewById(R.id.record_topbar);
 
-       /* myApplication = (MyApplication) getApplication();
-        suid=myApplication.getUserInfo().getUid();*/
+        myApplication = (MyApplication) getApplication();
+        suid=myApplication.getUserInfo().getUid();
 
         initView();
         addListener();
         initData();
-
     }
 
     private void initData() {
+        Glide.with(RecordActivity.this)
+                .load(myApplication.getUserInfo().getImageUrl())
+                .into(mImageView);
         OkHttpUtils.get()
                 .url(MyApplication.HOST+"sumRecordServlet")
                 .addParams("suid",suid+"")
@@ -51,7 +57,7 @@ public class RecordActivity extends AppCompatActivity  implements View.OnClickLi
 
                     @Override
                     public void onResponse(String response) {
-                       // Log.e("taozi123", "onResponse: "+response);
+                        Log.e("taozi123", "onResponse: "+response);
                         SumRecord sumRecord = new Gson().fromJson(response,SumRecord.class);
                         countTextView.setText(sumRecord.getSumcount()+"");
                         disTextView.setText(sumRecord.getSumrundistance()+"");
@@ -63,6 +69,7 @@ public class RecordActivity extends AppCompatActivity  implements View.OnClickLi
 
     private void initView() {
         mTopBar = (TopBar) findViewById(R.id.record_topbar);
+        mImageView = (CircleImageView) findViewById(R.id.re_image);
         historyRecordBar= (RecordBar) findViewById(R.id.re_history);
         trendRecordBar= (RecordBar) findViewById(R.id.re_trend);
         bestRecordBar= (RecordBar) findViewById(R.id.re_best);
