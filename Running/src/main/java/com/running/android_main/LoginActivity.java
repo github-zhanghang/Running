@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -34,19 +35,26 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
+import cn.smssdk.gui.RegisterPage;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener,
         RongIM.UserInfoProvider {
     private MyApplication mApplication;
-    public static final String Login_OK = "0";
     private String mPath = MyApplication.HOST + "loginServlet";
-    public static final String Login_Error_UserName = "1";
-    public static final String Login_Error_UserPassword = "2";
+    public final String Login_OK = "0";
+    public final String Login_Error_UserName = "1";
+    public final String Login_Error_UserPassword = "2";
+    //短信验证
+    private final String APP_KEY = "12a1127a423ef";
+    private final String APP_SECRET = "4d8275b912a9aceb7f39fdbf91b92da4";
 
     private Activity mContext;
     private EditText mNameEditText, mPasswordEditText;
+    private TextView mForgetPasswordTextView;
     private Button mLoginButton, mRegisterButton;
     private CheckBox mRememberInfoCheckBox;
     private ProgressDialog mProgressDialog;
@@ -89,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void initViews() {
         mNameEditText = (EditText) findViewById(R.id.login_name);
         mPasswordEditText = (EditText) findViewById(R.id.login_password);
+        mForgetPasswordTextView = (TextView) findViewById(R.id.forgetPassword);
         mLoginButton = (Button) findViewById(R.id.login);
         mRegisterButton = (Button) findViewById(R.id.regist);
         mRememberInfoCheckBox = (CheckBox) findViewById(R.id.rememberPassword);
@@ -100,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initListeners() {
+        mForgetPasswordTextView.setOnClickListener(this);
         mLoginButton.setOnClickListener(this);
         mRegisterButton.setOnClickListener(this);
         mLogin_QQ.setOnClickListener(this);
@@ -164,6 +174,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.login_Sina:
                 thirdLogin(SinaWeibo.NAME);
+                break;
+            case R.id.forgetPassword:
+                SMSSDK.initSDK(this, APP_KEY, APP_SECRET);
+                //打开注册页面
+                RegisterPage registerPage = new RegisterPage();
+                registerPage.setRegisterCallback(new EventHandler() {
+                    public void afterEvent(int event, int result, Object data) {
+                        if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                            if (result == SMSSDK.RESULT_COMPLETE) {
+                                Log.e("my", "验证成功");
+                                HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
+                                String phone = (String) phoneMap.get("phone");
+                                Intent inten = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+                                inten.putExtra("phone", phone);
+                                startActivity(inten);
+                                LoginActivity.this.finish();
+                            }
+                        }
+                    }
+                });
+                registerPage.show(LoginActivity.this);
                 break;
         }
     }
