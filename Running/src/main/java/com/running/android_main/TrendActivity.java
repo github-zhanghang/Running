@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
@@ -23,159 +24,28 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.Call;
 
 public class TrendActivity extends AppCompatActivity {
 
-    List<TrendData> trendDatas;
+    List<TrendData> mTrendDataList=new ArrayList<>();
     TextView mondayTextView,sundayTextView,walkTextView,distanceTextView,timeTextView,carlorieTextView;
     ViewPager mViewPager;
     TrendViewPagerAdapter mViewPagerAdapter;
-    int cachePagers = 1; //ViewPager缓存页面数目;当前页面的相邻N各页面都会被缓存
-    SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-
-    List<History>  mHistoryList;
-
-    TrendData trendData=new TrendData();
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trend);
-
-        initView();
-        initData();
-
-      /*  mViewPagerAdapter=new TrendViewPagerAdapter(TrendActivity.this, trendDatas);
-        mViewPager.setOffscreenPageLimit(cachePagers);// 设置缓存页面，当前页面的相邻N各页面都会被缓存
-        mViewPager.setAdapter(mViewPagerAdapter);*/
-
-        initListener();
-    }
-
-
-
-    private void initView() {
-        mViewPager= (ViewPager) findViewById(R.id.vp_trend);
-
-        mondayTextView= (TextView) findViewById(R.id.monday_trend);
-        sundayTextView= (TextView) findViewById(R.id.sunday_trend);
-        walkTextView= (TextView) findViewById(R.id.walk_trend);
-        distanceTextView= (TextView) findViewById(R.id.distance_trend);
-        timeTextView= (TextView) findViewById(R.id.time_trend);
-        carlorieTextView= (TextView) findViewById(R.id.calorie_trend);
-    }
-
-    private void initData()  {
-        //初始化数据
-       trendDatas =new ArrayList<>();
-
-        OkHttpUtils.get()
-                .url("http://10.201.1.172:8080/Run_zt/trendServlet")
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String response) {
-
-                        try {
-                            JSONArray jsonArray = new JSONArray(response);
-                            for (int i = 0; i <jsonArray.length() ; i++) {
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                History history=new Gson().fromJson(jsonObject.toString(),History.class);
-
-                                trendData.setMonday(getFirstDayOfWeek(new Date(history.getRunstarttime()))+"");
-                                trendData.setSunday(getLastDayOfWeek(new Date(history.getRunstarttime()))+"");
-                                //Log.e( "taozidate", getFirstDayOfWeek(new Date(history.getRunstarttime()))+"");
-                                trendData.setWalkStep(trendData.getWalkStep()+history.getStepcount());
-                                trendData.setDistance(trendData.getDistance()+history.getRundistance());
-                                trendData.setTime(trendData.getTime()+history.getRuntime());
-                                trendData.setCalorie(trendData.getCalorie()+history.getCalories());
-                                //把每天的跑步距离存储到相应的天数中
-                                if (getWeekDay(new Date(history.getRunstarttime()))==1){
-                                    trendData.getValue()[0]+=history.getRundistance();
-                                }
-                                if (getWeekDay(new Date(history.getRunstarttime()))==2){
-                                    trendData.getValue()[1]+=history.getRundistance();
-                                }
-                                if (getWeekDay(new Date(history.getRunstarttime()))==3){
-                                    trendData.getValue()[2]+=history.getRundistance();
-                                }
-                                if (getWeekDay(new Date(history.getRunstarttime()))==4){
-                                    trendData.getValue()[3]+=history.getRundistance();
-                                }
-                                if (getWeekDay(new Date(history.getRunstarttime()))==5){
-                                    trendData.getValue()[4]+=history.getRundistance();
-                                }
-                                if (getWeekDay(new Date(history.getRunstarttime()))==6){
-                                    trendData.getValue()[5]+=history.getRundistance();
-                                }
-                                if (getWeekDay(new Date(history.getRunstarttime()))==7){
-                                    trendData.getValue()[6]+=history.getRundistance();
-                                }
-
-
-                            }
-                            trendDatas.add(trendData);
-
-                            mondayTextView.setText("本周一");
-                            sundayTextView.setText("本周日");
-
-                            walkTextView.setText((trendDatas.get(0).getWalkStep())/7+"");
-                            distanceTextView.setText(trendDatas.get(0).getDistance()+"");
-                            timeTextView.setText(trendDatas.get(0).getTime()/(1000*60*7)+"");
-                            carlorieTextView.setText(trendDatas.get(0).getCalorie()+"");
-
-                            mViewPagerAdapter=new TrendViewPagerAdapter(TrendActivity.this, trendDatas);
-                            mViewPager.setOffscreenPageLimit(cachePagers);// 设置缓存页面，当前页面的相邻N各页面都会被缓存
-                            mViewPager.setAdapter(mViewPagerAdapter);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
-
-    }
-
-   //设置滑动监听事件
-    private void initListener() {
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                //Toast.makeText(TrendActivity.this,"huadong"+(position+1),Toast.LENGTH_SHORT).show();
-              /*  mondayTextView.setText(trendDatas.get(position).getMonday());
-                sundayTextView.setText(trendDatas.get(position).getSunday());*/
-                walkTextView.setText((trendDatas.get(position).getWalkStep())+"");
-                distanceTextView.setText(trendDatas.get(position).getDistance()+"");
-                timeTextView.setText(trendDatas.get(position).getTime()/(1000*60)+"");
-                carlorieTextView.setText(trendDatas.get(position).getCalorie()+"");
-                mViewPager.setPageMargin(getResources().getDimensionPixelOffset(R.dimen.trend_magin));
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }
+   /* int cachePagers = 1; //ViewPager缓存页面数目;当前页面的相邻N各页面都会被缓存
+    SimpleDateFormat sf = new SimpleDateFormat("EEE MMM dd hh:mm:ss z yyyy", Locale.ENGLISH);*/
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    private String dateString;
+    Date date=new Date();
 
     // 取得当前日期所在周的第一天
     public static Date getFirstDayOfWeek(Date date) {
@@ -201,5 +71,139 @@ public class TrendActivity extends AppCompatActivity {
         int week=cal.get(Calendar.DAY_OF_WEEK)-1;
         return week;
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_trend);
+
+        initView();
+        refreshData(0);
+        initListener();
+
+        //mViewPager.setPageMargin(getResources().getDimensionPixelOffset(R.dimen.trend_magin));
+        //mViewPager.setOffscreenPageLimit(cachePagers);// 设置缓存页面，当前页面的相邻N各页面都会被缓存
+    }
+
+    private void initView() {
+        mViewPager= (ViewPager) findViewById(R.id.vp_trend);
+        mondayTextView= (TextView) findViewById(R.id.monday_trend);
+        sundayTextView= (TextView) findViewById(R.id.sunday_trend);
+        walkTextView= (TextView) findViewById(R.id.walk_trend);
+        distanceTextView= (TextView) findViewById(R.id.distance_trend);
+        timeTextView= (TextView) findViewById(R.id.time_trend);
+        carlorieTextView= (TextView) findViewById(R.id.calorie_trend);
+    }
+
+
+    private void refreshData(final int position) {
+        date=new Date(date.getTime()-position*7*24*60*60*1000);
+        dateString= String.valueOf(date.getTime());
+
+        OkHttpUtils.get()
+                .url("http://10.201.1.172:8080/Run_zt/trendServlet")
+                .addParams("date",dateString)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+                        Log.e("taozi", "refresh--onError: "+e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("taozi", "refresh--onResponse: "+response);
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            TrendData trendData=new TrendData();
+                            for (int i = 0; i <jsonArray.length() ; i++) {
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                History history=new Gson().fromJson(jsonObject.toString(),History.class);
+
+                                String monday=sdf.format(getFirstDayOfWeek(date));
+                               // Log.e("taozimonday"," refresh:"+monday );
+                                String sunday=sdf.format(getLastDayOfWeek(date));
+                                trendData.setMonday(monday);
+                                trendData.setSunday(sunday);
+                                trendData.setWalkStep(trendData.getWalkStep()+history.getStepcount());
+                                trendData.setDistance(trendData.getDistance()+history.getRundistance());
+                                trendData.setTime(trendData.getTime()+history.getRuntime());
+                                trendData.setCalorie(trendData.getCalorie()+history.getCalories());
+
+                                //把每天的跑步距离存储到相应的日期中
+                                if (getWeekDay(new Date(history.getRunstarttime()))==1){
+                                    trendData.getValue()[0]+=history.getRundistance();
+                                }
+                                if (getWeekDay(new Date(history.getRunstarttime()))==2){
+                                    trendData.getValue()[1]+=history.getRundistance();
+                                }
+                                if (getWeekDay(new Date(history.getRunstarttime()))==3){
+                                    trendData.getValue()[2]+=history.getRundistance();
+                                }
+                                if (getWeekDay(new Date(history.getRunstarttime()))==4){
+                                    trendData.getValue()[3]+=history.getRundistance();
+                                }
+                                if (getWeekDay(new Date(history.getRunstarttime()))==5){
+                                    trendData.getValue()[4]+=history.getRundistance();
+                                }
+                                if (getWeekDay(new Date(history.getRunstarttime()))==6){
+                                    trendData.getValue()[5]+=history.getRundistance();
+                                }
+                                if (getWeekDay(new Date(history.getRunstarttime()))==7){
+                                    trendData.getValue()[6]+=history.getRundistance();
+                                }
+                            }
+                            mTrendDataList.add(trendData);
+
+                            mondayTextView.setText(mTrendDataList.get(position).getMonday());
+                            sundayTextView.setText(mTrendDataList.get(position).getSunday());
+                            walkTextView.setText((mTrendDataList.get(position).getWalkStep())/7+"");
+                            distanceTextView.setText(mTrendDataList.get(position).getDistance()+"");
+                            timeTextView.setText(mTrendDataList.get(position).getTime()/(1000*60*7)+"");
+                            carlorieTextView.setText(mTrendDataList.get(position).getCalorie()+"");
+                         /*   mondayTextView.setText(trendData.getMonday());
+                            sundayTextView.setText(trendData.getSunday());
+                            walkTextView.setText((trendData.getWalkStep())/7+"");
+                            distanceTextView.setText(trendData.getDistance()+"");
+                            timeTextView.setText(trendData.getTime()/(1000*60*7)+"");
+                            carlorieTextView.setText(trendData.getCalorie()+"");*/
+                            //设置适配器
+                           // Log.e( "taozisize","zong"+ mTrendDataList.size()+"");
+                            mViewPagerAdapter=new TrendViewPagerAdapter(TrendActivity.this,mTrendDataList);
+                            mViewPager.setAdapter(mViewPagerAdapter);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+    }
+
+   //设置滑动监听事件
+    private void initListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+              refreshData(position);
+
+            }
+
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                //页面状态改变时调用
+            }
+        });
+    }
+
+
 
 }
