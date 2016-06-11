@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".NewFriendInfoActivity">
+
     <com.running.myviews.TopBar
-        android:id="@+id/xiaoxi_topbar"
+        android:id="@+id/addFriend_topbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:leftImage="@mipmap/ic_launcher"
+        android:layout_height="@dimen/topbar_height"
+        app:leftImage="@drawable/back"
         app:leftText="添加好友"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -131,15 +133,16 @@
                 android:layout_weight="3"
                 android:text="23:25:12"/>
         </LinearLayout>
+
         <Button
             android:id="@+id/btn_addNewFriend"
-            android:onClick="onClickAddNewFriend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:background="#ff9900"
+            android:onClick="onClickAddNewFriend"
             android:text="加为好友"
             android:textSize="20sp"/>
     </LinearLayout>

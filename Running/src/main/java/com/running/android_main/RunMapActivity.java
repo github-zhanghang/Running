@@ -61,7 +61,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 public class RunMapActivity extends Activity implements View.OnClickListener {
     private MyApplication mApplication;
     private UserInfo mUserInfo;
-    private static final String mPath = "http://192.168.191.1:8080/Running/runDataServlet";
+    private static final String mPath = MyApplication.HOST + "runDataServlet";
     private RequestQueue requestQueue = NoHttp.newRequestQueue(1);
 
     private int gatherInterval = 3;  //位置采集周期 (s)
@@ -182,11 +182,11 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
             //在地图上添加Marker，并显示
             mBaiduMap.addOverlay(option);
             mHandler.sendEmptyMessage(1);
-            mStartTime = System.currentTimeMillis();
         }
 
+        mStartTime = System.currentTimeMillis();
         //账号+当前时间来充当实体名
-        entityName = "" + mApplication.getUserInfo().getUid() + System.currentTimeMillis();
+        entityName = "" + mApplication.getUserInfo().getUid() + mStartTime;
         //实例化轨迹服务客户端
         mTraceClient = new LBSTraceClient(this);
         //实例化轨迹服务

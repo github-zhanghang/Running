@@ -26,7 +26,7 @@ public class UpdatePhoneActivity extends AppCompatActivity {
     private Toast mToast;
     private ProgressDialog mProgressDialog;
     private RequestQueue mRequestQueue = NoHttp.newRequestQueue(1);
-    private String mPath = "http://192.168.191.1:8080/Running/passwordServlet";
+    private String mPath = MyApplication.HOST + "passwordServlet";
 
     @Bind(R.id.update_phone_topBar)
     TopBar mUpdatePhoneTopBar;

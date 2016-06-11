@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.running.beans.History;
 import com.running.myviews.BestBar;
+import com.running.myviews.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -24,17 +26,20 @@ import java.util.List;
 import okhttp3.Call;
 
 public class BestActivity extends AppCompatActivity implements View.OnClickListener{
-
+    private TopBar mTopBar;
+    private MyApplication mApplication;
     BestBar distanceBestBar,timeBestBar,calorieBestBar,speedBestBar,fiveBestBar,tenBestBar,halfBestBar,wholeBestBar;
     List<History> mHistoryList=new ArrayList<>();
     Bundle bundle=new Bundle();
     Intent intent;
-    DateFormat dateFormat=new SimpleDateFormat("hh:mm:ss");
+    DateFormat dateFormat=new SimpleDateFormat("HH:mm:ss");
     int uid=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_best);
+        mApplication = (MyApplication) getApplication();
+        uid=mApplication.getUserInfo().getUid();
         initView();
         initData();
         addListener();
@@ -49,7 +54,7 @@ public class BestActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (mHistoryList.get(1).isExist()){
-            timeBestBar.setDataText(dateFormat.format(mHistoryList.get(1).getRuntime()));
+            timeBestBar.setDataText(dateFormat.format(mHistoryList.get(1).getRuntime() - 28800000));
         }else {
             timeBestBar.setDataText("无记录");
         }
@@ -65,22 +70,22 @@ public class BestActivity extends AppCompatActivity implements View.OnClickListe
             speedBestBar.setDataText("无记录");
         }
         if (mHistoryList.get(4).isExist()){
-           fiveBestBar.setDataText(dateFormat.format(mHistoryList.get(4).getRuntime()));
+           fiveBestBar.setDataText(dateFormat.format(mHistoryList.get(4).getRuntime() - 28800000));
         }else {
             fiveBestBar.setDataText("未完成");
         }
         if (mHistoryList.get(5).isExist()){
-           tenBestBar.setDataText(dateFormat.format(mHistoryList.get(5).getRuntime()));
+           tenBestBar.setDataText(dateFormat.format(mHistoryList.get(5).getRuntime() - 28800000));
         }else {
            tenBestBar.setDataText("未完成");
         }
         if (mHistoryList.get(6).isExist()){
-            halfBestBar.setDataText(dateFormat.format(mHistoryList.get(6).getRuntime()));
+            halfBestBar.setDataText(dateFormat.format(mHistoryList.get(6).getRuntime() - 28800000));
         }else {
             halfBestBar.setDataText("未完成");
         }
         if (mHistoryList.get(7).isExist()){
-           wholeBestBar.setDataText(dateFormat.format(mHistoryList.get(7).getRuntime()));
+           wholeBestBar.setDataText(dateFormat.format(mHistoryList.get(7).getRuntime() - 28800000));
         }else {
            wholeBestBar.setDataText("未完成");
         }
@@ -90,7 +95,7 @@ public class BestActivity extends AppCompatActivity implements View.OnClickListe
     private void initData() {
 
         OkHttpUtils.get()
-                .url("http://10.201.1.172:8080/Run_zt/bestRecordServlet")
+                .url(MyApplication.HOST+"bestRecordServlet")
                 .addParams("uid",uid+"")
                 .build()
                 .execute(new StringCallback() {
@@ -126,9 +131,21 @@ public class BestActivity extends AppCompatActivity implements View.OnClickListe
         tenBestBar.setOnClickListener(this);
         halfBestBar.setOnClickListener(this);
         wholeBestBar.setOnClickListener(this);
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                BestActivity.this.finish();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+
+            }
+        });
     }
 
     private void initView() {
+        mTopBar = (TopBar) findViewById(R.id.best_topbar);
         distanceBestBar= (BestBar) findViewById(R.id.distance_best);
         timeBestBar= (BestBar) findViewById(R.id.time_best);
         calorieBestBar= (BestBar) findViewById(R.id.caloie_best);

@@ -16,13 +16,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.running.adapters.GoodsAdapter;
 import com.running.adapters.GoodsBannerAdapter;
 import com.running.android_main.GoodsActivity;
 import com.running.android_main.MainActivity;
+import com.running.android_main.MyApplication;
 import com.running.android_main.R;
 import com.running.beans.GoodsData;
 import com.running.myviews.NoScrollView;
@@ -111,7 +110,7 @@ public class FaxianRightFragment extends Fragment {
 
     private void initBannerData() {
         OkHttpUtils.get()
-                .url("http://10.201.1.172:8080/Run_zt/goodsBannerServlet")
+                .url(MyApplication.HOST+"goodsBannerServlet")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -282,7 +281,7 @@ public class FaxianRightFragment extends Fragment {
     }
     private void refreshData() {
         OkHttpUtils.get()
-                .url("http://10.201.1.172:8080/Run_zt/goodsServlet")
+                .url(MyApplication.HOST+"goodsServlet")
                 .addParams("page",page+"")
                 .build()
                 .execute(new StringCallback() {

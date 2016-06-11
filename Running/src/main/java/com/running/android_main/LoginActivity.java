@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.PlatformDb;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
@@ -39,7 +41,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         RongIM.UserInfoProvider {
     private MyApplication mApplication;
     public static final String Login_OK = "0";
-    private String mPath = "http://192.168.191.1:8080/Running/loginServlet";
+    private String mPath = MyApplication.HOST + "loginServlet";
     public static final String Login_Error_UserName = "1";
     public static final String Login_Error_UserPassword = "2";
 
@@ -61,8 +63,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //请求队列
     private RequestQueue requestQueue;
-    private static final int WHAT = 0;
     private Toast mToast;
+
+    //第三方信息
+    String userGender, userIcon, userName, token, address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +74,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_nav);
         mContext = LoginActivity.this;
         mApplication = (MyApplication) getApplication();
+        //设置信息提供者
+        RongIM.setUserInfoProvider(LoginActivity.this, true);
         ShareSDK.initSDK(mContext);
         initViews();
         //默认记住密码
         mRememberInfoCheckBox.setChecked(true);
         initListeners();
         initUserInfo();
+
+
     }
 
     private void initViews() {
@@ -140,7 +148,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     LoginActivity.this.finish();
                 } else {
-                    mProgressDialog = ProgressDialog.show(this, "请等待...", "正在登录...");
+                    mProgressDialog = ProgressDialog.show(this, "请稍等", "正在登陆中");
                     handleLogin(mAccount, mPassword);
                 }
                 break;
@@ -167,9 +175,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         @Override
         public void onSucceed(int what, Response<String> response) {
-            if (what == WHAT) {
-                String result = response.get();// 响应结果
-                Log.e("my", result);
+            String result = response.get();// 响应结果
+            Log.e("my", result);
+            if (what == 0) {
                 //将用户信息保存在Application中
                 UserInfo userInfo = new Gson().fromJson(result, UserInfo.class);
                 if (userInfo.getCode().equals(Login_OK)) {
@@ -186,7 +194,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         editor.putBoolean("isRememberPassword", false);
                         editor.apply();
                     }
-                    //连接融云 成功
+
+                    //连接融云
                     connect(mApplication.getUserInfo().getRongToken());
 
                 } else if (userInfo.getCode().equals(Login_Error_UserName)) {
@@ -198,6 +207,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     mProgressDialog.dismiss();
                     showToast("error");
+                }
+            } else if (what == 1) {
+                //将用户信息保存在Application中
+                UserInfo userInfo = new Gson().fromJson(result, UserInfo.class);
+                if (userInfo.getCode().equals(Login_OK)) {
+                    //表示已存在此Token
+                    mApplication.setUserInfo(userInfo);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    LoginActivity.this.finish();
+                } else {
+                    //表示不存在此Token
+                    Intent intent = new Intent(LoginActivity.this, Register3Activity.class);
+                    intent.putExtra("userGender", userGender);
+                    intent.putExtra("userIcon", userIcon);
+                    intent.putExtra("userName", userName);
+                    intent.putExtra("address", address);
+                    intent.putExtra("qqtoken", token);
+                    startActivity(intent);
                 }
             }
         }
@@ -215,9 +243,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void handleLogin(final String username, final String password) {
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
-        request.add("account", mAccount);
-        request.add("password", mPassword);
-        requestQueue.add(WHAT, request, onResponseListener);
+        Log.e("my", "----------" + username.substring(0, 3));
+        if (username.length() == 9) {
+            //账号登录
+            if (username.substring(0, 3).equals("run")) {
+                request.add("type", "account");
+            } else {
+                mProgressDialog.dismiss();
+                showToast("账号错误，请以run开头");
+            }
+        } else if (username.length() == 11) {
+            //手机号登录
+            if (isMobileNO(username)) {
+                request.add("type", "phone");
+            } else {
+                mProgressDialog.dismiss();
+                showToast("手机号错误，请确认");
+            }
+        } else {
+            mProgressDialog.dismiss();
+            showToast("账号错误，请确认");
+            return;
+        }
+        request.add("account", username);
+        request.add("password", password);
+        requestQueue.add(0, request, onResponseListener);
         requestQueue.start();
     }
 
@@ -230,22 +280,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mPlatform.setPlatformActionListener(new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                //解析部分用户资料字段
-                String id, name, description, profile_image_url;
-                id = hashMap.get("id").toString();//ID
-                name = hashMap.get("name").toString();//用户名
-                description = hashMap.get("description").toString();//描述
-                profile_image_url = hashMap.get("profile_image_url").toString();//头像链接
-                String str = "ID: " + id + ";\n" +
-                        "用户名： " + name + ";\n" +
-                        "描述：" + description + ";\n" +
-                        "用户头像地址：" + profile_image_url;
-                Log.e("my", "用户资料: " + str);
+                showToast("正在准备跳转，请稍后...");
+                if (platform.getName().equals(QZone.NAME)) {
+                    //获取性别
+                    userGender = (String) hashMap.get("gender");
+                    //获取头像
+                    userIcon = (String) hashMap.get("figureurl_qq_2");
+                    //获取昵称
+                    userName = (String) hashMap.get("nickname");
+                    //获取省市
+                    address = hashMap.get("province") + " " + hashMap.get("city");
+                    //获取数平台数据DB
+                    PlatformDb platDB = platform.getDb();
+                    //获取token
+                    token = platDB.getToken();
+                    Log.e("my", "token=" + token);
+                    Log.e("my", "hashMap=" + hashMap);
+                    //判断数据库中是否有此Token
+                    isExistThisToken(token);
+                }
             }
 
             @Override
             public void onError(Platform platform, int i, Throwable throwable) {
                 showToast("出错");
+                platform.removeAccount();
             }
 
             @Override
@@ -253,7 +312,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 showToast("已取消");
             }
         });
+        //获取用户资料
         mPlatform.showUser(null);
+    }
+
+    //是否存在此token
+    public void isExistThisToken(String token) {
+        Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
+        request.add("type", "third");
+        request.add("platform", "qq");
+        request.add("token", token);
+        requestQueue.add(1, request, onResponseListener);
+        requestQueue.start();
     }
 
     @Override
@@ -267,22 +337,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         RongIM.connect(token, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
-                mProgressDialog.dismiss();
+                if (mProgressDialog != null) {
+                    mProgressDialog.dismiss();
+                }
                 Log.e("12345: ", "过期");
             }
 
             @Override
             public void onSuccess(String s) {
                 Log.e("12345: ", "融云连接成功");
-                mProgressDialog.dismiss();
-                RongIM.setUserInfoProvider(LoginActivity.this, true);
+                if (mProgressDialog != null) {
+                    mProgressDialog.dismiss();
+                }
+                if (RongIM.getInstance() != null) {
+                    io.rong.imlib.model.UserInfo userInfo = new io.rong.imlib.model.UserInfo(
+                            mApplication.getUserInfo().getAccount(),
+                            mApplication.getUserInfo().getNickName(),
+                            Uri.parse(mApplication.getUserInfo().getImageUrl()));
+                    Log.e("12345: ", "融云连接成功" + userInfo.getPortraitUri());
+                    RongIM.getInstance().setCurrentUserInfo(userInfo);
+                  /*  RongContext.getInstance().getUserInfoCache().
+                            put(mApplication.getUserInfo().getAccount(),userInfo);*/
+                }
+                RongIM.getInstance().setMessageAttachedUserInfo(true);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 LoginActivity.this.finish();
             }
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
-                mProgressDialog.dismiss();
+                if (mProgressDialog != null) {
+                    mProgressDialog.dismiss();
+                }
                 Log.e("12345: ", errorCode.toString());
             }
         });
@@ -304,9 +390,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 mApplication.getUserInfo().getAccount(),
                 mApplication.getUserInfo().getNickName(),
                 Uri.parse(mApplication.getUserInfo().getImageUrl()));
-        RongIM.getInstance().setCurrentUserInfo(userInfo);
-        RongIM.getInstance().setMessageAttachedUserInfo(true);
+
+        Log.e("test123", "getUserInfo: getImageUrl " + mApplication.getUserInfo().getImageUrl());
+        Log.e("test123", "getUserInfo: getPortraitUri " + userInfo.getPortraitUri());
+
+        /*RongIM.getInstance().setCurrentUserInfo(userInfo);
+        RongIM.getInstance().setMessageAttachedUserInfo(true);*/
         return userInfo;
 
+    }
+
+    /**
+     * 验证手机格式
+     */
+    public boolean isMobileNO(String mobiles) {
+        /*
+        移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
+        联通：130、131、132、152、155、156、185、186
+        电信：133、153、180、189、（1349卫通）
+        总结起来就是第一位必定为1，第二位必定为3或5或8，其他位置的可以为0-9
+        */
+        //"[1]"代表第1位为数字1，"[358]"代表第二位可以为3、5、8中的一个，
+        // "\\d{9}"代表后面是可以是0～9的数字，有9位。
+        String telRegex = "[1][358]\\d{9}";
+        if (TextUtils.isEmpty(mobiles)) return false;
+        else return mobiles.matches(telRegex);
     }
 }

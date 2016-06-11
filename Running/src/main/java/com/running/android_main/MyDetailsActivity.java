@@ -58,9 +58,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.rong.imkit.RongContext;
+
 public class MyDetailsActivity extends AppCompatActivity implements View.OnClickListener, OnTopbarClickListener {
     private MyApplication mApplication;
-    private static final String mPath = "http://192.168.191.1:8080/Running/changeUserInfoServlet";
+    private static final String mPath = MyApplication.HOST + "changeUserInfoServlet";
     private static final int WHAT = 1;
 
     private TopBar mTopBar;
@@ -188,6 +190,11 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                         u_signature.equals(mUserInfo.getSignature() + "")) {
                     Toast.makeText(MyDetailsActivity.this, "个人信息未发生变化", Toast.LENGTH_SHORT).show();
                 } else {
+                    io.rong.imlib.model.UserInfo userInfo =
+                            new io.rong.imlib.model.UserInfo(mApplication.getUserInfo().getAccount(),
+                                    u_nickName, Uri.parse(mApplication.getUserInfo().getImageUrl()));
+                    RongContext.getInstance().getUserInfoCache().
+                            put(mApplication.getUserInfo().getAccount(), userInfo);
                     saveUserInfo(u_nickName, u_height, u_weight, u_sex, u_birthday, u_address, u_signature);
                 }
                 break;

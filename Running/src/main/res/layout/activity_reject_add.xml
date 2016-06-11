@@ -10,8 +10,8 @@
     <com.running.myviews.TopBar
         android:id="@+id/reject_add_TopBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:leftImage="@mipmap/ic_launcher"
+        android:layout_height="@dimen/topbar_height"
+        app:leftImage="@drawable/back"
         app:leftText="好友申请"/>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -83,17 +83,18 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="18sp"
-            android:text="条件查找"
+            android:text="账号查找"
             android:id="@+id/textView4"
             android:layout_alignParentTop="true" android:layout_toRightOf="@+id/textView5"
             android:layout_toEndOf="@+id/textView5" android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"/>
     </RelativeLayout>
 
-    <RelativeLayout android:layout_width="match_parent"
+    <FrameLayout android:layout_width="match_parent"
                     android:layout_height="100dp">
 
         <Button
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="拒绝"
@@ -103,6 +104,7 @@
             android:layout_marginTop="28dp" android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true" android:layout_alignParentStart="true"/>
         <Button
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="同意"
@@ -112,7 +114,16 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_marginRight="44dp"
-            android:layout_marginEnd="44dp"/>
-    </RelativeLayout>
+            android:layout_marginEnd="44dp" android:layout_gravity="right|center_vertical"/>
+        <TextView
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="已经同意该申请"
+            android:id="@+id/result_textView"
+            android:layout_gravity="center_horizontal|top"/>
+    </FrameLayout>
 </LinearLayout>
 

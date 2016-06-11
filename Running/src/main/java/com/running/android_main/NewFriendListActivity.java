@@ -1,5 +1,6 @@
 package com.running.android_main;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -35,11 +36,10 @@ import okhttp3.Call;
  * 2.从自己server维护的好友关系
  * 选第二种吧 现在每次进这个页面都去获取
  * 好友关系状态status :
- * 1 好友, 2 请求添加, 3 请求被添加,4请求拒绝 ,5 请求被拒绝
+ * 1 好友, 2 请求添加, 3 请求被添加,4 拒绝 ,5 请求被拒绝
  */
 public class NewFriendListActivity extends AppCompatActivity {
-    public static final String GetNewFriendList
-            = "http://192.168.191.1:8080/Running/GetFriendList";
+    public static final String GetNewFriendList = MyApplication.HOST + "GetFriendList";
     public static final int requestCode = 100;
     private TopBar mTopBar;
     ContactNotificationMessage contactContentMessage;
@@ -88,12 +88,13 @@ public class NewFriendListActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 Friend friend = new Friend();
-                                friend.setFriendid(object.getInt("friendid"));
+                                friend = new Gson().fromJson(object.toString(),Friend.class);
+                                /*friend.setFriendid(object.getInt("friendid"));
                                 friend.setAccount(object.getString("account"));
                                 friend.setRemark(object.getString("remark"));
                                 friend.setPortrait(object.getString("portrait"));
                                 friend.setFriendtime(object.getString("friendtime"));
-                                friend.setStatus(object.getInt("status"));
+                                friend.setStatus(object.getInt("status"));*/
                                 mResultList.add(friend);
                             }
                             adapter.notifyDataSetChanged();
@@ -147,11 +148,29 @@ public class NewFriendListActivity extends AppCompatActivity {
         mNewFriendList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(NewFriendListActivity.this, mResultList.get(position).getRemark(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(NewFriendListActivity.this, RejectAddActivity.class);
-                intent.putExtra("Friend", mResultList.get(position));
-                intent.putExtra("Position", position);
-                startActivityForResult(intent, requestCode);
+                if (mResultList.get(position).getStatus() == 1){
+                    //如果是好友， 跳转到好友资料PersonInformationActivity
+                    Friend friend = mResultList.get(position);
+                    UserInfo userInfo = new UserInfo();
+                    userInfo.setUid(friend.getFriendid());
+                    userInfo.setAccount(friend.getAccount());
+                    userInfo.setNickName(friend.getRemark());
+                    userInfo.setImageUrl(friend.getPortrait());
+                    userInfo.setAge(friend.getAge());
+                    userInfo.setSex(friend.getSex());
+                    userInfo.setAddress(friend.getAddress());
+                    Intent intent = new Intent(NewFriendListActivity.this, PersonInformationActivity.class);
+                    intent.putExtra("UserInfo", userInfo);
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(NewFriendListActivity.this, mResultList.get(position).getRemark(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(NewFriendListActivity.this, RejectAddActivity.class);
+                    /*intent.putExtra("Friend", mResultList.get(position));
+                     intent.putExtra("Position", position);
+                    startActivityForResult(intent, requestCode);*/
+                    startActivity(intent);
+                }
+
             }
         });
     }
@@ -192,13 +211,20 @@ public class NewFriendListActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String mark, UserInfo userInfo) {
+        String message = null;
+        if (mark.equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)){
+            message = ((MyApplication) getApplication()).getUserInfo().getNickName()+"同意了你的请求";
+        }else {
+            message = ((MyApplication) getApplication()).getUserInfo().getNickName()+"拒绝了你的请求";
+        }
+
         OkHttpUtils
                 .post()
                 .url(NewFriendInfoActivity.ADD_FRIEND)
                 .addParams("flag", mark)
                 .addParams("sourceUserId", new Gson().toJson(((MyApplication) getApplication()).getUserInfo()))
                 .addParams("targetUserId", new Gson().toJson(userInfo))
-                .addParams("message", "")
+                .addParams("message", message)
                 .build()
                 .execute(new StringCallback() {
                     @Override

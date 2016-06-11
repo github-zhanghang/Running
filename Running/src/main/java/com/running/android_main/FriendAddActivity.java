@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.running.beans.UserInfo;
+import com.running.myviews.TopBar;
 import com.running.myviews.edittextwithdeel.EditTextWithDel;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -17,10 +19,9 @@ import okhttp3.Call;
 
 public class FriendAddActivity extends AppCompatActivity {
     private MyApplication mApplication;
-    public static final String GetNewFriend
-            = "http://192.168.191.1:8080/Running/GetNewFriend";
+    public static final String GetNewFriend = MyApplication.HOST + "GetNewFriend";
     private EditTextWithDel mEditTextWithDel;
-
+    private  TopBar mTopBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,19 @@ public class FriendAddActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        mTopBar = (TopBar) findViewById(R.id.friendadd_topbar);
         mEditTextWithDel = (EditTextWithDel) findViewById(R.id.addFirend_et);
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                FriendAddActivity.this.finish();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+
+            }
+        });
     }
 
     public void addNewFriend(View view) {
@@ -87,11 +100,17 @@ public class FriendAddActivity extends AppCompatActivity {
                         UserInfo userInfo =
                                 new Gson().fromJson(response, UserInfo.class);
                         if (userInfo != null) {
-                            Intent intent = new Intent(FriendAddActivity.this, NewFriendInfoActivity.class);
-                            //NearUserInfo nearUserInfo = (NearUserInfo) userInfo;
-                            intent.putExtra("NewFriendInfo", userInfo);
-                            startActivity(intent);
-                            //Toast.makeText(AddFriendActivity.this, userInfo.getNickName(), Toast.LENGTH_SHORT).show();
+                            if (userInfo.getCode().equals("1")){
+                                Intent intent = new Intent(FriendAddActivity.this, PersonInformationActivity.class);
+                                intent.putExtra("UserInfo", userInfo);
+                                startActivity(intent);
+
+                            }else {
+                                Intent intent = new Intent(FriendAddActivity.this, NewFriendInfoActivity.class);
+                                intent.putExtra("NewFriendInfo", userInfo);
+                                startActivity(intent);
+                            }
+
                         } else {
                             Toast.makeText(FriendAddActivity.this, "无此用户", Toast.LENGTH_SHORT).show();
                         }
