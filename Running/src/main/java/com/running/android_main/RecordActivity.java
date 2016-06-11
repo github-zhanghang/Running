@@ -26,7 +26,7 @@ public class RecordActivity extends AppCompatActivity  implements View.OnClickLi
     CircleImageView mImageView;
     private RecordBar historyRecordBar,trendRecordBar,bestRecordBar;
     TextView countTextView,disTextView,avgTextView;
-    int suid=1;
+    int suid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

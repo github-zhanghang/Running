@@ -52,9 +52,11 @@ public class FriendAddActivity extends AppCompatActivity {
         */
         String account = mEditTextWithDel.getText().toString();
         Log.e("test123: ", "输入:" + account);
-        if (!account.equals("")) {
+        if (account.equals(mApplication.getUserInfo().getAccount())){
+            //查找自己账号直接跳转到自己资料
+            startActivity(new Intent(FriendAddActivity.this,MyDetailsActivity.class));
+        } else if (!account.equals("")) {
             request(account);
-
         } else {
             Toast.makeText(this, "不能为空", Toast.LENGTH_SHORT).show();
         }
@@ -107,7 +109,7 @@ public class FriendAddActivity extends AppCompatActivity {
 
                             }else {
                                 Intent intent = new Intent(FriendAddActivity.this, NewFriendInfoActivity.class);
-                                intent.putExtra("NewFriendInfo", userInfo);
+                                intent.putExtra("FriendInfo", userInfo);
                                 startActivity(intent);
                             }
 

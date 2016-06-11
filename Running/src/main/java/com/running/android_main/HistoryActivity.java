@@ -43,7 +43,7 @@ public class HistoryActivity extends AppCompatActivity {
     private int lastVisibleItemPosition;
 
     //用户
-    int uid=1;
+    int uid;
     int page=1;
 
     private MyApplication myApplication;

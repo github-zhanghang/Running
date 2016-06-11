@@ -1,9 +1,13 @@
 package com.running.android_main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.baidu.platform.comapi.map.C;
 import com.running.adapters.ConFriendAdapter;
 import com.running.beans.UserInfo;
 
@@ -16,11 +20,13 @@ public class ConFriendActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_con_friend);
         initViews();
         initData();
+        clickListener();
 
     }
+
+
 
     private void initViews() {
         mUserInfoList = (List<UserInfo>) getIntent().getExtras().get("SearchConditions");
@@ -30,5 +36,16 @@ public class ConFriendActivity extends AppCompatActivity {
     }
     private void initData() {
 
+    }
+    private void clickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ConFriendActivity.this, NewFriendInfoActivity.class);
+                intent.putExtra("FriendInfo", mUserInfoList.get(position));
+                startActivity(intent);
+
+            }
+        });
     }
 }
