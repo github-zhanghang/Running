@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity
         Glide.with(MainActivity.this)
                 .load(mUserInfo.getImageUrl())
                 .centerCrop()
+                .error(R.drawable.fail)
                 .into(mUserImage);
     }
 

@@ -72,7 +72,7 @@ public class TrendActivity extends AppCompatActivity {
         trendDatas = new ArrayList<>();
 
         OkHttpUtils.get()
-                .url("http://10.201.1.172:8080/Run_zt/trendServlet")
+                .url(MyApplication.HOST+"trendServlet")
                 .build()
                 .execute(new StringCallback() {
                     @Override
