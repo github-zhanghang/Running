@@ -25,6 +25,7 @@ import com.running.android_main.MyApplication;
 import com.running.android_main.NewFriendListActivity;
 import com.running.android_main.R;
 import com.running.beans.Friend;
+import com.running.event.RongCloudEvent;
 import com.running.myviews.edittextwithdeel.EditTextWithDel;
 import com.running.myviews.sidebar.SideBar;
 import com.running.utils.pinyin.PinyinComparator;
@@ -66,10 +67,12 @@ public class XiaoxiRightFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.xiaoxi_right, null);
+        if (RongCloudEvent.getInstance() != null)
+            RongCloudEvent.getInstance().setOtherListener();
         initViews();
         getData();
-        receiver();
         setOnClickListener();
+        receiver();
 
         return mView;
     }
@@ -133,10 +136,12 @@ public class XiaoxiRightFragment extends Fragment {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                contactContentMessage =
-                        (ContactNotificationMessage) intent.getExtras().get("ContactNotificationMessage");
-                Log.e("test123: ", "接收到好友消息的请求:" + contactContentMessage.getOperation());
-                String operation = contactContentMessage.getOperation();
+                String flag = (String) intent.getExtras().get("flag");
+                if (flag.equals("ContactNotificationMessage")){
+                    contactContentMessage =
+                            (ContactNotificationMessage) intent.getExtras().get("ContactNotificationMessage");
+                    Log.e("RongCloudEvent: ", "接收到好友消息的请求:" + contactContentMessage.getOperation());
+                    String operation = contactContentMessage.getOperation();
                 /*if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_REQUEST)) {
                     //小红点可见
                     header.findViewById(R.id.redPoint).setVisibility(View.VISIBLE);
@@ -144,9 +149,15 @@ public class XiaoxiRightFragment extends Fragment {
                     //对方同意加为好友 更新好友列表
                     getData();
                 }*/
-                InformationNotificationMessage informationNotificationMessage
-                        = (InformationNotificationMessage) intent.getExtras().get("InformationNotificationMessage");
-                Log.e("test123: ", "接收到小灰条消息:" + contactContentMessage.getOperation());
+                }else if (flag.equals("InformationNotificationMessage")){
+                    InformationNotificationMessage informationNotificationMessage
+                            = (InformationNotificationMessage) intent.getExtras().get("InformationNotificationMessage");
+                    if (informationNotificationMessage !=null){
+                        Log.e("RongCloudEvent: ", "接收到小灰条消息:" + informationNotificationMessage.getMessage());
+                        getData();
+                    }
+
+                }
             }
         };
         IntentFilter intentFilter = new IntentFilter();

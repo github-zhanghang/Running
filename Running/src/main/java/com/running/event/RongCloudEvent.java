@@ -116,18 +116,19 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
             //发送广播
             Intent in = new Intent();
             in.setAction("ACTION_RECEIVE_MESSAGE");
+            in.putExtra("flag","ContactNotificationMessage");
             in.putExtra("ContactNotificationMessage", contactContentMessage);
-
             mContext.sendBroadcast(in);
         } else if (messageContent instanceof InformationNotificationMessage){
             InformationNotificationMessage informationNotificationMessage = (InformationNotificationMessage) messageContent;
             Log.e(TAG, "小灰条消息接收监听:" + informationNotificationMessage.getMessage());
-            Toast.makeText(mContext, informationNotificationMessage.getMessage(), Toast.LENGTH_SHORT).show();
 
             //发送广播
             Intent in = new Intent();
-            in.setAction("InformationNotificationMessage");
-            in.putExtra("ContactNotificationMessage", informationNotificationMessage);
+            in.setAction("ACTION_RECEIVE_MESSAGE");
+            in.putExtra("flag","InformationNotificationMessage");
+            in.putExtra("InformationNotificationMessage", informationNotificationMessage);
+            mContext.sendBroadcast(in);
         }
 
         return false;
@@ -146,6 +147,16 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
     //会话列表的四个事件
     @Override
     public boolean onConversationPortraitClick(Context context, Conversation.ConversationType conversationType, String s) {
+        Log.e(TAG, "--------会话列表头像点击事件------- 会话类型"+conversationType );
+        /* ContactNotificationMessage 的类型是 SYSTEM
+            InformationNotificationMessage 的类型是 PRIVATE
+         */
+        Log.e(TAG, "--------会话列表头像点击事件-------");
+        if (conversationType.equals("SYSTEM")) {
+            //跳转到新的好友列表
+            context.startActivity(new Intent(context, NewFriendListActivity.class));
+            return true;
+        }
         return false;
     }
 
@@ -170,10 +181,10 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
     public boolean onConversationClick(Context context, View view, UIConversation uiConversation) {
         MessageContent messageContent = uiConversation.getMessageContent();
 
-        Log.e(TAG, "--------会话列表点击事件-------");
+        Log.e(TAG, "--------会话列表Item点击事件-------");
         if (messageContent instanceof ContactNotificationMessage) {
-            Log.e(TAG, "---会话列表点击事件--联系人(好友)通知消息-");
-            Toast.makeText(context, "Friend", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "---会话列表Item点击事件--联系人(好友)通知消息-");
+
             //跳转到新的好友列表
             context.startActivity(new Intent(context, NewFriendListActivity.class));
             return true;
