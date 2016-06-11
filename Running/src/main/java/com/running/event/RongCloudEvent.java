@@ -147,12 +147,13 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
     //会话列表的四个事件
     @Override
     public boolean onConversationPortraitClick(Context context, Conversation.ConversationType conversationType, String s) {
-        Log.e(TAG, "--------会话列表头像点击事件------- 会话类型"+conversationType );
+       // Log.e(TAG, "--------会话列表头像点击事件------- 会话类型:"+conversationType.getName());
+        Log.e(TAG, "--------会话列表头像点击事件------- 会话类型:"+conversationType.toString() );
         /* ContactNotificationMessage 的类型是 SYSTEM
             InformationNotificationMessage 的类型是 PRIVATE
          */
         Log.e(TAG, "--------会话列表头像点击事件-------");
-        if (conversationType.equals("SYSTEM")) {
+        if (conversationType.toString().equals("SYSTEM")) {
             //跳转到新的好友列表
             context.startActivity(new Intent(context, NewFriendListActivity.class));
             return true;

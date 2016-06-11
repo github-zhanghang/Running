@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.running.adapters.NearByAdapter;
 import com.running.beans.NearUserInfo;
+import com.running.beans.UserInfo;
 import com.running.myviews.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -57,8 +58,8 @@ public class NearbyActivity extends AppCompatActivity {
     }
 
     private void request() {
-        double mLatitude = 0;
-        double mLongitude = 0;
+        double mLatitude =((MyApplication) getApplication()).getUserInfo().getLatitude() ;
+        double mLongitude = ((MyApplication) getApplication()).getUserInfo().getLongitude();
         OkHttpUtils.post()
                 .url(NearbyServlet)
                 .addParams("Uid", ((MyApplication) getApplication()).getUserInfo().getUid() + "")
@@ -106,8 +107,9 @@ public class NearbyActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Intent intent = new Intent(NearbyActivity.this, NewFriendInfoActivity.class);
-                intent.putExtra("NearbyActivity", mUserInfoList.get(position));
+                intent.putExtra("FriendInfo", (UserInfo)mUserInfoList.get(position));
                 startActivity(intent);
 
             }

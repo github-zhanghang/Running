@@ -57,8 +57,7 @@ public class NewFriendInfoActivity extends AppCompatActivity {
     }
 
     private void initData() {
-      //  mUserInfo = (NearUserInfo)getIntent().getExtras().get("NearbyActivity");
-        userInfo = (UserInfo) getIntent().getExtras().get("NewFriendInfo");;
+        userInfo = (UserInfo) getIntent().getExtras().get("FriendInfo");;
         Log.e("test123", "NewFriendInfoActivity: "+userInfo.getNickName());
         Glide.with(NewFriendInfoActivity.this)
                 .load(userInfo.getImageUrl())
@@ -91,7 +90,7 @@ public class NewFriendInfoActivity extends AppCompatActivity {
                         if (response.equals(ContactNotificationMessage.CONTACT_OPERATION_REQUEST)){
                             Toast.makeText(NewFriendInfoActivity.this, "好友请求发送成功", Toast.LENGTH_SHORT).show();
                         }else if (response.equals("Requested")){
-                            Toast.makeText(NewFriendInfoActivity.this, "好友请求已经发送", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NewFriendInfoActivity.this, "好友请求已经发送过了", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
