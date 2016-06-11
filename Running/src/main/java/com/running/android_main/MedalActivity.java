@@ -85,7 +85,7 @@ public class MedalActivity extends AppCompatActivity {
                 if (what == 1) {
                     String result = response.get();
                     Log.e("my", "medal_result=" + result);
-                    if (!result.equals("[]") || result != null) {
+                    if (result != null && !result.equals("null")) {
                         String mid[] = result.split(",");
                         for (int i = 0; i < mid.length; i++) {
                             int id = Integer.parseInt(mid[i]);
