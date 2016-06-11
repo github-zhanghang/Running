@@ -36,7 +36,8 @@ import java.util.Locale;
 import okhttp3.Call;
 
 public class TrendActivity extends AppCompatActivity {
-
+    private MyApplication myApplication;
+    int uid;
     List<TrendData> mTrendDataList=new ArrayList<>();
     TextView mondayTextView,sundayTextView,walkTextView,distanceTextView,timeTextView,carlorieTextView;
     ViewPager mViewPager;
@@ -77,6 +78,9 @@ public class TrendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trend);
 
+        myApplication = (MyApplication) getApplication();
+        uid=myApplication.getUserInfo().getUid();
+
         initView();
         refreshData(0);
         initListener();
@@ -101,8 +105,9 @@ public class TrendActivity extends AppCompatActivity {
         dateString= String.valueOf(date.getTime());
 
         OkHttpUtils.get()
-                .url("http://10.201.1.172:8080/Run_zt/trendServlet")
+                .url(MyApplication.HOST+"trendServlet")
                 .addParams("date",dateString)
+                .addParams("uid",uid+"")
                 .build()
                 .execute(new StringCallback() {
                     @Override

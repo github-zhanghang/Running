@@ -33,7 +33,7 @@ public class BestActivity extends AppCompatActivity implements View.OnClickListe
     Bundle bundle=new Bundle();
     Intent intent;
     DateFormat dateFormat=new SimpleDateFormat("HH:mm:ss");
-    int uid=1;
+    int uid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
