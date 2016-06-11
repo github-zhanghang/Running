@@ -89,12 +89,7 @@ public class NewFriendListActivity extends AppCompatActivity {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 Friend friend = new Friend();
                                 friend = new Gson().fromJson(object.toString(),Friend.class);
-                                /*friend.setFriendid(object.getInt("friendid"));
-                                friend.setAccount(object.getString("account"));
-                                friend.setRemark(object.getString("remark"));
-                                friend.setPortrait(object.getString("portrait"));
-                                friend.setFriendtime(object.getString("friendtime"));
-                                friend.setStatus(object.getInt("status"));*/
+
                                 mResultList.add(friend);
                             }
                             adapter.notifyDataSetChanged();
@@ -111,6 +106,12 @@ public class NewFriendListActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        /*if (requestCode == requestCode) {
+            int p = (int) data.getExtras().get("position");
+            boolean flag = (boolean) data.getExtras().get("flag");
+            Log.e("NewFriendListActivity", "flag: "+flag );
+
+        }*/
         if (requestCode == requestCode) {
             int p = (int) data.getExtras().get("position");
             boolean flag = (boolean) data.getExtras().get("flag");
@@ -123,12 +124,12 @@ public class NewFriendListActivity extends AppCompatActivity {
                 sendMessage(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE, userInfo);
                 mResultList.get(p).setStatus(1);
                 adapter.notifyDataSetChanged();
-                Toast.makeText(this, "同意", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, " 同意该请求", Toast.LENGTH_SHORT).show();
             } else {
                 sendMessage(ContactNotificationMessage.CONTACT_OPERATION_REJECT_RESPONSE, userInfo);
                 mResultList.get(p).setStatus(4);
                 adapter.notifyDataSetChanged();
-                Toast.makeText(this, "拒绝", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, " 拒绝该请求", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -162,13 +163,16 @@ public class NewFriendListActivity extends AppCompatActivity {
                     Intent intent = new Intent(NewFriendListActivity.this, PersonInformationActivity.class);
                     intent.putExtra("UserInfo", userInfo);
                     startActivity(intent);
+                }else if (mResultList.get(position).getStatus() == 2){
+                    Toast.makeText(NewFriendListActivity.this,"请求已经发送", Toast.LENGTH_SHORT).show();
+                }else if (mResultList.get(position).getStatus() == 5){
+                    Toast.makeText(NewFriendListActivity.this,"对方拒绝了你的请求", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(NewFriendListActivity.this, mResultList.get(position).getRemark(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(NewFriendListActivity.this, RejectAddActivity.class);
-                    /*intent.putExtra("Friend", mResultList.get(position));
-                     intent.putExtra("Position", position);
-                    startActivityForResult(intent, requestCode);*/
-                    startActivity(intent);
+                    intent.putExtra("Friend", mResultList.get(position));
+                    intent.putExtra("Position", position);
+                    startActivityForResult(intent, requestCode);
                 }
 
             }
@@ -209,6 +213,7 @@ public class NewFriendListActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void sendMessage(String mark, UserInfo userInfo) {
         String message = null;
