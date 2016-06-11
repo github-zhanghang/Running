@@ -36,7 +36,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:hint="请输入评论"/>
+            android:hint="请输入评论"
+            android:background="@drawable/editbox_background_focus_yellow"/>
 
         <Button
             android:id="@+id/dynamic_comment_button"

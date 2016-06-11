@@ -1,7 +1,6 @@
 package com.running.adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,8 @@ import com.running.myviews.MyGridView;
 
 import java.io.File;
 import java.util.List;
+
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 /**
  * Created by ldd on 2016/5/30.
@@ -70,9 +71,9 @@ public class DynamicPublishGridViewAdapter extends BaseAdapter {
         if (position == (mList.size() - 1)) {
             viewHolder.mImageView.setImageResource(R.mipmap.ic_launcher);
         } else {
-            Uri uri = Uri.fromFile(new File(mList.get(position).toString()));
+            File file = new File(((PhotoInfo)mList.get(position)).getPhotoPath());
             Glide.with(mContext)
-                    .load(uri)
+                    .load(file)
                     .centerCrop()
                     .thumbnail(0.1f)
                     .placeholder(me.iwf.photopicker.R.drawable.ic_photo_black_48dp)

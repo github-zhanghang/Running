@@ -53,9 +53,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="苏州"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:layout_marginLeft="20dp"
-                    android:layout_centerVertical="true"/>
+                    android:layout_alignParentBottom="true"/>
 
                 <ImageButton
                     android:id="@+id/dynamic_publish_location_button"

@@ -41,7 +41,6 @@ import okhttp3.Call;
 
 public class DynamicCommentActivity extends AppCompatActivity implements MySpan.OnClickListener {
 
-    private TextView mCommentImgHeaderPraiseCount;
     private ImageView mHeaderImg;
     private TextView mHeaderName;
     private TextView mHeaderTime;
@@ -49,12 +48,16 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
     private MyGridView mHeaderGridView;
     private ImageView mHeaderPraiseImg;
     private TextView mHeaderPraiseCount;
+    private ImageView mHeaderCommentImg;
+    private TextView mHeaderCommentCount;
     private List<CommentBean> mList;
     private DynamicCommentItemAdapter mAdapter;
     private DynamicImgBean mDynamicImgBean;
     private String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
     private CommentCallBack mCommentCallBack;
     private HashMap<String, Object> mMap = new HashMap<>();
+    private int status = 2;
+
 
     @Bind(R.id.dynamic_comment_topBar)
     TopBar mDynamicCommentTopBar;
@@ -107,39 +110,87 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         mDynamicCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //自己的id和名字
-                int uId0 = 3;
-                String uName0 = "1003";
-                //回复内容
-                String content = mDynamicCommentFootEdit.getText().toString();
-                //回复时间
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String time = format.format(new Date());
-                SecondCommentBean bean = new SecondCommentBean((int) mMap.get("sFCId"), uId0,
-                        uName0, (int) mMap.get("uId1"), (String) mMap.get("uName1"), content, time);
-                mList.get((int)mMap.get("position")).getList().add(bean);
-                Gson gson = new Gson();
-                String secondComment = gson.toJson(bean);
-                Log.d("TAG",secondComment);
-                OkHttpUtils.post()
-                        .url(url)
-                        .addParams("appRequest","AddSecondComment")
-                        .addParams("secondComment",secondComment)
-                        .build()
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onError(Call call, Exception e) {
-                            }
+                if (status == 1) {
+                    //一级评论
+                    //对应动态id
+                    int fDId = mDynamicImgBean.getdId();
+                    //评论者id
+                    int fUId = 3;
+                    String fName = "张三";
+                    String fUImg = "https://img.alicdn.com/imgextra/i3/2237636884/TB2Z2_.pVXXXXcr" +
+                            "XXXXXXXXXXXX_!!2237636884.png";
+                    String content = mDynamicCommentFootEdit.getText().toString();
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String time = format.format(new Date());
+                    List<SecondCommentBean> list = new ArrayList<SecondCommentBean>();
+                    CommentBean commentBean = new CommentBean(fDId, fUId, fUImg, fName, content,
+                            time,
+                            list);
+                    mList.add(commentBean);
+                    Gson gson = new Gson();
+                    String firstComment = gson.toJson(commentBean);
+                    OkHttpUtils.post()
+                            .url(url)
+                            .addParams("appRequest", "AddFirstComment")
+                            .addParams("firstComment", firstComment)
+                            .build()
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onError(Call call, Exception e) {
 
-                            @Override
-                            public void onResponse(String response) {
+                                }
 
-                            }
-                        });
+                                @Override
+                                public void onResponse(String response) {
+
+                                }
+                            });
+                    status = 2;
+                } else {
+                    //自己的id和名字
+                    int uId0 = 3;
+                    String uName0 = "1003";
+                    //回复内容
+                    String content = mDynamicCommentFootEdit.getText().toString();
+                    //回复时间
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String time = format.format(new Date());
+                    SecondCommentBean bean = new SecondCommentBean((int) mMap.get("sFCId"), uId0,
+                            uName0, (int) mMap.get("uId1"), (String) mMap.get("uName1"), content,
+                            time);
+                    mList.get((int) mMap.get("position")).getList().add(bean);
+                    Gson gson = new Gson();
+                    String secondComment = gson.toJson(bean);
+                    Log.d("TAG", secondComment);
+                    OkHttpUtils.post()
+                            .url(url)
+                            .addParams("appRequest", "AddSecondComment")
+                            .addParams("secondComment", secondComment)
+                            .build()
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onError(Call call, Exception e) {
+                                }
+
+                                @Override
+                                public void onResponse(String response) {
+
+                                }
+                            });
+                }
                 mAdapter.notifyDataSetChanged();
+                mDynamicCommentFootEdit.setText("");
+                mDynamicCommentFootEdit.clearFocus();
             }
         });
 
+        mHeaderCommentImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                status = 1;
+                mDynamicCommentFootEdit.requestFocus();
+            }
+        });
     }
 
     private void initData() {
@@ -184,9 +235,9 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         Toast.makeText(DynamicCommentActivity.this, span.getId() + "：" + span.getContent(),
                 Toast.LENGTH_SHORT).show();
         for (int i = 0; i < mList.size(); i++) {
-            if (mList.get(i).getfCId()==span.getBean().getsFCId()) {
-                mMap.put("position",i);
-                mMap.put("sFCId",span.getBean().getsFCId());
+            if (mList.get(i).getfCId() == span.getBean().getsFCId()) {
+                mMap.put("position", i);
+                mMap.put("sFCId", span.getBean().getsFCId());
                 mMap.put("uId1", span.getBean().getuId0());
                 mMap.put("uName1", span.getBean().getuName0());
                 mDynamicCommentFootEdit.requestFocus();
@@ -206,8 +257,9 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         mHeaderContent = (TextView) view.findViewById(R.id.comment_imgHeader_content);
         mHeaderGridView = (MyGridView) view.findViewById(R.id.comment_imgHeader_gridView);
         mHeaderPraiseImg = (ImageView) view.findViewById(R.id.comment_imgHeader_praiseImg);
-        mHeaderPraiseCount = (TextView) view.findViewById(
-                R.id.comment_imgHeader_praiseCount);
+        mHeaderPraiseCount = (TextView) view.findViewById(R.id.comment_imgHeader_praiseCount);
+        mHeaderCommentImg = (ImageView) view.findViewById(R.id.comment_imgHeader_commentImg);
+        mHeaderCommentCount = (TextView) view.findViewById(R.id.comment_imgHeader_commentCount);
     }
 
     /**
