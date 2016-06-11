@@ -42,6 +42,7 @@ import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.message.ContactNotificationMessage;
+import io.rong.message.InformationNotificationMessage;
 import okhttp3.Call;
 
 /**
@@ -133,30 +134,32 @@ public class XiaoxiRightFragment extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 contactContentMessage =
-                        (ContactNotificationMessage) intent.getExtras().get("rongCloud");
-                Log.e("test123: ", "接收到的请求:" + contactContentMessage.getOperation());
+                        (ContactNotificationMessage) intent.getExtras().get("ContactNotificationMessage");
+                Log.e("test123: ", "接收到好友消息的请求:" + contactContentMessage.getOperation());
                 String operation = contactContentMessage.getOperation();
-                if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_REQUEST)) {
+                /*if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_REQUEST)) {
                     //小红点可见
                     header.findViewById(R.id.redPoint).setVisibility(View.VISIBLE);
                 } else if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)) {
                     //对方同意加为好友 更新好友列表
                     getData();
-                }
-
+                }*/
+                InformationNotificationMessage informationNotificationMessage
+                        = (InformationNotificationMessage) intent.getExtras().get("InformationNotificationMessage");
+                Log.e("test123: ", "接收到小灰条消息:" + contactContentMessage.getOperation());
             }
         };
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("ACTION_RECEIVE_MESSAGE");
         getActivity().registerReceiver(mReceiver, intentFilter);
-        Log.e("test123: ", "注册加好友接收广播成功");
+        Log.e("test123: ", "融云消息广播接收注册成功");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(mReceiver);
-        Log.e("test123: ", "注销加好友接收广播成功");
+        Log.e("test123: ", "融云消息广播接收注销");
     }
 
     private void setOnClickListener() {

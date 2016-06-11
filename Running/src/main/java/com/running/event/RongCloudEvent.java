@@ -116,14 +116,18 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
             //发送广播
             Intent in = new Intent();
             in.setAction("ACTION_RECEIVE_MESSAGE");
-            in.putExtra("rongCloud", contactContentMessage);
-            in.putExtra("has_message", true);
+            in.putExtra("ContactNotificationMessage", contactContentMessage);
+
             mContext.sendBroadcast(in);
         } else if (messageContent instanceof InformationNotificationMessage){
             InformationNotificationMessage informationNotificationMessage = (InformationNotificationMessage) messageContent;
             Log.e(TAG, "小灰条消息接收监听:" + informationNotificationMessage.getMessage());
             Toast.makeText(mContext, informationNotificationMessage.getMessage(), Toast.LENGTH_SHORT).show();
 
+            //发送广播
+            Intent in = new Intent();
+            in.setAction("InformationNotificationMessage");
+            in.putExtra("ContactNotificationMessage", informationNotificationMessage);
         }
 
         return false;
