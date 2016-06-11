@@ -1,7 +1,9 @@
 package com.running.fragments;
 
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +25,7 @@ import com.running.android_main.MyApplication;
 import com.running.android_main.NewFriendListActivity;
 import com.running.android_main.R;
 import com.running.beans.Friend;
+import com.running.event.RongCloudEvent;
 import com.running.myviews.edittextwithdeel.EditTextWithDel;
 import com.running.myviews.sidebar.SideBar;
 import com.running.utils.pinyin.PinyinComparator;
@@ -40,14 +43,14 @@ import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.message.ContactNotificationMessage;
+import io.rong.message.InformationNotificationMessage;
 import okhttp3.Call;
 
 /**
  * Created by ZhangHang on 2016/5/5.
  */
 public class XiaoxiRightFragment extends Fragment {
-    public static final String GetFriendList =
-            "http://192.168.191.1:8080/Running/GetFriendList";
+    public String GetFriendList = MyApplication.HOST + "GetFriendList";
     View mView;
     View header;
     ListView mListView;
@@ -64,10 +67,12 @@ public class XiaoxiRightFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.xiaoxi_right, null);
+        if (RongCloudEvent.getInstance() != null)
+            RongCloudEvent.getInstance().setOtherListener();
         initViews();
         getData();
-        receiver();
         setOnClickListener();
+        receiver();
 
         return mView;
     }
@@ -102,20 +107,15 @@ public class XiaoxiRightFragment extends Fragment {
 
                     @Override
                     public void onResponse(String response) {
+                        mFriendList.clear();
                         try {
-                            JSONArray jsonArray = new JSONArray(response);
 
+                            JSONArray jsonArray = new JSONArray(response);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 Log.e("test123: ", "object:" + object.toString());
                                 Friend friend =
                                         new Gson().fromJson(object.toString(), Friend.class);
-                                /*Friend friend = new Friend();
-                                friend.setFriendid(object.getInt("friendid"));
-                                friend.setAccount(object.getString("account"));
-                                friend.setRemark(object.getString("remark"));
-                                friend.setPortrait(object.getString("portrait"));
-                                friend.setFriendtime(object.getString("friendtime"));*/
                                 //添加首字母
                                 mFriendList.add(filledData(friend));
                                 //根据a-z进行排序源数据
@@ -133,27 +133,44 @@ public class XiaoxiRightFragment extends Fragment {
     }
 
     private void receiver() {
-       /* mReceiver = new BroadcastReceiver() {
+        mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                contactContentMessage =
-                        (ContactNotificationMessage) intent.getExtras().get("rongCloud");
-                Log.e("test123: ", "接收到的请求:" + contactContentMessage.getOperation());
-                //小红点可见
-                header.findViewById(R.id.redPoint).setVisibility(View.VISIBLE);
+                String flag = (String) intent.getExtras().get("flag");
+                if (flag.equals("ContactNotificationMessage")){
+                    contactContentMessage =
+                            (ContactNotificationMessage) intent.getExtras().get("ContactNotificationMessage");
+                    Log.e("RongCloudEvent: ", "接收到好友消息的请求:" + contactContentMessage.getOperation());
+                    String operation = contactContentMessage.getOperation();
+                /*if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_REQUEST)) {
+                    //小红点可见
+                    header.findViewById(R.id.redPoint).setVisibility(View.VISIBLE);
+                } else if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)) {
+                    //对方同意加为好友 更新好友列表
+                    getData();
+                }*/
+                }else if (flag.equals("InformationNotificationMessage")){
+                    InformationNotificationMessage informationNotificationMessage
+                            = (InformationNotificationMessage) intent.getExtras().get("InformationNotificationMessage");
+                    if (informationNotificationMessage !=null){
+                        Log.e("RongCloudEvent: ", "接收到小灰条消息:" + informationNotificationMessage.getMessage());
+                        getData();
+                    }
+
+                }
             }
         };
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(App.ACTION_RECEIVE_MESSAGE);
+        intentFilter.addAction("ACTION_RECEIVE_MESSAGE");
         getActivity().registerReceiver(mReceiver, intentFilter);
-        Log.e("test123: ", "注册接收广播成功");*/
+        Log.e("test123: ", "融云消息广播接收注册成功");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        /*getActivity().unregisterReceiver(mReceiver);
-        Log.e("test123: ", "注销接收广播成功");*/
+        getActivity().unregisterReceiver(mReceiver);
+        Log.e("test123: ", "融云消息广播接收注销");
     }
 
     private void setOnClickListener() {
@@ -196,8 +213,13 @@ public class XiaoxiRightFragment extends Fragment {
                 Friend friend = (Friend) adapter.getItem(position - 1);
                 Toast.makeText(getActivity(),
                         friend.getRemark(), Toast.LENGTH_SHORT).show();
+
                 //启动会话界面
-                if (RongIM.getInstance() != null){
+                /*if (RongIM.getInstance() != null) {
+                    RongIM.getInstance().startPrivateChat
+                            (getActivity(), friend.getAccount(), friend.getRemark());
+                }*/
+                if (RongIM.getInstance() != null) {
                     RongIM.getInstance().startPrivateChat
                             (getActivity(), friend.getAccount(), friend.getRemark());
                 }

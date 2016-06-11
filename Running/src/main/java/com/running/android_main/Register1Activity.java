@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.sharesdk.framework.ShareSDK;
 import cn.smssdk.EventHandler;
 import cn.smssdk.OnSendMessageHandler;
 import cn.smssdk.SMSSDK;
@@ -21,8 +22,8 @@ import cn.smssdk.SMSSDK;
 public class Register1Activity extends AppCompatActivity implements View.OnClickListener {
     private MyApplication mApplication;
     //短信验证
-    private final static String APP_KEY = "12a1127a423ef";
-    private final static String APP_SECRET = "4d8275b912a9aceb7f39fdbf91b92da4";
+    private final String APP_KEY = "12a1127a423ef";
+    private final String APP_SECRET = "4d8275b912a9aceb7f39fdbf91b92da4";
 
     private EditText mPhoneEditText, mPasswordEditText, mConfirmEditText, mCodeEditText;
     private Button mGetCodeButton, mRegisterButton;
@@ -46,6 +47,8 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
                 } else {
                     mGetCodeButton.setText(seconds + "秒后重新获取");
                 }
+            } else if (msg.what == 1) {
+                Toast.makeText(Register1Activity.this, "验证码错误", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -90,7 +93,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
                             checkPassword();
                         } else {
                             Log.e("my", "验证失败");
-                            Toast.makeText(Register1Activity.this, "手机号验证失败", Toast.LENGTH_SHORT).show();
+                            mHandler.sendEmptyMessage(1);
                         }
                         break;
                     case SMSSDK.EVENT_GET_VERIFICATION_CODE:
@@ -108,6 +111,10 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
     private void checkPassword() {
         //判断两次密码是否一致
         mPassword = mPasswordEditText.getText().toString();
+        if (mPassword.length() < 4) {
+            Toast.makeText(Register1Activity.this, "密码长度至少为4位", Toast.LENGTH_SHORT).show();
+            return;
+        }
         mConfirmPassword = mConfirmEditText.getText().toString();
         if (mPassword.equals(mConfirmPassword)) {
             Intent intent = new Intent(Register1Activity.this, Register2Activity.class);
@@ -179,7 +186,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
     /**
      * 验证手机格式
      */
-    public static boolean isMobileNO(String mobiles) {
+    public boolean isMobileNO(String mobiles) {
         /*
         移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188
         联通：130、131、132、152、155、156、185、186
@@ -198,5 +205,6 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
         super.onDestroy();
         isRunning = false;
         mHandler = null;
+        ShareSDK.stopSDK();
     }
 }

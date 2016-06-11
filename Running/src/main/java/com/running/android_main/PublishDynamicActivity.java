@@ -91,7 +91,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
 
     List<String> imgList = new ArrayList<String>();
 
-    String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
+    String url = MyApplication.HOST+"dynamicOperateServlet";
 
     //定位
     private LocationClient mLocationClient;
@@ -178,7 +178,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
         mDynamicPublishTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
             public void onTopbarLeftImageClick(ImageView imageView) {
-
+                PublishDynamicActivity.this.finish();
             }
 
             @Override

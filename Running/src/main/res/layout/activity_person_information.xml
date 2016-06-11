@@ -12,7 +12,8 @@
         android:id="@+id/person_information_topBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        app:leftImage="@mipmap/ic_launcher"
+        app:isRightImageShow="true"
+        app:leftImage="@drawable/back"
         app:leftText="详细资料"
         app:rightImage="@mipmap/ic_launcher">
     </com.running.myviews.TopBar>

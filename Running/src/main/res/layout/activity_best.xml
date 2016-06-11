@@ -1,70 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.running.android_main.BestActivity">
+
     <com.running.myviews.TopBar
+        android:id="@+id/best_topbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:leftImage="@mipmap/ic_launcher"
+        android:layout_height="@dimen/topbar_height"
+        app:leftImage="@drawable/back"
         app:leftText="最好成绩">
     </com.running.myviews.TopBar>
+
+    <com.running.myviews.BestBar
+        android:id="@+id/distance_best"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:padding="10dp"
+        app:best_attrText="最远距离"
+        />
+
     <com.running.myviews.BestBar
         android:id="@+id/time_best"
-        android:padding="10dp"
-        android:layout_marginBottom="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:padding="10dp"
         app:best_attrText="最长时间"
-        app:best_dataText="02:30:09"
         />
+
+    <com.running.myviews.BestBar
+        android:id="@+id/caloie_best"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:padding="10dp"
+        app:best_attrText="最大卡路里"
+        />
+
     <com.running.myviews.BestBar
         android:id="@+id/speed_best"
-        android:padding="10dp"
-        android:layout_marginBottom="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:padding="10dp"
         app:best_attrText="最快配速"
-        app:best_dataText="05'31”"
         />
+
     <com.running.myviews.BestBar
         android:id="@+id/five_best"
-        android:padding="10dp"
-        android:layout_marginBottom="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:padding="10dp"
         app:best_attrText="5公里最快"
-        app:best_dataText="未完成"
         />
+
     <com.running.myviews.BestBar
         android:id="@+id/ten_best"
-        android:padding="10dp"
-        android:layout_marginBottom="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:padding="10dp"
         app:best_attrText="10公里最快"
-        app:best_dataText="未完成"
         />
+
     <com.running.myviews.BestBar
         android:id="@+id/half_best"
-        android:padding="10dp"
-        android:layout_marginBottom="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:padding="10dp"
         app:best_attrText="半马最快"
-        app:best_dataText="未完成"
         />
+
     <com.running.myviews.BestBar
         android:id="@+id/whole_best"
-        android:padding="10dp"
-        android:layout_marginBottom="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:padding="10dp"
         app:best_attrText="全马最快"
-        app:best_dataText="未完成"
         />
 </LinearLayout>

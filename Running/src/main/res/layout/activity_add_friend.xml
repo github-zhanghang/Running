@@ -2,49 +2,55 @@
 <LinearLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
+
     <com.running.myviews.TopBar
-        android:id="@+id/xiaoxi_topbar"
+        android:id="@+id/friendadd_topbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:leftImage="@mipmap/ic_launcher"
+        android:layout_height="@dimen/topbar_height"
+        app:leftImage="@drawable/back"
         app:leftText="添加好友"/>
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:paddingTop="@dimen/activity_vertical_margin">
+
         <com.running.myviews.edittextwithdeel.EditTextWithDel
             android:id="@+id/addFirend_et"
-            android:hint="请输入账号"
-            android:singleLine="true"
-            android:paddingLeft="16dp"
-            android:layout_marginRight="100dp"
-            android:textSize="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginBottom="5dp"
+            android:layout_marginRight="100dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/editbox_background_focus_yellow"
-            android:layout_width="match_parent" android:layout_height="40dp"/>
+            android:hint="请输入账号"
+            android:paddingLeft="16dp"
+            android:singleLine="true"
+            android:textSize="16dp"/>
+
         <Button
+            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="搜索"
-            android:id="@+id/button"
-            android:onClick="addNewFriend"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:onClick="addNewFriend"
+            android:text="搜索"/>
     </RelativeLayout>
+
     <RelativeLayout
-        android:onClick="searchNearby"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="70dp"
+        android:onClick="searchNearby">
+
         <ImageView
             android:id="@+id/fujin"
             android:layout_width="56dp"
@@ -52,30 +58,33 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="5dp"
-            android:src="@drawable/rc_default_portrait" />
+            android:src="@drawable/rc_default_portrait"/>
+
         <TextView
-            android:text="搜附近"
-            android:textSize="16sp"
-            android:textColor="#353535"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:singleLine="true"
-            android:ellipsize="end"
             android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@+id/fujin" />
+            android:layout_toRightOf="@+id/fujin"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="搜附近"
+            android:textColor="#353535"
+            android:textSize="16sp"/>
 
     </RelativeLayout>
+
     <View
-        android:layout_marginRight="3dp"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#998181" />
+        android:layout_marginRight="3dp"
+        android:background="#998181"/>
 
     <RelativeLayout
-        android:onClick="searchWithConditions"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="70dp"
+        android:onClick="searchWithConditions">
+
         <ImageView
             android:id="@+id/chazhao"
             android:layout_width="56dp"
@@ -83,17 +92,18 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="5dp"
-            android:src="@drawable/rc_default_portrait" />
+            android:src="@drawable/rc_default_portrait"/>
+
         <TextView
-            android:text="按条件查找"
-            android:textSize="16sp"
-            android:textColor="#353535"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:singleLine="true"
-            android:ellipsize="end"
             android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@+id/chazhao" />
+            android:layout_toRightOf="@+id/chazhao"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="按条件查找"
+            android:textColor="#353535"
+            android:textSize="16sp"/>
     </RelativeLayout>
 </LinearLayout>

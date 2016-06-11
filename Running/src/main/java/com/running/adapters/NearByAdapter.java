@@ -60,7 +60,14 @@ public class NearByAdapter extends BaseAdapter {
                 .load(mResults.get(position).getImageUrl())
                 .into(viewHolder.mImg);
         viewHolder.mName.setText(mResults.get(position).getNickName());
-        viewHolder.mDistance.setText(mResults.get(position).getDistance()+"米");
+        double d = mResults.get(position).getDistance();
+        int distance = (int) d;
+        if (distance<1000){
+            viewHolder.mDistance.setText(distance+"m");
+        }else {
+            viewHolder.mDistance.setText(distance+"km");
+        }
+
         return convertView;
     }
     class ViewHolder{

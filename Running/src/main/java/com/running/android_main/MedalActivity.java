@@ -5,14 +5,24 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.running.adapters.MedalAdapter;
 import com.running.beans.MedalItemInfo;
-import com.running.myviews.MyGridView;
+import com.running.myviews.ImageTextView;
 import com.running.myviews.TopBar;
 import com.running.utils.ScreenShot;
+import com.yolanda.nohttp.NoHttp;
+import com.yolanda.nohttp.OnResponseListener;
+import com.yolanda.nohttp.Request;
+import com.yolanda.nohttp.RequestMethod;
+import com.yolanda.nohttp.RequestQueue;
+import com.yolanda.nohttp.Response;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,21 +34,29 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 public class MedalActivity extends AppCompatActivity {
+    private String mPath = MyApplication.HOST + "medalServlet";
     private Activity mContext;
     private TopBar mTopBar;
-    private MyGridView mHaveGridView;
-    private List<ImageView> mHaveList = new ArrayList<>();
-    private MedalAdapter mHaveAdapter;
+    private GridView mGridView;
+    private List<ImageTextView> mList = new ArrayList<>();
+    private MedalAdapter mAdapter;
+    private Toast mToast;
 
-    private MyGridView mNotHaveGridView;
-    private List<ImageView> mNotHaveList = new ArrayList<>();
-    private MedalAdapter mNotHaveAdapter;
-    private int[] mHaveImage = {R.drawable.ic_medal_l_day1, R.drawable.ic_medal_l_run5,
-            R.drawable.ic_medal_l_run10, R.drawable.ic_medal_l_run21,
-            R.drawable.ic_medal_l_run42};
-    private int[] mNotHaveImage = {R.drawable.ic_medal_l_day1_p, R.drawable.ic_medal_l_run5_p,
-            R.drawable.ic_medal_l_run10_p, R.drawable.ic_medal_l_run21_p,
-            R.drawable.ic_medal_l_run42_p};
+    private int[] mHaveImage = {R.drawable.ic_medal_m_day1, R.drawable.ic_medal_m_run5,
+            R.drawable.ic_medal_m_run10, R.drawable.ic_medal_m_run21,
+            R.drawable.ic_medal_m_run42, R.drawable.ic_medal_m_run100};
+    private String[] mHaveString = {"开始运动\n(已获得)", "5公里\n(已获得)", "10公里\n(已获得)",
+            "半程马拉松\n(已获得)", "全称马拉松\n(已获得)", "超级马拉松\n(已获得)"};
+
+    private int[] mNotHaveImage = {R.drawable.ic_medal_m_day1_p, R.drawable.ic_medal_m_run5_p,
+            R.drawable.ic_medal_m_run10_p, R.drawable.ic_medal_m_run21_p,
+            R.drawable.ic_medal_m_run42_p, R.drawable.ic_medal_m_run100_p};
+    private String[] mNotHaveString = {"开始运动\n(未获得)", "5公里\n(未获得)", "10公里\n(未获得)",
+            "半程马拉松\n(未获得)", "全程马拉松\n(未获得)", "超级马拉松\n(未获得)"};
+
+    private String[] mDescription = {"开始一次跑步", "单次跑步距离达到5公里",
+            "单次跑步距离达到10公里", "单次跑步距离达到21.1公里",
+            "单次跑步距离达到42.2公里", "单次跑步距离达到100公里"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,45 +65,73 @@ public class MedalActivity extends AppCompatActivity {
         mContext = MedalActivity.this;
         initViews();
         initListener();
-
         initHaveGridViewData();
-        mHaveAdapter = new MedalAdapter(mHaveList);
-        mHaveGridView.setAdapter(mHaveAdapter);
+        mAdapter = new MedalAdapter(mList);
+        mGridView.setAdapter(mAdapter);
+        getMyMedal();
+    }
 
-        initNotHaveGridViewData();
-        mNotHaveAdapter = new MedalAdapter(mNotHaveList);
-        mNotHaveGridView.setAdapter(mNotHaveAdapter);
+    private void getMyMedal() {
+        RequestQueue requestQueue = NoHttp.newRequestQueue(1);
+        Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
+        request.add("uid", ((MyApplication) getApplication()).getUserInfo().getUid());
+        requestQueue.add(1, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                if (what == 1) {
+                    String result = response.get();
+                    Log.e("my", "medal_result=" + result);
+                    if (result != null && !result.equals("null")) {
+                        String mid[] = result.split(",");
+                        for (int i = 0; i < mid.length; i++) {
+                            int id = Integer.parseInt(mid[i]);
+                            ImageTextView imageTextView = mList.get(id - 1);
+                            imageTextView.setText(mHaveString[id - 1]);
+                            imageTextView.setTextColor(Color.parseColor("#FFD350"));
+                            imageTextView.setImageResource(mHaveImage[id - 1]);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+                showToast("获取数据失败");
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showToast(mDescription[position]);
+            }
+        });
     }
 
     private void initViews() {
         mTopBar = (TopBar) findViewById(R.id.medal_topbar);
-        mHaveGridView = (MyGridView) findViewById(R.id.medal_have);
-        mHaveGridView.setBackgroundColor(Color.WHITE);
-        mNotHaveGridView = (MyGridView) findViewById(R.id.medal_nothave);
-        mNotHaveGridView.setBackgroundColor(Color.WHITE);
+        mGridView = (GridView) findViewById(R.id.medal_gridview);
     }
 
     private void initHaveGridViewData() {
         MedalItemInfo medalItemInfo;
-        ImageView medalView;
-        for (int i = 0; i < mHaveImage.length; i++) {
-            medalItemInfo = new MedalItemInfo(mHaveImage[i], "第" + i + "个勋章");
-            medalView = new ImageView(mContext);
-            medalView.setImageResource(medalItemInfo.getImgId());
-            medalView.setBackgroundColor(Color.GRAY);
-            mHaveList.add(medalView);
-        }
-    }
-
-    private void initNotHaveGridViewData() {
-        MedalItemInfo medalItemInfo;
-        ImageView medalView;
+        ImageTextView medalView;
         for (int i = 0; i < mNotHaveImage.length; i++) {
-            medalItemInfo = new MedalItemInfo(mNotHaveImage[i], "第" + i + "个勋章");
-            medalView = new ImageView(mContext);
+            medalItemInfo = new MedalItemInfo(mNotHaveImage[i], mNotHaveString[i]);
+            medalView = new ImageTextView(mContext);
             medalView.setImageResource(medalItemInfo.getImgId());
-            medalView.setBackgroundColor(Color.GRAY);
-            mNotHaveList.add(medalView);
+            medalView.setText(medalItemInfo.getDescription());
+            medalView.setBackgroundColor(Color.TRANSPARENT);
+            mList.add(medalView);
         }
     }
 
@@ -117,18 +163,26 @@ public class MedalActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Platform platform, int i, Throwable throwable) {
-                        Toast.makeText(mContext, "分享失败", Toast.LENGTH_SHORT).show();
+                        showToast("分享失败");
                     }
 
                     @Override
                     public void onCancel(Platform platform, int i) {
-                        Toast.makeText(mContext, "分享取消", Toast.LENGTH_SHORT).show();
+                        showToast("分享取消");
                     }
                 });
                 // 启动分享GUI
                 oks.show(mContext);
             }
         });
+    }
+
+    public void showToast(String text) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(mContext, text, Toast.LENGTH_SHORT);
+        mToast.show();
     }
 
     @Override

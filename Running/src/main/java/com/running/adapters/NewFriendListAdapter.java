@@ -100,11 +100,11 @@ public class NewFriendListAdapter extends android.widget.BaseAdapter {
 
                         break;
                     case 4://请求被拒绝
-                        viewHolder.mFrienduState.setText("请求被拒绝");
+                        viewHolder.mFrienduState.setText("已拒绝");
                         viewHolder.mFrienduState.setBackground(null);
                         break;
                     case 5://我被对方删除
-                        viewHolder.mFrienduState.setText("被删除");
+                        viewHolder.mFrienduState.setText("请求被拒绝");
                         viewHolder.mFrienduState.setBackground(null);
                         break;
 

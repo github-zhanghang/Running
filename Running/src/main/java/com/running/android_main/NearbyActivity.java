@@ -6,11 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.running.adapters.NearByAdapter;
 import com.running.beans.NearUserInfo;
+import com.running.beans.UserInfo;
+import com.running.myviews.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -25,8 +28,8 @@ import okhttp3.Call;
 
 public class NearbyActivity extends AppCompatActivity {
 
-    public static final String NearbyServlet
-            = "http://192.168.191.1:8080/Running/NearbyServlet";
+    public static final String NearbyServlet= MyApplication.HOST + "NearbyServlet";
+    private TopBar mTopBar;
     private ListView mListView;
     private List<NearUserInfo> mUserInfoList;
     private NearByAdapter mNearByAdapter;
@@ -44,6 +47,7 @@ public class NearbyActivity extends AppCompatActivity {
     private void initViews() {
         mUserInfoList = new ArrayList<>();
         mNearByAdapter = new NearByAdapter(NearbyActivity.this, mUserInfoList);
+        mTopBar = (TopBar) findViewById(R.id.nearby_topbar);
         mListView = (ListView) findViewById(R.id.nearby_lv);
         mListView.setAdapter(mNearByAdapter);
 
@@ -54,8 +58,8 @@ public class NearbyActivity extends AppCompatActivity {
     }
 
     private void request() {
-        double mLatitude = 0;
-        double mLongitude = 0;
+        double mLatitude =((MyApplication) getApplication()).getUserInfo().getLatitude() ;
+        double mLongitude = ((MyApplication) getApplication()).getUserInfo().getLongitude();
         OkHttpUtils.post()
                 .url(NearbyServlet)
                 .addParams("Uid", ((MyApplication) getApplication()).getUserInfo().getUid() + "")
@@ -89,11 +93,23 @@ public class NearbyActivity extends AppCompatActivity {
     }
 
     private void Listener() {
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                NearbyActivity.this.finish();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+
+            }
+        });
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 Intent intent = new Intent(NearbyActivity.this, NewFriendInfoActivity.class);
-                intent.putExtra("NearbyActivity", mUserInfoList.get(position));
+                intent.putExtra("FriendInfo", (UserInfo)mUserInfoList.get(position));
                 startActivity(intent);
 
             }

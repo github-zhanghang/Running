@@ -67,7 +67,7 @@ public class DynamicAdapter extends BaseAdapter {
 
     MyApplication mMyApplication;
 
-    String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
+    String url = MyApplication.HOST+"dynamicOperateServlet";
 
     public DynamicAdapter(Context context, List<HashMap<String, Object>> list) {
         mContext = context;

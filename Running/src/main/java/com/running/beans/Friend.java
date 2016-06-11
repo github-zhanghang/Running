@@ -1,6 +1,8 @@
 package com.running.beans;
 
-public class Friend {
+import java.io.Serializable;
+
+public class Friend implements Serializable {
 
 	private String sortLetters;//显示数据拼音的首字母
 
@@ -92,6 +94,32 @@ public class Friend {
 	public void setToken(String token) {
 		this.token = token;
 	}
-    
-    
+
+	private int age;
+	private String sex;
+	private String address;
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 }

@@ -16,13 +16,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.running.adapters.RaceAdapter;
 import com.running.adapters.RaceBannerAdapter;
 import com.running.android_main.MainActivity;
+import com.running.android_main.MyApplication;
 import com.running.android_main.R;
 import com.running.android_main.RaceActivity;
 import com.running.beans.RaceData;
@@ -97,7 +96,6 @@ public class FaxianLeftFragment extends Fragment {
         //轮播
         initBannerView();
         initBannerData();
-
         addBannerListener();
 
         initRecyclerViews();
@@ -118,7 +116,7 @@ public class FaxianLeftFragment extends Fragment {
     private void initBannerData() {
 
         OkHttpUtils.get()
-                .url("http://10.201.1.172:8080/Run_zt/raceBannerServlet")
+                .url(MyApplication.HOST+"raceBannerServlet")
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -215,7 +213,7 @@ public class FaxianLeftFragment extends Fragment {
     //刷新数据
     private void refreshData() {
         OkHttpUtils.get()
-                .url("http://10.201.1.172:8080/Run_zt/raceServlet")
+                .url(MyApplication.HOST+"raceServlet")
                 .addParams("page",page+"")
                 .build()
                 .execute(new StringCallback() {
@@ -237,7 +235,7 @@ public class FaxianLeftFragment extends Fragment {
                                 String location=jsonObject.getString("location");
                                 RaceData raceData=new RaceData(name,time,img,html,location);
                                 mRaceDataList.add(raceData);
-                                Log.e( "taozi1234: ",mRaceDataList.size()+" " );
+                               // Log.e( "taozi1234: ",mRaceDataList.size()+" " );
                             }
                             mRaceAdapter.notifyDataSetChanged();
                             mRaceAdapter.notifyItemRemoved(mRaceAdapter.getItemCount());

@@ -20,7 +20,7 @@ import com.yolanda.nohttp.RequestQueue;
 import com.yolanda.nohttp.Response;
 
 public class Register3Activity extends AppCompatActivity {
-    private static final String mPath = "http://192.168.191.1:8080/Running/registerServlet";
+    private static final String mPath = MyApplication.HOST + "registerServlet";
     private MyApplication mApplication;
 
     private ScaleRulerView mHeightWheelView;
@@ -36,7 +36,8 @@ public class Register3Activity extends AppCompatActivity {
     private int mMaxWeight = 250;
     private int mMinWeight = 25;
 
-    private String mPassword, mTelephone, mSex;
+    private String mPassword, mTelephone, mSex, mUserIcon, mQQToken, mWeChatToken, mSinaToken,
+            mAddress, mNickName;
     private ProgressDialog mProgressDialog;
 
     private String mAcount;
@@ -55,8 +56,31 @@ public class Register3Activity extends AppCompatActivity {
         Intent intent = getIntent();
         mPassword = intent.getStringExtra("password");
         mTelephone = intent.getStringExtra("telephone");
-        mSex = intent.getStringExtra("sex");
-
+        mSex = intent.getStringExtra("userGender");
+        if (mSex == null) {
+            mSex = intent.getStringExtra("sex");
+        }
+        mUserIcon = intent.getStringExtra("userIcon");
+        if (mUserIcon == null) {
+            mUserIcon = "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1564533037,3918553373&fm=116&gp=0.jpg";
+        }
+        mAddress = intent.getStringExtra("address");
+        if (mAddress == null) {
+            mAddress = "";
+        }
+        mNickName = intent.getStringExtra("userName");
+        mQQToken = intent.getStringExtra("qqtoken");
+        if (mQQToken == null) {
+            mQQToken = "";
+        }
+        mWeChatToken = intent.getStringExtra("wxtoken");
+        if (mWeChatToken == null) {
+            mWeChatToken = "";
+        }
+        mSinaToken = intent.getStringExtra("sinatoken");
+        if (mSinaToken == null) {
+            mSinaToken = "";
+        }
         initView();
         addListener();
         // 创建请求队列, 默认并发3个请求, 传入数字改变并发数量: NoHttp.newRequestQueue(1);
@@ -110,6 +134,12 @@ public class Register3Activity extends AppCompatActivity {
         request.add("sex", mSex);
         request.add("height", "" + mHeight);
         request.add("weight", "" + mWeight);
+        request.add("address", "" + mAddress);
+        request.add("nickname", "" + mNickName);
+        request.add("icon", mUserIcon);
+        request.add("qqtoken", mQQToken);
+        request.add("wechattoken", mWeChatToken);
+        request.add("sinatoken", mSinaToken);
         requestQueue.add(WHAT_TWO, request, onResponseListener);
         requestQueue.start();
     }
@@ -138,6 +168,9 @@ public class Register3Activity extends AppCompatActivity {
                 String countStr = result.substring(3, result.length());
                 int countNo = Integer.parseInt(countStr);
                 mAcount = "run" + (countNo + 1);
+                if (mNickName == null) {
+                    mNickName = mAcount;
+                }
                 //提交注册信息
                 submitUserInfo();
             } else if (what == WHAT_TWO) {

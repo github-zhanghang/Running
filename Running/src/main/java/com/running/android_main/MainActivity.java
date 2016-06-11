@@ -20,6 +20,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.bumptech.glide.Glide;
 import com.running.adapters.MyFragmentAdapter;
 import com.running.beans.UserInfo;
 import com.running.fragments.DongtaiFragment;
@@ -83,6 +84,47 @@ public class MainActivity extends AppCompatActivity
         initFragments();
         initViewPager();
         initListener();
+        initData();
+    }
+
+    private void initData() {
+        mUserNickNameText.setText(mUserInfo.getNickName());
+        Glide.with(MainActivity.this)
+                .load(mUserInfo.getImageUrl())
+                .centerCrop()
+                .error(R.drawable.fail)
+                .into(mUserImage);
+    }
+
+    private void initViews() {
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
+        mUserImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
+        mUserNickNameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_nickname);
+        mSettingTextView = (TextView) navigationView.findViewById(R.id.setting);
+        mCityTextView = (TextView) navigationView.findViewById(R.id.local_city);
+        mTempTextView = (TextView) navigationView.findViewById(R.id.local_temperature);
+    }
+
+    private void initFragments() {
+        mList = new ArrayList<>();
+        mFragmentManager = getSupportFragmentManager();
+        mPaobuFragment = new PaobuFragment();
+        mFaxianFragment = new FaxianFragment();
+        mDongtaiFragment = new DongtaiFragment();
+        mXiaoxiFragment = new XiaoxiFragment();
+        mList.add(mPaobuFragment);
+        mList.add(mFaxianFragment);
+        mList.add(mDongtaiFragment);
+        mList.add(mXiaoxiFragment);
+    }
+
+    private void initViewPager() {
+        mViewPager = (NoScrollViewPager) findViewById(R.id.main_viewpager);
+        mViewPager.setOffscreenPageLimit(4);
+        mAdapter = new MyFragmentAdapter(mFragmentManager, mList);
+        mViewPager.setAdapter(mAdapter);
     }
 
     private void startLocating() {
@@ -152,7 +194,7 @@ public class MainActivity extends AppCompatActivity
     };
 
     private void updateUserLocation(double latitude, double longitude) {
-        String url = "http://192.168.191.1:8080/Running/changeUserInfoServlet";
+        String url = MyApplication.HOST + "changeUserInfoServlet";
         Request<String> request = NoHttp.createStringRequest(url, RequestMethod.POST);
         request.add("type", "location");
         request.add("account", mUserInfo.getAccount());
@@ -169,43 +211,6 @@ public class MainActivity extends AppCompatActivity
         request.add("key", juheKey);
         mRequestQueue.add(2, request, onResponseListener);
         mRequestQueue.start();
-    }
-
-    private void initViews() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
-        mUserImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
-       /* Glide.with(MainActivity.this)
-                .load(mUserInfo.getImageUrl())
-                .centerCrop()
-                .placeholder(R.drawable.fail)
-                .into(mUserImage);*/
-        mUserNickNameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_nickname);
-        mUserNickNameText.setText(mUserInfo.getNickName());
-        mSettingTextView = (TextView) navigationView.findViewById(R.id.setting);
-        mCityTextView = (TextView) navigationView.findViewById(R.id.local_city);
-        mTempTextView = (TextView) navigationView.findViewById(R.id.local_temperature);
-    }
-
-    private void initFragments() {
-        mList = new ArrayList<>();
-        mFragmentManager = getSupportFragmentManager();
-        mPaobuFragment = new PaobuFragment();
-        mFaxianFragment = new FaxianFragment();
-        mDongtaiFragment = new DongtaiFragment();
-        mXiaoxiFragment = new XiaoxiFragment();
-        mList.add(mPaobuFragment);
-        mList.add(mFaxianFragment);
-        mList.add(mDongtaiFragment);
-        mList.add(mXiaoxiFragment);
-    }
-
-    private void initViewPager() {
-        mViewPager = (NoScrollViewPager) findViewById(R.id.main_viewpager);
-        mViewPager.setOffscreenPageLimit(4);
-        mAdapter = new MyFragmentAdapter(mFragmentManager, mList);
-        mViewPager.setAdapter(mAdapter);
     }
 
     private void initListener() {

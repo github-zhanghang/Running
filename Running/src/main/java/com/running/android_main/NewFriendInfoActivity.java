@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.running.beans.NearUserInfo;
 import com.running.beans.UserInfo;
+import com.running.myviews.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -19,10 +20,10 @@ import io.rong.message.ContactNotificationMessage;
 import okhttp3.Call;
 
 public class NewFriendInfoActivity extends AppCompatActivity {
+    private TopBar mTopBar;
     private ImageView mImageView;
     private TextView nameTextView,accountTextView,addressTextView;
-    public static final String ADD_FRIEND
-            = "http://192.168.191.1:8080/Running/RequestFriendServlet";
+    public static final String ADD_FRIEND = MyApplication.HOST + "RequestFriendServlet";
     public static final String TAG = "NewFriendInfoActivity";
     NearUserInfo mUserInfo;
     UserInfo userInfo;
@@ -37,14 +38,26 @@ public class NewFriendInfoActivity extends AppCompatActivity {
 
 
     private void initViews() {
+        mTopBar = (TopBar) findViewById(R.id.addFriend_topbar);
         mImageView = (ImageView) findViewById(R.id.near_information_headImg);
         nameTextView = (TextView) findViewById(R.id.near_information_name);
         accountTextView  = (TextView) findViewById(R.id.near_information_account);
         addressTextView = (TextView) findViewById(R.id.near_information_location);
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                NewFriendInfoActivity.this.finish();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+
+            }
+        });
     }
+
     private void initData() {
-      //  mUserInfo = (NearUserInfo)getIntent().getExtras().get("NearbyActivity");
-        userInfo = (UserInfo) getIntent().getExtras().get("NewFriendInfo");;
+        userInfo = (UserInfo) getIntent().getExtras().get("FriendInfo");;
         Log.e("test123", "NewFriendInfoActivity: "+userInfo.getNickName());
         Glide.with(NewFriendInfoActivity.this)
                 .load(userInfo.getImageUrl())
@@ -77,7 +90,7 @@ public class NewFriendInfoActivity extends AppCompatActivity {
                         if (response.equals(ContactNotificationMessage.CONTACT_OPERATION_REQUEST)){
                             Toast.makeText(NewFriendInfoActivity.this, "好友请求发送成功", Toast.LENGTH_SHORT).show();
                         }else if (response.equals("Requested")){
-                            Toast.makeText(NewFriendInfoActivity.this, "好友请求已经发送", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NewFriendInfoActivity.this, "好友请求已经发送过了", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

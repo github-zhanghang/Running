@@ -53,7 +53,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
     private List<CommentBean> mList;
     private DynamicCommentItemAdapter mAdapter;
     private DynamicImgBean mDynamicImgBean;
-    private String url = "http://192.168.56.2:8080/RunningAppTest/dynamicOperateServlet";
+    private String url = MyApplication.HOST + "dynamicOperateServlet";
     private CommentCallBack mCommentCallBack;
     private HashMap<String, Object> mMap = new HashMap<>();
     private int status = 2;
@@ -97,7 +97,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         mDynamicCommentTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
             public void onTopbarLeftImageClick(ImageView imageView) {
-                Toast.makeText(DynamicCommentActivity.this, "返回", Toast.LENGTH_SHORT).show();
+                DynamicCommentActivity.this.finish();
             }
 
             @Override

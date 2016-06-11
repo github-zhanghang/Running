@@ -25,6 +25,8 @@ import io.rong.imkit.RongIM;
  * Created by ZhangHang on 2016/5/21.
  */
 public class MyApplication extends Application {
+    //public static final String HOST = "http://192.168.56.1:8080/Running/";
+    public static final String HOST = "http://123.206.203.86:8080/Running/";
     //用户信息
     public UserInfo mUserInfo;
     //总距离

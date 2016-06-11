@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 
 import com.running.android_main.NewFriendListActivity;
-import com.running.message.AgreedFriendRequestMessage;
-import com.sea_monster.network.AbstractHttpRequest;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.UIConversation;
@@ -85,7 +83,7 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
      * RongIM.init(this) 后直接可注册的Listener。
      */
     private void initDefaultListener() {
-        RongIM.setUserInfoProvider(this, true);//设置用户信息提供者。
+        //RongIM.setUserInfoProvider(this, true);//设置用户信息提供者。
         RongIM.setConversationListBehaviorListener(this);//会话列表界面操作的监听器
     }
     /**
@@ -116,14 +114,21 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
             Log.e(TAG, "加好友消息接收监听-id:" + contactContentMessage.getSourceUserId());
             Log.e(TAG, "加好友消息接收监听-Message:" + contactContentMessage.getMessage().toString());
             //发送广播
-           /* Intent in = new Intent();
-            in.setAction(App.ACTION_RECEIVE_MESSAGE);
-            in.putExtra("rongCloud", contactContentMessage);
-            in.putExtra("has_message", true);
-            mContext.sendBroadcast(in);*/
+            Intent in = new Intent();
+            in.setAction("ACTION_RECEIVE_MESSAGE");
+            in.putExtra("flag","ContactNotificationMessage");
+            in.putExtra("ContactNotificationMessage", contactContentMessage);
+            mContext.sendBroadcast(in);
         } else if (messageContent instanceof InformationNotificationMessage){
             InformationNotificationMessage informationNotificationMessage = (InformationNotificationMessage) messageContent;
-            Log.e(TAG, "onReceived-informationNotificationMessage:" + informationNotificationMessage.getMessage());
+            Log.e(TAG, "小灰条消息接收监听:" + informationNotificationMessage.getMessage());
+
+            //发送广播
+            Intent in = new Intent();
+            in.setAction("ACTION_RECEIVE_MESSAGE");
+            in.putExtra("flag","InformationNotificationMessage");
+            in.putExtra("InformationNotificationMessage", informationNotificationMessage);
+            mContext.sendBroadcast(in);
         }
 
         return false;
@@ -135,15 +140,24 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
          * 1.从本地获取
          * 2.从server获取
          */
-        if (s == null){
-            return null;
-        }
+
         return null;
     }
 
     //会话列表的四个事件
     @Override
     public boolean onConversationPortraitClick(Context context, Conversation.ConversationType conversationType, String s) {
+       // Log.e(TAG, "--------会话列表头像点击事件------- 会话类型:"+conversationType.getName());
+        Log.e(TAG, "--------会话列表头像点击事件------- 会话类型:"+conversationType.toString() );
+        /* ContactNotificationMessage 的类型是 SYSTEM
+            InformationNotificationMessage 的类型是 PRIVATE
+         */
+        Log.e(TAG, "--------会话列表头像点击事件-------");
+        if (conversationType.toString().equals("SYSTEM")) {
+            //跳转到新的好友列表
+            context.startActivity(new Intent(context, NewFriendListActivity.class));
+            return true;
+        }
         return false;
     }
 
@@ -168,10 +182,10 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
     public boolean onConversationClick(Context context, View view, UIConversation uiConversation) {
         MessageContent messageContent = uiConversation.getMessageContent();
 
-        Log.e(TAG, "--------会话列表点击事件-------");
+        Log.e(TAG, "--------会话列表Item点击事件-------");
         if (messageContent instanceof ContactNotificationMessage) {
-            Log.e(TAG, "---会话列表点击事件--联系人(好友)通知消息-");
-            Toast.makeText(context, "Friend", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "---会话列表Item点击事件--联系人(好友)通知消息-");
+
             //跳转到新的好友列表
             context.startActivity(new Intent(context, NewFriendListActivity.class));
             return true;
