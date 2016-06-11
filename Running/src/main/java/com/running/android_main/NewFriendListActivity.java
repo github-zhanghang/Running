@@ -1,5 +1,6 @@
 package com.running.android_main;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -210,13 +211,20 @@ public class NewFriendListActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String mark, UserInfo userInfo) {
+        String message = null;
+        if (mark.equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)){
+            message = ((MyApplication) getApplication()).getUserInfo().getNickName()+"同意了你的请求";
+        }else {
+            message = ((MyApplication) getApplication()).getUserInfo().getNickName()+"拒绝了你的请求";
+        }
+
         OkHttpUtils
                 .post()
                 .url(NewFriendInfoActivity.ADD_FRIEND)
                 .addParams("flag", mark)
                 .addParams("sourceUserId", new Gson().toJson(((MyApplication) getApplication()).getUserInfo()))
                 .addParams("targetUserId", new Gson().toJson(userInfo))
-                .addParams("message", "")
+                .addParams("message", message)
                 .build()
                 .execute(new StringCallback() {
                     @Override

@@ -25,6 +25,7 @@ import com.running.android_main.MyApplication;
 import com.running.android_main.NewFriendListActivity;
 import com.running.android_main.R;
 import com.running.beans.Friend;
+import com.running.event.RongCloudEvent;
 import com.running.myviews.edittextwithdeel.EditTextWithDel;
 import com.running.myviews.sidebar.SideBar;
 import com.running.utils.pinyin.PinyinComparator;
@@ -42,6 +43,7 @@ import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.message.ContactNotificationMessage;
+import io.rong.message.InformationNotificationMessage;
 import okhttp3.Call;
 
 /**
@@ -65,10 +67,12 @@ public class XiaoxiRightFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.xiaoxi_right, null);
+        if (RongCloudEvent.getInstance() != null)
+            RongCloudEvent.getInstance().setOtherListener();
         initViews();
         getData();
-        receiver();
         setOnClickListener();
+        receiver();
 
         return mView;
     }
@@ -132,31 +136,41 @@ public class XiaoxiRightFragment extends Fragment {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                contactContentMessage =
-                        (ContactNotificationMessage) intent.getExtras().get("rongCloud");
-                Log.e("test123: ", "接收到的请求:" + contactContentMessage.getOperation());
-                String operation = contactContentMessage.getOperation();
-                if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_REQUEST)) {
+                String flag = (String) intent.getExtras().get("flag");
+                if (flag.equals("ContactNotificationMessage")){
+                    contactContentMessage =
+                            (ContactNotificationMessage) intent.getExtras().get("ContactNotificationMessage");
+                    Log.e("RongCloudEvent: ", "接收到好友消息的请求:" + contactContentMessage.getOperation());
+                    String operation = contactContentMessage.getOperation();
+                /*if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_REQUEST)) {
                     //小红点可见
                     header.findViewById(R.id.redPoint).setVisibility(View.VISIBLE);
                 } else if (operation.equals(ContactNotificationMessage.CONTACT_OPERATION_ACCEPT_RESPONSE)) {
                     //对方同意加为好友 更新好友列表
                     getData();
-                }
+                }*/
+                }else if (flag.equals("InformationNotificationMessage")){
+                    InformationNotificationMessage informationNotificationMessage
+                            = (InformationNotificationMessage) intent.getExtras().get("InformationNotificationMessage");
+                    if (informationNotificationMessage !=null){
+                        Log.e("RongCloudEvent: ", "接收到小灰条消息:" + informationNotificationMessage.getMessage());
+                        getData();
+                    }
 
+                }
             }
         };
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("ACTION_RECEIVE_MESSAGE");
         getActivity().registerReceiver(mReceiver, intentFilter);
-        Log.e("test123: ", "注册加好友接收广播成功");
+        Log.e("test123: ", "融云消息广播接收注册成功");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(mReceiver);
-        Log.e("test123: ", "注销加好友接收广播成功");
+        Log.e("test123: ", "融云消息广播接收注销");
     }
 
     private void setOnClickListener() {
