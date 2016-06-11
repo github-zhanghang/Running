@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,31 +30,38 @@ import java.util.List;
  * Created by C5-0 on 2016/5/28.
  */
 public class TrendViewPagerAdapter extends PagerAdapter {
-    List<TrendData> trendDatas;
-    List<LinearLayout> linearLayouts;
+    List<TrendData> trendDataList=new ArrayList<>();
+    List<LinearLayout> linearLayouts=new ArrayList<>();
     Context mContext;
     LayoutInflater mInflater;
 
-    public TrendViewPagerAdapter(Context mContext, List<TrendData> trendDatas) {
+    public TrendViewPagerAdapter(Context mContext,List<TrendData> list) {
         this.mContext = mContext;
-        this.trendDatas = trendDatas;
+        this.trendDataList=list;
         mInflater.from(mContext).inflate(R.layout.activity_trend,null);
+
+       /* for (int i = 0; i <5 ; i++) {
+            trendDataList.add(new TrendData());
+        }*/
+
+        for (int i = 0; i <trendDataList.size() ; i++) {
+            LinearLayout linearLayout=new LinearLayout(mContext);
+            linearLayout.addView(xychar(trendDataList.get(i).getValue()), new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            linearLayouts.add(linearLayout);
+        }
+
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 
-       linearLayouts=new ArrayList<>();
-       for (int i = 0; i <trendDatas.size(); i++) {
-            LinearLayout linearLayout=new LinearLayout(mContext);
-            //添加柱状图
-            linearLayout.addView(xychar(trendDatas.get(position).getValue()), new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            linearLayouts.add(linearLayout);
-        }
+       // Log.e("taozi linearlayout",linearLayouts.size()+"" );
 
-        LinearLayout linearLayout=linearLayouts.get(position);
-        container.addView(linearLayout);
-        return linearLayout;
+
+
+        container.addView(linearLayouts.get(position));
+        return linearLayouts.get(position);
+
     }
 
     @Override
@@ -64,7 +72,7 @@ public class TrendViewPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return trendDatas.size();
+        return trendDataList.size();
     }
 
     @Override
