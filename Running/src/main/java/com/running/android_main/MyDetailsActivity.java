@@ -424,12 +424,9 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                         province.setCitys(citys);
                         provinces.add(province);
                     }
-
                     break;
-
             }
             event = parser.next();
-
         }
         return provinces;
     }

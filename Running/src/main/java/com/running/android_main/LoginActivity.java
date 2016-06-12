@@ -84,7 +84,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mApplication = (MyApplication) getApplication();
         //设置信息提供者
         RongIM.setUserInfoProvider(LoginActivity.this, true);
-        ShareSDK.initSDK(mContext);
         initViews();
         //默认记住密码
         mRememberInfoCheckBox.setChecked(true);
@@ -136,6 +135,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //处理登录
                 mAccount = mNameEditText.getText().toString();
                 mPassword = mPasswordEditText.getText().toString();
+                if (mAccount.equals("") || mPassword.equals("")) {
+                    showToast("账号或密码不能为空");
+                    return;
+                }
                 if (mAccount.equals("run") && mPassword.equals("123")) {
                     //判断是否记住密码
                     if (mRememberInfoCheckBox.isChecked()) {
@@ -257,13 +260,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     intent.putExtra("address", address);
                     intent.putExtra("qqtoken", token);
                     startActivity(intent);
+                    LoginActivity.this.finish();
                 }
             }
         }
 
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-            mProgressDialog.dismiss();
+            if (mProgressDialog != null) {
+                mProgressDialog.dismiss();
+            }
             showToast("登录失败,请稍后重试");
         }
 
@@ -303,15 +309,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void thirdLogin(String platformName) {
+        ShareSDK.initSDK(LoginActivity.this);
         mPlatform = ShareSDK.getPlatform(mContext, platformName);
         //如果已经验证,取消验证信息，重新验证
         if (mPlatform.isValid()) {
-            mPlatform.removeAccount();
+            mPlatform.removeAccount(true);
         }
         mPlatform.setPlatformActionListener(new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                showToast("正在准备跳转，请稍后...");
+                Log.e("my", "hashMap=" + hashMap);
                 if (platform.getName().equals(QZone.NAME)) {
                     //获取性别
                     userGender = (String) hashMap.get("gender");
@@ -326,7 +333,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     //获取token
                     token = platDB.getToken();
                     Log.e("my", "token=" + token);
-                    Log.e("my", "hashMap=" + hashMap);
+
                     //判断数据库中是否有此Token
                     isExistThisToken(token);
                 }
@@ -334,13 +341,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onError(Platform platform, int i, Throwable throwable) {
-                showToast("出错");
+                Log.e("my", throwable.getMessage());
                 platform.removeAccount();
             }
 
             @Override
             public void onCancel(Platform platform, int i) {
-                showToast("已取消");
+                Log.e("my", "已取消");
             }
         });
         //获取用户资料

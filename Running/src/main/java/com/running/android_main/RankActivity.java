@@ -30,6 +30,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RankActivity extends AppCompatActivity {
+    private final String mPath = MyApplication.HOST + "rankServlet";
+    private final int WHAT_DAY = 1;
+    private final int WHAT_TOTAL = 2;
+    private final int WHAT_RANK = 3;
+
     public int START = 0;
     private MyApplication mApplication;
     private TopBar mTopBar;
@@ -40,10 +45,9 @@ public class RankActivity extends AppCompatActivity {
     private PullToRefreshListView mListView;
     private RankActivityAdapter mAdapter;
     private List<RankItemInfo> mList = new ArrayList<>();
-    private static final String mPath = MyApplication.HOST + "rankServlet";
-    private static final int WHAT_DAY = 1;
-    private static final int WHAT_TOTAL = 2;
     private RequestQueue mRequestQueue = NoHttp.newRequestQueue();
+
+    private int mDayRank, mTotalRank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +74,9 @@ public class RankActivity extends AppCompatActivity {
     }
 
     private void initMyData() {
+        //获取我的排行
+        getMyRank();
+        //加载头像
         Glide.with(RankActivity.this)
                 .load(mApplication.getUserInfo().getImageUrl())
                 .fitCenter()
@@ -78,8 +85,15 @@ public class RankActivity extends AppCompatActivity {
         mDistanceTextView.setText("距离:" + mApplication.getDistance() + "km");
     }
 
-    private void getMyRank(String type) {
-
+    /**
+     * 获取排行
+     */
+    private void getMyRank() {
+        Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
+        request.add("type", "myrank");
+        request.add("uid", mApplication.getUserInfo().getUid());
+        mRequestQueue.add(WHAT_RANK, request, onResponseListener);
+        mRequestQueue.start();
     }
 
     private OnResponseListener<String> onResponseListener = new OnResponseListener<String>() {
@@ -91,7 +105,7 @@ public class RankActivity extends AppCompatActivity {
         public void onSucceed(int what, Response<String> response) {
             String result = response.get();
             Log.e("my", "result=" + result);
-            if (result.equals("[]") || result == null) {
+            if (result == null) {
                 Toast.makeText(RankActivity.this, "没有更多数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -117,12 +131,21 @@ public class RankActivity extends AppCompatActivity {
                     mListView.setAdapter(mAdapter);
                     START += 10;
                 }
+            } else if (what == WHAT_RANK) {
+                String[] results = result.split(",");
+                mDayRank = Integer.parseInt(results[0]) + 1;
+                mTotalRank = Integer.parseInt(results[1]) + 1;
+                if (mRadioGroup.getCheckedRadioButtonId() == R.id.rank_day) {
+                    mRankTextView.setText("排行:第" + mDayRank + "名");
+                } else if (mRadioGroup.getCheckedRadioButtonId() == R.id.rank_total) {
+                    mRankTextView.setText("排行:第" + mTotalRank + "名");
+                }
             }
         }
 
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-            if (what == WHAT_DAY || what == WHAT_TOTAL) {
+            if (what == WHAT_DAY || what == WHAT_TOTAL || what == WHAT_RANK) {
                 Toast.makeText(RankActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
             }
         }
@@ -132,6 +155,9 @@ public class RankActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * 获取日排行榜
+     */
     private void loadDayData() {
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
         request.add("type", "day");
@@ -140,6 +166,9 @@ public class RankActivity extends AppCompatActivity {
         mRequestQueue.start();
     }
 
+    /**
+     * 获取总排行榜
+     */
     private void loadTotalData() {
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
         request.add("type", "total");
@@ -168,8 +197,10 @@ public class RankActivity extends AppCompatActivity {
                 mList = null;
                 mList = new ArrayList<RankItemInfo>();
                 if (checkedId == R.id.rank_day) {
+                    mRankTextView.setText("排行:第" + mDayRank + "名");
                     loadDayData();
                 } else {
+                    mRankTextView.setText("排行:第" + mTotalRank + "名");
                     loadTotalData();
                 }
                 mAdapter = new RankActivityAdapter(RankActivity.this, mList, mListView);
