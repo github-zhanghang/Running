@@ -8,11 +8,17 @@ import com.baidu.mapapi.SDKInitializer;
 import com.running.beans.UserInfo;
 import com.running.event.RongCloudEvent;
 import com.running.message.ContactNotificationMessageProvider;
+import com.running.utils.GlideImageLoader;
+import com.running.utils.GlidePauseOnScrollListener;
 import com.yolanda.nohttp.NoHttp;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.finalteam.galleryfinal.CoreConfig;
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.ThemeConfig;
 import io.rong.imkit.RongIM;
 
 /**
@@ -43,6 +49,8 @@ public class MyApplication extends Application {
         RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
         //NoHttp
         NoHttp.init(this);
+        //初始化GalleryFinal
+        initGalleryFinal();
     }
 
     public UserInfo getUserInfo() {
@@ -77,5 +85,22 @@ public class MyApplication extends Application {
                 activity.finish();
             }
         }
+    }
+
+    public void initGalleryFinal() {
+        ThemeConfig themeConfig = new ThemeConfig.Builder().build();
+        FunctionConfig functionConfig = new FunctionConfig.Builder()
+                .setEnableCamera(true)
+                .setEnableEdit(true)
+                .setEnableCrop(true)
+                .setEnableRotate(true)
+                .setCropSquare(true)
+                .setEnablePreview(true)
+                .build();
+        CoreConfig coreConfig = new CoreConfig.Builder(this,new GlideImageLoader(), themeConfig)
+                .setFunctionConfig(functionConfig)
+                .setPauseOnScrollListener(new GlidePauseOnScrollListener(false,true))
+                .build();
+        GalleryFinal.init(coreConfig);
     }
 }

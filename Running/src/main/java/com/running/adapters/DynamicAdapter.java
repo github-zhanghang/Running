@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.running.android_main.DynamicCommentActivity;
 import com.running.android_main.DynamicOneselfActivity;
 import com.running.android_main.MainActivity;
@@ -18,6 +19,8 @@ import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.DynamicLinkBean;
 import com.running.myviews.MyGridView;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,6 +30,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 /**
  * Created by ldd on 2016/5/29.
@@ -63,11 +67,13 @@ public class DynamicAdapter extends BaseAdapter {
 
     MyApplication mMyApplication;
 
+    String url = MyApplication.HOST+"dynamicOperateServlet";
+
     public DynamicAdapter(Context context, List<HashMap<String, Object>> list) {
         mContext = context;
         mList = list;
         mInflater = LayoutInflater.from(mContext);
-        mMyApplication = (MyApplication) ((MainActivity)mContext).getApplication();
+        mMyApplication = (MyApplication) ((MainActivity) mContext).getApplication();
     }
 
     @Override
@@ -174,7 +180,8 @@ public class DynamicAdapter extends BaseAdapter {
     }
 
     //显示普通动态
-    private void showDynamicImg(ImgViewHolder imgViewHolder, final DynamicImgBean dynamicImgBean) {
+    private void showDynamicImg(final ImgViewHolder imgViewHolder, final DynamicImgBean
+            dynamicImgBean) {
         Glide.with(mContext).
                 load(dynamicImgBean.getHeadPhoto()).
                 placeholder(R.mipmap.ic_launcher).
@@ -184,7 +191,7 @@ public class DynamicAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DynamicOneselfActivity.class);
-                intent.putExtra("dId",dynamicImgBean.getdId());
+                intent.putExtra("dId", dynamicImgBean.getdId());
                 mContext.startActivity(intent);
             }
         });
@@ -196,6 +203,22 @@ public class DynamicAdapter extends BaseAdapter {
                 imgViewHolder.mDynamicImgItemGridView);
         imgViewHolder.mDynamicImgItemGridView.setAdapter(mAdapter);
 
+        if (dynamicImgBean.getPraiseStatus() == 0) {
+            imgViewHolder.mDynamicImgItemPraiseImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dynamicImgBean.setPraiseStatus(1);
+                    dynamicImgBean.setPraiseCount(dynamicImgBean.getPraiseCount() + 1);
+                    imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(dynamicImgBean
+                            .getPraiseCount()));
+                    imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.praise_red);
+                    addPraise(dynamicImgBean.getdId());
+                }
+            });
+        } else if (dynamicImgBean.getPraiseStatus() == 1) {
+            imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.praise_red);
+        }
+
         imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(dynamicImgBean
                 .getPraiseCount()));
         //跳转到评论界面
@@ -203,8 +226,8 @@ public class DynamicAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DynamicCommentActivity.class);
-                intent.putExtra("myId",mMyApplication.getUserInfo().getUid());
-                intent.putExtra("dynamicBean",dynamicImgBean);
+                intent.putExtra("myId", mMyApplication.getUserInfo().getUid());
+                intent.putExtra("dynamicBean", dynamicImgBean);
                 mContext.startActivity(intent);
             }
         });
@@ -212,14 +235,40 @@ public class DynamicAdapter extends BaseAdapter {
                 .getCommentCount()));
     }
 
+    private void addPraise(int i) {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("pDId", i);
+        //用户id
+        //map.put("pUId",mMyApplication.getUserInfo().getUid());
+        map.put("pUId", 1);
+        Gson gson = new Gson();
+        String praiseMap = gson.toJson(map);
+        OkHttpUtils.post()
+                .url(url)
+                .addParams("appRequest", "AddPraise")
+                .addParams("praiseMap", praiseMap)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                });
+    }
+
 
     private String timeChange(String time) {
-        String s="";
-        SimpleDateFormat formatTime=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String s = "";
+        SimpleDateFormat formatTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date date = formatTime.parse(time);
-            SimpleDateFormat formatString=new SimpleDateFormat("MM-dd HH:mm");
-            s=formatString.format(date);
+            SimpleDateFormat formatString = new SimpleDateFormat("MM-dd HH:mm");
+            s = formatString.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
