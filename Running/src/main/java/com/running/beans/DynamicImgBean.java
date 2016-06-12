@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class DynamicImgBean implements Serializable {
     private int dId;
+    private int dUId;
     private String name;
     private String headPhoto;
     private List<String> imgList;
@@ -17,9 +18,20 @@ public class DynamicImgBean implements Serializable {
     private String location;
     private int praiseCount;
     private int commentCount;
+    private int praiseStatus;
+
+    public DynamicImgBean(int dUId, List<String> imgList, String content, String time, String
+            location) {
+        this.dUId = dUId;
+        this.imgList = imgList;
+        this.content = content;
+        this.time = time;
+        this.location = location;
+    }
 
     public DynamicImgBean(int dId, String name, String headPhoto, List<String> imgList, String
-            content, String time, String location, int praiseCount, int commentCount) {
+            content, String time, String location, int praiseCount, int commentCount, int
+            praiseStatus) {
         this.dId = dId;
         this.name = name;
         this.headPhoto = headPhoto;
@@ -29,6 +41,7 @@ public class DynamicImgBean implements Serializable {
         this.location = location;
         this.praiseCount = praiseCount;
         this.commentCount = commentCount;
+        this.praiseStatus = praiseStatus;
     }
 
     public int getdId() {
@@ -37,6 +50,14 @@ public class DynamicImgBean implements Serializable {
 
     public void setdId(int dId) {
         this.dId = dId;
+    }
+
+    public int getdUId() {
+        return dUId;
+    }
+
+    public void setdUId(int dUId) {
+        this.dUId = dUId;
     }
 
     public String getName() {
@@ -101,5 +122,13 @@ public class DynamicImgBean implements Serializable {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public int getPraiseStatus() {
+        return praiseStatus;
+    }
+
+    public void setPraiseStatus(int praiseStatus) {
+        this.praiseStatus = praiseStatus;
     }
 }

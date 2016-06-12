@@ -63,37 +63,75 @@
             android:verticalSpacing="3dp">
         </com.running.myviews.MyGridView>
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:paddingRight="15dp">
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp">
 
-            <ImageView
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/p_c_background"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
+                android:layout_gravity="end"
+                android:paddingRight="15dp">
 
                 <ImageView
-                    android:id="@+id/comment_imgHeader_praiseImg"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/praise"/>
-
-                <TextView
-                    android:id="@+id/comment_imgHeader_praiseCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="4"
-                    android:textSize="25sp"/>
-            </LinearLayout>
-        </FrameLayout>
+                    android:src="@drawable/p_c_background"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:id="@+id/comment_imgHeader_praiseImg"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/praise"/>
+
+                    <TextView
+                        android:id="@+id/comment_imgHeader_praiseCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="4"
+                        android:textSize="25sp"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <!--背景图-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/p_c_background"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+                    <!--评论图标-->
+                    <ImageView
+                        android:id="@+id/comment_imgHeader_commentImg"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/comment"/>
+                    <!--评论数-->
+                    <TextView
+                        android:id="@+id/comment_imgHeader_commentCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="4"
+                        android:textSize="25sp"/>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
 
 
