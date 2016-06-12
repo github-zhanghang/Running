@@ -65,7 +65,9 @@
 
     <declare-styleable name="MyInfoItemView">
         <attr name="labelText" format="string|reference"/>
+        <attr name="labelTextsize" format="dimension|reference"/>
         <attr name="dataText" format="string|reference"/>
+        <attr name="dataTextsize" format="dimension|reference"/>
     </declare-styleable>
 
     <declare-styleable name="TopBar">
