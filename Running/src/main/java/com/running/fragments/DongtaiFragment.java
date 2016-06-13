@@ -96,15 +96,14 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
         }
     };
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.dongtai, container, false);
         initViews();
-        initData();
         setListeners();
+        initData();
         //下拉加载
         addLoadListener();
         return mView;
