@@ -110,7 +110,7 @@
                 android:text="总里程"/>
 
             <TextView
-                android:id="@+id/near_information_sumDistance"
+                android:id="@+id/new_information_sumDistance"
                 style="@style/information_textView"
                 android:layout_weight="3"
                 android:text="91.2km"/>
@@ -128,7 +128,7 @@
                 android:text="总时间"/>
 
             <TextView
-                android:id="@+id/near_information_sumTime"
+                android:id="@+id/new_information_sumTime"
                 style="@style/information_textView"
                 android:layout_weight="3"
                 android:text="23:25:12"/>

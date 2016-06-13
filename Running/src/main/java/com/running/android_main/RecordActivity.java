@@ -1,6 +1,5 @@
 package com.running.android_main;
 
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

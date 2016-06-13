@@ -283,7 +283,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void handleLogin(final String username, final String password) {
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
-        Log.e("my", "----------" + username.substring(0, 3));
         if (username.length() == 9) {
             //账号登录
             if (username.substring(0, 3).equals("run")) {
