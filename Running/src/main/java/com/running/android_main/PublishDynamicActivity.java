@@ -327,10 +327,4 @@ public class PublishDynamicActivity extends AppCompatActivity {
         mLocationClient.start();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        /*mLocationClient.unRegisterLocationListener(mBDLocationListener);
-        mLocationClient = null;*/
-    }
 }
