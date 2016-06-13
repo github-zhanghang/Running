@@ -150,7 +150,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         editor.apply();
                     }
                     UserInfo userinfo = new UserInfo("0", 3333, mAccount, "15106200759", mAccount,
-                            "\"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1564533037,3918553373&fm=116&gp=0.jpg\"",
+                            "https://ss2.bdstatic" +
+                                    ".com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1564533037," +
+                                    "3918553373&fm=116&gp=0.jpg",
                             "个性签名---------------------", "1994-01-30", 20, "男", 170, 66,
                             "湖北 孝感 大悟",
                             0.0, 0.0, "zzzzzzzzzzzzz");
@@ -186,7 +188,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 Log.e("my", "验证成功");
                                 HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
                                 String phone = (String) phoneMap.get("phone");
-                                Intent inten = new Intent(LoginActivity.this, ForgetPasswordActivity.class);
+                                Intent inten = new Intent(LoginActivity.this,
+                                        ForgetPasswordActivity.class);
                                 inten.putExtra("phone", phone);
                                 startActivity(inten);
                                 LoginActivity.this.finish();
@@ -262,7 +265,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         @Override
-        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+        public void onFailed(int what, String url, Object tag, Exception exception, int
+                responseCode, long networkMillis) {
             mProgressDialog.dismiss();
             showToast("登录失败,请稍后重试");
         }

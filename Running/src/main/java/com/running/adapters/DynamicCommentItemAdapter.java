@@ -14,6 +14,7 @@ import com.running.android_main.DynamicCommentActivity;
 import com.running.android_main.R;
 import com.running.beans.CommentBean;
 import com.running.beans.SecondCommentBean;
+import com.running.utils.GlideCircleTransform;
 
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +65,7 @@ public class DynamicCommentItemAdapter extends BaseAdapter {
         Glide.with(mContext)
                 .load(commentBean.getfUImg())
                 .placeholder(R.drawable.head_photo)
+                .transform(new GlideCircleTransform(mContext))
                 .into(viewHolder.img);
         viewHolder.firstCommentName.setText(commentBean.getfName());
         viewHolder.firstCommentTime.setText(commentBean.getfTime());

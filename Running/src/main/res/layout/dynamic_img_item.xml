@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal">
     <!--头像-->
     <ImageView
@@ -55,7 +56,7 @@
             android:text="四月，你好"
             android:textSize="20sp"/>
         <!--图片-->
-        <com.running.myviews.MyGridView
+        <!--<com.running.myviews.MyGridView
             android:id="@+id/dynamic_img_item_gridView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,7 +64,15 @@
             android:numColumns="auto_fit"
             android:paddingRight="15dp"
             android:verticalSpacing="3dp">
-        </com.running.myviews.MyGridView>
+        </com.running.myviews.MyGridView>-->
+        <com.lzy.ninegrid.NineGridView
+            android:id="@+id/dynamic_img_item_gridView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ngv_mode="grid"
+            app:ngv_singleImageRatio="1"
+            app:ngv_singleImageSize="250dp">
+        </com.lzy.ninegrid.NineGridView>
 
         <LinearLayout
             android:layout_width="wrap_content"
