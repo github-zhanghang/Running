@@ -75,12 +75,12 @@ public class FriendAddActivity extends AppCompatActivity {
 
     /**
      * 搜索附近的点击事件
-     *
      * @param view
      */
     public void searchNearby(View view) {
         Toast.makeText(this, "搜附近", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(FriendAddActivity.this, NearbyActivity.class));
+
     }
 
     private void request(String account) {

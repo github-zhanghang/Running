@@ -8,10 +8,10 @@
     android:orientation="vertical"
     tools:context="com.running.android_main.ConFriendActivity">
     <com.running.myviews.TopBar
-        android:id="@+id/xiaoxi_topbar"
+        android:id="@+id/confriend_TopBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:leftImage="@mipmap/ic_launcher"
+        app:leftImage="@drawable/back"
         app:leftText="查找结果"/>
     <ListView
         android:id="@+id/confriend_lv"

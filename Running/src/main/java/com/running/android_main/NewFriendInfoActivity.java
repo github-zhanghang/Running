@@ -65,6 +65,7 @@ public class NewFriendInfoActivity extends AppCompatActivity {
         nameTextView.setText(userInfo.getNickName());
         accountTextView.setText(userInfo.getAccount());
         addressTextView.setText(userInfo.getAddress());
+
     }
 
     public void onClickAddNewFriend(View view) {
@@ -94,5 +95,6 @@ public class NewFriendInfoActivity extends AppCompatActivity {
                         }
                     }
                 });
+
     }
 }
