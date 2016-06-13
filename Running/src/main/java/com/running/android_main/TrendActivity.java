@@ -6,11 +6,15 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.running.adapters.TrendViewPagerAdapter;
+import com.running.beans.History;
 import com.running.beans.TrendData;
+import com.running.myviews.TopBar;
 import com.running.utils.TimeUtil;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
@@ -27,30 +31,40 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class TrendActivity extends AppCompatActivity {
     private final String mPath = MyApplication.HOST + "trendServlet";
     private MyApplication myApplication;
+    private TopBar mTopBar;
     private ViewPager mViewPager;
     private TrendViewPagerAdapter mViewPagerAdapter;
     private int uid;
-    private List<TrendData> mTrendDataList = new ArrayList<>();
     private TextView mondayTextView, sundayTextView, walkTextView, distanceTextView, timeTextView, carlorieTextView;
 
     private RequestQueue mRequestQueue = NoHttp.newRequestQueue(1);
+    //周数
     private int mPage;
+    //第几周
+    private int mPosition;
     //一周的数据
-    private List<Double> datas = new ArrayList<>();
-    private List<GraphicalView> mList = new ArrayList<>();
+    private double[] datas = new double[7];
+    private List<GraphicalView> mList = null;
     //一周的开始时间
     private long startTime = TimeUtil.getWeekBegin(0);
     //七天的毫秒
     private long sevenDays = 7 * 24 * 60 * 60 * 1000;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+    DecimalFormat df = new DecimalFormat("######0.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +79,10 @@ public class TrendActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mTopBar = (TopBar) findViewById(R.id.trend_topbar);
         mViewPager = (ViewPager) findViewById(R.id.vp_trend);
         mondayTextView = (TextView) findViewById(R.id.monday_trend);
         sundayTextView = (TextView) findViewById(R.id.sunday_trend);
-        sundayTextView.setText(sdf.format(startTime));
-        mondayTextView.setText(sdf.format(startTime + sevenDays));
         walkTextView = (TextView) findViewById(R.id.walk_trend);
         distanceTextView = (TextView) findViewById(R.id.distance_trend);
         timeTextView = (TextView) findViewById(R.id.time_trend);
@@ -85,8 +98,9 @@ public class TrendActivity extends AppCompatActivity {
     }
 
     private void initAdapter() {
+        mList = new ArrayList<>();
         for (int i = 0; i < mPage; i++) {
-            mList.add(xychar(listToDouble(datas)));
+            mList.add(xychar(datas));
         }
         mViewPagerAdapter = new TrendViewPagerAdapter(TrendActivity.this, mList);
         mViewPager.setAdapter(mViewPagerAdapter);
@@ -104,14 +118,60 @@ public class TrendActivity extends AppCompatActivity {
             Log.e("my", "trend.result=" + result);
             if (what == 1) {
                 mPage = Integer.parseInt(result);
-                datas.add(1.0);
-                datas.add(2.0);
-                datas.add(3.0);
-                datas.add(4.0);
-                datas.add(5.0);
-                datas.add(6.0);
-                datas.add(7.0);
+                datas = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
                 initAdapter();
+                //加载本周数据
+                getWeekData(startTime);
+            } else if (what == 2) {
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    TrendData trendData = new TrendData();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        History history = new Gson().fromJson(jsonObject.toString(), History.class);
+
+                        trendData.setWalkStep(trendData.getWalkStep() + history.getStepcount());
+                        trendData.setDistance(trendData.getDistance() + history.getRundistance());
+                        trendData.setTime(trendData.getTime() + history.getRuntime());
+                        trendData.setCalorie(trendData.getCalorie() + history.getCalories());
+
+                        //把每天的跑步距离存储到相应的日期中
+                        if (getWeekDay(new Date(history.getRunstarttime())) == 1) {
+                            trendData.getValue()[0] += history.getRundistance();
+                        }
+                        if (getWeekDay(new Date(history.getRunstarttime())) == 2) {
+                            trendData.getValue()[1] += history.getRundistance();
+                        }
+                        if (getWeekDay(new Date(history.getRunstarttime())) == 3) {
+                            trendData.getValue()[2] += history.getRundistance();
+                        }
+                        if (getWeekDay(new Date(history.getRunstarttime())) == 4) {
+                            trendData.getValue()[3] += history.getRundistance();
+                        }
+                        if (getWeekDay(new Date(history.getRunstarttime())) == 5) {
+                            trendData.getValue()[4] += history.getRundistance();
+                        }
+                        if (getWeekDay(new Date(history.getRunstarttime())) == 6) {
+                            trendData.getValue()[5] += history.getRundistance();
+                        }
+                        if (getWeekDay(new Date(history.getRunstarttime())) == 7) {
+                            trendData.getValue()[6] += history.getRundistance();
+                        }
+                    }
+                    for (int i = 0; i < datas.length; i++) {
+                        Log.e("my", "datas[" + i + "]=" + datas[i]);
+                    }
+                    datas = trendData.getValue();
+                    mList.set(mPosition, xychar(datas));
+                    mViewPagerAdapter.notifyDataSetChanged();
+
+                    walkTextView.setText((trendData.getWalkStep()) / 7 + "");
+                    distanceTextView.setText(df.format(trendData.getDistance()) + "");
+                    timeTextView.setText(trendData.getTime() / (1000 * 60 * 7) + "");
+                    carlorieTextView.setText(trendData.getCalorie() + "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -125,6 +185,15 @@ public class TrendActivity extends AppCompatActivity {
         }
     };
 
+    private void getWeekData(long startTime) {
+        Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
+        request.add("type", "weekdata");
+        request.add("uid", myApplication.getUserInfo().getUid());
+        request.add("start", startTime);
+        mRequestQueue.add(2, request, mOnResponseListener);
+        mRequestQueue.start();
+    }
+
     private void addListener() {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -133,23 +202,34 @@ public class TrendActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.e("my", "position=" + position);
-                sundayTextView.setText(sdf.format(startTime - (mPage - position - 1) * sevenDays));
+                mPosition = position;
                 mondayTextView.setText(sdf.format(startTime - (mPage - position) * sevenDays));
+                sundayTextView.setText(sdf.format(startTime - (mPage - position - 1) * sevenDays));
+                getWeekData(startTime - (mPage - position) * sevenDays);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
+        mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
+            @Override
+            public void onTopbarLeftImageClick(ImageView imageView) {
+                TrendActivity.this.finish();
+            }
+
+            @Override
+            public void onTopbarRightImageClick(ImageView imageView) {
+            }
+        });
     }
 
-    public static double[] listToDouble(List<Double> list) {
-        double[] doubleData = new double[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            doubleData[i] = list.get(i);
-        }
-        return doubleData;
+    //判断某天为周几
+    public int getWeekDay(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int week = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        return week;
     }
 
     //柱状图

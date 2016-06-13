@@ -47,4 +47,8 @@ public class TrendViewPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
 }
