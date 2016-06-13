@@ -16,6 +16,7 @@
         "source": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_item_list_selector.xml"
     },
     {
+<<<<<<< Updated upstream
         "merged": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_btn_input.xml",
         "source": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_input.xml"
     },
@@ -26,6 +27,18 @@
     {
         "merged": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_an_voice_sent.xml",
         "source": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_an_voice_sent.xml"
+=======
+        "merged": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_item_list_selector.xml",
+        "source": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_item_list_selector.xml"
+    },
+    {
+        "merged": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_photo_checkbox.xml",
+        "source": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_photo_checkbox.xml"
+    },
+    {
+        "merged": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_admin_selector.xml",
+        "source": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_admin_selector.xml"
+>>>>>>> Stashed changes
     },
     {
         "merged": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_an_voice_receive.xml",

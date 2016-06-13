@@ -4,6 +4,7 @@
         "source": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u270b.png"
     },
     {
+<<<<<<< Updated upstream
         "merged": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_bubble_no_left.9.png",
         "source": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_bubble_no_left.9.png"
     },
@@ -14,6 +15,18 @@
     {
         "merged": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f46a.png",
         "source": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f46a.png"
+=======
+        "merged": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_volume_2.png",
+        "source": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_volume_2.png"
+    },
+    {
+        "merged": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_extend_normal.png",
+        "source": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_extend_normal.png"
+    },
+    {
+        "merged": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_star_hover.png",
+        "source": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_star_hover.png"
+>>>>>>> Stashed changes
     },
     {
         "merged": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f3c2.png",
@@ -40,16 +53,26 @@
         "source": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_def_rich_content.png"
     },
     {
+<<<<<<< Updated upstream
         "merged": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4de.png",
         "source": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4de.png"
+=======
+        "merged": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4a9.png",
+        "source": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4a9.png"
+>>>>>>> Stashed changes
     },
     {
         "merged": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f601.png",
         "source": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f601.png"
     },
     {
+<<<<<<< Updated upstream
         "merged": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f632.png",
         "source": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f632.png"
+=======
+        "merged": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f621.png",
+        "source": "D:\\ztworkspace\\wl3\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f621.png"
+>>>>>>> Stashed changes
     },
     {
         "merged": "D:\\Android_Workspeace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_receive_voice_two.png",

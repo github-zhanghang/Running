@@ -11,7 +11,7 @@
         android:id="@+id/confriend_TopBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:leftImage="@drawable/back"
+        app:leftImage="@drawable/ic_back"
         app:leftText="查找结果"/>
     <ListView
         android:id="@+id/confriend_lv"
