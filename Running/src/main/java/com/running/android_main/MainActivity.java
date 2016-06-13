@@ -84,6 +84,11 @@ public class MainActivity extends AppCompatActivity
         initFragments();
         initViewPager();
         initListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initData();
     }
 
