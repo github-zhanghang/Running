@@ -30,6 +30,7 @@ import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.DynamicLinkBean;
 import com.running.myviews.TopBar;
+import com.running.utils.GlideCircleTransform;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -60,7 +61,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
     boolean IS_LOADING = false;
     private DynamicAdapter mDynamicAdapter;
 
-    String url =  MyApplication.HOST + "dynamicOperateServlet";
+    String url = MyApplication.HOST + "dynamicOperateServlet";
 
     private DynamicCallBack dynamicCallBack = new DynamicCallBack();
     private Handler mHandler = new Handler() {
@@ -76,7 +77,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     }
                     //mLinearLayout.setVisibility(View.GONE);
                     mDynamicAdapter.notifyDataSetChanged();
-                    Log.d("TAG",""+mList.size());
+                    Log.d("TAG", "" + mList.size());
 
                     break;
                 case 2:
@@ -138,11 +139,12 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 load(R.drawable.dynamic_test).
                 thumbnail(0.1f).
                 into(imageView);
-        ImageView uImg = (ImageView) mHeaderView.findViewById(R.id.dynamic_header_head_img);
-        Glide.with(this).
-                load(((MyApplication) getActivity().getApplication()).getUserInfo().getImageUrl()).
-                thumbnail(0.1f).
-                into(uImg);
+        ImageView uImg = (ImageView) mHeaderView.findViewById(R.id
+                .dynamic_header_head_img);
+        Glide.with(this)
+                .load(((MyApplication) getActivity().getApplication()).getUserInfo().getImageUrl())
+                .transform(new GlideCircleTransform(getActivity()))
+                .into(uImg);
         mListView.addHeaderView(mHeaderView);
 
         //添加FootView
@@ -215,7 +217,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
             public void run() {
                 mSwipeRefreshLayout.setRefreshing(false);
                 //刷新相关逻辑操作
-                if (mList.size()==0) {
+                if (mList.size() == 0) {
                     return;
                 }
                 DynamicImgBean bean = (DynamicImgBean) mList.get(0).get("DynamicBean");

@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -72,7 +71,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
     @Bind(R.id.dynamic_publish_location)
     TextView mDynamicPublishLocation;
     @Bind(R.id.dynamic_publish_location_button)
-    ImageButton mDynamicPublishLocationButton;
+    ImageView mDynamicPublishLocationImg;
     @Bind(R.id.dynamic_publish_publish_button)
     Button mDynamicPublishPublishButton;
 
@@ -141,7 +140,8 @@ public class PublishDynamicActivity extends AppCompatActivity {
                     if (resultList != null) {
                         mList.clear();
                         mList.addAll(resultList);
-                        mList.add(R.mipmap.ic_launcher);
+                        Log.d("TAG","resultList:"+resultList.size());
+                        mList.add(R.drawable.addimg);
                         mAdapter.notifyDataSetChanged();
                     }
                 }
@@ -209,7 +209,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
             }
         });
 
-        mDynamicPublishLocationButton.setOnClickListener(new View.OnClickListener() {
+        mDynamicPublishLocationImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 locating();
@@ -221,7 +221,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
     private void addImg() {
         mList = new ArrayList<>();
         selectPhotos = new ArrayList<>();
-        mList.add(R.mipmap.ic_launcher);
+        mList.add(R.drawable.addimg);
     }
 
     //显示PopupWindow
@@ -330,7 +330,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mLocationClient.unRegisterLocationListener(mBDLocationListener);
-        mLocationClient = null;
+        /*mLocationClient.unRegisterLocationListener(mBDLocationListener);
+        mLocationClient = null;*/
     }
 }

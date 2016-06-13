@@ -22,11 +22,13 @@ import okhttp3.Call;
 public class NewFriendInfoActivity extends AppCompatActivity {
     private TopBar mTopBar;
     private ImageView mImageView;
-    private TextView nameTextView,accountTextView,addressTextView;
+    private TextView nameTextView,accountTextView,addressTextView,sumDistanceTextView,sumTimeTextView;
     public static final String ADD_FRIEND = MyApplication.HOST + "RequestFriendServlet";
     public static final String TAG = "NewFriendInfoActivity";
     NearUserInfo mUserInfo;
     UserInfo userInfo;
+    private Object mDistanceAndTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,8 @@ public class NewFriendInfoActivity extends AppCompatActivity {
         nameTextView = (TextView) findViewById(R.id.near_information_name);
         accountTextView  = (TextView) findViewById(R.id.near_information_account);
         addressTextView = (TextView) findViewById(R.id.near_information_location);
+        sumDistanceTextView = (TextView) findViewById(R.id.new_information_sumDistance);
+        sumTimeTextView = (TextView) findViewById(R.id.new_information_sumTime);
         mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
             public void onTopbarLeftImageClick(ImageView imageView) {
@@ -57,14 +61,45 @@ public class NewFriendInfoActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        userInfo = (UserInfo) getIntent().getExtras().get("FriendInfo");;
-        Log.e("test123", "NewFriendInfoActivity: "+userInfo.getNickName());
+        userInfo = (UserInfo) getIntent().getExtras().get("FriendInfo");
+        Log.e("test123", "NewFriendInfoActivity: " + userInfo.getNickName());
         Glide.with(NewFriendInfoActivity.this)
                 .load(userInfo.getImageUrl())
                 .into(mImageView);
         nameTextView.setText(userInfo.getNickName());
         accountTextView.setText(userInfo.getAccount());
         addressTextView.setText(userInfo.getAddress());
+        //获取运动总时间和总路程
+        setDistanceAndTime();
+    }
+
+    private void setDistanceAndTime() {
+        OkHttpUtils.post()
+                .url(MyApplication.HOST + "totalRecordServlet")
+                .addParams("type", "totaldata")
+                .addParams("uid",((MyApplication) getApplication()).getUserInfo().getUid()+"")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        String[] result = response.split(",");
+                        String distance = result[0];
+
+                        Long sumTime = Long.valueOf(result[1]);
+                        Long h = sumTime / (60 * 60 * 1000);
+                        Long m = (sumTime % (60 * 60 * 1000)) / (60 * 1000);
+                        Long s = ((sumTime % (60 * 60 * 1000)) % (60 * 1000)) / 1000;
+                        String time = h + "h" + m + "m" + s + "s";
+                        sumDistanceTextView.setText(distance+"km");
+                        sumTimeTextView.setText(time);
+                    }
+                });
+
     }
 
     public void onClickAddNewFriend(View view) {
@@ -94,5 +129,8 @@ public class NewFriendInfoActivity extends AppCompatActivity {
                         }
                     }
                 });
+
     }
+
+
 }
