@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.lzy.ninegrid.ImageInfo;
+import com.lzy.ninegrid.NineGridView;
+import com.lzy.ninegrid.preview.ClickNineGridViewAdapter;
 import com.running.android_main.DynamicCommentActivity;
 import com.running.android_main.DynamicOneselfActivity;
 import com.running.android_main.MainActivity;
@@ -18,12 +21,13 @@ import com.running.android_main.MyApplication;
 import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.DynamicLinkBean;
-import com.running.myviews.MyGridView;
+import com.running.utils.GlideCircleTransform;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -41,29 +45,7 @@ public class DynamicAdapter extends BaseAdapter {
     List<HashMap<String, Object>> mList;
     LayoutInflater mInflater;
     //img GridView适配器
-    DynamicImgGridViewAdapter mAdapter;
-    @Bind(R.id.dynamic_img_item_head_img)
-    ImageView mDynamicImgItemHeadImg;
-    @Bind(R.id.dynamic_img_item_name)
-    TextView mDynamicImgItemName;
-    @Bind(R.id.dynamic_img_item_time)
-    TextView mDynamicImgItemTime;
-    @Bind(R.id.dynamic_img_item_content)
-    TextView mDynamicImgItemContent;
-    @Bind(R.id.dynamic_img_item_gridView)
-    MyGridView mDynamicImgItemGridView;
-    @Bind(R.id.dynamic_img_item_p_background)
-    ImageView mDynamicImgItemPBackground;
-    @Bind(R.id.dynamic_img_item_praise_img)
-    ImageView mDynamicImgItemPraiseImg;
-    @Bind(R.id.dynamic_img_item_praise_count)
-    TextView mDynamicImgItemPraiseCount;
-    @Bind(R.id.dynamic_img_item_c_background)
-    ImageView mDynamicImgItemCBackground;
-    @Bind(R.id.dynamic_img_item_comment_img)
-    ImageView mDynamicImgItemCommentImg;
-    @Bind(R.id.dynamic_img_item_comment_count)
-    TextView mDynamicImgItemCommentCount;
+    ClickNineGridViewAdapter mAdapter;
 
     MyApplication mMyApplication;
 
@@ -182,10 +164,11 @@ public class DynamicAdapter extends BaseAdapter {
     //显示普通动态
     private void showDynamicImg(final ImgViewHolder imgViewHolder, final DynamicImgBean
             dynamicImgBean) {
-        Glide.with(mContext).
-                load(dynamicImgBean.getHeadPhoto()).
-                placeholder(R.mipmap.ic_launcher).
-                into(imgViewHolder.mDynamicImgItemHeadImg);
+        Glide.with(mContext)
+                .load(dynamicImgBean.getHeadPhoto())
+                .centerCrop()
+                .transform(new GlideCircleTransform(mContext))
+                .into(imgViewHolder.mDynamicImgItemHeadImg);
         //头像设置点击事件
         imgViewHolder.mDynamicImgItemHeadImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,8 +182,14 @@ public class DynamicAdapter extends BaseAdapter {
         imgViewHolder.mDynamicImgItemTime.setText(timeChange(dynamicImgBean.getTime()));
         imgViewHolder.mDynamicImgItemContent.setText(dynamicImgBean.getContent());
         //img GridView的添加值
-        mAdapter = new DynamicImgGridViewAdapter(mContext, dynamicImgBean.getImgList(),
-                imgViewHolder.mDynamicImgItemGridView);
+        List<ImageInfo> infoList = new ArrayList<>();
+        for (int i = 0; i < dynamicImgBean.getImgList().size(); i++) {
+            ImageInfo imageInfo = new ImageInfo();
+            imageInfo.setThumbnailUrl(dynamicImgBean.getImgList().get(i));
+            imageInfo.setBigImageUrl(dynamicImgBean.getImgList().get(i));
+            infoList.add(imageInfo);
+        }
+        mAdapter = new ClickNineGridViewAdapter(mContext,infoList);
         imgViewHolder.mDynamicImgItemGridView.setAdapter(mAdapter);
 
         if (dynamicImgBean.getPraiseStatus() == 0) {
@@ -287,7 +276,7 @@ public class DynamicAdapter extends BaseAdapter {
         @Bind(R.id.dynamic_img_item_content)
         TextView mDynamicImgItemContent;
         @Bind(R.id.dynamic_img_item_gridView)
-        MyGridView mDynamicImgItemGridView;
+        NineGridView mDynamicImgItemGridView;
         @Bind(R.id.dynamic_img_item_p_background)
         ImageView mDynamicImgItemPBackground;
         @Bind(R.id.dynamic_img_item_praise_img)

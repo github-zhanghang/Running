@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="horizontal">
+              android:orientation="horizontal"
+              xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/comment_imgHeader_Img"
@@ -53,7 +54,7 @@
             android:text="四月，你好"
             android:textSize="20sp"/>
 
-        <com.running.myviews.MyGridView
+       <!-- <com.running.myviews.MyGridView
             android:id="@+id/comment_imgHeader_gridView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,7 +62,15 @@
             android:numColumns="auto_fit"
             android:paddingRight="15dp"
             android:verticalSpacing="3dp">
-        </com.running.myviews.MyGridView>
+        </com.running.myviews.MyGridView>-->
+        <com.lzy.ninegrid.NineGridView
+            android:id="@+id/comment_imgHeader_gridView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ngv_mode="grid"
+            app:ngv_singleImageRatio="1"
+            app:ngv_singleImageSize="250dp">
+        </com.lzy.ninegrid.NineGridView>
 
         <LinearLayout
             android:layout_width="wrap_content"

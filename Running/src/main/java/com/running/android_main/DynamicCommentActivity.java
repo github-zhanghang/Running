@@ -18,13 +18,15 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lzy.ninegrid.ImageInfo;
+import com.lzy.ninegrid.NineGridView;
+import com.lzy.ninegrid.preview.ClickNineGridViewAdapter;
 import com.running.adapters.DynamicCommentItemAdapter;
-import com.running.adapters.DynamicImgGridViewAdapter;
 import com.running.beans.CommentBean;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.SecondCommentBean;
-import com.running.myviews.MyGridView;
 import com.running.myviews.TopBar;
+import com.running.utils.GlideCircleTransform;
 import com.running.utils.MySpan;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -45,7 +47,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
     private TextView mHeaderName;
     private TextView mHeaderTime;
     private TextView mHeaderContent;
-    private MyGridView mHeaderGridView;
+    private NineGridView mHeaderGridView;
     private ImageView mHeaderPraiseImg;
     private TextView mHeaderPraiseCount;
     private ImageView mHeaderCommentImg;
@@ -216,13 +218,20 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         Glide.with(this)
                 .load(mDynamicImgBean.getHeadPhoto())
                 .placeholder(R.drawable.head_photo)
+                .transform(new GlideCircleTransform(this))
                 .into(mHeaderImg);
         mHeaderName.setText(mDynamicImgBean.getName());
         mHeaderTime.setText(mDynamicImgBean.getTime());
         mHeaderContent.setText(mDynamicImgBean.getContent());
         List<String> imgList = mDynamicImgBean.getImgList();
-        DynamicImgGridViewAdapter adapter = new DynamicImgGridViewAdapter(this, imgList,
-                mHeaderGridView);
+        List<ImageInfo> infoList = new ArrayList<>();
+        for (int i = 0; i < imgList.size(); i++) {
+            ImageInfo imageInfo = new ImageInfo();
+            imageInfo.setThumbnailUrl(imgList.get(i));
+            imageInfo.setBigImageUrl(imgList.get(i));
+            infoList.add(imageInfo);
+        }
+        ClickNineGridViewAdapter adapter = new ClickNineGridViewAdapter(this,infoList);
         mHeaderGridView.setAdapter(adapter);
         mDynamicCommentListView.addHeaderView(view);
         mAdapter = new DynamicCommentItemAdapter(this, mList);
@@ -255,7 +264,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         mHeaderName = (TextView) view.findViewById(R.id.comment_imgHeader_name);
         mHeaderTime = (TextView) view.findViewById(R.id.comment_imgHeader_time);
         mHeaderContent = (TextView) view.findViewById(R.id.comment_imgHeader_content);
-        mHeaderGridView = (MyGridView) view.findViewById(R.id.comment_imgHeader_gridView);
+        mHeaderGridView = (NineGridView) view.findViewById(R.id.comment_imgHeader_gridView);
         mHeaderPraiseImg = (ImageView) view.findViewById(R.id.comment_imgHeader_praiseImg);
         mHeaderPraiseCount = (TextView) view.findViewById(R.id.comment_imgHeader_praiseCount);
         mHeaderCommentImg = (ImageView) view.findViewById(R.id.comment_imgHeader_commentImg);
