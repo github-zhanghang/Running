@@ -122,10 +122,10 @@
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
-        android:background="#6ebfc5cc"
+        android:background="@color/colorOrange"
         android:gravity="center"
         android:onClick="submitMesssage"
         android:text="提   交"
-        android:textColor="#f57802"
+        android:textColor="@color/white"
         android:textSize="18sp"/>
 </LinearLayout>

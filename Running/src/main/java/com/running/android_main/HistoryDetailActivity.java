@@ -193,8 +193,8 @@ public class HistoryDetailActivity extends AppCompatActivity {
                     .include(llC).include(llD).build();
             msUpdate = MapStatusUpdateFactory.newLatLngBounds(bounds);
 
-            bmStart = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
-            bmEnd = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
+            bmStart = BitmapDescriptorFactory.fromResource(R.drawable.ic_location);
+            bmEnd = BitmapDescriptorFactory.fromResource(R.drawable.ic_location);
             // 添加起点图标
             startMarker = new MarkerOptions()
                     .position(points.get(points.size() - 1)).icon(bmStart)

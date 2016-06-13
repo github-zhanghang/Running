@@ -4,16 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#30f0f0f0"
+
     android:orientation="vertical">
 
     <com.running.myviews.TopBar
         android:id="@+id/record_topbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        app:leftImage="@drawable/back"
-        app:leftText="记录"
-        app:rightImage="@mipmap/ic_launcher">
+        app:leftImage="@drawable/ic_back"
+        app:leftText="记录">
     </com.running.myviews.TopBar>
 
     <RelativeLayout
@@ -23,15 +22,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="#fa870b"
+            android:background="@color/colorOrange"
             android:orientation="vertical"
             >
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#f8f8f8"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -123,8 +116,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="194dp"
-            android:src="@drawable/c1"/>
+            android:layout_marginTop="194dp" />
 
         <com.running.myviews.RecordBar
             android:id="@+id/re_history"
@@ -133,8 +125,8 @@
             android:layout_marginBottom="2dp"
             android:layout_marginTop="320dp"
             android:padding="10dp"
-            app:re_dataText="历史记录"
-            app:re_imageView="@drawable/userinfo_accessory">
+            app:re_dataText="  历史记录"
+            app:re_imageView="@drawable/ic_history">
 
         </com.running.myviews.RecordBar>
 
@@ -145,8 +137,8 @@
             android:layout_below="@id/re_history"
             android:layout_marginBottom="2dp"
             android:padding="10dp"
-            app:re_dataText="运动趋势"
-            app:re_imageView="@drawable/userinfo_record"
+            app:re_dataText="  运动趋势"
+            app:re_imageView="@drawable/ic_trend"
             />
 
         <com.running.myviews.RecordBar
@@ -155,8 +147,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/re_trend"
             android:padding="10dp"
-            app:re_dataText="最好成绩"
-            app:re_imageView="@drawable/icon_medal"
+            app:re_dataText="  最好成绩"
+            app:re_imageView="@drawable/ic_best"
             />
     </RelativeLayout>
 </LinearLayout>

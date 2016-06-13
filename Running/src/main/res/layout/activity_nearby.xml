@@ -12,7 +12,7 @@
         android:id="@+id/nearby_topbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        app:leftImage="@drawable/back"
+        app:leftImage="@drawable/ic_back"
         app:leftText="附近的人"/>
 
     <ListView

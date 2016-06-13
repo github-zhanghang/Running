@@ -134,7 +134,7 @@ public class HistoryActivity extends AppCompatActivity {
     private void initSwipe() {
         //设置刷新时动画的颜色，可以设置4个
         mSwipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.WHITE);
-        mSwipeRefreshLayout.setColorSchemeColors(Color.GREEN,Color.BLUE,Color.RED, Color.YELLOW);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.parseColor("#eb4f38"));
 
         mSwipeRefreshLayout.post(new Runnable() {
             @Override

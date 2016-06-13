@@ -11,9 +11,9 @@
         android:id="@+id/history_detail_topbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        app:leftImage="@drawable/back"
+        app:leftImage="@drawable/ic_back"
         app:leftText="详细记录"
-        app:rightImage="@mipmap/ic_launcher"/>
+        app:rightImage="@drawable/ic_share"/>
 
     <com.baidu.mapapi.map.MapView
         android:id="@+id/map_his_detail"
@@ -43,7 +43,7 @@
                 android:text="5.23"
                 android:textSize="47sp"
                 android:layout_centerHorizontal="true"
-                android:textColor="#e96f05"/>
+                android:textColor="@color/colorOrange"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 android:id="@+id/img_time_his_detail"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/detail1"/>
+                android:src="@drawable/ic_time"/>
           <LinearLayout
               android:layout_marginLeft="5dp"
               android:layout_toRightOf="@id/img_time_his_detail"
@@ -99,7 +99,7 @@
                 android:id="@+id/img_speed_his_detail"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/detail2"/>
+                android:src="@drawable/ic_speed"/>
             <LinearLayout
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/img_speed_his_detail"
@@ -136,7 +136,7 @@
                     android:id="@+id/img_walk_his_detail"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/detail4"/>
+                    android:src="@drawable/ic_step"/>
                 <LinearLayout
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/img_walk_his_detail"
@@ -166,7 +166,7 @@
                     android:id="@+id/img_calorie_his_detail"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/detail3"/>
+                    android:src="@drawable/ic_calorie"/>
                 <LinearLayout
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/img_calorie_his_detail"

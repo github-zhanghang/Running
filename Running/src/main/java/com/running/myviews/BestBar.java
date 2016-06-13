@@ -40,7 +40,7 @@ public class BestBar extends LinearLayout{
         mDataTextView = new TextView(context);
         mDataTextView.setLayoutParams(params2);
         mDataTextView.setText(mDataText);
-        mDataTextView.setTextColor(Color.parseColor("#fa870b"));
+        mDataTextView.setTextColor(Color.parseColor("#eb4f38"));
         mDataTextView.setTextSize(24);
         mDataTextView.setGravity(Gravity.RIGHT);
         mDataTextView.setPadding(0,0,30,0);

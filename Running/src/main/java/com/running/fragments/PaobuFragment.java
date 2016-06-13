@@ -63,10 +63,10 @@ public class PaobuFragment extends Fragment {
                 switch (position) {
                     case 0:
                         mTopBar.setLeftTextColor(Color.WHITE);
-                        mTopBar.setRightTextColor(Color.GRAY);
+                        mTopBar.setRightTextColor(Color.LTGRAY);
                         break;
                     case 1:
-                        mTopBar.setLeftTextColor(Color.GRAY);
+                        mTopBar.setLeftTextColor(Color.LTGRAY);
                         mTopBar.setRightTextColor(Color.WHITE);
                         break;
                 }

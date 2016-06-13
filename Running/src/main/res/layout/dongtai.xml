@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:isRightImageShow="true"
-        app:leftImage="@drawable/left"
+        app:leftImage="@drawable/ic_left"
         app:leftText="好友动态"
-        app:rightImage="@drawable/ic_menu_camera"/>
+        app:rightImage="@drawable/ic_camera"/>
     <!--动态内容-->
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/dynamic_swipeRefreshLayout"

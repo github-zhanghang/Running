@@ -12,7 +12,7 @@
         android:id="@+id/dynamic_publish_topBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        app:leftImage="@drawable/back"
+        app:leftImage="@drawable/ic_back"
         app:leftText="发布动态">
     </com.running.myviews.TopBar>
 

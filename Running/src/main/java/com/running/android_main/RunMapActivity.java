@@ -178,7 +178,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
             //构建MarkerOption，用于在地图上添加Marker
             OverlayOptions option = new MarkerOptions()
                     .position(point)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_location));
             //在地图上添加Marker，并显示
             mBaiduMap.addOverlay(option);
             mHandler.sendEmptyMessage(1);
@@ -494,7 +494,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
                 .build();
         mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(mapStatus);
 
-        mBitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding);
+        mBitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.ic_location);
         mOverlayOptions = new MarkerOptions().position(point)
                 .icon(mBitmapDescriptor).zIndex(9).draggable(true);
         if (mLatLngList.size() >= 2 && mLatLngList.size() <= 1000) {

@@ -34,7 +34,7 @@
                     android:id="@+id/run_time_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/detail1"/>
+                    android:src="@drawable/ic_time"/>
 
                 <TextView
                     android:id="@+id/run_time_txt"
@@ -43,7 +43,7 @@
                     android:layout_toRightOf="@id/run_time_img"
                     android:singleLine="true"
                     android:text="0.0"
-                    android:textSize="25sp"/>
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                     android:layout_toRightOf="@id/run_time_img"
                     android:singleLine="true"
                     android:text="时长"
-                    android:textSize="25sp"/>
+                    android:textSize="20sp"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -67,7 +67,7 @@
                     android:id="@+id/run_speed_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/detail2"/>
+                    android:src="@drawable/ic_speed"/>
 
                 <TextView
                     android:id="@+id/run_speed_txt"
@@ -76,7 +76,7 @@
                     android:layout_toRightOf="@id/run_speed_img"
                     android:singleLine="true"
                     android:text="0.0"
-                    android:textSize="25sp"/>
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -85,7 +85,7 @@
                     android:layout_toRightOf="@id/run_speed_img"
                     android:singleLine="true"
                     android:text="平均速度"
-                    android:textSize="25sp"/>
+                    android:textSize="20sp"/>
             </RelativeLayout>
         </LinearLayout>
 
@@ -107,7 +107,7 @@
                     android:id="@+id/run_distance_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/detail3"/>
+                    android:src="@drawable/ic_step"/>
 
                 <TextView
                     android:id="@+id/run_distance_txt"
@@ -116,7 +116,7 @@
                     android:layout_toRightOf="@id/run_distance_img"
                     android:singleLine="true"
                     android:text="0.0"
-                    android:textSize="25sp"/>
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
                     android:layout_toRightOf="@id/run_distance_img"
                     android:singleLine="true"
                     android:text="距离"
-                    android:textSize="25sp"/>
+                    android:textSize="20sp"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -140,7 +140,7 @@
                     android:id="@+id/run_calorie_img"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/detail4"/>
+                    android:src="@drawable/ic_calorie"/>
 
                 <TextView
                     android:id="@+id/run_calorie_txt"
@@ -149,7 +149,7 @@
                     android:layout_toRightOf="@id/run_calorie_img"
                     android:singleLine="true"
                     android:text="0.0"
-                    android:textSize="25sp"/>
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -158,7 +158,7 @@
                     android:layout_toRightOf="@id/run_calorie_img"
                     android:singleLine="true"
                     android:text="卡路里"
-                    android:textSize="25sp"/>
+                    android:textSize="20sp"/>
             </RelativeLayout>
         </LinearLayout>
 
@@ -167,6 +167,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="10dp"
+            android:paddingBottom="8dp"
             android:gravity="center_horizontal">
 
             <Button
@@ -174,9 +175,10 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginRight="50dp"
-                android:background="@drawable/btn_oval"
+                android:background="@drawable/btn_oval2"
                 android:text="继续"
-                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:textSize="25sp"
                 android:visibility="gone"/>
 
             <Button
@@ -186,7 +188,8 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/btn_oval"
                 android:text="暂停"
-                android:textSize="30sp"/>
+                android:textColor="@color/white"
+                android:textSize="25sp"/>
 
             <Button
                 android:id="@+id/run_over"
@@ -194,7 +197,8 @@
                 android:layout_height="80dp"
                 android:background="@drawable/btn_oval"
                 android:text="结束"
-                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:textSize="25sp"
                 android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>

@@ -21,7 +21,7 @@
             android:layout_height="45dp"
             android:layout_marginBottom="20dp"
             android:background="#b3ffffff"
-            android:drawableLeft="@drawable/iphone"
+            android:drawableLeft="@drawable/ic_phone"
             android:drawablePadding="6dp"
             android:hint="请输入账号"
             android:padding="6dp"
@@ -34,7 +34,7 @@
             android:layout_height="45dp"
             android:layout_marginBottom="20dp"
             android:background="#b3ffffff"
-            android:drawableLeft="@drawable/lock"
+            android:drawableLeft="@drawable/ic_lock"
             android:drawablePadding="6dp"
             android:hint="请输入密码"
             android:inputType="textPassword"
@@ -79,7 +79,7 @@
                 style="@style/login_Button"
                 android:layout_centerInParent="true"
                 android:layout_weight="1"
-                android:background="#b3f96c08"
+                android:background="#c8eb4f38"
                 android:text="登录"
                 android:textColor="#ffffff"/>
 
@@ -88,7 +88,7 @@
                 style="@style/login_Button"
                 android:layout_marginLeft="30dp"
                 android:layout_weight="1"
-                android:background="#b399c931"
+                android:background="#c841bf58"
                 android:text="注册"
                 android:textColor="#ffffff"/>
         </LinearLayout>
