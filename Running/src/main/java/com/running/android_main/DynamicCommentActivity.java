@@ -19,13 +19,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.lzy.ninegrid.ImageInfo;
-import com.lzy.ninegrid.NineGridView;
-import com.lzy.ninegrid.preview.ClickNineGridViewAdapter;
 import com.running.adapters.DynamicCommentItemAdapter;
 import com.running.beans.CommentBean;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.SecondCommentBean;
+import com.running.myviews.MyGridView;
 import com.running.myviews.TopBar;
 import com.running.utils.GlideCircleTransform;
 import com.running.utils.MySpan;
@@ -48,7 +46,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
     private TextView mHeaderName;
     private TextView mHeaderTime;
     private TextView mHeaderContent;
-    private NineGridView mHeaderGridView;
+    private MyGridView mHeaderGridView;
     private ImageView mHeaderPraiseImg;
     private TextView mHeaderPraiseCount;
     private ImageView mHeaderCommentImg;
@@ -229,7 +227,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         mHeaderName.setText(mDynamicImgBean.getName());
         mHeaderTime.setText(mDynamicImgBean.getTime());
         mHeaderContent.setText(mDynamicImgBean.getContent());
-        List<String> imgList = mDynamicImgBean.getImgList();
+        List<String> imgList = mDynamicImgBean.getImgList();/*
         List<ImageInfo> infoList = new ArrayList<>();
         for (int i = 0; i < imgList.size(); i++) {
             ImageInfo imageInfo = new ImageInfo();
@@ -238,7 +236,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
             infoList.add(imageInfo);
         }
         ClickNineGridViewAdapter adapter = new ClickNineGridViewAdapter(this, infoList);
-        mHeaderGridView.setAdapter(adapter);
+        mHeaderGridView.setAdapter(adapter);*/
         mDynamicCommentListView.addHeaderView(view);
         mAdapter = new DynamicCommentItemAdapter(this, mList);
         mDynamicCommentListView.setAdapter(mAdapter);
@@ -270,7 +268,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         mHeaderName = (TextView) view.findViewById(R.id.comment_imgHeader_name);
         mHeaderTime = (TextView) view.findViewById(R.id.comment_imgHeader_time);
         mHeaderContent = (TextView) view.findViewById(R.id.comment_imgHeader_content);
-        mHeaderGridView = (NineGridView) view.findViewById(R.id.comment_imgHeader_gridView);
+        mHeaderGridView = (MyGridView) view.findViewById(R.id.comment_imgHeader_gridView);
         mHeaderPraiseImg = (ImageView) view.findViewById(R.id.comment_imgHeader_praiseImg);
         mHeaderPraiseCount = (TextView) view.findViewById(R.id.comment_imgHeader_praiseCount);
         mHeaderCommentImg = (ImageView) view.findViewById(R.id.comment_imgHeader_commentImg);

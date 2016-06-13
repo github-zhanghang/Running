@@ -11,9 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.lzy.ninegrid.ImageInfo;
-import com.lzy.ninegrid.NineGridView;
-import com.lzy.ninegrid.preview.ClickNineGridViewAdapter;
 import com.running.android_main.DynamicCommentActivity;
 import com.running.android_main.DynamicOneselfActivity;
 import com.running.android_main.MainActivity;
@@ -21,13 +18,13 @@ import com.running.android_main.MyApplication;
 import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.DynamicLinkBean;
+import com.running.myviews.MyGridView;
 import com.running.utils.GlideCircleTransform;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +42,7 @@ public class DynamicAdapter extends BaseAdapter {
     List<HashMap<String, Object>> mList;
     LayoutInflater mInflater;
     //img GridView适配器
-    ClickNineGridViewAdapter mAdapter;
+    //ClickNineGridViewAdapter mAdapter;
 
     MyApplication mMyApplication;
 
@@ -182,7 +179,7 @@ public class DynamicAdapter extends BaseAdapter {
         imgViewHolder.mDynamicImgItemTime.setText(timeChange(dynamicImgBean.getTime()));
         imgViewHolder.mDynamicImgItemContent.setText(dynamicImgBean.getContent());
         //img GridView的添加值
-        List<ImageInfo> infoList = new ArrayList<>();
+       /* List<ImageInfo> infoList = new ArrayList<>();
         for (int i = 0; i < dynamicImgBean.getImgList().size(); i++) {
             ImageInfo imageInfo = new ImageInfo();
             imageInfo.setThumbnailUrl(dynamicImgBean.getImgList().get(i));
@@ -190,7 +187,7 @@ public class DynamicAdapter extends BaseAdapter {
             infoList.add(imageInfo);
         }
         mAdapter = new ClickNineGridViewAdapter(mContext,infoList);
-        imgViewHolder.mDynamicImgItemGridView.setAdapter(mAdapter);
+        imgViewHolder.mDynamicImgItemGridView.setAdapter(mAdapter);*/
 
         if (dynamicImgBean.getPraiseStatus() == 0) {
             imgViewHolder.mDynamicImgItemPraiseImg.setOnClickListener(new View.OnClickListener() {
@@ -276,7 +273,7 @@ public class DynamicAdapter extends BaseAdapter {
         @Bind(R.id.dynamic_img_item_content)
         TextView mDynamicImgItemContent;
         @Bind(R.id.dynamic_img_item_gridView)
-        NineGridView mDynamicImgItemGridView;
+        MyGridView mDynamicImgItemGridView;
         @Bind(R.id.dynamic_img_item_p_background)
         ImageView mDynamicImgItemPBackground;
         @Bind(R.id.dynamic_img_item_praise_img)

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\ztworkspace\wl3\Running\IMKit\src\main\assets"/><source path="D:\ztworkspace\wl3\Running\IMKit\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="D:\ztworkspace\wl3\Running\IMKit\src\release\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="E:\AndroidStudio\ASworkspace\Running\IMKit\src\main\assets"/><source path="E:\AndroidStudio\ASworkspace\Running\IMKit\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="E:\AndroidStudio\ASworkspace\Running\IMKit\src\release\assets"/></dataSet></merger>

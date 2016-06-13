@@ -16,21 +16,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.lzy.ninegrid.ImageInfo;
-import com.lzy.ninegrid.NineGridView;
-import com.lzy.ninegrid.preview.ClickNineGridViewAdapter;
 import com.running.android_main.MyApplication;
 import com.running.android_main.PersonInformationActivity;
 import com.running.android_main.R;
 import com.running.beans.DynamicOneselfBean;
 import com.running.beans.UserInfo;
+import com.running.myviews.MyGridView;
 import com.running.utils.GlideCircleTransform;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -138,7 +135,7 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             SpannableStringBuilder time = formatDateTime(bean.getTime());
             ((ViewHolder) holder).mTime.setText(time);
             ((ViewHolder) holder).mContent.setText(bean.getContent());
-            List<ImageInfo> infoList = new ArrayList<>();
+            /*List<ImageInfo> infoList = new ArrayList<>();
             for (int i = 0; i < bean.getImgList().size(); i++) {
                 ImageInfo imageInfo = new ImageInfo();
                 imageInfo.setThumbnailUrl(bean.getImgList().get(i));
@@ -146,7 +143,7 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 infoList.add(imageInfo);
             }
             ClickNineGridViewAdapter adapter = new ClickNineGridViewAdapter(mContext,infoList);
-            ((ViewHolder) holder).mGridView.setAdapter(adapter);
+            ((ViewHolder) holder).mGridView.setAdapter(adapter);*/
             ((ViewHolder) holder).mPraiseCount.setText(String.valueOf(bean.getPraiseCount()));
             ((ViewHolder) holder).mCommentCount.setText(String.valueOf(bean.getCommentCount()));
 
@@ -197,7 +194,7 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTime, mContent;
-        public NineGridView mGridView;
+        public MyGridView mGridView;
         TextView mPraiseCount, mCommentCount;
         ImageView mPraiseImg, mCommentImg;
 
@@ -205,7 +202,7 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
             mTime = (TextView) itemView.findViewById(R.id.dynamic_oneself_imgItem_time);
             mContent = (TextView) itemView.findViewById(R.id.dynamic_oneself_imgItem_content);
-            mGridView = (NineGridView) itemView.findViewById(R.id.dynamic_oneself_imgItem_gridView);
+            mGridView = (MyGridView) itemView.findViewById(R.id.dynamic_oneself_imgItem_gridView);
             mPraiseImg = (ImageView) itemView.findViewById(R.id.dynamic_oneself_imgItem_praiseImg);
             mPraiseCount = (TextView) itemView.findViewById(R.id
                     .dynamic_oneself_imgItem_praiseCount);
