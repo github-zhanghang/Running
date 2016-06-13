@@ -92,9 +92,9 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     });
             ((HeaderViewHolder) holder).mNameTextView.setText(bean.getuName());
             if (bean.getuSex().equals("男")) {
-                ((HeaderViewHolder) holder).mSexImageView.setImageResource(R.drawable.sex_women);
+                ((HeaderViewHolder) holder).mSexImageView.setImageResource(R.drawable.ic_sex_man);
             } else if (bean.getuSex().equals("女")) {
-                ((HeaderViewHolder) holder).mSexImageView.setImageResource(R.drawable.sex_women);
+                ((HeaderViewHolder) holder).mSexImageView.setImageResource(R.drawable.ic_sex_woman);
             }
         } else if (holder instanceof FooterViewHolder) {
             ((FooterViewHolder) holder).mLoadText.setText("加载中");

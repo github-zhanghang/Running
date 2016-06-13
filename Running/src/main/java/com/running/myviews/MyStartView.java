@@ -34,7 +34,7 @@ public class MyStartView extends View {
 
     private void initPaint() {
         mPaint = new Paint();
-        mPaint.setColor(Color.parseColor("#ff9900"));
+        mPaint.setColor(Color.parseColor("#eb4f38"));
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         mPaint.setStrokeWidth(10);

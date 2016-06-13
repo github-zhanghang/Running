@@ -10,14 +10,13 @@
         android:id="@+id/rank_topbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        app:leftImage="@drawable/back"
+        app:leftImage="@drawable/ic_back"
         app:leftText="排行榜"/>
 
     <RadioGroup
         android:id="@+id/rank_group"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/gray"
         android:orientation="horizontal">
 
         <RadioButton
@@ -47,7 +46,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -90,15 +90,11 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/orange"/>
-
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/rank_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:showDividers="none">
+        android:divider="#00000000"
+        android:dividerHeight="5dp">
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 </LinearLayout>

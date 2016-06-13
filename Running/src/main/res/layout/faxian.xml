@@ -12,9 +12,10 @@
         app:isLeftTextShow="true"
         app:isMidTextShow="true"
         app:isRightTextShow="true"
-        app:leftImage="@drawable/left"
+        app:leftImage="@drawable/ic_left"
         app:leftText="官方赛事"
         app:midText="|"
+        app:midTextColor="@color/white"
         app:rightText="推荐装备"/>
 
     <android.support.v4.view.ViewPager

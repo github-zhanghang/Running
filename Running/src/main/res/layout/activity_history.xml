@@ -11,7 +11,7 @@
         android:id="@+id/history_topbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        app:leftImage="@drawable/back"
+        app:leftImage="@drawable/ic_back"
         app:leftText="历史记录">
     </com.running.myviews.TopBar>
     <android.support.v4.widget.SwipeRefreshLayout

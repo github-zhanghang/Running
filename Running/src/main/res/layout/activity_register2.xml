@@ -20,12 +20,13 @@
         android:id="@+id/girl"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/girl"/>
+        android:src="@drawable/ic_girl"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:textColor="#e490a7"
         android:text="女"/>
 
     <ImageView
@@ -33,11 +34,12 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="10dp"
-        android:src="@drawable/boy"/>
+        android:src="@drawable/ic_boy"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="#a4d79f"
         android:text="男"/>
 
 </LinearLayout>

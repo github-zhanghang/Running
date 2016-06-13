@@ -34,7 +34,7 @@
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/userinfo_record"/>
+                    android:src="@drawable/ic_distance_his"/>
                 <TextView
                     android:id="@+id/distance_history"
                     android:layout_weight="1"
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="3.67"
-                    android:textSize="30sp"/>
+                    android:textSize="25sp"/>
                 <TextView
                     android:layout_weight="8"
                     android:layout_width="wrap_content"
@@ -53,9 +53,9 @@
                     android:paddingLeft="5dp"/>
                 <ImageView
                     android:layout_weight="1"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/userinfo_accessory"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_time_his"/>
                 <TextView
                     android:id="@+id/time_history"
                     android:layout_weight="1"

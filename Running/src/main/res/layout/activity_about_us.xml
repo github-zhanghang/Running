@@ -12,7 +12,7 @@
         android:id="@+id/about_us_topBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        app:leftImage="@drawable/back"
+        app:leftImage="@drawable/ic_back"
         app:leftText="关于我们">
     </com.running.myviews.TopBar>
 

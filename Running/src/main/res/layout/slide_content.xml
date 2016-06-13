@@ -8,37 +8,37 @@
         android:id="@+id/content_LinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="#f0f0f0">
 
         <RadioGroup
             android:id="@+id/radiogroup"
             style="@style/mw"
-            android:background="#EFEEEC"
             android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/run"
                 style="@style/radio"
                 android:checked="true"
-                android:drawableTop="@drawable/buyimg"
+                android:drawableTop="@drawable/runimg"
                 android:text="跑步"/>
 
             <RadioButton
                 android:id="@+id/find"
                 style="@style/radio"
-                android:drawableTop="@drawable/saleimg"
+                android:drawableTop="@drawable/foundimg"
                 android:text="发现"/>
 
             <RadioButton
                 android:id="@+id/news"
                 style="@style/radio"
-                android:drawableTop="@drawable/chatimg"
+                android:drawableTop="@drawable/dynamicimg"
                 android:text="动态"/>
 
             <RadioButton
                 android:id="@+id/chat"
                 style="@style/radio"
-                android:drawableTop="@drawable/meimg"
+                android:drawableTop="@drawable/messageimg"
                 android:text="消息"/>
         </RadioGroup>
     </LinearLayout>

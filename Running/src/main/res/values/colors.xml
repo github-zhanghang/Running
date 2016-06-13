@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#eb4f38</color>
+    <color name="colorPrimaryDark">#eb4f38</color>
+    <color name="colorAccent">#eb4f38</color>
     <color name="textDown">#00D0CB</color>
-    <color name="textUp">#333333</color>
-    <color name="orange">#ff9900</color>
+    <color name="textUp">#515151</color>
+    <color name="orange">#eb4f38</color>
     <color name="gray">#33330033</color>
     <color name="lightgray">#f0f0f0</color>
     <color name="white">#ffffff</color>
@@ -14,5 +14,10 @@
     <drawable name="textUp">#333333</drawable>
     <drawable name="textDown">#00D0CB</drawable>
     <color name="text">#484848</color>
-    <color name="colorOrange">#fc6406</color>
+
+    <!--主题颜色-->
+    <color name="colorOrange">#eb4f38</color>
+    <color name="colorGreen">#41bf58</color>
+    <color name="colorPink">#e766c0</color>
+
 </resources>

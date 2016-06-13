@@ -97,7 +97,7 @@ public class TopBar extends RelativeLayout {
         }
         if (isMidTextShow) {
             midText = typedArray.getString(R.styleable.TopBar_midText);
-            midTextColor = typedArray.getColor(R.styleable.TopBar_midTextColor, Color.BLACK);
+            midTextColor = typedArray.getColor(R.styleable.TopBar_midTextColor, Color.alpha(R.color.textUp));
             midTextSize = typedArray.getDimension(R.styleable.TopBar_midTextSize, 29);
             midTextView = new TextView(context);
             LinearLayout.LayoutParams midTextParams = new LinearLayout.LayoutParams(
@@ -111,7 +111,7 @@ public class TopBar extends RelativeLayout {
         }
         if (isRightTextShow) {
             rightText = typedArray.getString(R.styleable.TopBar_rightText);
-            rightTextColor = typedArray.getColor(R.styleable.TopBar_rightTextColor, Color.GRAY);
+            rightTextColor = typedArray.getColor(R.styleable.TopBar_rightTextColor, Color.LTGRAY);
             rightTextSize = typedArray.getDimension(R.styleable.TopBar_rightTextSize, 24);
             rightTextView = new TextView(context);
             rightTextView.setText(rightText);
@@ -123,7 +123,7 @@ public class TopBar extends RelativeLayout {
         typedArray.recycle();
         this.setGravity(CENTER_VERTICAL);
         this.setPadding(15, 5, 15, 5);
-        this.setBackgroundResource(R.color.orange);
+        this.setBackgroundResource(R.color.colorOrange);
     }
 
     public void setOnTopbarClickListener(OnTopbarClickListener listener) {

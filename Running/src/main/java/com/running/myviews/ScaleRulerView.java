@@ -48,7 +48,7 @@ public class ScaleRulerView extends View {
     private Paint mSelectPaint = new Paint();
     private int mSelectWidth = 8;
     private int mNormalLineWidth = 4;
-    private String mSelectColor = "#f57802";
+    private String mSelectColor = "#eb4f38";
     private String mNormalLineColor = "#E8E8E8";
 
 

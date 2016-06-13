@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:drawableBottom="@drawable/finger_down"
+        android:drawableBottom="@drawable/ic_finger"
         android:gravity="center"
         android:singleLine="true"
         android:text="设置目标"

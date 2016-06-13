@@ -4,15 +4,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_record"
-            android:icon="@drawable/ic_history_run_normal"
-            android:title="记录"/>
+            android:icon="@drawable/ic_record"
+            android:title="记录" />
         <item
             android:id="@+id/nav_medal"
-            android:icon="@drawable/icon_medal"
+            android:icon="@drawable/ic_medal"
             android:title="勋章"/>
         <item
             android:id="@+id/nav_ranklist"
-            android:icon="@drawable/rank"
+            android:icon="@drawable/ic_rank"
             android:title="排行榜"/>
     </group>
 

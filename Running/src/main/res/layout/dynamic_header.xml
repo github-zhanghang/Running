@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/dynamic_test"/>
+        android:src="@drawable/bg_dynamic"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -40,14 +40,15 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="5dp"
                 android:text="桃子"
-                android:textColor="#df7878"
+                android:textColor="@color/colorPink"
                 android:textSize="20sp"/>
             <!--性别-->
             <ImageView
                 android:id="@+id/personSex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/sex_women"/>
+                android:src="@drawable/ic_sex_woman"
+                android:layout_gravity="center"/>
 
         </LinearLayout>
 

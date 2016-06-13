@@ -42,17 +42,18 @@ public class RecordBar extends LinearLayout{
         mImageView.setLayoutParams(params1);
         mImageView.setImageDrawable(mIconDrawable);
 
-        LayoutParams params2 = new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 8);
+        LayoutParams params2 = new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 9);
         mDataTextView = new TextView(context);
         mDataTextView.setLayoutParams(params2);
         mDataTextView.setText(mDataText);
-        mDataTextView.setTextSize(22);
+        //mDataTextView.setTextColor(Color.parseColor("#eb4f38"));
+        mDataTextView.setTextSize(18);
 
         LayoutParams params3 = new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
         mArrowTextView = new TextView(context);
         mArrowTextView.setLayoutParams(params3);
         mArrowTextView.setText(">");
-        mArrowTextView.setTextColor(Color.parseColor("#fa870b"));
+        //mArrowTextView.setTextColor(Color.parseColor("#eb4f38"));
         mArrowTextView.setTextSize(24);
 
         addView(mImageView);
