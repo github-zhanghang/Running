@@ -30,7 +30,7 @@
             android:layout_marginTop="20dp"
             android:background="#ffffff">
 
-            <ImageView
+            <com.running.myviews.CircleImageView
                 android:id="@+id/person_information_headImg"
                 android:layout_width="80dp"
                 android:layout_height="80dp"

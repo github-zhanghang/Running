@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,13 +19,15 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lzy.ninegrid.ImageInfo;
+import com.lzy.ninegrid.NineGridView;
+import com.lzy.ninegrid.preview.ClickNineGridViewAdapter;
 import com.running.adapters.DynamicCommentItemAdapter;
-import com.running.adapters.DynamicImgGridViewAdapter;
 import com.running.beans.CommentBean;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.SecondCommentBean;
-import com.running.myviews.MyGridView;
 import com.running.myviews.TopBar;
+import com.running.utils.GlideCircleTransform;
 import com.running.utils.MySpan;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -41,25 +44,30 @@ import okhttp3.Call;
 
 public class DynamicCommentActivity extends AppCompatActivity implements MySpan.OnClickListener {
 
-    private TextView mCommentImgHeaderPraiseCount;
     private ImageView mHeaderImg;
     private TextView mHeaderName;
     private TextView mHeaderTime;
     private TextView mHeaderContent;
-    private MyGridView mHeaderGridView;
+    private NineGridView mHeaderGridView;
     private ImageView mHeaderPraiseImg;
     private TextView mHeaderPraiseCount;
+    private ImageView mHeaderCommentImg;
+    private TextView mHeaderCommentCount;
     private List<CommentBean> mList;
     private DynamicCommentItemAdapter mAdapter;
     private DynamicImgBean mDynamicImgBean;
     private String url = MyApplication.HOST + "dynamicOperateServlet";
     private CommentCallBack mCommentCallBack;
     private HashMap<String, Object> mMap = new HashMap<>();
+    private int status = 2;
+
 
     @Bind(R.id.dynamic_comment_topBar)
     TopBar mDynamicCommentTopBar;
     @Bind(R.id.dynamic_comment_listView)
     ListView mDynamicCommentListView;
+    @Bind(R.id.dynamic_comment_bottom_layout)
+    LinearLayout mCommentBottomLayout;
     @Bind(R.id.dynamic_comment_footEdit)
     EditText mDynamicCommentFootEdit;
     @Bind(R.id.dynamic_comment_button)
@@ -86,6 +94,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dynamic_comment);
         ButterKnife.bind(this);
+        mCommentBottomLayout.setVisibility(View.GONE);
         initData();
         addListener();
     }
@@ -107,39 +116,89 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         mDynamicCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //自己的id和名字
-                int uId0 = 3;
-                String uName0 = "1003";
-                //回复内容
-                String content = mDynamicCommentFootEdit.getText().toString();
-                //回复时间
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String time = format.format(new Date());
-                SecondCommentBean bean = new SecondCommentBean((int) mMap.get("sFCId"), uId0,
-                        uName0, (int) mMap.get("uId1"), (String) mMap.get("uName1"), content, time);
-                mList.get((int) mMap.get("position")).getList().add(bean);
-                Gson gson = new Gson();
-                String secondComment = gson.toJson(bean);
-                Log.d("TAG", secondComment);
-                OkHttpUtils.post()
-                        .url(url)
-                        .addParams("appRequest", "AddSecondComment")
-                        .addParams("secondComment", secondComment)
-                        .build()
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onError(Call call, Exception e) {
-                            }
+                if (status == 1) {
+                    //一级评论
+                    //对应动态id
+                    int fDId = mDynamicImgBean.getdId();
+                    //评论者id
+                    int fUId = 3;
+                    String fName = "张三";
+                    String fUImg = "https://img.alicdn.com/imgextra/i3/2237636884/TB2Z2_.pVXXXXcr" +
+                            "XXXXXXXXXXXX_!!2237636884.png";
+                    String content = mDynamicCommentFootEdit.getText().toString();
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String time = format.format(new Date());
+                    List<SecondCommentBean> list = new ArrayList<SecondCommentBean>();
+                    CommentBean commentBean = new CommentBean(fDId, fUId, fUImg, fName, content,
+                            time,
+                            list);
+                    mList.add(commentBean);
+                    Gson gson = new Gson();
+                    String firstComment = gson.toJson(commentBean);
+                    OkHttpUtils.post()
+                            .url(url)
+                            .addParams("appRequest", "AddFirstComment")
+                            .addParams("firstComment", firstComment)
+                            .build()
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onError(Call call, Exception e) {
 
-                            @Override
-                            public void onResponse(String response) {
+                                }
 
-                            }
-                        });
+                                @Override
+                                public void onResponse(String response) {
+
+                                }
+                            });
+                    status = 2;
+                } else {
+                    //自己的id和名字
+                    int uId0 = 3;
+                    String uName0 = "1003";
+                    //回复内容
+                    String content = mDynamicCommentFootEdit.getText().toString();
+                    //回复时间
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String time = format.format(new Date());
+                    SecondCommentBean bean = new SecondCommentBean((int) mMap.get("sFCId"), uId0,
+                            uName0, (int) mMap.get("uId1"), (String) mMap.get("uName1"), content,
+                            time);
+                    mList.get((int) mMap.get("position")).getList().add(bean);
+                    Gson gson = new Gson();
+                    String secondComment = gson.toJson(bean);
+                    Log.d("TAG", secondComment);
+                    OkHttpUtils.post()
+                            .url(url)
+                            .addParams("appRequest", "AddSecondComment")
+                            .addParams("secondComment", secondComment)
+                            .build()
+                            .execute(new StringCallback() {
+                                @Override
+                                public void onError(Call call, Exception e) {
+                                }
+
+                                @Override
+                                public void onResponse(String response) {
+
+                                }
+                            });
+                }
                 mAdapter.notifyDataSetChanged();
+                mDynamicCommentFootEdit.setText("");
+                mDynamicCommentFootEdit.clearFocus();
+                mCommentBottomLayout.setVisibility(View.GONE);
             }
         });
 
+        mHeaderCommentImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                status = 1;
+                mCommentBottomLayout.setVisibility(View.VISIBLE);
+                mDynamicCommentFootEdit.requestFocus();
+            }
+        });
     }
 
     private void initData() {
@@ -165,13 +224,20 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         Glide.with(this)
                 .load(mDynamicImgBean.getHeadPhoto())
                 .placeholder(R.drawable.head_photo)
+                .transform(new GlideCircleTransform(this))
                 .into(mHeaderImg);
         mHeaderName.setText(mDynamicImgBean.getName());
         mHeaderTime.setText(mDynamicImgBean.getTime());
         mHeaderContent.setText(mDynamicImgBean.getContent());
         List<String> imgList = mDynamicImgBean.getImgList();
-        DynamicImgGridViewAdapter adapter = new DynamicImgGridViewAdapter(this, imgList,
-                mHeaderGridView);
+        List<ImageInfo> infoList = new ArrayList<>();
+        for (int i = 0; i < imgList.size(); i++) {
+            ImageInfo imageInfo = new ImageInfo();
+            imageInfo.setThumbnailUrl(imgList.get(i));
+            imageInfo.setBigImageUrl(imgList.get(i));
+            infoList.add(imageInfo);
+        }
+        ClickNineGridViewAdapter adapter = new ClickNineGridViewAdapter(this, infoList);
         mHeaderGridView.setAdapter(adapter);
         mDynamicCommentListView.addHeaderView(view);
         mAdapter = new DynamicCommentItemAdapter(this, mList);
@@ -204,10 +270,11 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         mHeaderName = (TextView) view.findViewById(R.id.comment_imgHeader_name);
         mHeaderTime = (TextView) view.findViewById(R.id.comment_imgHeader_time);
         mHeaderContent = (TextView) view.findViewById(R.id.comment_imgHeader_content);
-        mHeaderGridView = (MyGridView) view.findViewById(R.id.comment_imgHeader_gridView);
+        mHeaderGridView = (NineGridView) view.findViewById(R.id.comment_imgHeader_gridView);
         mHeaderPraiseImg = (ImageView) view.findViewById(R.id.comment_imgHeader_praiseImg);
-        mHeaderPraiseCount = (TextView) view.findViewById(
-                R.id.comment_imgHeader_praiseCount);
+        mHeaderPraiseCount = (TextView) view.findViewById(R.id.comment_imgHeader_praiseCount);
+        mHeaderCommentImg = (ImageView) view.findViewById(R.id.comment_imgHeader_commentImg);
+        mHeaderCommentCount = (TextView) view.findViewById(R.id.comment_imgHeader_commentCount);
     }
 
     /**
@@ -218,6 +285,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
      */
     public void getFocus(boolean status) {
         if (status) {
+            mCommentBottomLayout.setVisibility(View.VISIBLE);
             mDynamicCommentFootEdit.requestFocus();
             mMap = mAdapter.getMap();
         } else {

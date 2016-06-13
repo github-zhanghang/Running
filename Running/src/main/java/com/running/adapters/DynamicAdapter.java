@@ -10,6 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.lzy.ninegrid.ImageInfo;
+import com.lzy.ninegrid.NineGridView;
+import com.lzy.ninegrid.preview.ClickNineGridViewAdapter;
 import com.running.android_main.DynamicCommentActivity;
 import com.running.android_main.DynamicOneselfActivity;
 import com.running.android_main.MainActivity;
@@ -17,16 +21,20 @@ import com.running.android_main.MyApplication;
 import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.DynamicLinkBean;
-import com.running.myviews.MyGridView;
+import com.running.utils.GlideCircleTransform;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import okhttp3.Call;
 
 /**
  * Created by ldd on 2016/5/29.
@@ -37,37 +45,17 @@ public class DynamicAdapter extends BaseAdapter {
     List<HashMap<String, Object>> mList;
     LayoutInflater mInflater;
     //img GridView适配器
-    DynamicImgGridViewAdapter mAdapter;
-    @Bind(R.id.dynamic_img_item_head_img)
-    ImageView mDynamicImgItemHeadImg;
-    @Bind(R.id.dynamic_img_item_name)
-    TextView mDynamicImgItemName;
-    @Bind(R.id.dynamic_img_item_time)
-    TextView mDynamicImgItemTime;
-    @Bind(R.id.dynamic_img_item_content)
-    TextView mDynamicImgItemContent;
-    @Bind(R.id.dynamic_img_item_gridView)
-    MyGridView mDynamicImgItemGridView;
-    @Bind(R.id.dynamic_img_item_p_background)
-    ImageView mDynamicImgItemPBackground;
-    @Bind(R.id.dynamic_img_item_praise_img)
-    ImageView mDynamicImgItemPraiseImg;
-    @Bind(R.id.dynamic_img_item_praise_count)
-    TextView mDynamicImgItemPraiseCount;
-    @Bind(R.id.dynamic_img_item_c_background)
-    ImageView mDynamicImgItemCBackground;
-    @Bind(R.id.dynamic_img_item_comment_img)
-    ImageView mDynamicImgItemCommentImg;
-    @Bind(R.id.dynamic_img_item_comment_count)
-    TextView mDynamicImgItemCommentCount;
+    ClickNineGridViewAdapter mAdapter;
 
     MyApplication mMyApplication;
+
+    String url = MyApplication.HOST+"dynamicOperateServlet";
 
     public DynamicAdapter(Context context, List<HashMap<String, Object>> list) {
         mContext = context;
         mList = list;
         mInflater = LayoutInflater.from(mContext);
-        mMyApplication = (MyApplication) ((MainActivity)mContext).getApplication();
+        mMyApplication = (MyApplication) ((MainActivity) mContext).getApplication();
     }
 
     @Override
@@ -174,17 +162,19 @@ public class DynamicAdapter extends BaseAdapter {
     }
 
     //显示普通动态
-    private void showDynamicImg(ImgViewHolder imgViewHolder, final DynamicImgBean dynamicImgBean) {
-        Glide.with(mContext).
-                load(dynamicImgBean.getHeadPhoto()).
-                placeholder(R.mipmap.ic_launcher).
-                into(imgViewHolder.mDynamicImgItemHeadImg);
+    private void showDynamicImg(final ImgViewHolder imgViewHolder, final DynamicImgBean
+            dynamicImgBean) {
+        Glide.with(mContext)
+                .load(dynamicImgBean.getHeadPhoto())
+                .centerCrop()
+                .transform(new GlideCircleTransform(mContext))
+                .into(imgViewHolder.mDynamicImgItemHeadImg);
         //头像设置点击事件
         imgViewHolder.mDynamicImgItemHeadImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DynamicOneselfActivity.class);
-                intent.putExtra("dId",dynamicImgBean.getdId());
+                intent.putExtra("dId", dynamicImgBean.getdId());
                 mContext.startActivity(intent);
             }
         });
@@ -192,9 +182,31 @@ public class DynamicAdapter extends BaseAdapter {
         imgViewHolder.mDynamicImgItemTime.setText(timeChange(dynamicImgBean.getTime()));
         imgViewHolder.mDynamicImgItemContent.setText(dynamicImgBean.getContent());
         //img GridView的添加值
-        mAdapter = new DynamicImgGridViewAdapter(mContext, dynamicImgBean.getImgList(),
-                imgViewHolder.mDynamicImgItemGridView);
+        List<ImageInfo> infoList = new ArrayList<>();
+        for (int i = 0; i < dynamicImgBean.getImgList().size(); i++) {
+            ImageInfo imageInfo = new ImageInfo();
+            imageInfo.setThumbnailUrl(dynamicImgBean.getImgList().get(i));
+            imageInfo.setBigImageUrl(dynamicImgBean.getImgList().get(i));
+            infoList.add(imageInfo);
+        }
+        mAdapter = new ClickNineGridViewAdapter(mContext,infoList);
         imgViewHolder.mDynamicImgItemGridView.setAdapter(mAdapter);
+
+        if (dynamicImgBean.getPraiseStatus() == 0) {
+            imgViewHolder.mDynamicImgItemPraiseImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dynamicImgBean.setPraiseStatus(1);
+                    dynamicImgBean.setPraiseCount(dynamicImgBean.getPraiseCount() + 1);
+                    imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(dynamicImgBean
+                            .getPraiseCount()));
+                    imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.praise_red);
+                    addPraise(dynamicImgBean.getdId());
+                }
+            });
+        } else if (dynamicImgBean.getPraiseStatus() == 1) {
+            imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.praise_red);
+        }
 
         imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(dynamicImgBean
                 .getPraiseCount()));
@@ -203,8 +215,8 @@ public class DynamicAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, DynamicCommentActivity.class);
-                intent.putExtra("myId",mMyApplication.getUserInfo().getUid());
-                intent.putExtra("dynamicBean",dynamicImgBean);
+                intent.putExtra("myId", mMyApplication.getUserInfo().getUid());
+                intent.putExtra("dynamicBean", dynamicImgBean);
                 mContext.startActivity(intent);
             }
         });
@@ -212,14 +224,40 @@ public class DynamicAdapter extends BaseAdapter {
                 .getCommentCount()));
     }
 
+    private void addPraise(int i) {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("pDId", i);
+        //用户id
+        //map.put("pUId",mMyApplication.getUserInfo().getUid());
+        map.put("pUId", 1);
+        Gson gson = new Gson();
+        String praiseMap = gson.toJson(map);
+        OkHttpUtils.post()
+                .url(url)
+                .addParams("appRequest", "AddPraise")
+                .addParams("praiseMap", praiseMap)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                });
+    }
+
 
     private String timeChange(String time) {
-        String s="";
-        SimpleDateFormat formatTime=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String s = "";
+        SimpleDateFormat formatTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date date = formatTime.parse(time);
-            SimpleDateFormat formatString=new SimpleDateFormat("MM-dd HH:mm");
-            s=formatString.format(date);
+            SimpleDateFormat formatString = new SimpleDateFormat("MM-dd HH:mm");
+            s = formatString.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -238,7 +276,7 @@ public class DynamicAdapter extends BaseAdapter {
         @Bind(R.id.dynamic_img_item_content)
         TextView mDynamicImgItemContent;
         @Bind(R.id.dynamic_img_item_gridView)
-        MyGridView mDynamicImgItemGridView;
+        NineGridView mDynamicImgItemGridView;
         @Bind(R.id.dynamic_img_item_p_background)
         ImageView mDynamicImgItemPBackground;
         @Bind(R.id.dynamic_img_item_praise_img)

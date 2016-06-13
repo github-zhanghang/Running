@@ -8,18 +8,23 @@ import com.baidu.mapapi.SDKInitializer;
 import com.running.beans.UserInfo;
 import com.running.event.RongCloudEvent;
 import com.running.message.ContactNotificationMessageProvider;
+import com.running.utils.GlideImageLoader;
+import com.running.utils.GlidePauseOnScrollListener;
 import com.yolanda.nohttp.NoHttp;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.finalteam.galleryfinal.CoreConfig;
+import cn.finalteam.galleryfinal.FunctionConfig;
+import cn.finalteam.galleryfinal.GalleryFinal;
+import cn.finalteam.galleryfinal.ThemeConfig;
 import io.rong.imkit.RongIM;
 
 /**
  * Created by ZhangHang on 2016/5/21.
  */
 public class MyApplication extends Application {
-    //public static final String HOST = "http://192.168.56.1:8080/Running/";
     public static final String HOST = "http://123.206.203.86:8080/Running/";
     //用户信息
     public UserInfo mUserInfo;
@@ -43,6 +48,8 @@ public class MyApplication extends Application {
         RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
         //NoHttp
         NoHttp.init(this);
+        //初始化GalleryFinal
+        initGalleryFinal();
     }
 
     public UserInfo getUserInfo() {
@@ -77,5 +84,22 @@ public class MyApplication extends Application {
                 activity.finish();
             }
         }
+    }
+
+    public void initGalleryFinal() {
+        ThemeConfig themeConfig = new ThemeConfig.Builder().build();
+        FunctionConfig functionConfig = new FunctionConfig.Builder()
+                .setEnableCamera(true)
+                .setEnableEdit(true)
+                .setEnableCrop(true)
+                .setEnableRotate(true)
+                .setCropSquare(true)
+                .setEnablePreview(true)
+                .build();
+        CoreConfig coreConfig = new CoreConfig.Builder(this,new GlideImageLoader(), themeConfig)
+                .setFunctionConfig(functionConfig)
+                .setPauseOnScrollListener(new GlidePauseOnScrollListener(false,true))
+                .build();
+        GalleryFinal.init(coreConfig);
     }
 }

@@ -1,6 +1,7 @@
 package com.running.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,9 @@ import com.running.beans.UserInfo;
 
 import java.util.List;
 
+import static com.running.android_main.R.id.item_conFriend_address;
+import static com.running.android_main.R.id.item_conFriend_age;
+import static com.running.android_main.R.id.item_conFriend_sex;
 import static com.running.android_main.R.id.item_conFriend_username;
 
 /**
@@ -54,7 +58,10 @@ public class ConFriendAdapter extends BaseAdapter {
             viewHolder = new MyViewHolder();
             convertView = mLayoutInflater.inflate(R.layout.item_confriend,null);
             viewHolder.mImageView = (ImageView) convertView.findViewById(R.id.item_conFriend_portrait);
-            viewHolder.mTextView = (TextView) convertView.findViewById(item_conFriend_username);
+            viewHolder.nameTextView = (TextView) convertView.findViewById(item_conFriend_username);
+            viewHolder.sexTextView = (TextView) convertView.findViewById(item_conFriend_sex);
+            viewHolder.ageTextView = (TextView) convertView.findViewById(item_conFriend_age);
+            viewHolder.addressTextView = (TextView) convertView.findViewById(item_conFriend_address);
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (MyViewHolder) convertView.getTag();
@@ -62,13 +69,16 @@ public class ConFriendAdapter extends BaseAdapter {
         Glide.with(mContext)
                 .load(mUserInfoList.get(position).getImageUrl())
                 .into(viewHolder.mImageView);
-        viewHolder.mTextView.setText(mUserInfoList.get(position).getNickName());
-
+        viewHolder.nameTextView.setText(mUserInfoList.get(position).getNickName());
+        viewHolder.sexTextView.setText(mUserInfoList.get(position).getSex());
+        Log.e("Ezio123", "getView: "+mUserInfoList.get(position).getAge());
+        viewHolder.ageTextView.setText(mUserInfoList.get(position).getAge()+"岁");
+        viewHolder.addressTextView.setText(mUserInfoList.get(position).getAddress());
         return convertView;
     }
     class MyViewHolder {
         ImageView mImageView;
-        TextView mTextView;
+        TextView nameTextView,ageTextView,sexTextView,addressTextView;
 
     }
 }

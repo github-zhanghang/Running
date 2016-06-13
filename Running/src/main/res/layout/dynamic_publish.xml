@@ -53,18 +53,19 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="苏州"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:layout_marginLeft="20dp"
-                    android:layout_centerVertical="true"/>
+                    android:layout_alignParentBottom="true"/>
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/dynamic_publish_location_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:layout_alignParentRight="true"/>
+                    android:src="@drawable/location"
+                    android:layout_alignParentRight="true"
+                    android:scaleType="centerInside"/>
             </RelativeLayout>
 
             <Button
@@ -76,7 +77,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
                 android:text="发布"
-                android:textSize="30sp"/>
+                android:textSize="25sp"
+                android:background="@drawable/roundedcorners"/>
         </LinearLayout>
     </ScrollView>
 

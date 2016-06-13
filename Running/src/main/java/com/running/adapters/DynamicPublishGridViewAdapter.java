@@ -1,8 +1,8 @@
 package com.running.adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +16,8 @@ import com.running.myviews.MyGridView;
 
 import java.io.File;
 import java.util.List;
+
+import cn.finalteam.galleryfinal.model.PhotoInfo;
 
 /**
  * Created by ldd on 2016/5/30.
@@ -61,22 +63,21 @@ public class DynamicPublishGridViewAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.dynamic_grid_view_img, parent, false);
             viewHolder = new ViewHolder();
+            viewHolder.mImageView = (ImageView) convertView.findViewById(
+                    R.id.dynamic_grid_view_item_img);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.mImageView = (ImageView) convertView.findViewById(
-                R.id.dynamic_grid_view_item_img);
+        Log.d("TAG",""+position+" "+mList.size());
         if (position == (mList.size() - 1)) {
-            viewHolder.mImageView.setImageResource(R.mipmap.ic_launcher);
+            viewHolder.mImageView.setImageResource(R.drawable.addimg);
         } else {
-            Uri uri = Uri.fromFile(new File(mList.get(position).toString()));
+            File file = new File(((PhotoInfo)mList.get(position)).getPhotoPath());
             Glide.with(mContext)
-                    .load(uri)
+                    .load(file)
                     .centerCrop()
                     .thumbnail(0.1f)
-                    .placeholder(me.iwf.photopicker.R.drawable.ic_photo_black_48dp)
-                    .error(me.iwf.photopicker.R.drawable.ic_broken_image_black_48dp)
                     .into(viewHolder.mImageView);
         }
         int width = getWidth()/4;
