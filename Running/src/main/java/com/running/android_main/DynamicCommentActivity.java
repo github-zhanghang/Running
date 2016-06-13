@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,6 +66,8 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
     TopBar mDynamicCommentTopBar;
     @Bind(R.id.dynamic_comment_listView)
     ListView mDynamicCommentListView;
+    @Bind(R.id.dynamic_comment_bottom_layout)
+    LinearLayout mCommentBottomLayout;
     @Bind(R.id.dynamic_comment_footEdit)
     EditText mDynamicCommentFootEdit;
     @Bind(R.id.dynamic_comment_button)
@@ -91,6 +94,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dynamic_comment);
         ButterKnife.bind(this);
+        mCommentBottomLayout.setVisibility(View.GONE);
         initData();
         addListener();
     }
@@ -183,6 +187,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
                 mAdapter.notifyDataSetChanged();
                 mDynamicCommentFootEdit.setText("");
                 mDynamicCommentFootEdit.clearFocus();
+                mCommentBottomLayout.setVisibility(View.GONE);
             }
         });
 
@@ -190,6 +195,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
             @Override
             public void onClick(View v) {
                 status = 1;
+                mCommentBottomLayout.setVisibility(View.VISIBLE);
                 mDynamicCommentFootEdit.requestFocus();
             }
         });
@@ -231,7 +237,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
             imageInfo.setBigImageUrl(imgList.get(i));
             infoList.add(imageInfo);
         }
-        ClickNineGridViewAdapter adapter = new ClickNineGridViewAdapter(this,infoList);
+        ClickNineGridViewAdapter adapter = new ClickNineGridViewAdapter(this, infoList);
         mHeaderGridView.setAdapter(adapter);
         mDynamicCommentListView.addHeaderView(view);
         mAdapter = new DynamicCommentItemAdapter(this, mList);
@@ -279,6 +285,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
      */
     public void getFocus(boolean status) {
         if (status) {
+            mCommentBottomLayout.setVisibility(View.VISIBLE);
             mDynamicCommentFootEdit.requestFocus();
             mMap = mAdapter.getMap();
         } else {

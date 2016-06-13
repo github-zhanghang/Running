@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.running.adapters.DynamicOneselfAdapter;
 import com.running.beans.DynamicOneselfBean;
+import com.running.myviews.SuperSwipeRefreshLayout;
 import com.running.myviews.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -45,7 +45,7 @@ public class DynamicOneselfActivity extends AppCompatActivity {
     @Bind(R.id.dynamic_oneself_recyclerView)
     RecyclerView mOneselfRecyclerView;
     @Bind(R.id.dynamic_oneself_swipe)
-    SwipeRefreshLayout mOneselfSwipe;
+    SuperSwipeRefreshLayout mOneselfSwipe;
 
     private DynamicOneselfCallBack mOneselfCallBack;
     String url = MyApplication.HOST + "dynamicOperateServlet";
@@ -87,10 +87,7 @@ public class DynamicOneselfActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         //设置刷新颜色
-        mOneselfSwipe.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_blue_dark
-        );
+        mOneselfSwipe.setDefaultCircleProgressColor(android.R.color.holo_blue_bright);
         mOneselfSwipe.post(new Runnable() {
             @Override
             public void run() {
@@ -133,7 +130,7 @@ public class DynamicOneselfActivity extends AppCompatActivity {
         });
 
         //RecyclerView下拉刷新
-        mOneselfSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mOneselfSwipe.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
@@ -143,10 +140,55 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                     }
                 }, 2000);
             }
+
+            @Override
+            public void onPullDistance(int distance) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+
+            }
+        });
+        /*mOneselfSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mOneselfSwipe.setRefreshing(false);
+                    }
+                }, 2000);
+            }
+        });*/
+
+        mOneselfSwipe.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+
+
+            @Override
+            public void onLoadMore() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mOneselfSwipe.setLoadMore(false);
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onPushDistance(int distance) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+
+            }
         });
 
         //RecyclerView上拉加载
-        mOneselfRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        /*mOneselfRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -174,7 +216,7 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                     }
                 }
             }
-        });
+        });*/
     }
 
     private void initData() {
