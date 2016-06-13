@@ -71,7 +71,6 @@ public class NearbyActivity extends AppCompatActivity {
                     public void onError(Call call, Exception e) {
                         Log.e("NearbyActivity", "onError: " + e.getMessage());
                     }
-
                     @Override
                     public void onResponse(String response) {
                         Log.e("test123", "NearbyActivity: " + response);
@@ -107,10 +106,19 @@ public class NearbyActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                UserInfo userInfo = mUserInfoList.get(position);
+                if (userInfo.getCode().equals("1")){
+                    Intent intent = new Intent(NearbyActivity.this, PersonInformationActivity.class);
+                    intent.putExtra("UserInfo", userInfo);
+                    startActivity(intent);
+                }else if (userInfo.getUid() == ((MyApplication) getApplication()).getUserInfo().getUid()){
+                    startActivity(new Intent(NearbyActivity.this,MyDetailsActivity.class));
+                }else {
+                    Intent intent = new Intent(NearbyActivity.this, NewFriendInfoActivity.class);
+                    intent.putExtra("FriendInfo", userInfo);
+                    startActivity(intent);
+                }
 
-                Intent intent = new Intent(NearbyActivity.this, NewFriendInfoActivity.class);
-                intent.putExtra("FriendInfo", (UserInfo)mUserInfoList.get(position));
-                startActivity(intent);
 
             }
         });

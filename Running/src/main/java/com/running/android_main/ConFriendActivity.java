@@ -61,9 +61,19 @@ public class ConFriendActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ConFriendActivity.this, NewFriendInfoActivity.class);
-                intent.putExtra("FriendInfo", mUserInfoList.get(position));
-                startActivity(intent);
+                UserInfo userInfo = mUserInfoList.get(position);
+                if (userInfo.getCode().equals("1")){
+                    Intent intent = new Intent(ConFriendActivity.this, PersonInformationActivity.class);
+                    intent.putExtra("UserInfo", userInfo);
+                    startActivity(intent);
+                }else if (userInfo.getUid() == ((MyApplication) getApplication()).getUserInfo().getUid()){
+                    startActivity(new Intent(ConFriendActivity.this,MyDetailsActivity.class));
+                }else {
+                    Intent intent = new Intent(ConFriendActivity.this, NewFriendInfoActivity.class);
+                    intent.putExtra("FriendInfo", userInfo);
+                    startActivity(intent);
+                }
+
             }
         });
     }

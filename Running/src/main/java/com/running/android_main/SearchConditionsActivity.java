@@ -234,6 +234,7 @@ public class SearchConditionsActivity extends AppCompatActivity implements View.
     private void request(String gender, String age, String address) {
         OkHttpUtils.post()
                 .url(SearchConditions)
+                .addParams("meid",((MyApplication) getApplication()).getUserInfo().getUid()+"")//用户id
                 .addParams("sex", gender)
                 .addParams("age", age)
                 .addParams("address", address)
