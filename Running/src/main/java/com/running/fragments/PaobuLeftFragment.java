@@ -41,10 +41,15 @@ public class PaobuLeftFragment extends Fragment {
 
         mLeftView = inflater.inflate(R.layout.paobu_left, null);
         initView();
-        //获取跑步数据
-        getRunData();
         initListeners();
         return mLeftView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //获取跑步数据
+        getRunData();
     }
 
     private void initView() {

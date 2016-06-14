@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 import com.running.beans.City;
 import com.running.beans.District;
 import com.running.beans.Provence;
@@ -40,6 +44,7 @@ import com.running.beans.UserInfo;
 import com.running.myviews.MyInfoItemView;
 import com.running.myviews.TopBar;
 import com.running.myviews.TopBar.OnTopbarClickListener;
+import com.running.utils.GetQiNiuYunToken;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
 import com.yolanda.nohttp.Request;
@@ -47,11 +52,14 @@ import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.RequestQueue;
 import com.yolanda.nohttp.Response;
 
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -72,7 +80,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
     private MyInfoItemView mNickItem, mHeightItem, mWeightItem,
             mSexItem, mBirthdayItem, mAddressItem, mSignatureItem;
-
     private Button mSaveInfoButton;
 
     //弹框内容
@@ -94,11 +101,11 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     //修改头像
     private String[] items = new String[]{"选择本地图片", "拍照"};
     /* 请求码*/
-    private static final int IMAGE_REQUEST_CODE = 0;
-    private static final int CAMERA_REQUEST_CODE = 1;
-    private static final int RESULT_REQUEST_CODE = 2;
+    private final int IMAGE_REQUEST_CODE = 0;
+    private final int CAMERA_REQUEST_CODE = 1;
+    private final int RESULT_REQUEST_CODE = 2;
     /*头像名称*/
-    private static final String IMAGE_FILE_NAME = "faceImage.jpg";
+    private final String IMAGE_FILE_NAME = "head.jpg";
 
     //省市区三级联动
     private List<Provence> provences;
@@ -107,6 +114,18 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     ArrayAdapter<City> adapter02;
     ArrayAdapter<District> adapter03;
     private Spinner spinner01, spinner02, spinner03;
+
+    //头像上传
+    GetQiNiuYunToken mGetQiNiuYunToken;
+    String token;
+    //七牛云外链域名
+    String NET_PATH = "o8hzh2lfo.bkt.clouddn.com";
+    //七牛云上传空间名
+    String UPLOAD_SPACE_NAME = "running";
+    //图片本地路径
+    private String mImageLocalPath;
+    //图片网址
+    private String mImageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -447,9 +466,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                                         IMAGE_REQUEST_CODE);
                                 break;
                             case 1:
-
-                                Intent intentFromCapture = new Intent(
-                                        MediaStore.ACTION_IMAGE_CAPTURE);
+                                Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                 // 判断存储卡是否可以用，可用进行存储
                                 if (hasSdcard()) {
                                     intentFromCapture.putExtra(
@@ -458,9 +475,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                                                     .getExternalStorageDirectory(),
                                                     IMAGE_FILE_NAME)));
                                 }
-
-                                startActivityForResult(intentFromCapture,
-                                        CAMERA_REQUEST_CODE);
+                                startActivityForResult(intentFromCapture, CAMERA_REQUEST_CODE);
                                 break;
                         }
                     }
@@ -493,9 +508,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                     break;
                 case CAMERA_REQUEST_CODE:
                     if (hasSdcard()) {
-                        File tempFile = new File(
-                                Environment.getExternalStorageDirectory()
-                                        + "/" + IMAGE_FILE_NAME);
+                        mImageLocalPath = Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME;
+                        File tempFile = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
                         startPhotoZoom(Uri.fromFile(tempFile));
                     } else {
                         Toast.makeText(MyDetailsActivity.this, "未找到存储卡，无法存储照片！",
@@ -539,9 +553,39 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
             Bitmap photo = extras.getParcelable("data");
             Drawable drawable = new BitmapDrawable(photo);
             mUserImage.setImageDrawable(drawable);
+            //图片保存在本地
+            saveBitmap(photo);
+            mProgressDialog = ProgressDialog.show(MyDetailsActivity.this, "请稍后", "正在上传");
+            //上传图片
+            upload(mImageLocalPath);
         }
     }
 
+    /**
+     * 保存方法
+     */
+    public void saveBitmap(Bitmap bm) {
+        if (hasSdcard()) {
+            mImageLocalPath = Environment.getExternalStorageDirectory() + "/" + System.currentTimeMillis() + IMAGE_FILE_NAME;
+        } else {
+            Toast.makeText(MyDetailsActivity.this, "未找到存储卡，无法存储照片！",
+                    Toast.LENGTH_LONG).show();
+        }
+        File f = new File(mImageLocalPath);
+        if (f.exists()) {
+            f.delete();
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(f);
+            bm.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void saveUserInfo(String u_nickName, String u_height, String u_weight, String u_sex,
                               String u_birthday, String u_address, String u_signature) {
@@ -569,14 +613,24 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         @Override
         public void onSucceed(int what, Response<String> response) {
             mProgressDialog.dismiss();
+            String result = response.get();
+            Log.e("my", "details.result=" + result);
             if (what == WHAT) {
-                String result = response.get();
                 UserInfo userinfo = new Gson().fromJson(result, UserInfo.class);
                 if (userinfo.getCode().equals("1")) {
                     Toast.makeText(MyDetailsActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                     mApplication.setUserInfo(userinfo);
                 } else {
                     Toast.makeText(MyDetailsActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
+                }
+            } else if (what == 2) {
+                if (result.equals("1")) {
+                    mApplication.getUserInfo().setImageUrl(mImageUrl);
+                    Toast.makeText(MyDetailsActivity.this, "修改头像成功", Toast.LENGTH_SHORT).show();
+                } else if (result.equals("0")) {
+                    Toast.makeText(MyDetailsActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MyDetailsActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -665,4 +719,42 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     public void onTopbarRightImageClick(ImageView imageView) {
     }
 
+    /**
+     * 上传图片到七牛云
+     *
+     * @param path (图片本地路径)
+     */
+    public void upload(String path) {
+        UploadManager uploadManager = new UploadManager();
+        mGetQiNiuYunToken = new GetQiNiuYunToken();
+        token = mGetQiNiuYunToken.getToken(UPLOAD_SPACE_NAME);
+        final String imgName = mApplication.getUserInfo().getAccount()
+                + System.currentTimeMillis() + ".jpg";
+        uploadManager.put(path, imgName, token,
+                new UpCompletionHandler() {
+                    @Override
+                    public void complete(String key, ResponseInfo info, JSONObject response) {
+                        //info.statusCode 回掉状态码
+                        if (info.statusCode == 200) {
+                            mImageUrl = "http://" + NET_PATH + File.separator + imgName;
+                            //修改数据库头像地址
+                            updateUserImage();
+                        } else {
+                            mProgressDialog.dismiss();
+                            Toast.makeText(MyDetailsActivity.this, info.statusCode + "上传失败",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }, null);
+    }
+
+    private void updateUserImage() {
+        requestQueue = NoHttp.newRequestQueue(1);
+        Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
+        request.add("type", "changeImage");
+        request.add("account", mUserInfo.getAccount());
+        request.add("url", mImageUrl);
+        requestQueue.add(2, request, onResponseListener);
+        requestQueue.start();
+    }
 }

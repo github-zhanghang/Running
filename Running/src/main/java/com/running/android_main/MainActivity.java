@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity
     private TextView mSettingTextView, mTempTextView, mCityTextView;
     //请求队列
     private RequestQueue mRequestQueue = NoHttp.newRequestQueue(2);
-    //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +83,11 @@ public class MainActivity extends AppCompatActivity
         initFragments();
         initViewPager();
         initListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         initData();
     }
 

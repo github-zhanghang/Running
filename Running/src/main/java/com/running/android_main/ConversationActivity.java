@@ -19,6 +19,8 @@ import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
+import io.rong.message.ImageMessage;
+import io.rong.message.LocationMessage;
 import okhttp3.Call;
 
 public class ConversationActivity extends AppCompatActivity
@@ -119,6 +121,7 @@ public class ConversationActivity extends AppCompatActivity
         Log.e("ConversationActivity", "----onUserPortraitLongClick");
         return false;
     }
+
     /**
      * 会话界面操作的监听器：ConversationBehaviorListener 的回调方法，当点击消息时执行。
      *
@@ -126,8 +129,24 @@ public class ConversationActivity extends AppCompatActivity
      * @param message 被点击的消息的实体信息。
      * @return 返回True不执行后续SDK操作，返回False继续执行SDK操作。
      */
+
     @Override
     public boolean onMessageClick(Context context, View view, Message message) {
+        Log.e(TAG, "----onMessageClick");
+        if (message.getContent() instanceof LocationMessage) {
+            /*Intent intent = new Intent(context, SOSOLocationActivity.class);
+            intent.putExtra("location", message.getContent());
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);*/
+            Toast.makeText(context, "LocationMessage", Toast.LENGTH_SHORT).show();
+        }else if (message.getContent() instanceof ImageMessage) {
+            ImageMessage imageMessage = (ImageMessage) message.getContent();
+            Intent intent = new Intent(context, ChatPhotoActivity.class);
+            intent.putExtra("photo", imageMessage.getLocalUri() == null ? imageMessage.getRemoteUri() : imageMessage.getLocalUri());
+            if (imageMessage.getThumUri() != null)
+                intent.putExtra("thumbnail", imageMessage.getThumUri());
+            context.startActivity(intent);
+        }
         return false;
     }
     /**
