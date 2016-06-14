@@ -43,6 +43,7 @@ public class RecordActivity extends AppCompatActivity  implements View.OnClickLi
     private void initData() {
         Glide.with(RecordActivity.this)
                 .load(myApplication.getUserInfo().getImageUrl())
+                .error(R.drawable.fail)
                 .into(mImageView);
         OkHttpUtils.get()
                 .url(MyApplication.HOST+"sumRecordServlet")

@@ -19,6 +19,7 @@ import cn.finalteam.galleryfinal.CoreConfig;
 import cn.finalteam.galleryfinal.FunctionConfig;
 import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.ThemeConfig;
+import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
 
 /**
@@ -37,6 +38,9 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mActivityList = new ArrayList<>();
+        //极光推送
+        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
         //百度地图
         SDKInitializer.initialize(getApplicationContext());
         //初始化融云
