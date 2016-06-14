@@ -27,8 +27,7 @@
                 android:id="@+id/img_good"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/p1"/>
+                android:adjustViewBounds="true"/>
             <TextView
                 android:id="@+id/name_good"
                 android:layout_width="match_parent"

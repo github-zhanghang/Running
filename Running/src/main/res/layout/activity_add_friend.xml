@@ -53,12 +53,12 @@
 
         <ImageView
             android:id="@+id/fujin"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="5dp"
-            android:src="@drawable/rc_default_portrait"/>
+            android:src="@drawable/ic_nearby"/>
 
         <TextView
             android:layout_width="180dp"
@@ -78,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginRight="3dp"
-        android:background="#998181"/>
+        android:background="#d4d4d4"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -87,12 +87,12 @@
 
         <ImageView
             android:id="@+id/chazhao"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="5dp"
-            android:src="@drawable/rc_default_portrait"/>
+            android:src="@drawable/ic_search"/>
 
         <TextView
             android:layout_width="180dp"

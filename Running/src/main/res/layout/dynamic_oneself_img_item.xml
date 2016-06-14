@@ -76,8 +76,9 @@
 
                     <ImageView
                         android:id="@+id/dynamic_oneself_imgItem_praiseImg"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
                         android:src="@drawable/praise"/>
 
                     <TextView
@@ -106,8 +107,9 @@
 
                     <ImageView
                         android:id="@+id/dynamic_oneself_imgItem_commentImg"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
                         android:src="@drawable/comment"/>
 
                     <TextView

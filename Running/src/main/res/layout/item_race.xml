@@ -29,8 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:layout_margin="8dp"
-           android:scaleType="centerCrop"
-            android:src="@drawable/p1"/>
+            android:scaleType="centerCrop" />
         <TextView
             android:layout_marginTop="154dp"
             android:layout_marginLeft="8dp"

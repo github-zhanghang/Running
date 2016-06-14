@@ -36,7 +36,8 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="10dp"
-            android:background="#ff9900"
+            android:textColor="@color/white"
+            android:background="@color/colorOrange"
             android:text="提交"
             android:textSize="20sp"/>
 

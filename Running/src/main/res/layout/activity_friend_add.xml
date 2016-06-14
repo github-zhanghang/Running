@@ -47,12 +47,12 @@
         android:layout_height="70dp">
         <ImageView
             android:id="@+id/fujin"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="5dp"
-            android:src="@drawable/rc_default_portrait" />
+            android:src="@drawable/ic_nearby" />
         <TextView
             android:text="搜附近"
             android:textSize="16sp"
@@ -78,12 +78,12 @@
         android:layout_height="70dp">
         <ImageView
             android:id="@+id/chazhao"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="5dp"
-            android:src="@drawable/rc_default_portrait" />
+            android:src="@drawable/ic_search" />
         <TextView
             android:text="按条件查找"
             android:textSize="16sp"

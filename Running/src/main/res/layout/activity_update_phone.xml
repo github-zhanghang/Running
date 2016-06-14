@@ -111,8 +111,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:background="#ff9900"
+                android:background="@color/colorGreen"
                 android:text="确定"
+                android:textColor="@color/white"
                 android:textSize="20sp"/>
 
             <Button
@@ -121,7 +122,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:background="#ff9900"
+                android:background="@color/colorOrange"
+                android:textColor="@color/white"
                 android:text="取消"
                 android:textSize="20sp"/>
         </LinearLayout>
