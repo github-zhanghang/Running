@@ -14,7 +14,7 @@
         app:isRightImageShow="true"
         app:leftImage="@drawable/ic_back"
         app:leftText="勋章"
-        app:rightImage="@drawable/share"/>
+        app:rightImage="@drawable/ic_share"/>
 
     <GridView
         android:id="@+id/medal_gridview"
@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:layout_margin="2dp"
         android:horizontalSpacing="2dp"
-        android:numColumns="3"
+        android:numColumns="2"
         android:verticalSpacing="2dp">
     </GridView>
 </LinearLayout>

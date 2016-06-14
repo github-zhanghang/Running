@@ -19,7 +19,7 @@
         android:text="保存"
         android:textSize="16sp"
         android:textColor="@color/white"
-        android:background="#938e8e"
+        android:background="@color/colorOrange"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
 

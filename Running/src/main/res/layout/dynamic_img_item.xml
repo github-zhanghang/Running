@@ -85,12 +85,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp">
-                <!--背景图片-->
-                <ImageView
-                    android:id="@+id/dynamic_img_item_p_background"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/p_c_background"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -110,19 +104,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="18"
-                        android:textSize="25sp"/>
+                        android:textSize="20sp"/>
                 </LinearLayout>
             </FrameLayout>
             <!--下方评论布局-->
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-                <!--背景图-->
-                <ImageView
-                    android:id="@+id/dynamic_img_item_c_background"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/p_c_background"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -142,7 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="4"
-                        android:textSize="25sp"/>
+                        android:textSize="20sp"/>
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

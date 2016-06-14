@@ -61,7 +61,12 @@ public class RecordActivity extends AppCompatActivity  implements View.OnClickLi
                         countTextView.setText(sumRecord.getSumcount()+"");
                         disTextView.setText(sumRecord.getSumrundistance()+"");
                         java.text.DecimalFormat df=new java.text.DecimalFormat("#0.00");//保留两位小数
-                        avgTextView.setText(df.format(sumRecord.getSumrundistance()/sumRecord.getSumcount()));
+                        if(sumRecord.getSumcount()!=0){
+                            avgTextView.setText(df.format(sumRecord.getSumrundistance()/sumRecord.getSumcount()));
+                        }else{
+                            avgTextView.setText("0.0");
+                        }
+
                     }
                 });
     }

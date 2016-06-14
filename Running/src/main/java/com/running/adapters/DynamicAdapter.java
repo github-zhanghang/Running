@@ -274,13 +274,13 @@ public class DynamicAdapter extends BaseAdapter {
         TextView mDynamicImgItemContent;
         @Bind(R.id.dynamic_img_item_gridView)
         MyGridView mDynamicImgItemGridView;
-        @Bind(R.id.dynamic_img_item_p_background)
+        //@Bind(R.id.dynamic_img_item_p_background)
         ImageView mDynamicImgItemPBackground;
         @Bind(R.id.dynamic_img_item_praise_img)
         ImageView mDynamicImgItemPraiseImg;
         @Bind(R.id.dynamic_img_item_praise_count)
         TextView mDynamicImgItemPraiseCount;
-        @Bind(R.id.dynamic_img_item_c_background)
+        //@Bind(R.id.dynamic_img_item_c_background)
         ImageView mDynamicImgItemCBackground;
         @Bind(R.id.dynamic_img_item_comment_img)
         ImageView mDynamicImgItemCommentImg;

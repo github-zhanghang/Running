@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#f0f0f0">
+        android:background="#f0f0f0"
+        android:padding="3dp">
 
         <RadioGroup
             android:id="@+id/radiogroup"
@@ -21,7 +22,7 @@
                 style="@style/radio"
                 android:checked="true"
                 android:drawableTop="@drawable/runimg"
-                android:text="跑步"/>
+                android:text="跑步" />
 
             <RadioButton
                 android:id="@+id/find"
