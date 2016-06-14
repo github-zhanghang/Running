@@ -12,7 +12,7 @@
         android:id="@+id/dynamic_oneself_topBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        app:leftImage="@mipmap/ic_launcher"
+        app:leftImage="@drawable/ic_back"
         app:leftText="桃子">
     </com.running.myviews.TopBar>
 

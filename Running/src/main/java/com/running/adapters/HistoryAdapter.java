@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.running.android_main.R;
@@ -61,6 +62,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((HistoryViewHolder) holder).dateTextView.setText(dateFormat.format(mHistories.get(position).getRunstarttime()));
             ((HistoryViewHolder) holder).distanceTextView.setText(mHistories.get(position).getRundistance() + "");
             ((HistoryViewHolder) holder).timeTextView.setText(dateFormat2.format(mHistories.get(position).getRuntime() - 28800000));
+            if (mHistories.get(position).getComplete()==(-1)){
+                ((HistoryViewHolder) holder).targetImageView.setVisibility(View.GONE);
+            }
             if (mOnItemClickListener != null) {
                 ((HistoryViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -89,12 +93,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class HistoryViewHolder extends RecyclerView.ViewHolder {
         TextView dateTextView, distanceTextView, timeTextView;
-
+        ImageView targetImageView;
         public HistoryViewHolder(View itemView) {
             super(itemView);
             dateTextView = (TextView) itemView.findViewById(R.id.date_histoy);
             distanceTextView = (TextView) itemView.findViewById(R.id.distance_history);
             timeTextView = (TextView) itemView.findViewById(R.id.time_history);
+            targetImageView= (ImageView) itemView.findViewById(R.id.img_target);
         }
     }
 

@@ -37,9 +37,9 @@ public class MyToggleButton extends View {
      */
     private void initBitmap() {
         backgroundOn = BitmapFactory.decodeResource(getResources(),
-                R.drawable.switch_on);
+                R.drawable.ic_switch_on);
         backgroundOff = BitmapFactory.decodeResource(getResources(),
-                R.drawable.switch_off);
+                R.drawable.ic_switch_off);
         slideBackground = BitmapFactory.decodeResource(getResources(),
                 R.drawable.switch_button);
     }

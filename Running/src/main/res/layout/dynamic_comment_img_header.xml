@@ -97,8 +97,9 @@
 
                     <ImageView
                         android:id="@+id/comment_imgHeader_praiseImg"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
                         android:src="@drawable/praise"/>
 
                     <TextView
@@ -127,8 +128,9 @@
                     <!--评论图标-->
                     <ImageView
                         android:id="@+id/comment_imgHeader_commentImg"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
                         android:src="@drawable/comment"/>
                     <!--评论数-->
                     <TextView

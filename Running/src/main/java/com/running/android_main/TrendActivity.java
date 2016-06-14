@@ -255,7 +255,7 @@ public class TrendActivity extends AppCompatActivity {
         }
         dataset.addSeries(series);
         // 设置颜色
-        int color = Color.argb(255, 255, 153, 0);
+        int color = Color.argb(255, 235, 79, 56);
         xyRenderer.setColor(color);
         // 设置 X 轴不显示数字（改用我们手动添加的文字标签）
         renderer.setShowLegend(false);
