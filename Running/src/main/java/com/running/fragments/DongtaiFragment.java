@@ -53,6 +53,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
     //动态内容界面
     private View mView;
     private TopBar mTopBar;
+    private ImageView uImg;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ListView mListView;
     private List<HashMap<String, Object>> mList;
@@ -109,6 +110,15 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
         return mView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Glide.with(this)
+                .load(((MyApplication) getActivity().getApplication()).getUserInfo().getImageUrl())
+                .transform(new GlideCircleTransform(getActivity()))
+                .into(uImg);
+    }
+
     //初始化View
     private void initViews() {
         mActivity = (MainActivity) getActivity();
@@ -138,12 +148,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 load(R.drawable.dynamic_test).
                 thumbnail(0.1f).
                 into(imageView);
-        ImageView uImg = (ImageView) mHeaderView.findViewById(R.id
-                .dynamic_header_head_img);
-        Glide.with(this)
-                .load(((MyApplication) getActivity().getApplication()).getUserInfo().getImageUrl())
-                .transform(new GlideCircleTransform(getActivity()))
-                .into(uImg);
+        uImg = (ImageView) mHeaderView.findViewById(R.id.dynamic_header_head_img);
         mListView.addHeaderView(mHeaderView);
 
         //添加FootView

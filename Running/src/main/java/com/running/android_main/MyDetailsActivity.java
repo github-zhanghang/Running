@@ -101,11 +101,11 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     //修改头像
     private String[] items = new String[]{"选择本地图片", "拍照"};
     /* 请求码*/
-    private static final int IMAGE_REQUEST_CODE = 0;
-    private static final int CAMERA_REQUEST_CODE = 1;
-    private static final int RESULT_REQUEST_CODE = 2;
+    private final int IMAGE_REQUEST_CODE = 0;
+    private final int CAMERA_REQUEST_CODE = 1;
+    private final int RESULT_REQUEST_CODE = 2;
     /*头像名称*/
-    private static final String IMAGE_FILE_NAME = "faceImage.jpg";
+    private final String IMAGE_FILE_NAME = "head.jpg";
 
     //省市区三级联动
     private List<Provence> provences;
@@ -566,7 +566,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
      */
     public void saveBitmap(Bitmap bm) {
         if (hasSdcard()) {
-            mImageLocalPath = Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME;
+            mImageLocalPath = Environment.getExternalStorageDirectory() + "/" + System.currentTimeMillis() + IMAGE_FILE_NAME;
         } else {
             Toast.makeText(MyDetailsActivity.this, "未找到存储卡，无法存储照片！",
                     Toast.LENGTH_LONG).show();
@@ -728,7 +728,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         UploadManager uploadManager = new UploadManager();
         mGetQiNiuYunToken = new GetQiNiuYunToken();
         token = mGetQiNiuYunToken.getToken(UPLOAD_SPACE_NAME);
-        final String imgName = "head_" + mApplication.getUserInfo().getAccount() + ".jpg";
+        final String imgName = mApplication.getUserInfo().getAccount()
+                + System.currentTimeMillis() + ".jpg";
         uploadManager.put(path, imgName, token,
                 new UpCompletionHandler() {
                     @Override
