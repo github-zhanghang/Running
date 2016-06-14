@@ -15,7 +15,7 @@
         app:isRightImageShow="true"
         app:leftImage="@drawable/ic_back"
         app:leftText="详细资料"
-        app:rightImage="@mipmap/ic_launcher">
+        app:rightImage="@drawable/ic_infomore">
     </com.running.myviews.TopBar>
 
     <LinearLayout

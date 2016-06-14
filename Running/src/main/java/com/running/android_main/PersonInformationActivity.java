@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import java.util.HashMap;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.rong.imkit.RongIM;
 import okhttp3.Call;
 
 public class PersonInformationActivity extends AppCompatActivity {
@@ -64,6 +66,8 @@ public class PersonInformationActivity extends AppCompatActivity {
             }
         }
     };
+    //
+    private PopupWindow mPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +122,10 @@ public class PersonInformationActivity extends AppCompatActivity {
         mSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (RongIM.getInstance() != null) {
+                    RongIM.getInstance().startPrivateChat
+                            (PersonInformationActivity.this, mUserInfo.getAccount(), mUserInfo.getNickName());
+                }
             }
         });
 

@@ -382,6 +382,8 @@
 
         <activity android:name=".ChatLocationActivity">
         </activity>
+        <activity android:name=".MapLocationActivity">
+        </activity>
     </application>
 
 </manifest>

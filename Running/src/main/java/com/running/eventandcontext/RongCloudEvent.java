@@ -1,4 +1,4 @@
-package com.running.event; /**
+package com.running.eventandcontext; /**
  * Created by Ezio on 2016/5/26.
  */
 
@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 
 import com.running.android_main.NewFriendListActivity;
@@ -86,7 +85,7 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
     private void initDefaultListener() {
         //RongIM.setUserInfoProvider(this, true);//设置用户信息提供者。
         RongIM.setConversationListBehaviorListener(this);//会话列表界面操作的监听器
-        RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
+        RongIM.setLocationProvider(this);//设置地理位置提供者,
     }
     /**
      * 连接成功注册。
