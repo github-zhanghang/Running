@@ -1,5 +1,6 @@
 package com.running.android_main;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -208,7 +208,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                         u_birthday.equals(mUserInfo.getBirthday() + "") &&
                         u_address.equals(mUserInfo.getAddress() + "") &&
                         u_signature.equals(mUserInfo.getSignature() + "")) {
-                    showToast("个人信息未发生变化");
+                    Toast.makeText(MyDetailsActivity.this, "个人信息未发生变化", Toast.LENGTH_SHORT).show();
                 } else {
                     io.rong.imlib.model.UserInfo userInfo =
                             new io.rong.imlib.model.UserInfo(mApplication.getUserInfo().getAccount(),
@@ -219,6 +219,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 }
                 break;
             case R.id.details_head:
+                Toast.makeText(MyDetailsActivity.this, "修改头像", Toast.LENGTH_SHORT).show();
                 showChangeImageDialog();
                 break;
             case R.id.nick_item:
@@ -309,6 +310,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         } catch (XmlPullParserException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -617,7 +619,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                     showToast("修改成功");
                     mApplication.setUserInfo(userinfo);
                 } else {
-                    showToast("修改失败");
+                    showToast("修改头像失败");
                 }
             } else if (what == 2) {
                 if (result.equals("1")) {
@@ -626,7 +628,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                             new io.rong.imlib.model.UserInfo(
                                     mApplication.getUserInfo().getAccount(),
                                     mApplication.getUserInfo().getNickName(),
-                                    Uri.parse(mImageUrl));
+                                    Uri.parse(mApplication.getUserInfo().getImageUrl()));
                     RongContext.getInstance().getUserInfoCache().
                             put(mApplication.getUserInfo().getAccount(), userInfo);
                 } else if (result.equals("0")) {
