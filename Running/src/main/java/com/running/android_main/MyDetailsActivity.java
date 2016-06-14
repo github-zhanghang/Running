@@ -106,6 +106,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     private final int RESULT_REQUEST_CODE = 2;
     /*头像名称*/
     private final String IMAGE_FILE_NAME = "head.jpg";
+    private Toast mToast;
 
     //省市区三级联动
     private List<Provence> provences;
@@ -207,7 +208,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                         u_birthday.equals(mUserInfo.getBirthday() + "") &&
                         u_address.equals(mUserInfo.getAddress() + "") &&
                         u_signature.equals(mUserInfo.getSignature() + "")) {
-                    Toast.makeText(MyDetailsActivity.this, "个人信息未发生变化", Toast.LENGTH_SHORT).show();
+                    showToast("个人信息未发生变化");
                 } else {
                     io.rong.imlib.model.UserInfo userInfo =
                             new io.rong.imlib.model.UserInfo(mApplication.getUserInfo().getAccount(),
@@ -218,7 +219,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 }
                 break;
             case R.id.details_head:
-                Toast.makeText(MyDetailsActivity.this, "修改头像", Toast.LENGTH_SHORT).show();
                 showChangeImageDialog();
                 break;
             case R.id.nick_item:
@@ -307,10 +307,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         try {
             provences = getProvinces();
         } catch (XmlPullParserException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -512,8 +510,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                         File tempFile = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
                         startPhotoZoom(Uri.fromFile(tempFile));
                     } else {
-                        Toast.makeText(MyDetailsActivity.this, "未找到存储卡，无法存储照片！",
-                                Toast.LENGTH_LONG).show();
+                        showToast("未找到存储卡，无法存储照片！");
                     }
                     break;
                 case RESULT_REQUEST_CODE:
@@ -568,8 +565,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         if (hasSdcard()) {
             mImageLocalPath = Environment.getExternalStorageDirectory() + "/" + System.currentTimeMillis() + IMAGE_FILE_NAME;
         } else {
-            Toast.makeText(MyDetailsActivity.this, "未找到存储卡，无法存储照片！",
-                    Toast.LENGTH_LONG).show();
+            showToast("未找到存储卡，无法存储照片！");
         }
         File f = new File(mImageLocalPath);
         if (f.exists()) {
@@ -618,19 +614,25 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
             if (what == WHAT) {
                 UserInfo userinfo = new Gson().fromJson(result, UserInfo.class);
                 if (userinfo.getCode().equals("1")) {
-                    Toast.makeText(MyDetailsActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                    showToast("修改成功");
                     mApplication.setUserInfo(userinfo);
                 } else {
-                    Toast.makeText(MyDetailsActivity.this, "修改失败", Toast.LENGTH_SHORT).show();
+                    showToast("修改失败");
                 }
             } else if (what == 2) {
                 if (result.equals("1")) {
                     mApplication.getUserInfo().setImageUrl(mImageUrl);
-                    Toast.makeText(MyDetailsActivity.this, "修改头像成功", Toast.LENGTH_SHORT).show();
+                    io.rong.imlib.model.UserInfo userInfo =
+                            new io.rong.imlib.model.UserInfo(
+                                    mApplication.getUserInfo().getAccount(),
+                                    mApplication.getUserInfo().getNickName(),
+                                    Uri.parse(mImageUrl));
+                    RongContext.getInstance().getUserInfoCache().
+                            put(mApplication.getUserInfo().getAccount(), userInfo);
                 } else if (result.equals("0")) {
-                    Toast.makeText(MyDetailsActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
+                    showToast("修改头像失败");
                 } else {
-                    Toast.makeText(MyDetailsActivity.this, "修改头像失败", Toast.LENGTH_SHORT).show();
+                    showToast("修改头像失败");
                 }
             }
         }
@@ -638,7 +640,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
             mProgressDialog.dismiss();
-            Toast.makeText(MyDetailsActivity.this, "error", Toast.LENGTH_SHORT).show();
+            showToast("error");
         }
 
         @Override
@@ -741,8 +743,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                             updateUserImage();
                         } else {
                             mProgressDialog.dismiss();
-                            Toast.makeText(MyDetailsActivity.this, info.statusCode + "上传失败",
-                                    Toast.LENGTH_SHORT).show();
+                            showToast("上传失败");
                         }
                     }
                 }, null);
@@ -757,4 +758,14 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         requestQueue.add(2, request, onResponseListener);
         requestQueue.start();
     }
+
+    public void showToast(String text) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(MyDetailsActivity.this, text, Toast.LENGTH_SHORT);
+        mToast.show();
+    }
+
+
 }
