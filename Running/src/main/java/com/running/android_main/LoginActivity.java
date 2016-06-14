@@ -1,7 +1,6 @@
 package com.running.android_main;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.running.beans.UserInfo;
+import com.running.myviews.CustomProgressDialog;
 import com.running.myviews.ImageTextView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
@@ -57,7 +57,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView mForgetPasswordTextView;
     private Button mLoginButton, mRegisterButton;
     private CheckBox mRememberInfoCheckBox;
-    private ProgressDialog mProgressDialog;
+    //private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
     //是否记住密码
     private boolean isRememberPassword = false;
@@ -89,8 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mRememberInfoCheckBox.setChecked(true);
         initListeners();
         initUserInfo();
-
-
+        mProgressDialog = new CustomProgressDialog(this, "正在登录中", R.drawable.frame);
     }
 
     private void initViews() {
@@ -163,7 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     LoginActivity.this.finish();
                 } else {
-                    mProgressDialog = ProgressDialog.show(this, "请稍等", "正在登陆中");
+                    mProgressDialog.show();
                     handleLogin(mAccount, mPassword);
                 }
                 break;

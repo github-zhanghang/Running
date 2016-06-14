@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.running.beans.Friend;
+import com.running.eventandcontext.RongCloudContext;
 import com.running.myviews.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -23,17 +24,21 @@ import io.rong.message.ImageMessage;
 import io.rong.message.LocationMessage;
 import okhttp3.Call;
 
+/**
+ * 会话界面
+ */
+
 public class ConversationActivity extends AppCompatActivity
-    implements RongIM.ConversationBehaviorListener{
+        implements RongIM.ConversationBehaviorListener,
+        RongIM.LocationProvider {
     public static final String TAG = "ConversationActivity";
     private TopBar mTopBar;
     private String friendId;
     private String title;
     private Friend mFriend;
     private com.running.beans.UserInfo mUserInfo;
+
     /**
-     * 会话界面
-     *
      * @param savedInstanceState
      */
     @Override
@@ -42,10 +47,11 @@ public class ConversationActivity extends AppCompatActivity
         setContentView(R.layout.activity_conversation);
         //设置会话界面操作的监听器。
         RongIM.setConversationBehaviorListener(this);
+        RongIM.setLocationProvider(this);
         Intent intent = getIntent();
         //获取 userid 和标题
-        friendId= intent.getData().getQueryParameter("targetId");
-        title= intent.getData().getQueryParameter("title");
+        friendId = intent.getData().getQueryParameter("targetId");
+        title = intent.getData().getQueryParameter("title");
         String type = intent.getData().getQueryParameter("type");
         Log.e("test123", "id: " + friendId + "  title:" + title + "  type:" + type);
         initViews();
@@ -81,7 +87,7 @@ public class ConversationActivity extends AppCompatActivity
 
                     @Override
                     public void onResponse(String response) {
-                        Log.e("test123: ", "ConversationActivity:"+response);
+                        Log.e("test123: ", "ConversationActivity:" + response);
                         mUserInfo = new Gson().fromJson(response, com.running.beans.UserInfo.class);
 
                     }
@@ -100,15 +106,15 @@ public class ConversationActivity extends AppCompatActivity
     @Override
     public boolean onUserPortraitClick(Context context, Conversation.ConversationType conversationType, UserInfo user) {
         if (user != null) {
-            Log.e(TAG, "onUserPortraitClick: "+user.getUserId());
+            Log.e(TAG, "onUserPortraitClick: " + user.getUserId());
             //点击自己头像 跳转到我的资料 点击好友头像 跳转到好友资料
-             if (user.getUserId().equals(friendId)){
-                 mUserInfo.setNickName(title);
-                 Intent intent = new Intent(context, PersonInformationActivity.class);
-                 intent.putExtra("UserInfo", mUserInfo);
+            if (user.getUserId().equals(friendId)) {
+                mUserInfo.setNickName(title);
+                Intent intent = new Intent(context, PersonInformationActivity.class);
+                intent.putExtra("UserInfo", mUserInfo);
                 startActivity(intent);
-            }else {
-                startActivity(new Intent(context,MyDetailsActivity.class));
+            } else {
+                startActivity(new Intent(context, MyDetailsActivity.class));
 
             }
         }
@@ -134,12 +140,14 @@ public class ConversationActivity extends AppCompatActivity
     public boolean onMessageClick(Context context, View view, Message message) {
         Log.e(TAG, "----onMessageClick");
         if (message.getContent() instanceof LocationMessage) {
-            /*Intent intent = new Intent(context, SOSOLocationActivity.class);
-            intent.putExtra("location", message.getContent());
+            Intent intent = new Intent(context, ChatLocationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);*/
-            Toast.makeText(context, "LocationMessage", Toast.LENGTH_SHORT).show();
-        }else if (message.getContent() instanceof ImageMessage) {
+            intent.putExtra("haslocation", true);
+            intent.putExtra("location", message.getContent());
+
+            context.startActivity(intent);
+
+        } else if (message.getContent() instanceof ImageMessage) {
             ImageMessage imageMessage = (ImageMessage) message.getContent();
             Intent intent = new Intent(context, ChatPhotoActivity.class);
             intent.putExtra("photo", imageMessage.getLocalUri() == null ? imageMessage.getRemoteUri() : imageMessage.getLocalUri());
@@ -149,11 +157,12 @@ public class ConversationActivity extends AppCompatActivity
         }
         return false;
     }
+
     /**
      * 当点击链接消息时执行。
      *
      * @param context 上下文。
-     * @param s    被点击的链接。
+     * @param s       被点击的链接。
      * @return 如果用户自己处理了点击后的逻辑处理，则返回 true， 否则返回 false, false 走融云默认处理方式。
      */
     @Override
@@ -164,5 +173,21 @@ public class ConversationActivity extends AppCompatActivity
     @Override
     public boolean onMessageLongClick(Context context, View view, Message message) {
         return false;
+    }
+
+    /**
+     *
+     * @param context
+     * @param locationCallback
+     */
+    @Override
+    public void onStartLocation(Context context, LocationCallback locationCallback) {
+
+        RongCloudContext.getInstance().setLastLocationCallback(locationCallback);
+        Intent intent = new Intent(context, ChatLocationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("haslocation", false);
+
+        context.startActivity(intent);
     }
 }

@@ -25,7 +25,7 @@ import com.running.android_main.MyApplication;
 import com.running.android_main.NewFriendListActivity;
 import com.running.android_main.R;
 import com.running.beans.Friend;
-import com.running.event.RongCloudEvent;
+import com.running.eventandcontext.RongCloudEvent;
 import com.running.myviews.edittextwithdeel.EditTextWithDel;
 import com.running.myviews.sidebar.SideBar;
 import com.running.utils.pinyin.PinyinComparator;

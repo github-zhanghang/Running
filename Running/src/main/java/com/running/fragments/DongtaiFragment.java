@@ -116,6 +116,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
         Glide.with(this)
                 .load(((MyApplication) getActivity().getApplication()).getUserInfo().getImageUrl())
                 .transform(new GlideCircleTransform(getActivity()))
+                .error(R.drawable.fail)
                 .into(uImg);
     }
 
