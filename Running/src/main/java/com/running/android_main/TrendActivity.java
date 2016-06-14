@@ -57,7 +57,8 @@ public class TrendActivity extends AppCompatActivity {
     //第几周
     private int mPosition;
     //一周的数据
-    private double[] datas = new double[7];
+    private double[] datas = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+
     private List<GraphicalView> mList = null;
     //一周的开始时间
     private long startTime = TimeUtil.getWeekBegin(0);
@@ -65,6 +66,8 @@ public class TrendActivity extends AppCompatActivity {
     private long sevenDays = 7 * 24 * 60 * 60 * 1000;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     DecimalFormat df = new DecimalFormat("######0.00");
+
+    private boolean isFirst = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +121,6 @@ public class TrendActivity extends AppCompatActivity {
             Log.e("my", "trend.result=" + result);
             if (what == 1) {
                 mPage = Integer.parseInt(result);
-                datas = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
                 initAdapter();
                 //加载本周数据
                 getWeekData(startTime);
@@ -162,9 +164,19 @@ public class TrendActivity extends AppCompatActivity {
                         Log.e("my", "datas[" + i + "]=" + datas[i]);
                     }
                     datas = trendData.getValue();
-                    mList.set(mPosition, xychar(datas));
-                    mViewPagerAdapter.notifyDataSetChanged();
-
+                    if (isFirst) {
+                        mList = new ArrayList<>();
+                        for (int i = 0; i < mPage; i++) {
+                            mList.add(xychar(datas));
+                        }
+                        mViewPagerAdapter = new TrendViewPagerAdapter(TrendActivity.this, mList);
+                        mViewPager.setAdapter(mViewPagerAdapter);
+                        mViewPager.setCurrentItem(mPage - 1);
+                        isFirst = false;
+                    }else {
+                        mList.set(mPosition, xychar(datas));
+                        mViewPagerAdapter.notifyDataSetChanged();
+                    }
                     walkTextView.setText((trendData.getWalkStep()) / 7 + "");
                     distanceTextView.setText(df.format(trendData.getDistance()) + "");
                     timeTextView.setText(trendData.getTime() / (1000 * 60 * 7) + "");
