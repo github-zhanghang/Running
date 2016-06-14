@@ -23,6 +23,10 @@ import io.rong.message.ImageMessage;
 import io.rong.message.LocationMessage;
 import okhttp3.Call;
 
+/**
+ *  会话界面
+ */
+
 public class ConversationActivity extends AppCompatActivity
     implements RongIM.ConversationBehaviorListener{
     public static final String TAG = "ConversationActivity";
@@ -32,7 +36,7 @@ public class ConversationActivity extends AppCompatActivity
     private Friend mFriend;
     private com.running.beans.UserInfo mUserInfo;
     /**
-     * 会话界面
+     *
      *
      * @param savedInstanceState
      */
@@ -134,7 +138,7 @@ public class ConversationActivity extends AppCompatActivity
     public boolean onMessageClick(Context context, View view, Message message) {
         Log.e(TAG, "----onMessageClick");
         if (message.getContent() instanceof LocationMessage) {
-            /*Intent intent = new Intent(context, SOSOLocationActivity.class);
+            /*Intent intent = new Intent(context, ChatLocationActivity.class);
             intent.putExtra("location", message.getContent());
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);*/
