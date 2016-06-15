@@ -222,6 +222,7 @@ public class PersonInformationActivity extends AppCompatActivity implements View
             case R.id.beizhu_tv:{
                 Toast.makeText(this,"备注",Toast.LENGTH_SHORT).show();
                 mPopWindow.dismiss();
+
                 updateRemark();
 
             }
@@ -230,6 +231,7 @@ public class PersonInformationActivity extends AppCompatActivity implements View
             case R.id.shanchu_tv:{
                 Toast.makeText(this,"删除",Toast.LENGTH_SHORT).show();
                 mPopWindow.dismiss();
+
                 //delete();
 
             }

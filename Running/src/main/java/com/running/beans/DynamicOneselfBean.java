@@ -9,8 +9,6 @@ import java.util.List;
  */
 public class DynamicOneselfBean implements Serializable {
     private int uId;
-    private String uImg;
-    private String uName;
     private String uSex;
     private int dId;
     private String name;
@@ -21,13 +19,12 @@ public class DynamicOneselfBean implements Serializable {
     private String location;
     private int praiseCount;
     private int commentCount;
+    private int praiseStatus;
 
-    public DynamicOneselfBean(int uId, String uImg, String uName, String uSex, int dId, String
+    public DynamicOneselfBean(int uId, String uSex, int dId, String
             name, String headPhoto, List<String> imgList, String content, String time, String
-            location, int praiseCount, int commentCount) {
+            location, int praiseCount, int commentCount, int praiseStatus) {
         this.uId = uId;
-        this.uImg = uImg;
-        this.uName = uName;
         this.uSex = uSex;
         this.dId = dId;
         this.name = name;
@@ -38,6 +35,7 @@ public class DynamicOneselfBean implements Serializable {
         this.location = location;
         this.praiseCount = praiseCount;
         this.commentCount = commentCount;
+        this.praiseStatus = praiseStatus;
     }
 
     public int getuId() {
@@ -46,22 +44,6 @@ public class DynamicOneselfBean implements Serializable {
 
     public void setuId(int uId) {
         this.uId = uId;
-    }
-
-    public String getuImg() {
-        return uImg;
-    }
-
-    public void setuImg(String uImg) {
-        this.uImg = uImg;
-    }
-
-    public String getuName() {
-        return uName;
-    }
-
-    public void setuName(String uName) {
-        this.uName = uName;
     }
 
     public String getuSex() {
@@ -142,5 +124,13 @@ public class DynamicOneselfBean implements Serializable {
 
     public void setCommentCount(int commentCount) {
         this.commentCount = commentCount;
+    }
+
+    public int getPraiseStatus() {
+        return praiseStatus;
+    }
+
+    public void setPraiseStatus(int praiseStatus) {
+        this.praiseStatus = praiseStatus;
     }
 }

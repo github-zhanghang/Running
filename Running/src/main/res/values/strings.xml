@@ -6,6 +6,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="select">%1$s/%2$s</string>
 
     <string-array name="runTargetDistance">
         <item>1公里</item>

@@ -249,14 +249,6 @@
         <activity android:name=".PublishDynamicActivity">
         </activity>
         <!-- 发布动态有关 -->
-        <activity
-            android:name="me.iwf.photopicker.PhotoPickerActivity"
-            android:theme="@style/myTheme">
-        </activity>
-        <activity
-            android:name="me.iwf.photopicker.PhotoPagerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-        </activity>
         <activity android:name=".DynamicCommentActivity">
         </activity>
         <activity android:name=".HistoryActivity"/>
@@ -295,6 +287,8 @@
         <activity android:name=".RejectAddActivity">
         </activity>
         <activity android:name=".ForgetPasswordActivity">
+        </activity>
+        <activity android:name="com.running.myviews.ninegridview.preview.ImagePreviewActivity">
         </activity>
         <activity android:name=".ChatPhotoActivity">
         </activity>

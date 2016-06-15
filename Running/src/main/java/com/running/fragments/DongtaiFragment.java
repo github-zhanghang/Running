@@ -17,6 +17,7 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -53,7 +54,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
     //动态内容界面
     private View mView;
     private TopBar mTopBar;
-    private ImageView uImg;
+    private ImageView uImg,sexImg;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ListView mListView;
     private List<HashMap<String, Object>> mList;
@@ -118,6 +119,11 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 .transform(new GlideCircleTransform(getActivity()))
                 .error(R.drawable.fail)
                 .into(uImg);
+        if (((MyApplication) getActivity().getApplication()).getUserInfo().getSex().equals("男")) {
+            sexImg.setImageResource(R.drawable.ic_sex_man);
+        } else {
+            sexImg.setImageResource(R.drawable.ic_sex_woman);
+        }
     }
 
     //初始化View
@@ -146,10 +152,24 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 mListView, false);
         ImageView imageView = (ImageView) mHeaderView.findViewById(R.id.dynamic_header_background);
         Glide.with(this).
-                load(R.drawable.dynamic_test).
+                load(R.drawable.bg_dynamic).
                 thumbnail(0.1f).
                 into(imageView);
-        uImg = (ImageView) mHeaderView.findViewById(R.id.dynamic_header_head_img);
+        uImg = (ImageView) mHeaderView.findViewById(R.id
+                .dynamic_header_head_img);
+        Glide.with(this)
+                .load(((MyApplication) getActivity().getApplication()).getUserInfo().getImageUrl())
+                .transform(new GlideCircleTransform(getActivity()))
+                .into(uImg);
+        sexImg = (ImageView) mHeaderView.findViewById(R.id.personSex);
+        if (((MyApplication) getActivity().getApplication()).getUserInfo().getSex().equals("男")) {
+            sexImg.setImageResource(R.drawable.ic_sex_man);
+        } else {
+            sexImg.setImageResource(R.drawable.ic_sex_woman);
+        }
+        TextView nameTextView = (TextView) mHeaderView.findViewById(R.id.dynamic_header_name);
+        nameTextView.setText(((MyApplication) getActivity().getApplication()).getUserInfo()
+                .getNickName());
         mListView.addHeaderView(mHeaderView);
 
         //添加FootView
