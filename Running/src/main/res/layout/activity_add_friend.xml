@@ -39,22 +39,30 @@
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:onClick="addNewFriend"
+            android:textColor="@color/white"
+            android:background="@color/colorOrange"
             android:text="搜索"/>
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginRight="3dp"
+        android:background="#d4d4d4"/>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:onClick="searchNearby">
 
         <ImageView
             android:id="@+id/fujin"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="5dp"
@@ -82,13 +90,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:onClick="searchWithConditions">
 
         <ImageView
             android:id="@+id/chazhao"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="5dp"
@@ -106,4 +114,9 @@
             android:textColor="#353535"
             android:textSize="16sp"/>
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginRight="3dp"
+        android:background="#d4d4d4"/>
 </LinearLayout>

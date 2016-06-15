@@ -109,7 +109,7 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (holder instanceof HeaderViewHolder) {
             final DynamicOneselfBean bean = (DynamicOneselfBean) mList.get(position).get
                     ("DynamicOneselfBean");
-            ((HeaderViewHolder) holder).mBackImageView.setImageResource(R.drawable.dynamic_test);
+            ((HeaderViewHolder) holder).mBackImageView.setImageResource(R.drawable.bg_dynamic);
             Glide.with(mContext)
                     .load(bean.getHeadPhoto())
                     .transform(new GlideCircleTransform(mContext))

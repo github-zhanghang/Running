@@ -1,7 +1,6 @@
 package com.running.android_main;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -41,6 +40,7 @@ import com.running.beans.City;
 import com.running.beans.District;
 import com.running.beans.Provence;
 import com.running.beans.UserInfo;
+import com.running.myviews.CustomProgressDialog;
 import com.running.myviews.MyInfoItemView;
 import com.running.myviews.TopBar;
 import com.running.myviews.TopBar.OnTopbarClickListener;
@@ -93,7 +93,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     private RadioButton mMaleRadioButton, mFemaleRadioButton;
 
     //等待框
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     //用户信息
     private UserInfo mUserInfo;
@@ -554,7 +554,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
             mUserImage.setImageDrawable(drawable);
             //图片保存在本地
             saveBitmap(photo);
-            mProgressDialog = ProgressDialog.show(MyDetailsActivity.this, "请稍后", "正在上传");
+            mProgressDialog = new CustomProgressDialog(this, "正在上传...", R.drawable.frame);
+            mProgressDialog.show();
             //上传图片
             upload(mImageLocalPath);
         }
@@ -587,7 +588,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
     private void saveUserInfo(String u_nickName, String u_height, String u_weight, String u_sex,
                               String u_birthday, String u_address, String u_signature) {
-        mProgressDialog = ProgressDialog.show(this, "请等待...", "正在提交信息...");
+        mProgressDialog = new CustomProgressDialog(this, "正在提交...", R.drawable.frame);
+        mProgressDialog.show();
         requestQueue = NoHttp.newRequestQueue(1);
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
         request.add("type", "userinfo");

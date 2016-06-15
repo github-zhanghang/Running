@@ -39,7 +39,6 @@
                 android:id="@+id/monday_trend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="zzzz"
                 android:textSize="20sp" />
             <TextView
                 android:layout_width="wrap_content"
@@ -50,7 +49,6 @@
                 android:id="@+id/sunday_trend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="yyyy"
                 android:layout_centerInParent="true"
                 android:textSize="20sp" />
         </LinearLayout>
