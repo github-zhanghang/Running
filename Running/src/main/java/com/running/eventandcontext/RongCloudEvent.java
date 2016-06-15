@@ -1,4 +1,4 @@
-package com.running.event; /**
+package com.running.eventandcontext; /**
  * Created by Ezio on 2016/5/26.
  */
 
@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 
 import com.running.android_main.NewFriendListActivity;
@@ -38,7 +37,8 @@ import io.rong.message.InformationNotificationMessage;
  * 10、会话列表界面操作的监听器：ConversationListBehaviorListener。1
  */
 public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMessageListener,
-        RongIM.UserInfoProvider,RongIM.ConversationListBehaviorListener{
+        RongIM.UserInfoProvider,RongIM.ConversationListBehaviorListener,
+        RongIM.LocationProvider{
     private static final String TAG = "RongCloudEvent";
 
     private static RongCloudEvent mRongCloudInstance;
@@ -85,6 +85,7 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
     private void initDefaultListener() {
         //RongIM.setUserInfoProvider(this, true);//设置用户信息提供者。
         RongIM.setConversationListBehaviorListener(this);//会话列表界面操作的监听器
+        RongIM.setLocationProvider(this);//设置地理位置提供者,
     }
     /**
      * 连接成功注册。
@@ -197,5 +198,14 @@ public class RongCloudEvent implements Handler.Callback,RongIMClient.OnReceiveMe
         }
         return false;
     }
+    /**
+     * 位置信息提供者:LocationProvider 的回调方法，打开第三方地图页面。
+     *
+     * @param context  上下文
+     * @param locationCallback 回调
+     */
+    @Override
+    public void onStartLocation(Context context, LocationCallback locationCallback) {
 
+    }
 }

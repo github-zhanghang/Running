@@ -9,7 +9,7 @@
     <com.running.myviews.TopBar
         android:id="@+id/paobu_topbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/topbar_height"
         app:isLeftTextShow="true"
         app:isMidTextShow="true"
         app:isRightTextShow="true"

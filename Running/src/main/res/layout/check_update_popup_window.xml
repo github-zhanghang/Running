@@ -12,6 +12,7 @@
             android:gravity="center"
             android:text="当前版本为最新版本"
             android:textSize="20sp"
-            android:background="#ff9900"
+            android:textColor="@color/white"
+            android:background="@color/colorOrange"
             android:padding="10dp"/>
 </LinearLayout>

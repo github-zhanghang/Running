@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +51,8 @@ public class HistoryDetailActivity extends AppCompatActivity {
     private int startTime = 0;
     private int endTime = 0;
 
-    TextView dateTextView, distanceTextView, timeTextView, speedTextView, walkTextView, calorieTextView;
+    TextView dateTextView, distanceTextView, timeTextView, speedTextView, walkTextView, calorieTextView,targetTextView,completeTextView,tarTextView,staTextView;
+    LinearLayout targetLinearLayout;
     History history;
 
     @Override
@@ -87,6 +90,11 @@ public class HistoryDetailActivity extends AppCompatActivity {
         speedTextView = (TextView) findViewById(R.id.speed_his_detail);
         walkTextView = (TextView) findViewById(R.id.walk_his_detail3);
         calorieTextView = (TextView) findViewById(R.id.calorie_his_detail);
+        targetTextView= (TextView) findViewById(R.id.target_text);
+        completeTextView= (TextView) findViewById(R.id.complete_text);
+        targetLinearLayout= (LinearLayout) findViewById(R.id.taget_view);
+        tarTextView=(TextView) findViewById(R.id.tar_text);
+        staTextView=(TextView) findViewById(R.id.sta_text);
 
         mTopBar.setOnTopbarClickListener(new TopBar.OnTopbarClickListener() {
             @Override
@@ -110,6 +118,21 @@ public class HistoryDetailActivity extends AppCompatActivity {
         speedTextView.setText(history.getRunspeed() + "");
         walkTextView.setText(history.getStepcount() + "");
         calorieTextView.setText(history.getCalories() + "");
+        if (history.getComplete()==(-1)){
+            targetLinearLayout.setVisibility(View.GONE);
+            targetTextView.setVisibility(View.GONE);
+            tarTextView.setVisibility(View.GONE);
+            staTextView.setVisibility(View.GONE);
+            completeTextView.setVisibility(View.GONE);
+
+        }else {
+            targetTextView.setText(history.getTarget());
+            if (history.getComplete()==0){
+                completeTextView.setText("未完成");
+            }else {
+                completeTextView.setText("已完成");
+            }
+        }
     }
 
     private void queryHistoryTrack() {

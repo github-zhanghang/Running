@@ -17,7 +17,7 @@ public class History implements Serializable{
     private int stepcount;
     private long runstarttime;
     private String target;
-    private boolean complete;
+    private int complete;
     private boolean isExist;
 
     public boolean isExist() {
@@ -30,7 +30,7 @@ public class History implements Serializable{
 
 
 
-    public History(int rid, int ruid, double rundistance, long runtime, double runspeed, int calories, int stepcount,long runstarttime, String target, boolean complete) {
+    public History(int rid, int ruid, double rundistance, long runtime, double runspeed, int calories, int stepcount,long runstarttime, String target, int complete) {
 
         this.rid = rid;
         this.ruid = ruid;
@@ -121,11 +121,11 @@ public class History implements Serializable{
         this.target = target;
     }
 
-    public boolean isComplete() {
+    public int getComplete() {
         return complete;
     }
 
-    public void setComplete(boolean complete) {
+    public void setComplete(int complete) {
         this.complete = complete;
     }
 }

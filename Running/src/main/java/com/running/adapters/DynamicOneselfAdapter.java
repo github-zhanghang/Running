@@ -98,7 +98,7 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (holder instanceof HeaderViewHolder) {
             final UserInfo userInfo = (UserInfo) mList.get(position).get
                     ("header");
-            ((HeaderViewHolder) holder).mBackImageView.setImageResource(R.drawable.dynamic_test);
+            ((HeaderViewHolder) holder).mBackImageView.setImageResource(R.drawable.bg_dynamic);
             Glide.with(mContext)
                     .load(userInfo.getImageUrl())
                     .transform(new GlideCircleTransform(mContext))

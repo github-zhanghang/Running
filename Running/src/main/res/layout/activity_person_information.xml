@@ -15,7 +15,7 @@
         app:isRightImageShow="true"
         app:leftImage="@drawable/ic_back"
         app:leftText="详细资料"
-        app:rightImage="@mipmap/ic_launcher">
+        app:rightImage="@drawable/ic_infomore">
     </com.running.myviews.TopBar>
 
     <LinearLayout
@@ -163,9 +163,10 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
-            android:background="#ff9900"
+            android:background="@color/colorOrange"
             android:text="发消息"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
 
     </LinearLayout>
 </LinearLayout>

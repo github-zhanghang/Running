@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ChatPhotoActivity">
+    <fragment
+        android:id="@+id/chat_photo_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="io.rong.imkit.tools.PhotoFragment">
+    </fragment>
+    <Button
+        android:onClick="savePhoto"
+        android:layout_width="58dp"
+        android:layout_height="38dp"
+        android:text="保存"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:background="@color/colorOrange"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+    />
+</RelativeLayout>

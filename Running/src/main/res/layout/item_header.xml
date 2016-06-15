@@ -12,12 +12,12 @@
         <io.rong.imkit.widget.AsyncImageView
 
             android:id="@+id/item_header_tx"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="5dp"
-            android:src="@drawable/rc_default_portrait" />
+            android:src="@drawable/ic_person" />
         <TextView
             android:text="新的好友"
             android:id="@+id/item_header_name"

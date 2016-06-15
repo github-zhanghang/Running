@@ -34,7 +34,7 @@ public class ImageTextView extends LinearLayout {
         mDrawable = typedArray.getDrawable(R.styleable.ImageTextView_image);
         mText = typedArray.getString(R.styleable.ImageTextView_text);
         mTextColor = typedArray.getColor(R.styleable.ImageTextView_textColor, Color.BLACK);
-        mTextSize = typedArray.getDimension(R.styleable.ImageTextView_textSize, 16);
+        mTextSize = typedArray.getDimension(R.styleable.ImageTextView_textSize, 14);
         typedArray.recycle();
         initMedal(context);
     }

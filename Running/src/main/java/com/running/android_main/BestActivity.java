@@ -65,7 +65,12 @@ public class BestActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (mHistoryList.get(3).isExist()){
             java.text.DecimalFormat df=new java.text.DecimalFormat("#0.00");//保留两位小数
-           speedBestBar.setDataText(df.format((mHistoryList.get(3).getRuntime()/(1000*60*60))/mHistoryList.get(3).getRundistance()));
+            if (mHistoryList.get(3).getRundistance()!=0){
+                speedBestBar.setDataText(df.format((mHistoryList.get(3).getRuntime()/(1000*60*60))/mHistoryList.get(3).getRundistance()));
+            }else {
+                speedBestBar.setDataText("0.0");
+            }
+
         }else {
             speedBestBar.setDataText("无记录");
         }

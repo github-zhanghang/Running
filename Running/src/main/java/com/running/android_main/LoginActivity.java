@@ -1,7 +1,6 @@
 package com.running.android_main;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.running.beans.UserInfo;
+import com.running.myviews.CustomProgressDialog;
 import com.running.myviews.ImageTextView;
 import com.yolanda.nohttp.NoHttp;
 import com.yolanda.nohttp.OnResponseListener;
@@ -57,7 +57,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView mForgetPasswordTextView;
     private Button mLoginButton, mRegisterButton;
     private CheckBox mRememberInfoCheckBox;
-    private ProgressDialog mProgressDialog;
+    //private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
     private SharedPreferences mSharedPreferences;
     //是否记住密码
     private boolean isRememberPassword = false;
@@ -89,8 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mRememberInfoCheckBox.setChecked(true);
         initListeners();
         initUserInfo();
-
-
+        mProgressDialog = new CustomProgressDialog(this, "正在登录中", R.drawable.frame);
     }
 
     private void initViews() {
@@ -163,7 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     LoginActivity.this.finish();
                 } else {
-                    mProgressDialog = ProgressDialog.show(this, "请稍等", "正在登陆中");
+                    mProgressDialog.show();
                     handleLogin(mAccount, mPassword);
                 }
                 break;
@@ -337,7 +337,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Log.e("my", "token=" + token);
 
                     //判断数据库中是否有此Token
-                    isExistThisToken(token);
+                    isExistThisToken(token, "qq");
+                } else if (platform.getName().equals(SinaWeibo.NAME)) {
+                    //获取性别
+                    userGender = (String) hashMap.get("gender");
+                    if (userGender.equals("m")) {
+                        userGender = "男";
+                    } else {
+                        userGender = "女";
+                    }
+                    //获取头像
+                    userIcon = (String) hashMap.get("avatar_hd");
+                    //获取昵称
+                    userName = (String) hashMap.get("name");
+                    //获取省市
+                    address = (String) hashMap.get("location");
+                    //获取数平台数据DB
+                    PlatformDb platDB = platform.getDb();
+                    //获取token
+                    token = platDB.getToken();
+                    Log.e("my", "token=" + token);
+
+                    //判断数据库中是否有此Token
+                    isExistThisToken(token, "weibo");
                 }
             }
 
@@ -357,10 +379,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     //是否存在此token
-    public void isExistThisToken(String token) {
+    public void isExistThisToken(String token, String platformName) {
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
         request.add("type", "third");
-        request.add("platform", "qq");
+        request.add("platform", platformName);
         request.add("token", token);
         requestQueue.add(1, request, onResponseListener);
         requestQueue.start();

@@ -16,15 +16,15 @@
     <RelativeLayout
 
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="60dp">
         <ImageView
             android:id="@+id/xingbie_img"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="3dp"
-            android:src="@drawable/rc_default_portrait" />
+            android:src="@drawable/ic_sex" />
         <RelativeLayout
             android:id="@+id/sex_itemView"
             android:layout_width="match_parent"
@@ -71,15 +71,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="60dp">
         <ImageView
             android:id="@+id/nianling_img"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="3dp"
-            android:src="@drawable/rc_default_portrait" />
+            android:src="@drawable/ic_person" />
 
         <RelativeLayout
             android:id="@+id/age_itemView"
@@ -128,15 +128,15 @@
     <RelativeLayout
 
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="60dp">
         <ImageView
             android:id="@+id/diqu_img"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="3dp"
-            android:src="@drawable/rc_default_portrait" />
+            android:src="@drawable/ic_nearby" />
         <RelativeLayout
             android:id="@+id/address_itemView"
             android:layout_width="match_parent"
@@ -178,7 +178,10 @@
         android:layout_marginRight="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorOrange"
+        android:textColor="@color/white"
         android:text="查找"
+        android:textSize="16sp"
         android:id="@+id/searchUser"
         />
 </LinearLayout>

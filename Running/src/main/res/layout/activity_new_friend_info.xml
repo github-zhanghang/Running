@@ -141,9 +141,10 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
-            android:background="#ff9900"
+            android:background="@color/colorOrange"
             android:onClick="onClickAddNewFriend"
             android:text="加为好友"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
     </LinearLayout>
 </LinearLayout>

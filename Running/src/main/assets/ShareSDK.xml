@@ -29,8 +29,8 @@
 
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
     <SinaWeibo
-        AppKey="2399412182"
-        AppSecret="e846753371103857346862c301cb8b3e"
+        AppKey="2733170486"
+        AppSecret="6cb726c2d45846ba9ac118f396d3f7be"
         Enable="true"
         Id="1"
         RedirectUrl="http://www.baidu.com"
