@@ -23,8 +23,10 @@ import com.google.gson.Gson;
 import com.running.adapters.SortAdapter;
 import com.running.android_main.MyApplication;
 import com.running.android_main.NewFriendListActivity;
+import com.running.android_main.PersonInformationActivity;
 import com.running.android_main.R;
 import com.running.beans.Friend;
+import com.running.beans.UserInfo;
 import com.running.eventandcontext.RongCloudEvent;
 import com.running.myviews.edittextwithdeel.EditTextWithDel;
 import com.running.myviews.sidebar.SideBar;
@@ -211,18 +213,23 @@ public class XiaoxiRightFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Friend friend = (Friend) adapter.getItem(position - 1);
-                Toast.makeText(getActivity(),
-                        friend.getRemark(), Toast.LENGTH_SHORT).show();
-
                 //启动会话界面
-                /*if (RongIM.getInstance() != null) {
+               /* if (RongIM.getInstance() != null) {
                     RongIM.getInstance().startPrivateChat
                             (getActivity(), friend.getAccount(), friend.getRemark());
                 }*/
-                if (RongIM.getInstance() != null) {
-                    RongIM.getInstance().startPrivateChat
-                            (getActivity(), friend.getAccount(), friend.getRemark());
-                }
+                //跳到好友资料
+                UserInfo userInfo = new UserInfo();
+                userInfo.setUid(friend.getFriendid());
+                userInfo.setAccount(friend.getAccount());
+                userInfo.setNickName(friend.getRemark());
+                userInfo.setImageUrl(friend.getPortrait());
+                userInfo.setAge(friend.getAge());
+                userInfo.setSex(friend.getSex());
+                userInfo.setAddress(friend.getAddress());
+                Intent intent = new Intent(getActivity(), PersonInformationActivity.class);
+                intent.putExtra("UserInfo", userInfo);
+                startActivity(intent);
             }
         });
 
@@ -284,5 +291,9 @@ public class XiaoxiRightFragment extends Fragment {
 
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
 }

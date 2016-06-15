@@ -37,7 +37,7 @@ public class PaobuLeftFragment extends Fragment {
 
     //毫秒转成 时:分:秒 格式
     SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-    DecimalFormat mDecimalFormat = new DecimalFormat("######0.00");
+    DecimalFormat mDecimalFormat = new DecimalFormat("00.00");
 
     @Nullable
     @Override

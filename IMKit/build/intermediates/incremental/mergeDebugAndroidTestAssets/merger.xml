@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="debug"><source path="D:\Android\WorkSpace\Running1\IMKit\build\intermediates\bundles\debug\assets"/></dataSet><dataSet config="main"><source path="D:\Android\WorkSpace\Running1\IMKit\src\androidTest\assets"/><source path="D:\Android\WorkSpace\Running1\IMKit\build\generated\assets\shaders\androidTest\debug"/></dataSet></merger>
+<merger version="3"><dataSet config="debug"><source path="D:\Tao\Running\IMKit\build\intermediates\bundles\debug\assets"/></dataSet><dataSet config="main"><source path="D:\Tao\Running\IMKit\src\androidTest\assets"/><source path="D:\Tao\Running\IMKit\build\generated\assets\shaders\androidTest\debug"/></dataSet></merger>

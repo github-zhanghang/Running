@@ -172,9 +172,7 @@ public class SearchConditionsActivity extends AppCompatActivity implements View.
                 String gender = mSexItemTextView.getText().toString();
                 String age = mAgeItemTextView.getText().toString().substring(0,2);
                 String address = mAddressItemTextView.getText().toString();
-                /*Log.e("Ezio123", gender );
-                Log.e("Ezio123", age );
-                Log.e("Ezio123", address );*/
+
                 request(gender, age, address);
                 break;
         }
