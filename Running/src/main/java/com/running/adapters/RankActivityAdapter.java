@@ -3,6 +3,7 @@ package com.running.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,9 +98,11 @@ public class RankActivityAdapter extends BaseAdapter {
                 String url = params[0];
                 if (mCache.get(url) != null) {
                     bitmap = mCache.get(url);
+                    Log.e("my", "downloadAsyncTask取出图片");
                 } else {
                     bitmap = ImageLoader.getBitmap(url);
                     mCache.put(url, bitmap);
+                    Log.e("my", "downloadAsyncTask下载图片");
                 }
                 return bitmap;
             }
