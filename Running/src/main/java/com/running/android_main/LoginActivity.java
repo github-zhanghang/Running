@@ -337,7 +337,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Log.e("my", "token=" + token);
 
                     //判断数据库中是否有此Token
-                    isExistThisToken(token);
+                    isExistThisToken(token, "qq");
+                } else if (platform.getName().equals(SinaWeibo.NAME)) {
+                    //获取性别
+                    userGender = (String) hashMap.get("gender");
+                    if (userGender.equals("m")) {
+                        userGender = "男";
+                    } else {
+                        userGender = "女";
+                    }
+                    //获取头像
+                    userIcon = (String) hashMap.get("avatar_hd");
+                    //获取昵称
+                    userName = (String) hashMap.get("name");
+                    //获取省市
+                    address = (String) hashMap.get("location");
+                    //获取数平台数据DB
+                    PlatformDb platDB = platform.getDb();
+                    //获取token
+                    token = platDB.getToken();
+                    Log.e("my", "token=" + token);
+
+                    //判断数据库中是否有此Token
+                    isExistThisToken(token, "weibo");
                 }
             }
 
@@ -357,10 +379,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     //是否存在此token
-    public void isExistThisToken(String token) {
+    public void isExistThisToken(String token, String platformName) {
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
         request.add("type", "third");
-        request.add("platform", "qq");
+        request.add("platform", platformName);
         request.add("token", token);
         requestQueue.add(1, request, onResponseListener);
         requestQueue.start();
