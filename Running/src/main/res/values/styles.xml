@@ -48,7 +48,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:paddingBottom">7dp</item>
         <item name="android:paddingTop">7dp</item>
-        <item name="android:background">@drawable/editbox_background_focus_yellow</item>
+        <item name="android:background">@drawable/ic_editext</item>
     </style>
 
     <style name="login_Button">

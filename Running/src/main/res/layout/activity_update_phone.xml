@@ -42,7 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/editbox_background_focus_yellow"
+                android:background="@drawable/ic_editext"
                 android:hint="请输入原手机号"
                 android:inputType="phone"/>
         </LinearLayout>
@@ -67,7 +67,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/editbox_background_focus_yellow"
+                android:background="@drawable/ic_editext"
                 android:hint="请输入新手机号"
                 android:inputType="phone"/>
         </LinearLayout>
@@ -92,7 +92,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:background="@drawable/editbox_background_focus_yellow"
+                android:background="@drawable/ic_editext"
                 android:hint="请确认手机号"
                 android:inputType="phone"/>
         </LinearLayout>

@@ -79,7 +79,7 @@
                 style="@style/login_Button"
                 android:layout_centerInParent="true"
                 android:layout_weight="1"
-                android:background="#c8eb4f38"
+                android:background="@drawable/ic_btn_orange"
                 android:text="登录"
                 android:textColor="#ffffff"/>
 
@@ -88,7 +88,7 @@
                 style="@style/login_Button"
                 android:layout_marginLeft="30dp"
                 android:layout_weight="1"
-                android:background="#c841bf58"
+                android:background="@drawable/ic_btn_green"
                 android:text="注册"
                 android:textColor="#ffffff"/>
         </LinearLayout>

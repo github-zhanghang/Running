@@ -6,16 +6,18 @@
               android:orientation="vertical">
 
     <com.running.myviews.edittextwithdeel.EditTextWithDel
+      android:layout_margin="5dp"
         android:id="@+id/et_search"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/editbox_background_focus_yellow"
+        android:background="@drawable/ic_editext"
+        android:drawablePadding="6dp"
         android:hint="搜索联系人"
         android:paddingLeft="16dp"
         android:singleLine="true"
-        android:textSize="16dp"/>
+        android:textSize="16sp"/>
 
     <include layout="@layout/contactsort"/>
 </LinearLayout>
