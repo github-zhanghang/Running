@@ -29,7 +29,6 @@
             android:checked="true"
             android:gravity="center"
             android:text="日榜"
-            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <RadioButton
@@ -41,7 +40,6 @@
             android:button="@null"
             android:gravity="center"
             android:text="总榜"
-            android:textColor="@color/white"
             android:textSize="20sp" />
     </RadioGroup>
 
@@ -78,7 +76,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="距离:0km"
-                    android:textColor="@color/white"
                     android:textSize="20sp"/>
 
                 <TextView
@@ -87,7 +84,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="排行:100名以后"
-                    android:textColor="@color/white"
                     android:textSize="20sp"/>
             </LinearLayout>
         </RelativeLayout>

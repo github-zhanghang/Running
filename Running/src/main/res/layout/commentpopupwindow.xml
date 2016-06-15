@@ -19,10 +19,12 @@
     <Button
         android:id="@+id/reply_send"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
         android:layout_weight="1"
+        android:textColor="@color/white"
+        android:background="@color/colorOrange"
         android:text="发送"
         android:textSize="20sp"/>
 

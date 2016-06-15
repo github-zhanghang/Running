@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.running.beans.Friend;
+import com.running.eventandcontext.RongCloudContext;
 import com.running.myviews.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -140,11 +141,12 @@ public class ConversationActivity extends AppCompatActivity
         Log.e(TAG, "----onMessageClick");
         if (message.getContent() instanceof LocationMessage) {
             Intent intent = new Intent(context, ChatLocationActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("haslocation", true);
             intent.putExtra("location", message.getContent());
-            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
             context.startActivity(intent);
-            Toast.makeText(context, "LocationMessage", Toast.LENGTH_SHORT).show();
+
         } else if (message.getContent() instanceof ImageMessage) {
             ImageMessage imageMessage = (ImageMessage) message.getContent();
             Intent intent = new Intent(context, ChatPhotoActivity.class);
@@ -173,11 +175,19 @@ public class ConversationActivity extends AppCompatActivity
         return false;
     }
 
+    /**
+     *
+     * @param context
+     * @param locationCallback
+     */
     @Override
     public void onStartLocation(Context context, LocationCallback locationCallback) {
-        Intent intent = new Intent(context, ChatLocationActivity.class);
 
+        RongCloudContext.getInstance().setLastLocationCallback(locationCallback);
+        Intent intent = new Intent(context, ChatLocationActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("haslocation", false);
+
         context.startActivity(intent);
     }
 }

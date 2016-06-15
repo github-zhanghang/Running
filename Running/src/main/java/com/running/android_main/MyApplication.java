@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.running.beans.UserInfo;
-import com.running.event.RongCloudEvent;
+import com.running.eventandcontext.RongCloudEvent;
 import com.running.message.ContactNotificationMessageProvider;
 import com.running.utils.GlideImageLoader;
 import com.running.utils.GlidePauseOnScrollListener;
