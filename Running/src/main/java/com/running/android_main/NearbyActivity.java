@@ -43,7 +43,6 @@ public class NearbyActivity extends AppCompatActivity {
         Listener();
     }
 
-
     private void initViews() {
         mUserInfoList = new ArrayList<>();
         mNearByAdapter = new NearByAdapter(NearbyActivity.this, mUserInfoList);

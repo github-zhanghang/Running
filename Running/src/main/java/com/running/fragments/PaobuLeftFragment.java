@@ -37,7 +37,7 @@ public class PaobuLeftFragment extends Fragment {
 
     //毫秒转成 时:分:秒 格式
     SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-    DecimalFormat mDecimalFormat = new DecimalFormat("######0.00");
+    DecimalFormat mDecimalFormat = new DecimalFormat("00.00");
 
     @Nullable
     @Override
@@ -84,8 +84,9 @@ public class PaobuLeftFragment extends Fragment {
                 if (result != null && !result.equals("")) {
                     //Log.e("my", "paobuleft.result=" + result);
                     String[] data = result.split(",");
-                    mTotalDistanceText.setText(mDecimalFormat.format(data[0]));
-                    mApplication.setDistance(mDecimalFormat.format(data[0]));
+                    String dis = mDecimalFormat.format(Double.parseDouble(data[0]));
+                    mTotalDistanceText.setText(dis);
+                    mApplication.setDistance(dis);
                     mTotalTimeText.setText(mSimpleDateFormat.format(Integer.parseInt(data[1]) - 8 * 60 * 60 * 1000));
                     mTotalCount.setText(data[2]);
                 }
