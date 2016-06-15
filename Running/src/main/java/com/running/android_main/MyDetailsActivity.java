@@ -67,6 +67,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import io.rong.imkit.RongContext;
+import io.rong.imkit.RongIM;
 
 public class MyDetailsActivity extends AppCompatActivity implements View.OnClickListener, OnTopbarClickListener {
     private MyApplication mApplication;
@@ -204,6 +205,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                                     u_nickName, Uri.parse(mApplication.getUserInfo().getImageUrl()));
                     RongContext.getInstance().getUserInfoCache().
                             put(mApplication.getUserInfo().getAccount(), userInfo);
+                    RongIM.getInstance().refreshUserInfoCache(userInfo);
                     saveUserInfo(u_nickName, u_height, u_weight, u_sex, u_birthday, u_address, u_signature);
                 }
                 break;
@@ -620,6 +622,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                                     Uri.parse(mApplication.getUserInfo().getImageUrl()));
                     RongContext.getInstance().getUserInfoCache().
                             put(mApplication.getUserInfo().getAccount(), userInfo);
+                    RongIM.getInstance().refreshUserInfoCache(userInfo);
                 } else if (result.equals("0")) {
                     showToast("修改头像失败");
                 } else {
@@ -713,6 +716,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * 上传图片到七牛云
+     *
      * @param path (图片本地路径)
      */
     public void upload(String path) {
