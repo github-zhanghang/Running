@@ -55,7 +55,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsViewHol
                 .crossFade()//入淡出动画
                 .into(holder.mImageView);
         holder.goodTextView.setText(mGoodsDatas.get(position).getName());
-        holder.priceTextView.setText("$ "+mGoodsDatas.get(position).getPrice());
+        holder.priceTextView.setText("¥ "+mGoodsDatas.get(position).getPrice());
 
         if (mOnItemClickListener!=null){
             holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -7,12 +7,12 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp" >
+        android:layout_height="240dp" >
 
         <android.support.v4.view.ViewPager
             android:id="@+id/vp_banner_goods"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="240dp"
            />
 
             <LinearLayout
