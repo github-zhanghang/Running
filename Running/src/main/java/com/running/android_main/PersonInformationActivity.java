@@ -1,16 +1,15 @@
 package com.running.android_main;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +36,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.rong.imkit.RongIM;
 import okhttp3.Call;
-
-import static com.running.android_main.R.layout.person_popup;
 
 public class PersonInformationActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -265,7 +262,7 @@ public class PersonInformationActivity extends AppCompatActivity implements View
                     //光标在文字末尾
                     mEditText.setSelection(text.length());
                 }
-                mEditText.setBackgroundResource(R.drawable.editbox_background_focus_yellow);
+                mEditText.setBackgroundResource(R.drawable.ic_editext);
 
                 mDialogBuilder.setView(mEditText);
 
