@@ -37,16 +37,17 @@
         <EditText
             android:id="@+id/dynamic_comment_footEdit"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:layout_weight="3"
             android:hint="请输入评论"
-            android:background="@drawable/editbox_background_focus_yellow"/>
+            android:textSize="14sp"
+            android:background="@drawable/ic_editext"/>
 
         <Button
             android:id="@+id/dynamic_comment_button"
             android:layout_width="0dp"
             android:layout_height="32dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@color/colorOrange"
             android:textColor="@color/white"

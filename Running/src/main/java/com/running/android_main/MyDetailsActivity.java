@@ -651,7 +651,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
             //光标在文字末尾
             mEditText.setSelection(text.length());
         }
-        mEditText.setBackgroundResource(R.drawable.editbox_background_focus_yellow);
+        mEditText.setBackgroundResource(R.drawable.ic_editext);
         mDialogBuilder.setView(mEditText);
         showAlertDialog();
     }
