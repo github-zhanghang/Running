@@ -1,7 +1,6 @@
 package com.running.android_main;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -41,6 +40,7 @@ import com.running.beans.City;
 import com.running.beans.District;
 import com.running.beans.Provence;
 import com.running.beans.UserInfo;
+import com.running.myviews.CustomProgressDialog;
 import com.running.myviews.MyInfoItemView;
 import com.running.myviews.TopBar;
 import com.running.myviews.TopBar.OnTopbarClickListener;
@@ -93,7 +93,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     private RadioButton mMaleRadioButton, mFemaleRadioButton;
 
     //等待框
-    private ProgressDialog mProgressDialog;
+    private CustomProgressDialog mProgressDialog;
 
     //用户信息
     private UserInfo mUserInfo;
@@ -127,6 +127,9 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     private String mImageLocalPath;
     //图片网址
     private String mImageUrl;
+
+    //个人信息
+    private String u_nickName, u_height, u_weight, u_sex, u_birthday, u_address, u_signature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,22 +195,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.saveinfo:
-                //保存用户修改后的信息
-                String u_nickName = mNickItem.getDataText() + "";
-                String u_height = mHeightItem.getDataText() + "";
-                String u_weight = mWeightItem.getDataText() + "";
-                String u_sex = mSexItem.getDataText() + "";
-                String u_birthday = mBirthdayItem.getDataText() + "";
-                String u_address = mAddressItem.getDataText() + "";
-                String u_signature = mSignatureItem.getDataText() + "";
                 //如果信息未改变，则不提交服务器
-                if (u_nickName.equals(mUserInfo.getNickName() + "") &&
-                        u_height.equals(mUserInfo.getHeight() + "cm") &&
-                        u_weight.equals(mUserInfo.getWeight() + "kg") &&
-                        u_sex.equals(mUserInfo.getSex() + "") &&
-                        u_birthday.equals(mUserInfo.getBirthday() + "") &&
-                        u_address.equals(mUserInfo.getAddress() + "") &&
-                        u_signature.equals(mUserInfo.getSignature() + "")) {
+                if (!isChanged()) {
                     Toast.makeText(MyDetailsActivity.this, "个人信息未发生变化", Toast.LENGTH_SHORT).show();
                 } else {
                     io.rong.imlib.model.UserInfo userInfo =
@@ -363,8 +352,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-
             }
         });
     }
@@ -554,7 +541,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
             mUserImage.setImageDrawable(drawable);
             //图片保存在本地
             saveBitmap(photo);
-            mProgressDialog = ProgressDialog.show(MyDetailsActivity.this, "请稍后", "正在上传");
+            mProgressDialog = new CustomProgressDialog(this, "正在上传...", R.drawable.frame);
+            mProgressDialog.show();
             //上传图片
             upload(mImageLocalPath);
         }
@@ -587,7 +575,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
     private void saveUserInfo(String u_nickName, String u_height, String u_weight, String u_sex,
                               String u_birthday, String u_address, String u_signature) {
-        mProgressDialog = ProgressDialog.show(this, "请等待...", "正在提交信息...");
+        mProgressDialog = new CustomProgressDialog(this, "正在提交...", R.drawable.frame);
+        mProgressDialog.show();
         requestQueue = NoHttp.newRequestQueue(1);
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
         request.add("type", "userinfo");
@@ -616,7 +605,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
             if (what == WHAT) {
                 UserInfo userinfo = new Gson().fromJson(result, UserInfo.class);
                 if (userinfo.getCode().equals("1")) {
-                    showToast("修改成功");
+                    showToast("修改头像成功");
                     mApplication.setUserInfo(userinfo);
                 } else {
                     showToast("修改头像失败");
@@ -715,8 +704,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onTopbarLeftImageClick(ImageView imageView) {
-        this.finish();
-        MyDetailsActivity.this.finish();
+        onMyBack();
     }
 
     @Override
@@ -725,7 +713,6 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * 上传图片到七牛云
-     *
      * @param path (图片本地路径)
      */
     public void upload(String path) {
@@ -769,5 +756,53 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         mToast.show();
     }
 
+    public boolean isChanged() {
+        UserInfo userInfo = mApplication.getUserInfo();
+        //保存用户修改后的信息
+        u_nickName = mNickItem.getDataText() + "";
+        u_height = mHeightItem.getDataText() + "";
+        u_weight = mWeightItem.getDataText() + "";
+        u_sex = mSexItem.getDataText() + "";
+        u_birthday = mBirthdayItem.getDataText() + "";
+        u_address = mAddressItem.getDataText() + "";
+        u_signature = mSignatureItem.getDataText() + "";
+        //信息未改变
+        if (u_nickName.equals(userInfo.getNickName() + "") &&
+                u_height.equals(userInfo.getHeight() + "cm") &&
+                u_weight.equals(userInfo.getWeight() + "kg") &&
+                u_sex.equals(userInfo.getSex() + "") &&
+                u_birthday.equals(userInfo.getBirthday() + "") &&
+                u_address.equals(userInfo.getAddress() + "") &&
+                u_signature.equals(userInfo.getSignature() + "")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
+    @Override
+    public void onBackPressed() {
+        onMyBack();
+    }
+
+    public void onMyBack() {
+        if (!isChanged()) {
+            super.onBackPressed();
+        } else {
+            new AlertDialog.Builder(this).setTitle("信息未保存，是否退出？")
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            MyDetailsActivity.this.finish();
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
 }

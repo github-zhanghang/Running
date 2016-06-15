@@ -30,7 +30,7 @@ public class DynamicImgBean implements Serializable {
     }
 
     public DynamicImgBean(int dId, String name, String headPhoto, List<String> imgList, String
-            content, String time, String location, int praiseCount, int commentCount, int
+            content, String time, String location, int praiseCount, int commentCount, int dUId,int
             praiseStatus) {
         this.dId = dId;
         this.name = name;
@@ -41,6 +41,7 @@ public class DynamicImgBean implements Serializable {
         this.location = location;
         this.praiseCount = praiseCount;
         this.commentCount = commentCount;
+        this.dUId = dUId;
         this.praiseStatus = praiseStatus;
     }
 

@@ -2,6 +2,7 @@ package com.running.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +18,16 @@ import com.running.android_main.MainActivity;
 import com.running.android_main.MyApplication;
 import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
-import com.running.beans.DynamicLinkBean;
-import com.running.myviews.MyGridView;
+import com.running.myviews.ninegridview.ImageInfo;
+import com.running.myviews.ninegridview.NineGridView;
+import com.running.myviews.ninegridview.preview.ClickNineGridViewAdapter;
 import com.running.utils.GlideCircleTransform;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -42,11 +45,15 @@ public class DynamicAdapter extends BaseAdapter {
     List<HashMap<String, Object>> mList;
     LayoutInflater mInflater;
     //img GridView适配器
-    //ClickNineGridViewAdapter mAdapter;
+    ClickNineGridViewAdapter mAdapter;
 
     MyApplication mMyApplication;
 
-    String url = MyApplication.HOST+"dynamicOperateServlet";
+    String url = MyApplication.HOST + "dynamicOperateServlet";
+
+    DynamicImgBean dynamicImgBean;
+
+    int myPosition;
 
     public DynamicAdapter(Context context, List<HashMap<String, Object>> list) {
         mContext = context;
@@ -81,10 +88,10 @@ public class DynamicAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (getType(position)) {
             //普通动态（图片+内容）
-            ImgViewHolder imgViewHolder;
+            final ImgViewHolder imgViewHolder;
             View imgView = mInflater.inflate(R.layout.dynamic_img_item, parent, false);
             if (convertView == null) {
                 convertView = imgView;
@@ -98,128 +105,91 @@ public class DynamicAdapter extends BaseAdapter {
             } else {
                 imgViewHolder = (ImgViewHolder) convertView.getTag();
             }
-            DynamicImgBean dynamicImgBean = (DynamicImgBean) mList.get(position).get("DynamicBean");
+            final DynamicImgBean dynamicImgBean = (DynamicImgBean) mList.get(position).get("DynamicBean");
             //显示普通动态
-            showDynamicImg(imgViewHolder, dynamicImgBean);
-        } else {
-            //分享链接动态
-            LinkViewHolder linkViewHolder;
-            View linkView = mInflater.inflate(R.layout.dynamic_link_item, parent, false);
-            if (convertView == null) {
-                convertView = linkView;
-                linkViewHolder = new LinkViewHolder(convertView);
-                convertView.setTag(linkViewHolder);
-            } else if (convertView != linkView) {
-                convertView = linkView;
-                linkViewHolder = new LinkViewHolder(convertView);
-                convertView.setTag(linkViewHolder);
-            } else {
-                linkViewHolder = (LinkViewHolder) convertView.getTag();
+            myPosition = position;
+            Log.e("TAG",position+dynamicImgBean.getdUId()+"Test");
+            Glide.with(mContext)
+                    .load(dynamicImgBean.getHeadPhoto())
+                    .centerCrop()
+                    .transform(new GlideCircleTransform(mContext))
+                    .into(imgViewHolder.mDynamicImgItemHeadImg);
+            //头像设置点击事件
+            imgViewHolder.mDynamicImgItemHeadImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, DynamicOneselfActivity.class);
+                    Log.e("TAG","TEST");
+                    Log.d("TAG",dynamicImgBean.getdUId()+"test"+dynamicImgBean.toString());
+                    intent.putExtra("uId",dynamicImgBean.getdUId());
+                    Log.d("TAG",""+((DynamicImgBean)mList.get(myPosition).get
+                            ("DynamicBean")).getdUId());
+                    mContext.startActivity(intent);
+                }
+            });
+            imgViewHolder.mDynamicImgItemName.setText(dynamicImgBean.getName());
+            imgViewHolder.mDynamicImgItemTime.setText(timeChange(dynamicImgBean.getTime()));
+            imgViewHolder.mDynamicImgItemContent.setText(dynamicImgBean.getContent());
+            //img GridView的添加值
+            List<ImageInfo> infoList = new ArrayList<>();
+            for (int i = 0; i < dynamicImgBean.getImgList().size(); i++) {
+                ImageInfo imageInfo = new ImageInfo();
+                imageInfo.setThumbnailUrl(dynamicImgBean.getImgList().get(i));
+                imageInfo.setBigImageUrl(dynamicImgBean.getImgList().get(i));
+                infoList.add(imageInfo);
             }
-            DynamicLinkBean dynamicLinkBean = (DynamicLinkBean) mList.get(position).get("link");
-            //显示链接动态
-            showDynamicLink(linkViewHolder, dynamicLinkBean);
+            mAdapter = new ClickNineGridViewAdapter(mContext, infoList);
+            imgViewHolder.mDynamicImgItemGridView.setAdapter(mAdapter);
+            imgViewHolder.mDynamicImgItemLocation.setText(dynamicImgBean.getLocation());
+            if (((DynamicImgBean)mList.get(position).get
+                    ("DynamicBean")).getPraiseStatus() == 1) {
+                imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.praise_red);
+            }
+            imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(dynamicImgBean
+                    .getPraiseCount()));
+            imgViewHolder.mDynamicImgItemPraiseImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (((DynamicImgBean)mList.get(position).get
+                            ("DynamicBean")).getPraiseStatus() == 0) {
+                        ((DynamicImgBean)mList.get(position).get
+                                ("DynamicBean")).setPraiseStatus(1);
+                        ((DynamicImgBean)mList.get(position).get
+                                ("DynamicBean")).setPraiseCount(((DynamicImgBean)mList.get(position).get
+                                ("DynamicBean")).getPraiseCount() + 1);
+                        imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(((DynamicImgBean)mList.get(position).get
+                                ("DynamicBean"))
+                                .getPraiseCount()));
+                        imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.praise_red);
+                        addPraise(((DynamicImgBean)mList.get(position).get
+                                ("DynamicBean")).getdId());
+                    } else if (((DynamicImgBean)mList.get(myPosition).get
+                            ("DynamicBean")).getPraiseStatus() == 1) {
+                        //imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable
+                        // .praise_red);
+                    }
+                }
+            });
+
+
+            //跳转到评论界面
+            imgViewHolder.mDynamicImgItemCommentImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, DynamicCommentActivity.class);
+                    intent.putExtra("myId", mMyApplication.getUserInfo().getUid());
+                    intent.putExtra("dynamicBean", ((DynamicImgBean)mList.get(position).get
+                            ("DynamicBean")));
+                    mContext.startActivity(intent);
+                }
+            });
+            imgViewHolder.mDynamicImgItemCommentCount.setText(String.valueOf(dynamicImgBean
+                    .getCommentCount()));
+        } else {
         }
         return convertView;
     }
 
-    private void showDynamicLink(LinkViewHolder linkViewHolder, DynamicLinkBean dynamicLinkBean) {
-        Glide.with(mContext).
-                load(dynamicLinkBean.getHeadImg()).
-                placeholder(dynamicLinkBean.getHeadImg()).
-                into(linkViewHolder.mDynamicLinkItemHeadImg);
-        linkViewHolder.mDynamicLinkItemHeadImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, DynamicOneselfActivity.class);
-                mContext.startActivity(intent);
-            }
-        });
-        linkViewHolder.mDynamicLinkItemName.setText(dynamicLinkBean.getName());
-        linkViewHolder.mDynamicLinkItemContent.setText(dynamicLinkBean.getContent());
-        //链接部分内容
-        linkViewHolder.mDynamicLinkItemLinkImg.setImageResource((Integer) dynamicLinkBean
-                .getLink().get("linkImg"));
-        linkViewHolder.mDynamicLinkItemLinkTittle.setText((String) dynamicLinkBean
-                .getLink().get("linkName"));
-        linkViewHolder.mDynamicLinkItemLinkData.setText((String) dynamicLinkBean.getLink()
-                .get("linkData"));
-        linkViewHolder.mDynamicLinkItemPraiseCount.setText(String.valueOf(dynamicLinkBean
-                .getPraiseCount()));
-        linkViewHolder.mDynamicLinkItemCommentImg.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mContext, DynamicCommentActivity.class);
-                        mContext.startActivity(intent);
-                    }
-                });
-        linkViewHolder.mDynamicLinkItemPraiseCount.setText(String.valueOf(dynamicLinkBean
-                .getCommentCount()));
-    }
-
-    //显示普通动态
-    private void showDynamicImg(final ImgViewHolder imgViewHolder, final DynamicImgBean
-            dynamicImgBean) {
-        Glide.with(mContext)
-                .load(dynamicImgBean.getHeadPhoto())
-                .centerCrop()
-                .transform(new GlideCircleTransform(mContext))
-                .into(imgViewHolder.mDynamicImgItemHeadImg);
-        //头像设置点击事件
-        imgViewHolder.mDynamicImgItemHeadImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, DynamicOneselfActivity.class);
-                intent.putExtra("dId", dynamicImgBean.getdId());
-                mContext.startActivity(intent);
-            }
-        });
-        imgViewHolder.mDynamicImgItemName.setText(dynamicImgBean.getName());
-        imgViewHolder.mDynamicImgItemTime.setText(timeChange(dynamicImgBean.getTime()));
-        imgViewHolder.mDynamicImgItemContent.setText(dynamicImgBean.getContent());
-        //img GridView的添加值
-       /* List<ImageInfo> infoList = new ArrayList<>();
-        for (int i = 0; i < dynamicImgBean.getImgList().size(); i++) {
-            ImageInfo imageInfo = new ImageInfo();
-            imageInfo.setThumbnailUrl(dynamicImgBean.getImgList().get(i));
-            imageInfo.setBigImageUrl(dynamicImgBean.getImgList().get(i));
-            infoList.add(imageInfo);
-        }
-        mAdapter = new ClickNineGridViewAdapter(mContext,infoList);
-        imgViewHolder.mDynamicImgItemGridView.setAdapter(mAdapter);*/
-
-        if (dynamicImgBean.getPraiseStatus() == 0) {
-            imgViewHolder.mDynamicImgItemPraiseImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dynamicImgBean.setPraiseStatus(1);
-                    dynamicImgBean.setPraiseCount(dynamicImgBean.getPraiseCount() + 1);
-                    imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(dynamicImgBean
-                            .getPraiseCount()));
-                    imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.praise_red);
-                    addPraise(dynamicImgBean.getdId());
-                }
-            });
-        } else if (dynamicImgBean.getPraiseStatus() == 1) {
-            imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.praise_red);
-        }
-
-        imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(dynamicImgBean
-                .getPraiseCount()));
-        //跳转到评论界面
-        imgViewHolder.mDynamicImgItemCommentImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, DynamicCommentActivity.class);
-                intent.putExtra("myId", mMyApplication.getUserInfo().getUid());
-                intent.putExtra("dynamicBean", dynamicImgBean);
-                mContext.startActivity(intent);
-            }
-        });
-        imgViewHolder.mDynamicImgItemCommentCount.setText(String.valueOf(dynamicImgBean
-                .getCommentCount()));
-    }
 
     private void addPraise(int i) {
         HashMap<String, Integer> map = new HashMap<>();
@@ -261,7 +231,6 @@ public class DynamicAdapter extends BaseAdapter {
         return s;
     }
 
-
     //ImgGridView ViewHolder
     static class ImgViewHolder {
         @Bind(R.id.dynamic_img_item_head_img)
@@ -273,50 +242,21 @@ public class DynamicAdapter extends BaseAdapter {
         @Bind(R.id.dynamic_img_item_content)
         TextView mDynamicImgItemContent;
         @Bind(R.id.dynamic_img_item_gridView)
-        MyGridView mDynamicImgItemGridView;
-        //@Bind(R.id.dynamic_img_item_p_background)
-        ImageView mDynamicImgItemPBackground;
+        NineGridView mDynamicImgItemGridView;
+        @Bind(R.id.dynamic_img_item_location_img)
+        ImageView mDynamicImgItemLocationImg;
+        @Bind(R.id.dynamic_img_item_location)
+        TextView mDynamicImgItemLocation;
         @Bind(R.id.dynamic_img_item_praise_img)
         ImageView mDynamicImgItemPraiseImg;
         @Bind(R.id.dynamic_img_item_praise_count)
         TextView mDynamicImgItemPraiseCount;
-        //@Bind(R.id.dynamic_img_item_c_background)
-        ImageView mDynamicImgItemCBackground;
         @Bind(R.id.dynamic_img_item_comment_img)
         ImageView mDynamicImgItemCommentImg;
         @Bind(R.id.dynamic_img_item_comment_count)
         TextView mDynamicImgItemCommentCount;
 
         ImgViewHolder(View view) {
-            ButterKnife.bind(this, view);
-        }
-    }
-
-    static class LinkViewHolder {
-        @Bind(R.id.dynamic_link_item_head_img)
-        ImageView mDynamicLinkItemHeadImg;
-        @Bind(R.id.dynamic_link_item_name)
-        TextView mDynamicLinkItemName;
-        @Bind(R.id.dynamic_link_item_time)
-        TextView mDynamicLinkItemTime;
-        @Bind(R.id.dynamic_link_item_content)
-        TextView mDynamicLinkItemContent;
-        @Bind(R.id.dynamic_link_item_linkImg)
-        ImageView mDynamicLinkItemLinkImg;
-        @Bind(R.id.dynamic_link_item_linkTittle)
-        TextView mDynamicLinkItemLinkTittle;
-        @Bind(R.id.dynamic_link_item_linkData)
-        TextView mDynamicLinkItemLinkData;
-        @Bind(R.id.dynamic_link_item_praise_img)
-        ImageView mDynamicLinkItemPraiseImg;
-        @Bind(R.id.dynamic_link_item_praise_count)
-        TextView mDynamicLinkItemPraiseCount;
-        @Bind(R.id.dynamic_link_item_comment_img)
-        ImageView mDynamicLinkItemCommentImg;
-        @Bind(R.id.dynamic_link_item_comment_count)
-        TextView mDynamicLinkItemCommentCount;
-
-        LinkViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
     }

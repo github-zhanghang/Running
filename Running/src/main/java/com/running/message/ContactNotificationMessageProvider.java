@@ -61,7 +61,8 @@ public class ContactNotificationMessageProvider extends IContainerItemProvider.M
         if (message.getConversationType().getName().equals(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName()) ||
                 message.getConversationType().getName().equals(Conversation.ConversationType.PUBLIC_SERVICE.getName())) {
             ConversationKey key = ConversationKey.obtain(message.getTargetId(), message.getConversationType());
-            PublicServiceProfile info = RongContext.getInstance().getPublicServiceInfoCache().get(key.getKey());
+            PublicServiceProfile info = RongContext.getInstance().getPublicServiceInfoCache()
+                    .get(key.getKey());
             if (info != null)
                 name = info.getName();
         } else {

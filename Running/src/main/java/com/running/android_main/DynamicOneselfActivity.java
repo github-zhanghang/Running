@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -17,11 +18,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.running.adapters.DynamicOneselfAdapter;
 import com.running.beans.DynamicOneselfBean;
+import com.running.beans.UserInfo;
 import com.running.myviews.TopBar;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,20 +51,29 @@ public class DynamicOneselfActivity extends AppCompatActivity {
     @Bind(R.id.dynamic_oneself_swipe)
     SwipeRefreshLayout mOneselfSwipe;
 
+    UserInfo mUserInfo;
+    int uId;
     private DynamicOneselfCallBack mOneselfCallBack;
     String url = MyApplication.HOST + "dynamicOperateServlet";
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
+                case 0:
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd " +
+                            "HH:mm:ss");
+                    String time = format.format(new Date());
+                    getLoadData(time);
+                    mOneselfSwipe.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mOneselfSwipe.setRefreshing(false);
+                        }
+                    });
+                    break;
                 case 1:
                     for (int i = 0; i < mOneselfCallBack.mOneselfBeen.size(); i++) {
                         HashMap<String, Object> map = new HashMap<>();
-                        if (i==0) {
-                            map.put("type", IMG);
-                            map.put("DynamicOneselfBean", mOneselfCallBack.mOneselfBeen.get(i));
-                            mList.add(map);
-                        }
                         map.put("type", IMG);
                         map.put("DynamicOneselfBean", mOneselfCallBack.mOneselfBeen.get(i));
                         mList.add(map);
@@ -72,6 +85,29 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                             mOneselfSwipe.setRefreshing(false);
                         }
                     });
+
+                    break;
+                case 2:
+                    for (int i = 0; i < mOneselfCallBack.mOneselfBeen.size(); i++) {
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("type", IMG);
+                        map.put("DynamicOneselfBean", mOneselfCallBack.mOneselfBeen.get(i));
+                        mList.add(map);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    break;
+                case 3:
+                    mList.clear();
+                    HashMap<String, Object> hashMap = new HashMap<String, Object>();
+                    hashMap.put("header", mUserInfo);
+                    mList.add(hashMap);
+                    for (int i = 0; i < mOneselfCallBack.mOneselfBeen.size(); i++) {
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("type", IMG);
+                        map.put("DynamicOneselfBean", mOneselfCallBack.mOneselfBeen.get(i));
+                        mList.add(map);
+                        mAdapter.notifyDataSetChanged();
+                    }
 
                     break;
                 default:
@@ -140,6 +176,7 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        getRefreshData();
                         mOneselfSwipe.setRefreshing(false);
                     }
                 }, 2000);
@@ -169,6 +206,17 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                         mOneselfRecyclerView.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                String time = null;
+                                if (mList.size() == 1) {
+                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd " +
+                                            "HH:mm:ss");
+                                    time = format.format(new Date());
+                                } else if (mList.size() > 1) {
+                                    DynamicOneselfBean bean = (DynamicOneselfBean) mList.get
+                                            (mList.size() - 1).get("DynamicOneselfBean");
+                                    time = bean.getTime();
+                                }
+                                getLoadData(time);
                                 onLoading = false;
                             }
                         }, 2000);
@@ -178,26 +226,84 @@ public class DynamicOneselfActivity extends AppCompatActivity {
         });
     }
 
+    private void getLoadData(String time) {
+        OkHttpUtils.post()
+                .url(url)
+                .addParams("appRequest", "DynamicOneselfLoad")
+                .addParams("uId", String.valueOf(uId))
+                .addParams("meId", String.valueOf(((MyApplication) getApplication())
+                        .getUserInfo().getUid()))
+                .addParams("time", time)
+                .build()
+                .execute(mOneselfCallBack = new DynamicOneselfCallBack(2));
+    }
+
     private void initData() {
         mList = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();
         List<Object> objectList = new ArrayList<>();
         Intent intent = getIntent();
-        int dId = intent.getIntExtra("dId", -1);
-        if (dId == -1) {
+        uId = intent.getIntExtra("uId", -1);
+        Log.d("TAG", ""+uId);
+        if (uId == -1) {
         } else {
             OkHttpUtils.post()
                     .url(url)
-                    .addParams("appRequest", "DynamicOneself")
-                    .addParams("dId", String.valueOf(dId))
+                    .addParams("appRequest", "GetUserInfo")
+                    .addParams("uId", String.valueOf(uId))
                     .build()
-                    .execute(mOneselfCallBack = new DynamicOneselfCallBack());
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e) {
+
+                        }
+                        @Override
+                        public void onResponse(String response) {
+                            Gson gson = new Gson();
+                            mUserInfo = gson.fromJson(response, UserInfo.class);
+                            HashMap<String, Object> hashMap = new HashMap<String, Object>();
+                            hashMap.put("header", mUserInfo);
+                            mList.add(hashMap);
+                            mDynamicOneselfTopBar.setLeftText(mUserInfo.getNickName());
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Message message = new Message();
+                                    message.what = 0;
+                                    mHandler.sendMessage(message);
+                                }
+                            }).start();
+                        }
+                    });
 
         }
     }
 
+    public void getRefreshData() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd " +
+                "HH:mm:ss");
+        String time = format.format(new Date());
+        OkHttpUtils.post()
+                .url(url)
+                .addParams("appRequest", "DynamicOneselfLoad")
+                .addParams("uId", String.valueOf(uId))
+                .addParams("meId", String.valueOf(((MyApplication) getApplication())
+                        .getUserInfo().getUid()))
+                .addParams("time", time)
+                .build()
+                .execute(mOneselfCallBack = new DynamicOneselfCallBack(3));
+    }
+
     public class DynamicOneselfCallBack extends StringCallback {
         List<DynamicOneselfBean> mOneselfBeen = new ArrayList<>();
+        int type = 1;
+
+        public DynamicOneselfCallBack() {
+        }
+
+        public DynamicOneselfCallBack(int type) {
+            this.type = type;
+        }
 
         @Override
         public void onError(Call call, Exception e) {
@@ -213,7 +319,7 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     Message message = new Message();
-                    message.what = 1;
+                    message.what = type;
                     mHandler.sendMessage(message);
                 }
             }).start();
