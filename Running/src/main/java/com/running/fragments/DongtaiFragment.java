@@ -17,6 +17,7 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -145,6 +146,15 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 .load(((MyApplication) getActivity().getApplication()).getUserInfo().getImageUrl())
                 .transform(new GlideCircleTransform(getActivity()))
                 .into(uImg);
+        ImageView sexImg = (ImageView) mHeaderView.findViewById(R.id.personSex);
+        if (((MyApplication) getActivity().getApplication()).getUserInfo().getSex().equals("男")) {
+            sexImg.setImageResource(R.drawable.ic_sex_man);
+        } else {
+            sexImg.setImageResource(R.drawable.ic_sex_woman);
+        }
+        TextView nameTextView = (TextView) mHeaderView.findViewById(R.id.dynamic_header_name);
+        nameTextView.setText(((MyApplication) getActivity().getApplication()).getUserInfo()
+                .getNickName());
         mListView.addHeaderView(mHeaderView);
 
         //添加FootView

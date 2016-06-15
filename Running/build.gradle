@@ -59,6 +59,7 @@ dependencies {
     compile files('libs/BaiduTraceSDK_v2_1_10.jar')
     //聊天
     compile project(':IMKit')
+
     //网络请求
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.okio:okio:1.8.0'

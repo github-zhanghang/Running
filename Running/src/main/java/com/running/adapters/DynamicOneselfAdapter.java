@@ -2,12 +2,11 @@ package com.running.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +15,24 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.running.android_main.DynamicCommentActivity;
+import com.running.android_main.DynamicOneselfActivity;
 import com.running.android_main.MyApplication;
 import com.running.android_main.PersonInformationActivity;
 import com.running.android_main.R;
+import com.running.beans.DynamicImgBean;
 import com.running.beans.DynamicOneselfBean;
 import com.running.beans.UserInfo;
-import com.running.myviews.MyGridView;
+import com.running.myviews.ninegridview.ImageInfo;
+import com.running.myviews.ninegridview.NineGridView;
+import com.running.myviews.ninegridview.preview.ClickNineGridViewAdapter;
 import com.running.utils.GlideCircleTransform;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -49,22 +54,6 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static final int IS_FOOTER = 1;
 
     private String url = MyApplication.HOST + "dynamicOperateServlet";
-
-    private UserInfo mUserInfo;
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    Intent intent = new Intent();
-                    intent.putExtra("UserInfo",mUserInfo);
-                    intent.setClass(mContext, PersonInformationActivity.class);
-                    mContext.startActivity(intent);
-                    break;
-            }
-        }
-    };
 
     private OnItemClickListener mListener;
 
@@ -105,26 +94,29 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof HeaderViewHolder) {
-            final DynamicOneselfBean bean = (DynamicOneselfBean) mList.get(position).get
-                    ("DynamicOneselfBean");
+            final UserInfo userInfo = (UserInfo) mList.get(position).get
+                    ("header");
             ((HeaderViewHolder) holder).mBackImageView.setImageResource(R.drawable.dynamic_test);
             Glide.with(mContext)
-                    .load(bean.getHeadPhoto())
+                    .load(userInfo.getImageUrl())
                     .transform(new GlideCircleTransform(mContext))
                     .into(((HeaderViewHolder) holder).mHeadImageView);
             ((HeaderViewHolder) holder).mHeadImageView.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            getUserInfo(bean.getuId());
+                            Intent intent = new Intent();
+                            intent.putExtra("UserInfo", userInfo);
+                            intent.setClass(mContext, PersonInformationActivity.class);
+                            mContext.startActivity(intent);
                         }
                     });
-            ((HeaderViewHolder) holder).mNameTextView.setText(bean.getuName());
-            if (bean.getuSex().equals("男")) {
+            ((HeaderViewHolder) holder).mNameTextView.setText(userInfo.getNickName());
+            if (userInfo.getSex().equals("男")) {
                 ((HeaderViewHolder) holder).mSexImageView.setImageResource(R.drawable.ic_sex_man);
-            } else if (bean.getuSex().equals("女")) {
+            } else if (userInfo.getSex().equals("女")) {
                 ((HeaderViewHolder) holder).mSexImageView.setImageResource(R.drawable.ic_sex_woman);
             }
         } else if (holder instanceof FooterViewHolder) {
@@ -135,21 +127,77 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             SpannableStringBuilder time = formatDateTime(bean.getTime());
             ((ViewHolder) holder).mTime.setText(time);
             ((ViewHolder) holder).mContent.setText(bean.getContent());
-            /*List<ImageInfo> infoList = new ArrayList<>();
+            List<ImageInfo> infoList = new ArrayList<>();
             for (int i = 0; i < bean.getImgList().size(); i++) {
                 ImageInfo imageInfo = new ImageInfo();
                 imageInfo.setThumbnailUrl(bean.getImgList().get(i));
                 imageInfo.setBigImageUrl(bean.getImgList().get(i));
                 infoList.add(imageInfo);
             }
-            ClickNineGridViewAdapter adapter = new ClickNineGridViewAdapter(mContext,infoList);
-            ((ViewHolder) holder).mGridView.setAdapter(adapter);*/
+            ClickNineGridViewAdapter adapter = new ClickNineGridViewAdapter(mContext, infoList);
+            ((ViewHolder) holder).mGridView.setAdapter(adapter);
             ((ViewHolder) holder).mPraiseCount.setText(String.valueOf(bean.getPraiseCount()));
             ((ViewHolder) holder).mCommentCount.setText(String.valueOf(bean.getCommentCount()));
+
+            if (((DynamicOneselfBean) mList.get(position).get("DynamicOneselfBean"))
+                    .getPraiseStatus() == 1) {
+                ((ViewHolder) holder).mPraiseImg.setImageResource(R.drawable.praise_red);
+            }
+            ((ViewHolder) holder).mPraiseImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (((DynamicOneselfBean) mList.get(position).get("DynamicOneselfBean"))
+                            .getPraiseStatus() == 0) {
+                        ((DynamicOneselfBean) mList.get(position).get
+                                ("DynamicOneselfBean")).setPraiseStatus(1);
+                        ((DynamicOneselfBean) mList.get(position).get
+                                ("DynamicOneselfBean")).setPraiseCount(((DynamicOneselfBean)
+                                mList.get(position).get
+                                        ("DynamicOneselfBean")).getPraiseCount() + 1);
+                        ((ViewHolder) holder).mPraiseCount.setText(String.valueOf((
+                                (DynamicOneselfBean) mList.get(position).get
+                                        ("DynamicOneselfBean"))
+                                .getPraiseCount()));
+                        ((ViewHolder) holder).mPraiseImg.setImageResource(R.drawable
+                                .praise_red);
+                        addPraise(((DynamicOneselfBean) mList.get(position).get
+                                ("DynamicOneselfBean")).getdId());
+                    }
+                }
+            });
+
+            ((ViewHolder) holder).mPraiseCount.setText(""+((DynamicOneselfBean) mList.get
+                    (position).get
+                    ("DynamicOneselfBean")).getPraiseCount());
+
+            ((ViewHolder) holder).mCommentImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, DynamicCommentActivity.class);
+                    intent.putExtra("myId", (((MyApplication)((DynamicOneselfActivity)mContext)
+                            .getApplication
+                            ()).getUserInfo().getUid()));
+                    DynamicOneselfBean oneselfBean = (DynamicOneselfBean) mList.get(position).get
+                            ("DynamicOneselfBean");
+                    DynamicImgBean imgBean = new DynamicImgBean(oneselfBean.getdId(), oneselfBean
+                            .getName(), oneselfBean.getHeadPhoto(), oneselfBean.getImgList(),
+                            oneselfBean.getContent(), oneselfBean.getTime(), oneselfBean
+                            .getLocation(), oneselfBean.getPraiseCount(), oneselfBean
+                            .getCommentCount(), oneselfBean.getuId(), oneselfBean.getPraiseStatus());
+                    Log.d("TAG",imgBean.toString());
+                    intent.putExtra("dynamicBean", imgBean);
+                    mContext.startActivity(intent);
+                }
+            });
+
+            ((ViewHolder) holder).mCommentCount.setText(""+((DynamicOneselfBean)
+                    mList.get(position)
+                            .get("DynamicOneselfBean")).getCommentCount());
 
             if (mListener == null) {
                 return;
             }
+
             /*holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -159,11 +207,18 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    private void getUserInfo(int i) {
+    private void addPraise(int i) {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("pDId", i);
+        //用户id
+        //map.put("pUId",mMyApplication.getUserInfo().getUid());
+        map.put("pUId", 1);
+        Gson gson = new Gson();
+        String praiseMap = gson.toJson(map);
         OkHttpUtils.post()
                 .url(url)
-                .addParams("appRequest", "GetUserInfo")
-                .addParams("uId", String.valueOf(i))
+                .addParams("appRequest", "AddPraise")
+                .addParams("praiseMap", praiseMap)
                 .build()
                 .execute(new StringCallback() {
                     @Override
@@ -173,16 +228,7 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                     @Override
                     public void onResponse(String response) {
-                        Gson gson = new Gson();
-                        mUserInfo = gson.fromJson(response, UserInfo.class);
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Message message = new Message();
-                                message.what = 1;
-                                mHandler.sendMessage(message);
-                            }
-                        }).start();
+
                     }
                 });
     }
@@ -194,7 +240,7 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTime, mContent;
-        public MyGridView mGridView;
+        public NineGridView mGridView;
         TextView mPraiseCount, mCommentCount;
         ImageView mPraiseImg, mCommentImg;
 
@@ -202,7 +248,7 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
             mTime = (TextView) itemView.findViewById(R.id.dynamic_oneself_imgItem_time);
             mContent = (TextView) itemView.findViewById(R.id.dynamic_oneself_imgItem_content);
-            mGridView = (MyGridView) itemView.findViewById(R.id.dynamic_oneself_imgItem_gridView);
+            mGridView = (NineGridView) itemView.findViewById(R.id.dynamic_oneself_imgItem_gridView);
             mPraiseImg = (ImageView) itemView.findViewById(R.id.dynamic_oneself_imgItem_praiseImg);
             mPraiseCount = (TextView) itemView.findViewById(R.id
                     .dynamic_oneself_imgItem_praiseCount);
@@ -290,7 +336,7 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
             SpannableStringBuilder stringBuilder = new SpannableStringBuilder(
                     day + month + "月");
-            stringBuilder.setSpan(new AbsoluteSizeSpan(25), 2, stringBuilder.length(),
+            stringBuilder.setSpan(new AbsoluteSizeSpan(27), 2, stringBuilder.length(),
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             return stringBuilder;
         }
