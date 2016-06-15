@@ -57,7 +57,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof HistoryViewHolder) {
 
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             DateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss");
             ((HistoryViewHolder) holder).dateTextView.setText(dateFormat.format(mHistories.get(position).getRunstarttime()));
             ((HistoryViewHolder) holder).distanceTextView.setText(mHistories.get(position).getRundistance() + "");

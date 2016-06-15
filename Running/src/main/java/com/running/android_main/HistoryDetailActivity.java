@@ -110,7 +110,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
     }
 
     private void setData() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         DateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss");
         dateTextView.setText(dateFormat.format(history.getRunstarttime()));
         distanceTextView.setText(history.getRundistance() + "");
