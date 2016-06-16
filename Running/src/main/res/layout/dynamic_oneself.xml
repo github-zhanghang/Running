@@ -11,20 +11,15 @@
     <com.running.myviews.TopBar
         android:id="@+id/dynamic_oneself_topBar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/topbar_height"
+        android:layout_height="50dp"
         app:leftImage="@drawable/ic_back"
-        app:leftText="桃子">
+        app:leftText="个人动态">
     </com.running.myviews.TopBar>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/dynamic_oneself_swipe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/dynamic_oneself_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/dynamic_oneself_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
 
 </LinearLayout>
