@@ -180,7 +180,7 @@ public class FaxianRightFragment extends Fragment {
         super.onStart();
         scheduledExecutorService= Executors.newSingleThreadScheduledExecutor();
         //每隔三秒切换一张图片
-        scheduledExecutorService.scheduleWithFixedDelay(new ViewPagerTask(),3,3, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(new ViewPagerTask(),3,5, TimeUnit.SECONDS);
     }
 
 

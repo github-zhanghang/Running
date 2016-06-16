@@ -1,6 +1,7 @@
 [
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "outputFile": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-en\\values-en.xml",
 =======
         "outputFile": "D:\\Android\\WorkSpace\\Running1\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-en\\values-en.xml",
@@ -2423,6 +2424,8 @@
         ]
     },
     {
+=======
+>>>>>>> 080ce578055ee014f59d381aec354bca89826cfe
         "outputFile": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-en\\values-en.xml",
         "map": [
             {
