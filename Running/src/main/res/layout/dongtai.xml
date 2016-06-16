@@ -13,8 +13,14 @@
         app:leftImage="@drawable/ic_left"
         app:leftText="好友动态"
         app:rightImage="@drawable/ic_camera"/>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/dynamic_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
     <!--动态内容-->
-    <android.support.v4.widget.SwipeRefreshLayout
+    <!--<android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/dynamic_swipeRefreshLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
@@ -24,6 +30,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
         </ListView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>-->
 
 </LinearLayout>

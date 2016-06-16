@@ -133,4 +133,5 @@ public class DynamicOneselfBean implements Serializable {
     public void setPraiseStatus(int praiseStatus) {
         this.praiseStatus = praiseStatus;
     }
+
 }

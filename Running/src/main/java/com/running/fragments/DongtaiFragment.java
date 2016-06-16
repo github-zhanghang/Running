@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,18 +22,20 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.running.adapters.DynamicAdapter;
 import com.running.android_main.MainActivity;
 import com.running.android_main.MyApplication;
 import com.running.android_main.PublishDynamicActivity;
 import com.running.android_main.R;
 import com.running.beans.DynamicImgBean;
-import com.running.beans.DynamicLinkBean;
 import com.running.myviews.TopBar;
 import com.running.utils.GlideCircleTransform;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,7 @@ import okhttp3.Call;
  * Created by ldd on 2016/5/28.
  * 动态主界面
  */
-public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class DongtaiFragment extends Fragment {
     public static final String IMG = "img";
     public static final String LINK = "link";
     private MainActivity mActivity;
@@ -54,14 +55,15 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
     //动态内容界面
     private View mView;
     private TopBar mTopBar;
-    private ImageView uImg,sexImg;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ListView mListView;
+    private ImageView uImg, sexImg;
+    private PullToRefreshListView mListView;
     private List<HashMap<String, Object>> mList;
-    private View mHeaderView, mFootView;
+    private View mHeaderView;
     private LinearLayout mLinearLayout;
     boolean IS_LOADING = false;
     private DynamicAdapter mDynamicAdapter;
+
+    MyApplication myApplication;
 
     String url = MyApplication.HOST + "dynamicOperateServlet";
 
@@ -77,19 +79,22 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                         map.put("DynamicBean", dynamicCallBack.imgBeanList.get(i));
                         mList.add(map);
                     }
-                    //mLinearLayout.setVisibility(View.GONE);
                     mDynamicAdapter.notifyDataSetChanged();
+                    mListView.onRefreshComplete();
                     Log.d("TAG", "" + mList.size());
 
                     break;
                 case 2:
+                    mList.clear();
                     for (int i = 0; i < dynamicCallBack.imgBeanList.size(); i++) {
                         HashMap<String, Object> map = new HashMap<>();
                         map.put("type", IMG);
                         map.put("DynamicBean", dynamicCallBack.imgBeanList.get(i));
-                        mList.add(0, map);
+                        mList.add(map);
                     }
+                    dynamicCallBack = new DynamicCallBack();
                     mDynamicAdapter.notifyDataSetChanged();
+                    mListView.onRefreshComplete();
                     break;
                 default:
                     break;
@@ -104,17 +109,19 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.dongtai, container, false);
         initViews();
-        setListeners();
+
         initData();
+
+        setListeners();
         //下拉加载
-        addLoadListener();
+        //addLoadListener();
         return mView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Glide.with(this)
+       /* Glide.with(this)
                 .load(((MyApplication) getActivity().getApplication()).getUserInfo().getImageUrl())
                 .transform(new GlideCircleTransform(getActivity()))
                 .error(R.drawable.fail)
@@ -123,28 +130,23 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
             sexImg.setImageResource(R.drawable.ic_sex_man);
         } else {
             sexImg.setImageResource(R.drawable.ic_sex_woman);
-        }
+        }*/
     }
 
     //初始化View
     private void initViews() {
         mActivity = (MainActivity) getActivity();
         mTopBar = (TopBar) mView.findViewById(R.id.dongtai_topbar);
-
-        //上拉刷新
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(
-                R.id.dynamic_swipeRefreshLayout);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        //设置刷新动画的颜色
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_blue_dark);
-        mListView = (ListView) mView.findViewById(R.id.dynamic_listView);
+        mListView = (PullToRefreshListView) mView.findViewById(R.id.dynamic_listView);
+        mListView.setMode(PullToRefreshBase.Mode.BOTH);
     }
 
     //初始化数据
     private void initData() {
         mList = new ArrayList<>();
-        getDynamicList(1, String.valueOf(System.currentTimeMillis()), "Long");
+        myApplication = (MyApplication) getActivity().getApplication();
+        getDynamicList(myApplication.getUserInfo().getUid(), String.valueOf(System.currentTimeMillis
+                ()), "Long");
 
         //listView添加headView(添加headView和footView都要在添加适配器前进行)
         //HeaderView
@@ -170,17 +172,23 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
         TextView nameTextView = (TextView) mHeaderView.findViewById(R.id.dynamic_header_name);
         nameTextView.setText(((MyApplication) getActivity().getApplication()).getUserInfo()
                 .getNickName());
-        mListView.addHeaderView(mHeaderView);
+        AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(AbsListView
+                .LayoutParams
+                .MATCH_PARENT, AbsListView.LayoutParams
+                .MATCH_PARENT);
+        mHeaderView.setLayoutParams(layoutParams);
+        mListView.getRefreshableView().addHeaderView(mHeaderView);
 
         //添加FootView
-        mFootView = LayoutInflater.from(getActivity()).inflate(R.layout.dynamic_load_foot,
+        /*mFootView = LayoutInflater.from(getActivity()).inflate(R.layout.dynamic_load_foot,
                 mListView, false);
         mLinearLayout = (LinearLayout) mFootView.findViewById(R.id.dynamic_footer_LinearLayout);
         mLinearLayout.setVisibility(View.GONE);
-        mListView.addFooterView(mFootView);
+        mListView.addFooterView(mFootView);*/
 
         mDynamicAdapter = new DynamicAdapter(getActivity(), mList);
         mListView.setAdapter(mDynamicAdapter);
+
     }
 
     private void getDynamicList(int id, String start, String timeType) {
@@ -191,23 +199,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 .addParams("start", start)
                 .addParams("timeType", timeType)
                 .build()
-                .execute(dynamicCallBack);
-    }
-
-    private void addLinkDynamic() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("linkImg", R.mipmap.ic_launcher);
-        map.put("linkName", "跑步5.04km");
-        map.put("linkData", "用时36分17秒，平均配速07分17秒");
-        DynamicLinkBean dynamicLinkBean = new DynamicLinkBean(R.drawable.head_photo, "无名",
-                "04-15 07:15",
-                "四月，你好",
-                map,
-                28, 4, LINK);
-        HashMap<String, Object> imgMap = new HashMap<>();
-        imgMap.put("link", dynamicLinkBean);
-        imgMap.put("type", LINK);
-        mList.add(imgMap);
+                .execute(dynamicCallBack = new DynamicCallBack());
     }
 
 
@@ -232,9 +224,40 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 startActivity(intent);
             }
         });
-    }
+        mListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String time = format.format(System.currentTimeMillis());
+                OkHttpUtils.post()
+                        .url(url)
+                        .addParams("appRequest", "GetDynamicLoad")
+                        .addParams("id", String.valueOf(myApplication.getUserInfo().getUid()))
+                        .addParams("start", time)
+                        .addParams("timeType", "normal")
+                        .build()
+                        .execute(dynamicCallBack=new DynamicCallBack(2));
+            }
 
-    //上拉刷新数据
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                String refreshTime = "";
+                if (mList.size()==0) {
+                    SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd " +
+                            "HH:mm:ss");
+                    refreshTime = dataFormat.format(System.currentTimeMillis());
+                } else if (mList.size()>0) {
+                    DynamicImgBean bean = (DynamicImgBean) mList.get(mList.size()
+                            - 1).get
+                            ("DynamicBean");
+                    refreshTime = bean.getTime();
+                }
+                getDynamicList(myApplication.getUserInfo().getUid(), refreshTime,
+                        "normal");
+            }
+        });
+    }
+    /*//上拉刷新数据
     @Override
     public void onRefresh() {
         new Handler().postDelayed(new Runnable() {
@@ -245,16 +268,16 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 if (mList.size() == 0) {
                     return;
                 }
-                DynamicImgBean bean = (DynamicImgBean) mList.get(0).get("DynamicBean");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String time = format.format(new Date());
                 OkHttpUtils.post()
                         .url(url)
-                        .addParams("appRequest", "GetDynamicRefresh")
-                        .addParams("id", String.valueOf(1))
-                        .addParams("time", bean.getTime())
+                        .addParams("appRequest", "GetDynamicLoad")
+                        .addParams("id", String.valueOf(myApplication.getUserInfo().getUid()))
+                        .addParams("start", time)
+                        .addParams("timeType", "normal")
                         .build()
                         .execute(dynamicCallBack = new DynamicCallBack(2));
-                /*bean.getTime();
-                mDynamicAdapter.notifyDataSetChanged();*/
             }
         }, 2000);
     }
@@ -289,7 +312,8 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                             //加载相关操作
                             DynamicImgBean bean = (DynamicImgBean) mList.get(mList.size() - 1)
                                     .get("DynamicBean");
-                            getDynamicList(1, bean.getTime(), "normal");
+                            getDynamicList(myApplication.getUserInfo().getUid(), bean.getTime(),
+                                    "normal");
                             mLinearLayout.setVisibility(View.GONE);
                             //mDynamicAdapter.notifyDataSetChanged();
                             IS_LOADING = false;
@@ -297,8 +321,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
                     }, 2000);
                 }
             }
-        });
-    }
+        });*/
 
     //自定义StringCallBack
     public class DynamicCallBack extends StringCallback {
@@ -314,7 +337,7 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
         @Override
         public void onError(Call call, Exception e) {
-
+            Log.e("Error",e.getMessage());
         }
 
         @Override
@@ -323,6 +346,8 @@ public class DongtaiFragment extends Fragment implements SwipeRefreshLayout.OnRe
             imgBeanList = gson.fromJson(response, new TypeToken<List<DynamicImgBean>>
                     () {
             }.getType());
+            Log.d("TAG",imgBeanList.size()+"");
+            Log.e("Response",response);
             new Thread(new Runnable() {
                 @Override
                 public void run() {

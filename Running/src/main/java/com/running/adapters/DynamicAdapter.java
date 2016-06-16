@@ -177,7 +177,6 @@ public class DynamicAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, DynamicCommentActivity.class);
-                    intent.putExtra("myId", mMyApplication.getUserInfo().getUid());
                     intent.putExtra("dynamicBean", ((DynamicImgBean)mList.get(position).get
                             ("DynamicBean")));
                     mContext.startActivity(intent);
@@ -195,8 +194,7 @@ public class DynamicAdapter extends BaseAdapter {
         HashMap<String, Integer> map = new HashMap<>();
         map.put("pDId", i);
         //用户id
-        //map.put("pUId",mMyApplication.getUserInfo().getUid());
-        map.put("pUId", 1);
+        map.put("pUId",mMyApplication.getUserInfo().getUid());
         Gson gson = new Gson();
         String praiseMap = gson.toJson(map);
         OkHttpUtils.post()

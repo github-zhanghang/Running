@@ -4,22 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.running.adapters.DynamicOneselfAdapter;
 import com.running.beans.DynamicOneselfBean;
 import com.running.beans.UserInfo;
 import com.running.myviews.TopBar;
+import com.running.utils.GlideCircleTransform;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -37,20 +40,15 @@ public class DynamicOneselfActivity extends AppCompatActivity {
 
     public static final String IMG = "img";
     private List<HashMap<String, Object>> mList;
-    private RecyclerView.LayoutManager mManager;
     private DynamicOneselfAdapter mAdapter;
-    private LinearLayout mLayout;
-    private boolean onLoading = false;
-    private int lastVisibleItem;
-
 
     @Bind(R.id.dynamic_oneself_topBar)
     TopBar mDynamicOneselfTopBar;
-    @Bind(R.id.dynamic_oneself_recyclerView)
-    RecyclerView mOneselfRecyclerView;
-    @Bind(R.id.dynamic_oneself_swipe)
-    SwipeRefreshLayout mOneselfSwipe;
-
+    @Bind(R.id.dynamic_oneself_list_view)
+    PullToRefreshListView mDynamicOneselfListView;
+    View mHeaderView;
+    ImageView uImg;
+    ImageView sexImg;
     UserInfo mUserInfo;
     int uId;
     private DynamicOneselfCallBack mOneselfCallBack;
@@ -60,16 +58,11 @@ public class DynamicOneselfActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd " +
-                            "HH:mm:ss");
+                    initHeadView();
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String time = format.format(new Date());
+                    Log.e("LDD123", "Test" + time);
                     getLoadData(time);
-                    mOneselfSwipe.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mOneselfSwipe.setRefreshing(false);
-                        }
-                    });
                     break;
                 case 1:
                     for (int i = 0; i < mOneselfCallBack.mOneselfBeen.size(); i++) {
@@ -79,13 +72,6 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                         mList.add(map);
                     }
                     mAdapter.notifyDataSetChanged();
-                    mOneselfSwipe.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mOneselfSwipe.setRefreshing(false);
-                        }
-                    });
-
                     break;
                 case 2:
                     for (int i = 0; i < mOneselfCallBack.mOneselfBeen.size(); i++) {
@@ -93,22 +79,22 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                         map.put("type", IMG);
                         map.put("DynamicOneselfBean", mOneselfCallBack.mOneselfBeen.get(i));
                         mList.add(map);
-                        mAdapter.notifyDataSetChanged();
                     }
+                    mAdapter.notifyDataSetChanged();
+                    Log.e("LDD",mList.size()+"");
+                    mDynamicOneselfListView.onRefreshComplete();
                     break;
                 case 3:
                     mList.clear();
-                    HashMap<String, Object> hashMap = new HashMap<String, Object>();
-                    hashMap.put("header", mUserInfo);
-                    mList.add(hashMap);
                     for (int i = 0; i < mOneselfCallBack.mOneselfBeen.size(); i++) {
                         HashMap<String, Object> map = new HashMap<>();
                         map.put("type", IMG);
                         map.put("DynamicOneselfBean", mOneselfCallBack.mOneselfBeen.get(i));
                         mList.add(map);
-                        mAdapter.notifyDataSetChanged();
                     }
-
+                    mAdapter.notifyDataSetChanged();
+                    Log.e("LDD",mList.size()+"");
+                    mDynamicOneselfListView.onRefreshComplete();
                     break;
                 default:
                     break;
@@ -121,36 +107,12 @@ public class DynamicOneselfActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dynamic_oneself);
         ButterKnife.bind(this);
-
-        //设置刷新颜色
-        mOneselfSwipe.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_blue_dark
-        );
-        mOneselfSwipe.post(new Runnable() {
-            @Override
-            public void run() {
-                mOneselfSwipe.setRefreshing(true);
-            }
-        });
-
+        mDynamicOneselfListView.setMode(PullToRefreshBase.Mode.BOTH);
         initData();
+        Log.e("LDD123", "meid" + ((MyApplication) getApplication()).getUserInfo().getUid());
 
-        //设置RecyclerView
-        mManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mOneselfRecyclerView.setLayoutManager(mManager);
-        mOneselfRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter = new DynamicOneselfAdapter(this, mList);
-        mOneselfRecyclerView.setAdapter(mAdapter);
-
-        //RecyclerView的item监听事件
-        mAdapter.setOnItemClickListener(new DynamicOneselfAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, HashMap<String, Object> map) {
-                Toast.makeText(DynamicOneselfActivity.this, map.get("content").toString(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
+        mDynamicOneselfListView.setAdapter(mAdapter);
         addListener();
     }
 
@@ -168,71 +130,41 @@ public class DynamicOneselfActivity extends AppCompatActivity {
             }
         });
 
+        mDynamicOneselfListView.setOnRefreshListener(new PullToRefreshBase
+                .OnRefreshListener2<ListView>() {
 
-        //RecyclerView下拉刷新
-        mOneselfSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        getRefreshData();
-                        mOneselfSwipe.setRefreshing(false);
-                    }
-                }, 2000);
-            }
-        });
 
-        //RecyclerView上拉加载
-        mOneselfRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                getRefreshData();
             }
 
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager layoutManager = (LinearLayoutManager) mManager;
-                lastVisibleItem = layoutManager.findLastVisibleItemPosition();
-                if (lastVisibleItem == (mAdapter.getItemCount() - 1)) {
-                    boolean isRefreshing = mOneselfSwipe.isRefreshing();
-                    if (isRefreshing) {
-                        mAdapter.notifyItemRemoved(mAdapter.getItemCount());
-                        return;
-                    }
-                    if (!onLoading) {
-                        onLoading = true;
-                        mOneselfRecyclerView.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                String time = null;
-                                if (mList.size() == 1) {
-                                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd " +
-                                            "HH:mm:ss");
-                                    time = format.format(new Date());
-                                } else if (mList.size() > 1) {
-                                    DynamicOneselfBean bean = (DynamicOneselfBean) mList.get
-                                            (mList.size() - 1).get("DynamicOneselfBean");
-                                    time = bean.getTime();
-                                }
-                                getLoadData(time);
-                                onLoading = false;
-                            }
-                        }, 2000);
-                    }
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                String refreshTime = "";
+                if (mList.size()==0) {
+                    SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd " +
+                            "HH:mm:ss");
+                    refreshTime = dataFormat.format(System.currentTimeMillis());
+                } else if (mList.size()>0) {
+                    DynamicOneselfBean oneselfBean = (DynamicOneselfBean) mList.get(mList.size()
+                            - 1).get
+                            ("DynamicOneselfBean");
+                    refreshTime = oneselfBean.getTime();
                 }
+                getLoadData(refreshTime);
             }
         });
     }
 
     private void getLoadData(String time) {
+        Log.e("LDD123", "test" + "getLoadData");
+        Log.e("LDD123", "meid" + ((MyApplication) getApplication()).getUserInfo().getUid());
         OkHttpUtils.post()
                 .url(url)
                 .addParams("appRequest", "DynamicOneselfLoad")
                 .addParams("uId", String.valueOf(uId))
-                .addParams("meId", String.valueOf(((MyApplication) getApplication())
-                        .getUserInfo().getUid()))
+                .addParams("meId", ((MyApplication) getApplication()).getUserInfo().getUid() + "")
                 .addParams("time", time)
                 .build()
                 .execute(mOneselfCallBack = new DynamicOneselfCallBack(2));
@@ -241,10 +173,9 @@ public class DynamicOneselfActivity extends AppCompatActivity {
     private void initData() {
         mList = new ArrayList<>();
         HashMap<String, Object> map = new HashMap<>();
-        List<Object> objectList = new ArrayList<>();
         Intent intent = getIntent();
         uId = intent.getIntExtra("uId", -1);
-        Log.d("TAG", ""+uId);
+        Log.d("TAG", "" + uId);
         if (uId == -1) {
         } else {
             OkHttpUtils.post()
@@ -257,13 +188,12 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                         public void onError(Call call, Exception e) {
 
                         }
+
                         @Override
                         public void onResponse(String response) {
+                            Log.e("LDD123", "header" + response);
                             Gson gson = new Gson();
                             mUserInfo = gson.fromJson(response, UserInfo.class);
-                            HashMap<String, Object> hashMap = new HashMap<String, Object>();
-                            hashMap.put("header", mUserInfo);
-                            mList.add(hashMap);
                             mDynamicOneselfTopBar.setLeftText(mUserInfo.getNickName());
                             new Thread(new Runnable() {
                                 @Override
@@ -277,12 +207,43 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                     });
 
         }
+        //initHeadView();
+    }
+
+    private void initHeadView() {
+        mHeaderView = LayoutInflater.from(this).inflate(R.layout.dynamic_header,
+                mDynamicOneselfListView, false);
+        ImageView imageView = (ImageView) mHeaderView.findViewById(R.id.dynamic_header_background);
+        Glide.with(this).
+                load(R.drawable.bg_dynamic).
+                thumbnail(0.1f).
+                into(imageView);
+        uImg = (ImageView) mHeaderView.findViewById(R.id
+                .dynamic_header_head_img);
+        Glide.with(this)
+                .load(mUserInfo.getImageUrl())
+                .transform(new GlideCircleTransform(this))
+                .into(uImg);
+        sexImg = (ImageView) mHeaderView.findViewById(R.id.personSex);
+        if (mUserInfo.getSex().equals("男")) {
+            sexImg.setImageResource(R.drawable.ic_sex_man);
+        } else {
+            sexImg.setImageResource(R.drawable.ic_sex_woman);
+        }
+        TextView nameTextView = (TextView) mHeaderView.findViewById(R.id.dynamic_header_name);
+        nameTextView.setText(mUserInfo.getNickName());
+        AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(AbsListView.LayoutParams
+                .MATCH_PARENT,AbsListView.LayoutParams
+                .MATCH_PARENT);
+        mHeaderView.setLayoutParams(layoutParams);
+        mDynamicOneselfListView.getRefreshableView().addHeaderView(mHeaderView);
     }
 
     public void getRefreshData() {
+        Log.e("LDD123", "test" + "getRefreshData");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd " +
                 "HH:mm:ss");
-        String time = format.format(new Date());
+        String time = format.format(System.currentTimeMillis());
         OkHttpUtils.post()
                 .url(url)
                 .addParams("appRequest", "DynamicOneselfLoad")
@@ -312,6 +273,7 @@ public class DynamicOneselfActivity extends AppCompatActivity {
 
         @Override
         public void onResponse(String response) {
+            Log.e("LDD123", "test" + response);
             Gson gson = new Gson();
             mOneselfBeen = gson.fromJson(response, new TypeToken<List<DynamicOneselfBean>>() {
             }.getType());

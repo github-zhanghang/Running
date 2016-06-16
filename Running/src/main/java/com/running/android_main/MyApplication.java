@@ -27,6 +27,8 @@ import io.rong.imkit.RongIM;
  */
 public class MyApplication extends Application {
     public static final String HOST = "http://123.206.203.86:8080/Running/";
+    //public static final String HOST = "http://192.168.191.1:8080/Running/";
+
     //用户信息
     public UserInfo mUserInfo;
     //总距离
@@ -39,7 +41,7 @@ public class MyApplication extends Application {
         super.onCreate();
         mActivityList = new ArrayList<>();
         //极光推送
-        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        //JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
         //百度地图
         SDKInitializer.initialize(getApplicationContext());
