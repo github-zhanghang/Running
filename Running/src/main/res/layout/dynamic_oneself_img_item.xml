@@ -15,7 +15,7 @@
         android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:text="今天"
-        android:textSize="28sp"/>
+        android:textSize="20sp"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -31,7 +31,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:text="四月，你好"
-            android:textSize="20sp"/>
+            android:textSize="16sp"/>
 
         <com.running.myviews.ninegridview.NineGridView
             android:id="@+id/dynamic_oneself_imgItem_gridView"
@@ -63,7 +63,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/praise"/>
+                        android:src="@drawable/ic_praise"/>
 
                     <TextView
                         android:id="@+id/dynamic_oneself_imgItem_praiseCount"
@@ -71,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="18"
-                        android:textSize="20sp"/>
+                        android:textSize="16sp"/>
                 </LinearLayout>
             </FrameLayout>
 
@@ -97,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="4"
-                        android:textSize="20sp"/>
+                        android:textSize="16sp"/>
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

@@ -58,10 +58,11 @@ public class RecordActivity extends AppCompatActivity  implements View.OnClickLi
                     @Override
                     public void onResponse(String response) {
                         Log.e("taozi123", "onResponse: "+response);
+                        java.text.DecimalFormat df=new java.text.DecimalFormat("#0.00");//保留两位小数
                         SumRecord sumRecord = new Gson().fromJson(response,SumRecord.class);
                         countTextView.setText(sumRecord.getSumcount()+"");
-                        disTextView.setText(sumRecord.getSumrundistance()+"");
-                        java.text.DecimalFormat df=new java.text.DecimalFormat("#0.00");//保留两位小数
+                        disTextView.setText(df.format(sumRecord.getSumrundistance())+"");
+
                         if(sumRecord.getSumcount()!=0){
                             avgTextView.setText(df.format(sumRecord.getSumrundistance()/sumRecord.getSumcount()));
                         }else{
