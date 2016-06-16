@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         >
     <TextView
+        android:layout_marginTop="20dp"
         android:id="@+id/date_forecast"
         android:text="2016.6.5"
         android:layout_marginLeft="15dp"
@@ -17,10 +18,11 @@
         android:textSize="14sp"
         android:textColor="@color/colorOrange"/>
     <ImageView
-        android:src="@drawable/ic_circleline"
+        android:src="@drawable/ic_circle_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
+        android:layout_marginTop="20dp"
             android:id="@+id/race_forecast"
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"

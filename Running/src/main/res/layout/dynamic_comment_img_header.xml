@@ -3,6 +3,8 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="horizontal"
+              android:background="#f0f0f0"
+              android:padding="5dp"
               xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
@@ -17,6 +19,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
+        android:paddingBottom="10dp"
         android:layout_height="wrap_content"
         android:layout_weight="5"
         android:orientation="vertical">
@@ -32,8 +35,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="无名"
-                android:textColor="#5563d2"
-                android:textSize="25sp"/>
+                android:textColor="@color/colorOrange"
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/comment_imgHeader_time"
@@ -42,17 +45,17 @@
                 android:layout_marginLeft="10dp"
                 android:text="04-01 07:05"
                 android:textColor="#cac6c6"
-                android:textSize="18sp"/>
+                android:textSize="16sp"/>
         </LinearLayout>
 
         <TextView
             android:id="@+id/comment_imgHeader_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:text="四月，你好"
-            android:textSize="20sp"/>
+            android:textSize="16sp"/>
 
         <com.running.myviews.ninegridview.NineGridView
             android:id="@+id/comment_imgHeader_gridView"
@@ -85,7 +88,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/praise"/>
+                        android:src="@drawable/ic_praise"/>
 
                     <TextView
                         android:id="@+id/comment_imgHeader_praiseCount"
@@ -93,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="4"
-                        android:textSize="20sp"/>
+                        android:textSize="16sp"/>
                 </LinearLayout>
             </FrameLayout>
 
@@ -119,7 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="4"
-                        android:textSize="20sp"/>
+                        android:textSize="16sp"/>
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>

@@ -4,9 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="#f0f0f0">
 
     <LinearLayout
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:id="@+id/dynamic_footer_LinearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -14,14 +17,17 @@
         <ProgressBar
             android:id="@+id/dynamic_footer_progressBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@drawable/ico_load_bg"
+            android:indeterminateDrawable="@drawable/animdraw"/>
 
         <TextView
+            android:layout_marginLeft="20dp"
             android:id="@+id/dynamic_footer_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="加载中"
-            android:textSize="25sp"
+            android:textSize="16sp"
             android:layout_gravity="center_vertical"/>
 
     </LinearLayout>

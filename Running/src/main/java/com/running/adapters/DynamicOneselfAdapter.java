@@ -141,7 +141,7 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             if (((DynamicOneselfBean) mList.get(position).get("DynamicOneselfBean"))
                     .getPraiseStatus() == 1) {
-                ((ViewHolder) holder).mPraiseImg.setImageResource(R.drawable.praise_red);
+                ((ViewHolder) holder).mPraiseImg.setImageResource(R.drawable.ic_praise_red);
             }
             ((ViewHolder) holder).mPraiseImg.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -159,7 +159,7 @@ public class DynamicOneselfAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                         ("DynamicOneselfBean"))
                                 .getPraiseCount()));
                         ((ViewHolder) holder).mPraiseImg.setImageResource(R.drawable
-                                .praise_red);
+                                .ic_praise_red);
                         addPraise(((DynamicOneselfBean) mList.get(position).get
                                 ("DynamicOneselfBean")).getdId());
                     }

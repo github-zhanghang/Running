@@ -13,8 +13,7 @@
         android:layout_height="@dimen/topbar_height"
         app:isRightImageShow="true"
         app:leftImage="@drawable/ic_back"
-        app:leftText="详情"
-        app:rightImage="@mipmap/ic_launcher">
+        app:leftText="详情">
     </com.running.myviews.TopBar>
 
     <!--中间内容部分-->
@@ -46,9 +45,11 @@
         <Button
             android:id="@+id/dynamic_comment_button"
             android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
             android:background="@color/colorOrange"
             android:textColor="@color/white"
             android:text="发送"/>
