@@ -139,33 +139,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     showToast("账号或密码不能为空");
                     return;
                 }
-                if (mAccount.equals("run") && mPassword.equals("123")) {
-                    //判断是否记住密码
-                    if (mRememberInfoCheckBox.isChecked()) {
-                        SharedPreferences.Editor editor = mSharedPreferences.edit();
-                        editor.putString("username", mAccount);
-                        editor.putString("password", mPassword);
-                        editor.putBoolean("isRememberPassword", true);
-                        editor.apply();
-                    } else {
-                        SharedPreferences.Editor editor = mSharedPreferences.edit();
-                        editor.putBoolean("isRememberPassword", false);
-                        editor.apply();
-                    }
-                    UserInfo userinfo = new UserInfo("0", 3333, mAccount, "15106200759", mAccount,
-                            "https://ss2.bdstatic" +
-                                    ".com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1564533037," +
-                                    "3918553373&fm=116&gp=0.jpg",
-                            "个性签名---------------------", "1994-01-30", 20, "男", 170, 66,
-                            "湖北 孝感 大悟",
-                            0.0, 0.0, "zzzzzzzzzzzzz");
-                    mApplication.setUserInfo(userinfo);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    LoginActivity.this.finish();
-                } else {
-                    mProgressDialog.show();
-                    handleLogin(mAccount, mPassword);
-                }
+                mProgressDialog.show();
+                handleLogin(mAccount, mPassword);
                 break;
             case R.id.regist:
                 startActivity(new Intent(mContext, Register1Activity.class));

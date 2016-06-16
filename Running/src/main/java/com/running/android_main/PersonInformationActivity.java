@@ -1,16 +1,20 @@
 package com.running.android_main;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
+import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -18,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.running.beans.Friend;
 import com.running.beans.UserInfo;
 import com.running.myviews.CircleImageView;
 import com.running.myviews.TopBar;
@@ -30,8 +36,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.rong.imkit.RongIM;
 import okhttp3.Call;
-
-import static com.running.android_main.R.layout.person_popup;
 
 public class PersonInformationActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -72,9 +76,18 @@ public class PersonInformationActivity extends AppCompatActivity implements View
             }
         }
     };
+
+
+
+    public static final String MODIFY_FRIEND = MyApplication.HOST +"ModifyFriendServlet";
     //
     private PopupWindow mPopWindow;
-
+    //弹框
+    private AlertDialog.Builder mDialogBuilder;
+    private AlertDialog mAlertDialog;
+    private EditText mEditText;
+    private int mViewId;
+    private Friend mFriend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +97,8 @@ public class PersonInformationActivity extends AppCompatActivity implements View
         //得到个人信息bean
         mUserInfo = (UserInfo) intent.getExtras().get("UserInfo");
         ButterKnife.bind(this);
+
+
        // initPopupWindow();
         //得到个人跑步数据总里程数和总时间
         getPersonSumData(mUserInfo.getUid());
@@ -113,6 +128,11 @@ public class PersonInformationActivity extends AppCompatActivity implements View
         mSumDistance.setText(map.get("distance"));
         mSumTime.setText(map.get("time"));
         mWhoDynamic.setText(mUserInfo.getNickName()+"的动态");
+
+        mFriend = new Friend();
+        mFriend.setMeid(((MyApplication)getApplication()).getUserInfo().getUid());
+        mFriend.setFriendid(mUserInfo.getUid());
+        mFriend.setRemark(mUserInfo.getNickName());
     }
     //显示PopupWindow
     private void showPopupWindow() {
@@ -220,19 +240,45 @@ public class PersonInformationActivity extends AppCompatActivity implements View
         switch (id){
             //修改备注
             case R.id.beizhu_tv:{
-                Toast.makeText(this,"备注",Toast.LENGTH_SHORT).show();
-                mPopWindow.dismiss();
 
-                updateRemark();
+                mPopWindow.dismiss();
+                mViewId = R.id.beizhu_tv;
+
+                mDialogBuilder = new AlertDialog.Builder(this);
+
+                mEditText = new EditText(this);
+                String text = mUserInfo.getNickName();
+                mEditText.setText(text);
+                //最多输入6个字符
+                mEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
+                //文本显示的位置在EditText的最上方
+                mEditText.setGravity(Gravity.TOP);
+                //改变默认的单行模式
+                mEditText.setSingleLine(false);
+                //水平滚动设置为False
+                mEditText.setHorizontallyScrolling(false);
+                mEditText.setTextSize(20);
+                if (text != null && !text.equals("")) {
+                    //光标在文字末尾
+                    mEditText.setSelection(text.length());
+                }
+                mEditText.setBackgroundResource(R.drawable.ic_editext);
+
+                mDialogBuilder.setView(mEditText);
+
+                showAlertDialog("remark");
 
             }
             break;
             //删除好友
             case R.id.shanchu_tv:{
-                Toast.makeText(this,"删除",Toast.LENGTH_SHORT).show();
-                mPopWindow.dismiss();
 
-                //delete();
+                mPopWindow.dismiss();
+                mViewId = R.id.shanchu_tv;
+                mDialogBuilder = new AlertDialog.Builder(this);
+                //Toast.makeText(PersonInformationActivity.this, "删除", Toast.LENGTH_SHORT).show();
+                showAlertDialog("delete");
+
 
             }
             break;
@@ -240,11 +286,71 @@ public class PersonInformationActivity extends AppCompatActivity implements View
         }
     }
 
-    private void updateRemark() {
+    private void showAlertDialog(String flag) {
+        if (flag.equals("delete")){
+            mDialogBuilder.setTitle("确定删除好友？");
+
+        }else {
+            mDialogBuilder.setTitle("修改备注");
+        }
+        mDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (mViewId) {
+                    case R.id.beizhu_tv:
+                        Toast.makeText(PersonInformationActivity.this, "修改ok", Toast.LENGTH_SHORT).show();
+                        mFriend.setRemark(mEditText.getText().toString());
+                        modifyFriend("remark");
+                        break;
+                    case R.id.shanchu_tv:
+
+                        modifyFriend("delete");
+                        break;
+                }
+            }
+        });
+        mDialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        mAlertDialog = mDialogBuilder.create();
+        mAlertDialog.setCanceledOnTouchOutside(false);
+        mAlertDialog.show();
 
     }
 
-    private void delete() {
+    private void modifyFriend(final String flag) {
+        Log.e("Ezio123", "modifyFriend: "+new Gson().toJson(mFriend) );
+        OkHttpUtils
+                .post()
+                .url(MODIFY_FRIEND)
+                .addParams("flag",flag)
+                .addParams("friend", new Gson().toJson(mFriend))
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+                    }
 
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e("Eizo123: ", "PersonInformationActivity:" + response);
+                        if (flag.equals("remark")){
+                            mName.setText(mFriend.getRemark());
+                            Toast.makeText(PersonInformationActivity.this, "修改备注成功", Toast.LENGTH_SHORT).show();
+
+                        }else if (flag.equals("delete")){
+                            Toast.makeText(PersonInformationActivity.this, "删除好友成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(PersonInformationActivity.this,MainActivity.class);
+                            setResult(123,intent);
+                            PersonInformationActivity.this.finish();
+                        }else {
+                            Toast.makeText(PersonInformationActivity.this, "操作失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
+
+
 }

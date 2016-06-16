@@ -68,6 +68,7 @@ public class TrendActivity extends AppCompatActivity {
     DecimalFormat df = new DecimalFormat("######0.00");
 
     private boolean isFirst = true;
+    private long maxTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +87,8 @@ public class TrendActivity extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.vp_trend);
         mondayTextView = (TextView) findViewById(R.id.monday_trend);
         sundayTextView = (TextView) findViewById(R.id.sunday_trend);
+        mondayTextView.setText(sdf.format(startTime));
+        sundayTextView.setText(sdf.format(startTime + sevenDays));
         walkTextView = (TextView) findViewById(R.id.walk_trend);
         distanceTextView = (TextView) findViewById(R.id.distance_trend);
         timeTextView = (TextView) findViewById(R.id.time_trend);
@@ -100,16 +103,6 @@ public class TrendActivity extends AppCompatActivity {
         mRequestQueue.start();
     }
 
-    private void initAdapter() {
-        mList = new ArrayList<>();
-        for (int i = 0; i < mPage; i++) {
-            mList.add(xychar(datas));
-        }
-        mViewPagerAdapter = new TrendViewPagerAdapter(TrendActivity.this, mList);
-        mViewPager.setAdapter(mViewPagerAdapter);
-        mViewPager.setCurrentItem(mPage - 1);
-    }
-
     private OnResponseListener<String> mOnResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
@@ -119,9 +112,13 @@ public class TrendActivity extends AppCompatActivity {
         public void onSucceed(int what, Response<String> response) {
             String result = response.get();
             Log.e("my", "trend.result=" + result);
-            if (what == 1) {
-                mPage = Integer.parseInt(result);
-                initAdapter();
+            if (what == 1 && result != null) {
+                String[] results = result.split(",");
+                mPage = Integer.parseInt(results[0]);
+                maxTime = Long.parseLong(results[1]);
+                startTime = TimeUtil.getWeekBeginByTime(maxTime);
+                mondayTextView.setText(sdf.format(startTime - (mPage - 1) * sevenDays));
+                sundayTextView.setText(sdf.format(startTime - (mPage - 2) * sevenDays));
                 //加载本周数据
                 getWeekData(startTime);
             } else if (what == 2) {
@@ -173,7 +170,7 @@ public class TrendActivity extends AppCompatActivity {
                         mViewPager.setAdapter(mViewPagerAdapter);
                         mViewPager.setCurrentItem(mPage - 1);
                         isFirst = false;
-                    }else {
+                    } else {
                         mList.set(mPosition, xychar(datas));
                         mViewPagerAdapter.notifyDataSetChanged();
                     }
@@ -215,8 +212,8 @@ public class TrendActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 mPosition = position;
-                mondayTextView.setText(sdf.format(startTime - (mPage - position) * sevenDays));
-                sundayTextView.setText(sdf.format(startTime - (mPage - position - 1) * sevenDays));
+                mondayTextView.setText(sdf.format(startTime - (position) * sevenDays));
+                sundayTextView.setText(sdf.format(startTime - (position - 1) * sevenDays));
                 getWeekData(startTime - (mPage - position) * sevenDays);
             }
 

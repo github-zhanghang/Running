@@ -105,7 +105,7 @@ public class RankActivity extends AppCompatActivity {
         public void onSucceed(int what, Response<String> response) {
             String result = response.get();
             Log.e("my", "result=" + result);
-            if (result == null) {
+            if (result == null || result.equals("[]")) {
                 Toast.makeText(RankActivity.this, "没有更多数据了", Toast.LENGTH_SHORT).show();
                 return;
             }

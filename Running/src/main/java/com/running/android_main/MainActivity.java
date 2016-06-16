@@ -322,4 +322,13 @@ public class MainActivity extends AppCompatActivity
         mLocationClient.unRegisterLocationListener(mBDLocationListener);
         mLocationClient = null;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 123){
+            mViewPager.setCurrentItem(3,false);
+
+        }
+    }
 }
