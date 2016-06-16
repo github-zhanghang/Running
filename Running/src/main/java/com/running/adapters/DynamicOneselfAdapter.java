@@ -122,7 +122,7 @@ public class DynamicOneselfAdapter extends BaseAdapter {
         holder.mGridView.setAdapter(adapter);
         if (((DynamicOneselfBean) mList.get(position).get("DynamicOneselfBean"))
                 .getPraiseStatus() == 1) {
-            holder.mPraiseImg.setImageResource(R.drawable.praise_red);
+            holder.mPraiseImg.setImageResource(R.drawable.ic_praise_red);
         }
         holder.mPraiseImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +140,7 @@ public class DynamicOneselfAdapter extends BaseAdapter {
                                     ("DynamicOneselfBean"))
                             .getPraiseCount()));
                     holder.mPraiseImg.setImageResource(R.drawable
-                            .praise_red);
+                            .ic_praise_red);
                     addPraise(((DynamicOneselfBean) mList.get(position).get
                             ("DynamicOneselfBean")).getdId());
                 }
