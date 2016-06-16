@@ -2,6 +2,7 @@ package com.running.android_main;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -42,7 +43,7 @@ public class MyApplication extends Application {
         mActivityList = new ArrayList<>();
         //极光推送
         //JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);     		// 初始化 JPush
+        JPushInterface.init(this);            // 初始化 JPush
         //百度地图
         SDKInitializer.initialize(getApplicationContext());
         //初始化融云
@@ -56,6 +57,21 @@ public class MyApplication extends Application {
         NoHttp.init(this);
         //初始化GalleryFinal
         initGalleryFinal();
+        //设置极光推送是否接受消息
+        setCanReceiveMessage();
+    }
+
+    private void setCanReceiveMessage() {
+        SharedPreferences sharedPreferences = getSharedPreferences("JPushMessage", MODE_PRIVATE);
+        boolean isReceiveMessage = sharedPreferences.getBoolean("isReceiveMessage", true);
+        Log.e("my", "isReceiveMessage=" + isReceiveMessage);
+        if (isReceiveMessage) {
+            if (JPushInterface.isPushStopped(getApplicationContext())) {
+                JPushInterface.resumePush(getApplicationContext());
+            }
+        } else {
+            JPushInterface.stopPush(getApplicationContext());
+        }
     }
 
     public UserInfo getUserInfo() {
@@ -102,9 +118,9 @@ public class MyApplication extends Application {
                 .setCropSquare(true)
                 .setEnablePreview(true)
                 .build();
-        CoreConfig coreConfig = new CoreConfig.Builder(this,new GlideImageLoader(), themeConfig)
+        CoreConfig coreConfig = new CoreConfig.Builder(this, new GlideImageLoader(), themeConfig)
                 .setFunctionConfig(functionConfig)
-                .setPauseOnScrollListener(new GlidePauseOnScrollListener(false,true))
+                .setPauseOnScrollListener(new GlidePauseOnScrollListener(false, true))
                 .build();
         GalleryFinal.init(coreConfig);
     }
