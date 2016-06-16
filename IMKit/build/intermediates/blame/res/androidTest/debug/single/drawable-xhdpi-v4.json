@@ -1,11 +1,16 @@
 [
     {
+<<<<<<< HEAD
+        "merged": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f680.png",
+        "source": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f680.png"
+=======
         "merged": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_radio_button_on.png",
         "source": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_radio_button_on.png"
     },
     {
         "merged": "D:\\Tao\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_ic_location_selected.png",
         "source": "D:\\Tao\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_ic_location_selected.png"
+>>>>>>> 6969713ed6960cdc37bb416d43627f000fb4a477
     },
     {
         "merged": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_receive_voice_two.png",
@@ -1004,6 +1009,10 @@
         "source": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f436.png"
     },
     {
+<<<<<<< HEAD
+        "merged": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\rc_precheckbox_pressed.png",
+        "source": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\rc_precheckbox_pressed.png"
+=======
         "merged": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f004.png",
         "source": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f004.png"
     },
@@ -2006,5 +2015,6 @@
     {
         "merged": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\u1f4a9.png",
         "source": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\u1f4a9.png"
+>>>>>>> 6969713ed6960cdc37bb416d43627f000fb4a477
     }
 ]

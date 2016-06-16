@@ -23,6 +23,7 @@ import com.running.adapters.DynamicCommentItemAdapter;
 import com.running.beans.CommentBean;
 import com.running.beans.DynamicImgBean;
 import com.running.beans.SecondCommentBean;
+import com.running.beans.UserInfo;
 import com.running.myviews.TopBar;
 import com.running.myviews.ninegridview.ImageInfo;
 import com.running.myviews.ninegridview.NineGridView;
@@ -108,7 +109,6 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
 
             @Override
             public void onTopbarRightImageClick(ImageView imageView) {
-                Toast.makeText(DynamicCommentActivity.this, "分享", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -116,15 +116,15 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         mDynamicCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UserInfo userInfo = ((MyApplication) getApplication()).getUserInfo();
                 if (status == 1) {
                     //一级评论
                     //对应动态id
                     int fDId = mDynamicImgBean.getdId();
                     //评论者id
-                    int fUId = 3;
-                    String fName = "张三";
-                    String fUImg = "https://img.alicdn.com/imgextra/i3/2237636884/TB2Z2_.pVXXXXcr" +
-                            "XXXXXXXXXXXX_!!2237636884.png";
+                    int fUId = userInfo.getUid();
+                    String fName = userInfo.getNickName();
+                    String fUImg = userInfo.getImageUrl();
                     String content = mDynamicCommentFootEdit.getText().toString();
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String time = format.format(new Date());
@@ -152,10 +152,12 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
                                 }
                             });
                     status = 2;
+                    mDynamicImgBean.setCommentCount(mDynamicImgBean.getCommentCount() + 1);
+                    mHeaderCommentCount.setText(mDynamicImgBean.getCommentCount()+"");
                 } else {
                     //自己的id和名字
-                    int uId0 = 3;
-                    String uName0 = "1003";
+                    int uId0 = userInfo.getUid();
+                    String uName0 = userInfo.getNickName();
                     //回复内容
                     String content = mDynamicCommentFootEdit.getText().toString();
                     //回复时间
@@ -203,17 +205,14 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
 
     private void initData() {
         Intent intent = getIntent();
-        int myId = intent.getIntExtra("myId", -1);
         mDynamicImgBean = (DynamicImgBean) intent.getSerializableExtra("dynamicBean");
         mList = new ArrayList<>();
-        //HashMap<String, Object> map = new HashMap<>();
-
         OkHttpUtils.post()
                 .url(url)
                 .addParams("appRequest", "ShowComment")
-                .addParams("dId", "" + 1)
-                //.addParams("dId",""+mDynamicImgBean.getdId())
-                .addParams("myId", "" + 2)
+                //.addParams("dId", "" + 1)
+                .addParams("dId",""+mDynamicImgBean.getdId())
+                .addParams("myId",""+((MyApplication)getApplication()).getUserInfo().getUid())
                 .build()
                 .execute(mCommentCallBack = new CommentCallBack());
 
@@ -223,7 +222,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         HeadInitView(view);
         Glide.with(this)
                 .load(mDynamicImgBean.getHeadPhoto())
-                .placeholder(R.drawable.head_photo)
+                //.placeholder(R.drawable.head_photo)
                 .transform(new GlideCircleTransform(this))
                 .into(mHeaderImg);
         mHeaderName.setText(mDynamicImgBean.getName());
@@ -240,8 +239,53 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         ClickNineGridViewAdapter adapter = new ClickNineGridViewAdapter(this, infoList);
         mHeaderGridView.setAdapter(adapter);
         mDynamicCommentListView.addHeaderView(view);
+        if (mDynamicImgBean.getPraiseStatus() == 1) {
+            mHeaderPraiseImg.setImageResource(R.drawable.praise_red);
+        }
+        mHeaderPraiseCount.setText(mDynamicImgBean.getPraiseCount() + "");
+        mHeaderCommentCount.setText(mDynamicImgBean.getCommentCount()+"");
+        mHeaderPraiseImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mDynamicImgBean.getPraiseStatus() == 0) {
+                    mHeaderPraiseImg.setImageResource(R.drawable.praise_red);
+                    mDynamicImgBean.setPraiseCount(mDynamicImgBean.getPraiseCount() + 1);
+                    mHeaderPraiseCount.setText(mDynamicImgBean.getPraiseCount()+"");
+                    mDynamicImgBean.setPraiseStatus(1);
+                    addPraise(mDynamicImgBean.getdId());
+                } else {
+
+                }
+            }
+        });
         mAdapter = new DynamicCommentItemAdapter(this, mList);
         mDynamicCommentListView.setAdapter(mAdapter);
+    }
+
+    private void addPraise(int i) {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("pDId", i);
+        //用户id
+        //map.put("pUId",mMyApplication.getUserInfo().getUid());
+        map.put("pUId", 1);
+        Gson gson = new Gson();
+        String praiseMap = gson.toJson(map);
+        OkHttpUtils.post()
+                .url(url)
+                .addParams("appRequest", "AddPraise")
+                .addParams("praiseMap", praiseMap)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                });
     }
 
     //点击文字事件

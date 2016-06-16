@@ -1,7 +1,20 @@
 [
     {
+<<<<<<< HEAD
+        "merged": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_voice.xml",
+        "source": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_voice.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_location.xml",
+        "source": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_location.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_btn_send.xml",
+        "source": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_btn_send.xml"
+=======
         "merged": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_keyboard.xml",
         "source": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_keyboard.xml"
+>>>>>>> 6969713ed6960cdc37bb416d43627f000fb4a477
     },
     {
         "merged": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_voice.xml",
@@ -104,6 +117,10 @@
         "source": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_yes_selector.xml"
     },
     {
+<<<<<<< HEAD
+        "merged": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_keyboard.xml",
+        "source": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_keyboard.xml"
+=======
         "merged": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_ic_picture.xml",
         "source": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_ic_picture.xml"
     },
@@ -230,5 +247,6 @@
     {
         "merged": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\rc_bg_editinput.xml",
         "source": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable\\rc_bg_editinput.xml"
+>>>>>>> 6969713ed6960cdc37bb416d43627f000fb4a477
     }
 ]

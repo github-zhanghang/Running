@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:src="@drawable/head_photo"/>
 
@@ -80,8 +80,8 @@
 
                 <ImageView
                     android:id="@+id/dynamic_img_item_location_img"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:src="@drawable/location"/>
                 <!--赞数-->
                 <TextView
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:text="苏州市"
-                    android:textSize="15sp"
+                    android:textSize="13sp"
                     android:layout_gravity="bottom"/>
 
             </LinearLayout>
@@ -109,8 +109,8 @@
                     <!--赞图标-->
                     <ImageView
                         android:id="@+id/dynamic_img_item_praise_img"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/praise"/>
                     <!--赞数-->
                     <TextView
@@ -119,7 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
                         android:text="18"
-                        android:textSize="20sp"/>
+                        android:textSize="15sp"/>
                 </LinearLayout>
             <!--下方评论布局-->
                 <LinearLayout
@@ -129,8 +129,8 @@
                     <!--评论图标-->
                     <ImageView
                         android:id="@+id/dynamic_img_item_comment_img"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/comment"/>
                     <!--评论数-->
                     <TextView
@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
                         android:text="4"
-                        android:textSize="20sp"/>
+                        android:textSize="15sp"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

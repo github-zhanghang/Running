@@ -103,7 +103,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
             switch (msg.what) {
                 case 1:
                     //用户id
-                    int dUId = 1;
+                    int dUId = ((MyApplication)getApplication()).getUserInfo().getUid();
                     String content = mDynamicPublishContent.getText().toString();
                     String location = mDynamicPublishLocation.getText().toString();
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
