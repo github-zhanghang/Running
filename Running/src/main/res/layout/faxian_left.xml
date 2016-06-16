@@ -22,6 +22,14 @@
 
                 <include layout="@layout/banner_race"
                     android:id="@+id/bannerlayout"/>
+                <TextView
+                    android:id="@+id/forecast_race"
+                    android:background="#f0f0f0"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="----------  赛事预告  ----------"
+                    android:gravity="center"
+                    />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"

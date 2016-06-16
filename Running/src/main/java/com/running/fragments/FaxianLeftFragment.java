@@ -24,6 +24,7 @@ import com.running.android_main.MainActivity;
 import com.running.android_main.MyApplication;
 import com.running.android_main.R;
 import com.running.android_main.RaceActivity;
+import com.running.android_main.RaceForecastActivity;
 import com.running.beans.RaceData;
 import com.running.myviews.NoScrollView;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -87,6 +88,9 @@ public class FaxianLeftFragment extends Fragment {
     Handler recyclerhandler =new Handler();
     int page=1;
     private NoScrollView mNoScrollView;
+
+    //赛事预告
+    TextView forecastTextView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -108,9 +112,13 @@ public class FaxianLeftFragment extends Fragment {
 
         //点击跳转页面
         addClickListener();
+
+        //赛事预告
+        initForecast();
+
+
         return mLeftView;
     }
-
 
 
     private void initBannerData() {
@@ -193,7 +201,7 @@ public class FaxianLeftFragment extends Fragment {
         super.onStart();
         scheduledExecutorService= Executors.newSingleThreadScheduledExecutor();
         //每隔三秒切换一张图片
-        scheduledExecutorService.scheduleWithFixedDelay(new ViewPagerTask(),3,3, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(new ViewPagerTask(),3,5, TimeUnit.SECONDS);
     }
 
     //初始化赛事数据
@@ -354,6 +362,17 @@ public class FaxianLeftFragment extends Fragment {
 
                 Intent intent=new Intent(getActivity(), RaceActivity.class);
                 intent.putExtras(bundle);
+                getActivity().startActivity(intent);
+            }
+        });
+    }
+
+    private void initForecast() {
+        forecastTextView= (TextView) mLeftView.findViewById(R.id.forecast_race);
+        forecastTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), RaceForecastActivity.class);
                 getActivity().startActivity(intent);
             }
         });
