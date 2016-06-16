@@ -21,6 +21,7 @@ import com.yolanda.nohttp.RequestMethod;
 import com.yolanda.nohttp.RequestQueue;
 import com.yolanda.nohttp.Response;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 /**
@@ -32,7 +33,11 @@ public class PaobuLeftFragment extends Fragment {
     private View mLeftView;
     private MyStartButton mStartButton;
     private TextView mTotalDistanceText, mTotalTimeText, mTotalCount;
-    private RequestQueue requestQueue = NoHttp.newRequestQueue(1);
+    private RequestQueue mRequestQueue = NoHttp.newRequestQueue(1);
+
+    //毫秒转成 时:分:秒 格式
+    SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+    DecimalFormat mDecimalFormat = new DecimalFormat("00.00");
 
     @Nullable
     @Override
@@ -63,17 +68,14 @@ public class PaobuLeftFragment extends Fragment {
         Request<String> request = NoHttp.createStringRequest(mPath, RequestMethod.POST);
         request.add("type", "totaldata");
         request.add("uid", mApplication.getUserInfo().getUid());
-        requestQueue.add(1, request, onResponseListener);
-        requestQueue.start();
+        mRequestQueue.add(1, request, onResponseListener);
+        mRequestQueue.start();
     }
 
     private OnResponseListener onResponseListener = new OnResponseListener<String>() {
         @Override
         public void onStart(int what) {
         }
-
-        //毫秒转成 时:分:秒 格式
-        SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("HH:mm:ss");
 
         @Override
         public void onSucceed(int what, Response<String> response) {
@@ -82,8 +84,9 @@ public class PaobuLeftFragment extends Fragment {
                 if (result != null && !result.equals("")) {
                     //Log.e("my", "paobuleft.result=" + result);
                     String[] data = result.split(",");
-                    mTotalDistanceText.setText(data[0]);
-                    mApplication.setDistance(data[0]);
+                    String dis = mDecimalFormat.format(Double.parseDouble(data[0]));
+                    mTotalDistanceText.setText(dis);
+                    mApplication.setDistance(dis);
                     mTotalTimeText.setText(mSimpleDateFormat.format(Integer.parseInt(data[1]) - 8 * 60 * 60 * 1000));
                     mTotalCount.setText(data[2]);
                 }

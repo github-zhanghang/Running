@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             new AlertDialog.Builder(this).setTitle("确认退出吗？")
-                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setIcon(R.drawable.ic_dialog)
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -321,5 +321,14 @@ public class MainActivity extends AppCompatActivity
         super.onDestroy();
         mLocationClient.unRegisterLocationListener(mBDLocationListener);
         mLocationClient = null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 123){
+            mViewPager.setCurrentItem(3,false);
+
+        }
     }
 }

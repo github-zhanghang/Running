@@ -7,6 +7,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -25,11 +26,12 @@ public class GoodsBannerAdapter extends PagerAdapter {
     List<ImageView> mImageViews;
     Context mContext;
     LayoutInflater mInflater;
-
+    WindowManager windowManager;
     public GoodsBannerAdapter(Context context, List<GoodsData> goodsBannerDatas) {
         mContext = context;
         mGoodsBannerDatas = goodsBannerDatas;
         mInflater.from(mContext).inflate(R.layout.banner_goods,null);
+        windowManager= (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
     }
 
     @Override
@@ -55,12 +57,15 @@ public class GoodsBannerAdapter extends PagerAdapter {
         mImageViews =new ArrayList<>();
         for (int i = 0; i <mGoodsBannerDatas.size() ; i++) {
             ImageView imageView=new ImageView(mContext);
+            //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             //imageView.setImageResource(mBannerDatas.get(i).getPic());
             Glide.with(mContext)
                     .load(mGoodsBannerDatas.get(i).getImg())
                     .error(R.drawable.fail)
                     .centerCrop()
-                    /*.fitCenter()*/
+                  /* *//* .override(600, 300)*//*
+
+                    *//*.fitCenter()*/
                     .into(imageView);
             mImageViews.add(imageView);
         }
