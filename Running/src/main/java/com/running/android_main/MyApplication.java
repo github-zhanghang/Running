@@ -27,13 +27,14 @@ import io.rong.imkit.RongIM;
  */
 public class MyApplication extends Application {
     public static final String HOST = "http://123.206.203.86:8080/Running/";
+    //public static final String HOST = "http://headvip.cn/Running/";
     //用户信息
     public UserInfo mUserInfo;
     //总距离
     public String mDistance;
     public List<Activity> mActivityList;
     public static String sourceUserId;
-
+    
     @Override
     public void onCreate() {
         super.onCreate();

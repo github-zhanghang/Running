@@ -192,6 +192,8 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
         mSaveInfoButton.setOnClickListener(this);
     }
 
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -203,8 +205,7 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                     io.rong.imlib.model.UserInfo userInfo =
                             new io.rong.imlib.model.UserInfo(mApplication.getUserInfo().getAccount(),
                                     u_nickName, Uri.parse(mApplication.getUserInfo().getImageUrl()));
-                    RongContext.getInstance().getUserInfoCache().
-                            put(mApplication.getUserInfo().getAccount(), userInfo);
+
                     RongIM.getInstance().refreshUserInfoCache(userInfo);
                     saveUserInfo(u_nickName, u_height, u_weight, u_sex, u_birthday, u_address, u_signature);
                 }
@@ -614,14 +615,16 @@ public class MyDetailsActivity extends AppCompatActivity implements View.OnClick
                 }
             } else if (what == 2) {
                 if (result.equals("1")) {
+                    Log.e("I so sad", "old: " +mApplication.getUserInfo().getImageUrl());
+                    Log.e("I so sad", "mImageUrl: " +mImageUrl);
                     mApplication.getUserInfo().setImageUrl(mImageUrl);
                     io.rong.imlib.model.UserInfo userInfo =
                             new io.rong.imlib.model.UserInfo(
                                     mApplication.getUserInfo().getAccount(),
                                     mApplication.getUserInfo().getNickName(),
                                     Uri.parse(mApplication.getUserInfo().getImageUrl()));
-                    RongContext.getInstance().getUserInfoCache().
-                            put(mApplication.getUserInfo().getAccount(), userInfo);
+                    Log.e("I so sad", "new: " +mApplication.getUserInfo().getImageUrl());
+
                     RongIM.getInstance().refreshUserInfoCache(userInfo);
                 } else if (result.equals("0")) {
                     showToast("修改头像失败");
