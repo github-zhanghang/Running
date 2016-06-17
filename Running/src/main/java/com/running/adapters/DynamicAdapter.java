@@ -103,10 +103,11 @@ public class DynamicAdapter extends BaseAdapter {
             } else {
                 imgViewHolder = (ImgViewHolder) convertView.getTag();
             }
-            final DynamicImgBean dynamicImgBean = (DynamicImgBean) mList.get(position).get("DynamicBean");
+            final DynamicImgBean dynamicImgBean = (DynamicImgBean) mList.get(position).get
+                    ("DynamicBean");
             //显示普通动态
             myPosition = position;
-            Log.e("TAG",position+dynamicImgBean.getdUId()+"Test");
+            Log.e("TAG", position + dynamicImgBean.getdUId() + "Test");
             Glide.with(mContext)
                     .load(dynamicImgBean.getHeadPhoto())
                     .centerCrop()
@@ -117,10 +118,10 @@ public class DynamicAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, DynamicOneselfActivity.class);
-                    Log.e("TAG","TEST");
-                    Log.d("TAG",dynamicImgBean.getdUId()+"test"+dynamicImgBean.toString());
-                    intent.putExtra("uId",dynamicImgBean.getdUId());
-                    Log.d("TAG",""+((DynamicImgBean)mList.get(myPosition).get
+                    Log.e("TAG", "TEST");
+                    Log.d("TAG", dynamicImgBean.getdUId() + "test" + dynamicImgBean.toString());
+                    intent.putExtra("uId", dynamicImgBean.getdUId());
+                    Log.d("TAG", "" + ((DynamicImgBean) mList.get(myPosition).get
                             ("DynamicBean")).getdUId());
                     mContext.startActivity(intent);
                 }
@@ -139,29 +140,32 @@ public class DynamicAdapter extends BaseAdapter {
             mAdapter = new ClickNineGridViewAdapter(mContext, infoList);
             imgViewHolder.mDynamicImgItemGridView.setAdapter(mAdapter);
             imgViewHolder.mDynamicImgItemLocation.setText(dynamicImgBean.getLocation());
-            if (((DynamicImgBean)mList.get(position).get
+            imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(dynamicImgBean
+                    .getPraiseCount()));
+            if (((DynamicImgBean) mList.get(position).get
                     ("DynamicBean")).getPraiseStatus() == 1) {
                 imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.ic_praise_red);
             }
-            imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(dynamicImgBean
-                    .getPraiseCount()));
             imgViewHolder.mDynamicImgItemPraiseImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (((DynamicImgBean)mList.get(position).get
+                    if (((DynamicImgBean) mList.get(position).get
                             ("DynamicBean")).getPraiseStatus() == 0) {
-                        ((DynamicImgBean)mList.get(position).get
+                        ((DynamicImgBean) mList.get(position).get
                                 ("DynamicBean")).setPraiseStatus(1);
-                        ((DynamicImgBean)mList.get(position).get
-                                ("DynamicBean")).setPraiseCount(((DynamicImgBean)mList.get(position).get
+                        ((DynamicImgBean) mList.get(position).get
+                                ("DynamicBean")).setPraiseCount(((DynamicImgBean) mList.get
+                                (position).get
                                 ("DynamicBean")).getPraiseCount() + 1);
-                        imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(((DynamicImgBean)mList.get(position).get
+                        imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf((
+                                (DynamicImgBean) mList.get(position).get
                                 ("DynamicBean"))
                                 .getPraiseCount()));
-                        imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.ic_praise_red);
-                        addPraise(((DynamicImgBean)mList.get(position).get
+                        imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable
+                                .ic_praise_red);
+                        addPraise(((DynamicImgBean) mList.get(position).get
                                 ("DynamicBean")).getdId());
-                    } else if (((DynamicImgBean)mList.get(myPosition).get
+                    } else if (((DynamicImgBean) mList.get(myPosition).get
                             ("DynamicBean")).getPraiseStatus() == 1) {
                         //imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable
                         // .ic_praise_red);
@@ -175,7 +179,7 @@ public class DynamicAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, DynamicCommentActivity.class);
-                    intent.putExtra("dynamicBean", ((DynamicImgBean)mList.get(position).get
+                    intent.putExtra("dynamicBean", ((DynamicImgBean) mList.get(position).get
                             ("DynamicBean")));
                     mContext.startActivity(intent);
                 }
@@ -192,7 +196,7 @@ public class DynamicAdapter extends BaseAdapter {
         HashMap<String, Integer> map = new HashMap<>();
         map.put("pDId", i);
         //用户id
-        map.put("pUId",mMyApplication.getUserInfo().getUid());
+        map.put("pUId", mMyApplication.getUserInfo().getUid());
         Gson gson = new Gson();
         String praiseMap = gson.toJson(map);
         OkHttpUtils.post()
