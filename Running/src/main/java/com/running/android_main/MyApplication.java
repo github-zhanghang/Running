@@ -11,6 +11,7 @@ import com.running.eventandcontext.RongCloudEvent;
 import com.running.message.ContactNotificationMessageProvider;
 import com.running.utils.GlideImageLoader;
 import com.running.utils.GlidePauseOnScrollListener;
+import com.yolanda.nohttp.Logger;
 import com.yolanda.nohttp.NoHttp;
 
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ import io.rong.imkit.RongIM;
  */
 public class MyApplication extends Application {
     public static final String HOST = "http://123.206.203.86:8080/Running/";
-    //public static final String HOST = "http://192.168.191.1:8080/Running/";
 
     //用户信息
     public UserInfo mUserInfo;
@@ -55,6 +55,7 @@ public class MyApplication extends Application {
         RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
         //NoHttp
         NoHttp.init(this);
+        Logger.setDebug(true);
         //初始化GalleryFinal
         initGalleryFinal();
         //设置极光推送是否接受消息
@@ -100,7 +101,6 @@ public class MyApplication extends Application {
 
     public void finish() {
         for (int i = 0; i < mActivityList.size(); i++) {
-            Log.e("my", "size" + mActivityList.size());
             Activity activity = mActivityList.get(i);
             if (activity != null) {
                 activity.finish();
