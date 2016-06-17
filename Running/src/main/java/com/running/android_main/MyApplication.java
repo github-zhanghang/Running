@@ -10,6 +10,7 @@ import com.running.eventandcontext.RongCloudEvent;
 import com.running.message.ContactNotificationMessageProvider;
 import com.running.utils.GlideImageLoader;
 import com.running.utils.GlidePauseOnScrollListener;
+import com.yolanda.nohttp.Logger;
 import com.yolanda.nohttp.NoHttp;
 
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class MyApplication extends Application {
         RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
         //NoHttp
         NoHttp.init(this);
+        Logger.setDebug(true);
         //初始化GalleryFinal
         initGalleryFinal();
     }

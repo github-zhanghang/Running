@@ -20,4 +20,6 @@
     <color name="colorGreen">#41bf58</color>
     <color name="colorPink">#e766c0</color>
 
+    <color name="publishButton">#b6c2c2</color>
+
 </resources>

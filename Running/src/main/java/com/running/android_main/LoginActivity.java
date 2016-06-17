@@ -14,17 +14,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.running.beans.UserInfo;
 import com.running.myviews.CustomProgressDialog;
 import com.running.myviews.ImageTextView;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.HashMap;
 
@@ -244,11 +243,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         @Override
-        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+        public void onFailed(int what, String url, Object tag, Exception exception, int
+                responseCode, long networkMillis) {
             if (mProgressDialog != null) {
                 mProgressDialog.dismiss();
             }
-            showToast("登录失败,请稍后重试");
+            showToast("登录失败,请稍后重试:" + exception.getMessage() + ";responseCode=" + responseCode);
         }
 
         @Override

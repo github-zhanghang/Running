@@ -40,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
@@ -59,13 +59,11 @@ dependencies {
     compile files('libs/BaiduTraceSDK_v2_1_10.jar')
     //聊天
     compile project(':IMKit')
-
     //网络请求
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.okio:okio:1.8.0'
     compile 'com.zhy:okhttputils:2.4.1'
     compile 'com.google.code.gson:gson:2.6.2'
-    compile 'com.yolanda.nohttp:nohttp:1.0.0'
     //第三方分享和登录
     compile files('libs/MobCommons-2016.0426.1819.jar')
     compile files('libs/MobTools-2016.0426.1819.jar')
@@ -88,5 +86,5 @@ dependencies {
     compile 'com.android.support:support-v4:23.1.1'
     compile 'com.qiniu:qiniu-android-sdk:7.2.+'
     compile files('libs/jpush-android-2.1.5.jar')
-
+    compile 'com.yolanda.nohttp:nohttp:1.0.2'
 }

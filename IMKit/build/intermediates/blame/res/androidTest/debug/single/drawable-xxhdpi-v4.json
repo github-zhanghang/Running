@@ -1,44 +1,18 @@
 [
     {
-<<<<<<< HEAD
         "merged": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_ic_warning.png",
         "source": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_ic_warning.png"
-=======
-        "merged": "D:\\Tao\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_ic_warning.png",
-        "source": "D:\\Tao\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_ic_warning.png"
->>>>>>> 6969713ed6960cdc37bb416d43627f000fb4a477
     },
     {
-        "merged": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_ic_warning.png",
-        "source": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_ic_warning.png"
+        "merged": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_ic_bubble_white.9.png",
+        "source": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_ic_bubble_white.9.png"
     },
     {
-        "merged": "D:\\Tao\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_default_portrait.png",
-        "source": "D:\\Tao\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_default_portrait.png"
+        "merged": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_default_portrait.png",
+        "source": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_default_portrait.png"
     },
     {
-<<<<<<< HEAD
         "merged": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_group_default_portrait.png",
         "source": "E:\\AndroidStudio\\ASworkspace\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_group_default_portrait.png"
-=======
-        "merged": "D:\\Tao\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_group_default_portrait.png",
-        "source": "D:\\Tao\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_group_default_portrait.png"
-    },
-    {
-        "merged": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_ic_bubble_white.9.png",
-        "source": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_ic_bubble_white.9.png"
-    },
-    {
-        "merged": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_group_default_portrait.png",
-        "source": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_group_default_portrait.png"
-    },
-    {
-        "merged": "D:\\Tao\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_ic_bubble_white.9.png",
-        "source": "D:\\Tao\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_ic_bubble_white.9.png"
-    },
-    {
-        "merged": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxhdpi-v4\\rc_default_portrait.png",
-        "source": "D:\\ztworkspace\\wl4\\Running\\IMKit\\build\\intermediates\\bundles\\debug\\res\\drawable-xxhdpi-v4\\rc_default_portrait.png"
->>>>>>> 6969713ed6960cdc37bb416d43627f000fb4a477
     }
 ]

@@ -93,7 +93,9 @@ public class DongtaiFragment extends Fragment {
                         mList.add(map);
                     }
                     dynamicCallBack = new DynamicCallBack();
-                    mDynamicAdapter.notifyDataSetChanged();
+                    mDynamicAdapter = new DynamicAdapter(getActivity(),mList);
+                    mListView.setAdapter(mDynamicAdapter);
+                    //mDynamicAdapter.notifyDataSetChanged();
                     mListView.onRefreshComplete();
                     break;
                 default:
@@ -121,7 +123,7 @@ public class DongtaiFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-       /* Glide.with(this)
+        Glide.with(this)
                 .load(((MyApplication) getActivity().getApplication()).getUserInfo().getImageUrl())
                 .transform(new GlideCircleTransform(getActivity()))
                 .error(R.drawable.fail)
@@ -130,7 +132,18 @@ public class DongtaiFragment extends Fragment {
             sexImg.setImageResource(R.drawable.ic_sex_man);
         } else {
             sexImg.setImageResource(R.drawable.ic_sex_woman);
-        }*/
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = format.format(System.currentTimeMillis()+1000);
+        OkHttpUtils.post()
+                .url(url)
+                .addParams("appRequest", "GetDynamicLoad")
+                .addParams("id", String.valueOf(myApplication.getUserInfo().getUid()))
+                .addParams("start", time)
+                .addParams("timeType", "normal")
+                .build()
+                .execute(dynamicCallBack = new DynamicCallBack(2));
+        Log.e("TAG+LDD:",String.valueOf(System.currentTimeMillis()));
     }
 
     //初始化View
@@ -142,7 +155,7 @@ public class DongtaiFragment extends Fragment {
     }
 
     //初始化数据
-    private void initData() {
+    public void initData() {
         mList = new ArrayList<>();
         myApplication = (MyApplication) getActivity().getApplication();
         getDynamicList(myApplication.getUserInfo().getUid(), String.valueOf(System.currentTimeMillis
@@ -178,13 +191,6 @@ public class DongtaiFragment extends Fragment {
                 .MATCH_PARENT);
         mHeaderView.setLayoutParams(layoutParams);
         mListView.getRefreshableView().addHeaderView(mHeaderView);
-
-        //添加FootView
-        /*mFootView = LayoutInflater.from(getActivity()).inflate(R.layout.dynamic_load_foot,
-                mListView, false);
-        mLinearLayout = (LinearLayout) mFootView.findViewById(R.id.dynamic_footer_LinearLayout);
-        mLinearLayout.setVisibility(View.GONE);
-        mListView.addFooterView(mFootView);*/
 
         mDynamicAdapter = new DynamicAdapter(getActivity(), mList);
         mListView.setAdapter(mDynamicAdapter);
@@ -236,17 +242,17 @@ public class DongtaiFragment extends Fragment {
                         .addParams("start", time)
                         .addParams("timeType", "normal")
                         .build()
-                        .execute(dynamicCallBack=new DynamicCallBack(2));
+                        .execute(dynamicCallBack = new DynamicCallBack(2));
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 String refreshTime = "";
-                if (mList.size()==0) {
+                if (mList.size() == 0) {
                     SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd " +
                             "HH:mm:ss");
                     refreshTime = dataFormat.format(System.currentTimeMillis());
-                } else if (mList.size()>0) {
+                } else if (mList.size() > 0) {
                     DynamicImgBean bean = (DynamicImgBean) mList.get(mList.size()
                             - 1).get
                             ("DynamicBean");
@@ -337,7 +343,7 @@ public class DongtaiFragment extends Fragment {
 
         @Override
         public void onError(Call call, Exception e) {
-            Log.e("Error",e.getMessage());
+            Log.e("Error", e.getMessage());
         }
 
         @Override
@@ -346,8 +352,8 @@ public class DongtaiFragment extends Fragment {
             imgBeanList = gson.fromJson(response, new TypeToken<List<DynamicImgBean>>
                     () {
             }.getType());
-            Log.d("TAG",imgBeanList.size()+"");
-            Log.e("Response",response);
+            Log.d("TAG", imgBeanList.size() + "");
+            Log.e("Response", response);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
