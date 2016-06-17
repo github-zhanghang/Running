@@ -112,10 +112,11 @@ public class HistoryDetailActivity extends AppCompatActivity {
     private void setData() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         DateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss");
+        java.text.DecimalFormat df=new java.text.DecimalFormat("#0.00");//保留两位小数
         dateTextView.setText(dateFormat.format(history.getRunstarttime()));
-        distanceTextView.setText(history.getRundistance() + "");
+        distanceTextView.setText(df.format(history.getRundistance()) + "");
         timeTextView.setText(dateFormat2.format(history.getRuntime() - 28800000));
-        speedTextView.setText(history.getRunspeed() + "");
+        speedTextView.setText(df.format(history.getRunspeed()) + "");
         walkTextView.setText(history.getStepcount() + "");
         calorieTextView.setText(history.getCalories() + "");
         if (history.getComplete()==(-1)){
