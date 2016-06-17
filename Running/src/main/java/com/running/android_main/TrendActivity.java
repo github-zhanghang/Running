@@ -17,11 +17,11 @@ import com.running.beans.TrendData;
 import com.running.myviews.TopBar;
 import com.running.utils.TimeUtil;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -117,8 +117,9 @@ public class TrendActivity extends AppCompatActivity {
                 mPage = Integer.parseInt(results[0]);
                 maxTime = Long.parseLong(results[1]);
                 startTime = TimeUtil.getWeekBeginByTime(maxTime);
-                mondayTextView.setText(sdf.format(startTime - (mPage - 1) * sevenDays));
-                sundayTextView.setText(sdf.format(startTime - (mPage - 2) * sevenDays));
+                long st = TimeUtil.getWeekBeginByTime(startTime);
+                mondayTextView.setText(sdf.format(st));
+                sundayTextView.setText(sdf.format(st + sevenDays));
                 //加载本周数据
                 getWeekData(startTime);
             } else if (what == 2) {
@@ -168,7 +169,7 @@ public class TrendActivity extends AppCompatActivity {
                         }
                         mViewPagerAdapter = new TrendViewPagerAdapter(TrendActivity.this, mList);
                         mViewPager.setAdapter(mViewPagerAdapter);
-                        mViewPager.setCurrentItem(mPage - 1);
+                        mViewPager.setCurrentItem(0);
                         isFirst = false;
                     } else {
                         mList.set(mPosition, xychar(datas));

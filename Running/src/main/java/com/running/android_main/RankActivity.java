@@ -20,12 +20,13 @@ import com.running.beans.RankList;
 import com.running.myviews.CircleImageView;
 import com.running.myviews.TopBar;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,9 @@ public class RankActivity extends AppCompatActivity {
     private RequestQueue mRequestQueue = NoHttp.newRequestQueue();
 
     private int mDayRank, mTotalRank;
+    private double mDayDistance = 0.0;
+    private String mTotalDistance = "0.0";
+    private DecimalFormat mDecimalFormat = new DecimalFormat("#0.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,7 @@ public class RankActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rank);
         mApplication = (MyApplication) getApplication();
         mApplication.addActivity(this);
+        mTotalDistance = mApplication.getDistance();
         initViews();
         initMyData();
         //默认加载日排行榜
@@ -66,6 +71,7 @@ public class RankActivity extends AppCompatActivity {
         mTopBar = (TopBar) findViewById(R.id.rank_topbar);
         mImageView = (CircleImageView) findViewById(R.id.rank_my_img);
         mDistanceTextView = (TextView) findViewById(R.id.rank_my_distance);
+        mDistanceTextView.setText("距离:" + mDayDistance + "km");
         mRankTextView = (TextView) findViewById(R.id.rank_my_rank);
         mRadioGroup = (RadioGroup) findViewById(R.id.rank_group);
         mListView = (PullToRefreshListView) findViewById(R.id.rank_listview);
@@ -82,7 +88,6 @@ public class RankActivity extends AppCompatActivity {
                 .fitCenter()
                 .error(R.mipmap.ic_launcher)
                 .into(mImageView);
-        mDistanceTextView.setText("距离:" + mApplication.getDistance() + "km");
     }
 
     /**
@@ -135,9 +140,13 @@ public class RankActivity extends AppCompatActivity {
                 String[] results = result.split(",");
                 mDayRank = Integer.parseInt(results[0]) + 1;
                 mTotalRank = Integer.parseInt(results[1]) + 1;
+                //当日距离
+                mDayDistance = Double.parseDouble(results[2]);
                 if (mRadioGroup.getCheckedRadioButtonId() == R.id.rank_day) {
+                    mDistanceTextView.setText("距离:" + mDecimalFormat.format(mDayDistance) + "km");
                     mRankTextView.setText("排行:第" + mDayRank + "名");
                 } else if (mRadioGroup.getCheckedRadioButtonId() == R.id.rank_total) {
+                    mDistanceTextView.setText("距离:" + mTotalDistance + "km");
                     mRankTextView.setText("排行:第" + mTotalRank + "名");
                 }
             }
@@ -198,9 +207,11 @@ public class RankActivity extends AppCompatActivity {
                 mList = new ArrayList<RankItemInfo>();
                 if (checkedId == R.id.rank_day) {
                     mRankTextView.setText("排行:第" + mDayRank + "名");
+                    mDistanceTextView.setText("距离:" + mDecimalFormat.format(mDayDistance) + "km");
                     loadDayData();
                 } else {
                     mRankTextView.setText("排行:第" + mTotalRank + "名");
+                    mDistanceTextView.setText("距离:" + mTotalDistance + "km");
                     loadTotalData();
                 }
                 mAdapter = new RankActivityAdapter(RankActivity.this, mList, mListView);

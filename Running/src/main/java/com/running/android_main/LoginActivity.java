@@ -20,11 +20,11 @@ import com.running.beans.UserInfo;
 import com.running.myviews.CustomProgressDialog;
 import com.running.myviews.ImageTextView;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 import java.util.HashMap;
 
@@ -248,7 +248,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             if (mProgressDialog != null) {
                 mProgressDialog.dismiss();
             }
-            showToast("登录失败,请稍后重试");
+            showToast("登录失败,请稍后重试:" + exception.getMessage() + ";responseCode=" + responseCode);
         }
 
         @Override
