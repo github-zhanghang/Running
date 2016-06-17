@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initData() {
+        mUserInfo = mApplication.getUserInfo();
         mUserNickNameText.setText(mUserInfo.getNickName());
         Glide.with(MainActivity.this)
                 .load(mUserInfo.getImageUrl())

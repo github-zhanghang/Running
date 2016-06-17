@@ -88,7 +88,7 @@ public class TopBar extends RelativeLayout {
         if (isLeftTextShow) {
             leftText = typedArray.getString(R.styleable.TopBar_leftText);
             leftTextColor = typedArray.getColor(R.styleable.TopBar_leftTextColor, Color.WHITE);
-            leftTextSize = typedArray.getDimension(R.styleable.TopBar_leftTextSize, 24);
+            leftTextSize = typedArray.getDimension(R.styleable.TopBar_leftTextSize, 20);
             leftTextView = new TextView(context);
             leftTextView.setText(leftText);
             leftTextView.setTextSize(leftTextSize);
@@ -98,7 +98,7 @@ public class TopBar extends RelativeLayout {
         if (isMidTextShow) {
             midText = typedArray.getString(R.styleable.TopBar_midText);
             midTextColor = typedArray.getColor(R.styleable.TopBar_midTextColor, Color.alpha(R.color.textUp));
-            midTextSize = typedArray.getDimension(R.styleable.TopBar_midTextSize, 29);
+            midTextSize = typedArray.getDimension(R.styleable.TopBar_midTextSize, 25);
             midTextView = new TextView(context);
             LinearLayout.LayoutParams midTextParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -112,7 +112,7 @@ public class TopBar extends RelativeLayout {
         if (isRightTextShow) {
             rightText = typedArray.getString(R.styleable.TopBar_rightText);
             rightTextColor = typedArray.getColor(R.styleable.TopBar_rightTextColor, Color.LTGRAY);
-            rightTextSize = typedArray.getDimension(R.styleable.TopBar_rightTextSize, 24);
+            rightTextSize = typedArray.getDimension(R.styleable.TopBar_rightTextSize, 20);
             rightTextView = new TextView(context);
             rightTextView.setText(rightText);
             rightTextView.setTextSize(rightTextSize);

@@ -1,10 +1,7 @@
 package com.running.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.util.LruCache;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +9,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.running.android_main.R;
 import com.running.beans.RankItemInfo;
-import com.running.utils.ImageLoader;
 
 import java.util.List;
 
@@ -27,24 +27,12 @@ public class RankActivityAdapter extends BaseAdapter {
     private List<RankItemInfo> mList;
     private PullToRefreshListView mListView;
     private LayoutInflater mInflater;
-    //缓存图片
-    public static LruCache<String, Bitmap> mCache;
 
     public RankActivityAdapter(Context context, List<RankItemInfo> list, PullToRefreshListView listView) {
         mContext = context;
         mList = list;
         this.mListView = listView;
         mInflater = LayoutInflater.from(context);
-        initCache();
-    }
-
-    public void initCache() {
-        int cacheSize = 4 * 1024 * 1024; // 4MiB
-        mCache = new LruCache(cacheSize) {
-            protected int sizeOf(String key, Bitmap value) {
-                return value.getByteCount();
-            }
-        };
     }
 
     @Override
@@ -85,35 +73,23 @@ public class RankActivityAdapter extends BaseAdapter {
         viewHolder.hostIV.setImageResource(R.drawable.game);
         viewHolder.nicknameTV.setText(mList.get(position).getNickName());
         viewHolder.distanceTV.setText(mList.get(position).getDistance());
-        //使用异步线程下载图片
-        downloadAsyncTask(viewHolder, position);
+        Glide.with(mContext)
+                .load(mList.get(position).getImgUrl())
+                .error(R.drawable.fail)
+                .into(new GlideDrawableImageViewTarget(viewHolder.hostIV) {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
+                        super.onResourceReady(resource, animation);
+                        mListView.onRefreshComplete();
+                    }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        mListView.onRefreshComplete();
+                    }
+                });
         return convertView;
-    }
-
-    public void downloadAsyncTask(final ViewHolder holder, int position) {
-        new AsyncTask<String, Void, Bitmap>() {
-            @Override
-            protected Bitmap doInBackground(String... params) {
-                Bitmap bitmap;
-                String url = params[0];
-                if (mCache.get(url) != null) {
-                    bitmap = mCache.get(url);
-                    Log.e("my", "downloadAsyncTask取出图片");
-                } else {
-                    bitmap = ImageLoader.getBitmap(url);
-                    mCache.put(url, bitmap);
-                    Log.e("my", "downloadAsyncTask下载图片");
-                }
-                return bitmap;
-            }
-
-            @Override
-            protected void onPostExecute(Bitmap bitmap) {
-                super.onPostExecute(bitmap);
-                holder.hostIV.setImageBitmap(bitmap);
-                mListView.onRefreshComplete();
-            }
-        }.execute(mList.get(position).getImgUrl());
     }
 
 }

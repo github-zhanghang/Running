@@ -1,6 +1,7 @@
 package com.running.android_main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -19,6 +20,7 @@ import com.running.myviews.TopBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -26,6 +28,7 @@ public class SettingActivity extends AppCompatActivity implements
         MyToggleButton.OnToggleStateChangeListener {
 
     private PopupWindow mPopupWindow;
+    private SharedPreferences mSharedPreferences;
 
     @Bind(R.id.setting_topBar)
     TopBar mSettingTopBar;
@@ -57,7 +60,9 @@ public class SettingActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
-        mSettingMyToggleButton.setToggleState(true);
+        mSharedPreferences = getSharedPreferences("JPushMessage", MODE_PRIVATE);
+        boolean isReceiveMessage = mSharedPreferences.getBoolean("isReceiveMessage", true);
+        mSettingMyToggleButton.setToggleState(isReceiveMessage);
         mSettingMyToggleButton.setOnToggleStateChangeListener(this);
         addListener();
     }
@@ -80,8 +85,16 @@ public class SettingActivity extends AppCompatActivity implements
     public void onToggleStateChange(boolean state) {
         if (state) {
             show("已开启推送");
+            JPushInterface.resumePush(getApplicationContext());
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putBoolean("isRememberPassword", true);
+            editor.apply();
         } else {
             show("已关闭推送");
+            JPushInterface.stopPush(getApplicationContext());
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putBoolean("isRememberPassword", false);
+            editor.apply();
         }
     }
 

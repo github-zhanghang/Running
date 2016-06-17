@@ -15,10 +15,16 @@
         android:stateListAnimator="@drawable/touch_raise"
         >
     <ImageView
-        android:id="@+id/img_target"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_target"
+        android:id="@+id/img_target_fail"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_tar_fail"
+        android:layout_gravity="right"/>
+    <ImageView
+        android:id="@+id/img_target_success"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_tar_success"
         android:layout_gravity="right"/>
         <LinearLayout
             android:orientation="vertical"

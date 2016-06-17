@@ -65,7 +65,7 @@ public class TrendActivity extends AppCompatActivity {
     //七天的毫秒
     private long sevenDays = 7 * 24 * 60 * 60 * 1000;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-    DecimalFormat df = new DecimalFormat("######0.00");
+    java.text.DecimalFormat df=new java.text.DecimalFormat("#0.00");//保留两位小数
 
     private boolean isFirst = true;
     private long maxTime;
@@ -117,8 +117,9 @@ public class TrendActivity extends AppCompatActivity {
                 mPage = Integer.parseInt(results[0]);
                 maxTime = Long.parseLong(results[1]);
                 startTime = TimeUtil.getWeekBeginByTime(maxTime);
-                mondayTextView.setText(sdf.format(startTime - (mPage - 1) * sevenDays));
-                sundayTextView.setText(sdf.format(startTime - (mPage - 2) * sevenDays));
+                long st = TimeUtil.getWeekBeginByTime(startTime);
+                mondayTextView.setText(sdf.format(st));
+                sundayTextView.setText(sdf.format(st + sevenDays));
                 //加载本周数据
                 getWeekData(startTime);
             } else if (what == 2) {
@@ -136,25 +137,25 @@ public class TrendActivity extends AppCompatActivity {
 
                         //把每天的跑步距离存储到相应的日期中
                         if (getWeekDay(new Date(history.getRunstarttime())) == 1) {
-                            trendData.getValue()[0] += history.getRundistance();
+                            trendData.getValue()[0] +=Double.parseDouble(df.format(history.getRundistance()));
                         }
                         if (getWeekDay(new Date(history.getRunstarttime())) == 2) {
-                            trendData.getValue()[1] += history.getRundistance();
+                            trendData.getValue()[1] += Double.parseDouble(df.format(history.getRundistance()));
                         }
                         if (getWeekDay(new Date(history.getRunstarttime())) == 3) {
-                            trendData.getValue()[2] += history.getRundistance();
+                            trendData.getValue()[2] += Double.parseDouble(df.format(history.getRundistance()));
                         }
                         if (getWeekDay(new Date(history.getRunstarttime())) == 4) {
-                            trendData.getValue()[3] += history.getRundistance();
+                            trendData.getValue()[3] += Double.parseDouble(df.format(history.getRundistance()));
                         }
                         if (getWeekDay(new Date(history.getRunstarttime())) == 5) {
-                            trendData.getValue()[4] += history.getRundistance();
+                            trendData.getValue()[4] += Double.parseDouble(df.format(history.getRundistance()));
                         }
                         if (getWeekDay(new Date(history.getRunstarttime())) == 6) {
-                            trendData.getValue()[5] += history.getRundistance();
+                            trendData.getValue()[5] += Double.parseDouble(df.format(history.getRundistance()));
                         }
                         if (getWeekDay(new Date(history.getRunstarttime())) == 7) {
-                            trendData.getValue()[6] += history.getRundistance();
+                            trendData.getValue()[6] += Double.parseDouble(df.format(history.getRundistance()));
                         }
                     }
                     for (int i = 0; i < datas.length; i++) {
@@ -168,7 +169,7 @@ public class TrendActivity extends AppCompatActivity {
                         }
                         mViewPagerAdapter = new TrendViewPagerAdapter(TrendActivity.this, mList);
                         mViewPager.setAdapter(mViewPagerAdapter);
-                        mViewPager.setCurrentItem(mPage - 1);
+                        mViewPager.setCurrentItem(0);
                         isFirst = false;
                     } else {
                         mList.set(mPosition, xychar(datas));
@@ -257,7 +258,7 @@ public class TrendActivity extends AppCompatActivity {
         //创建数据层
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
         //创建具体的数据层
-        XYSeries series = new XYSeries("");
+        XYSeries series = new XYSeries("跑步距离（km）");
 
         for (int j = 0; j < yLable.length; j++) {
             series.add(xLable[j + 1], yLable[j]);
@@ -266,8 +267,10 @@ public class TrendActivity extends AppCompatActivity {
         // 设置颜色
         int color = Color.argb(255, 235, 79, 56);
         xyRenderer.setColor(color);
+        //直接控制图例的高度
+        renderer.setLegendHeight(20);
+        renderer.setShowLegend(true);
         // 设置 X 轴不显示数字（改用我们手动添加的文字标签）
-        renderer.setShowLegend(false);
         renderer.setXLabels(0);
         //设置x轴标签数
         renderer.setXLabels(xLable.length);
@@ -291,12 +294,24 @@ public class TrendActivity extends AppCompatActivity {
         renderer.setClickEnabled(false);
         renderer.setZoomButtonsVisible(false);
         //设置图例的字体大小
-        renderer.setLegendTextSize(0);
+        renderer.setLegendTextSize(16);
         //设置x轴和y轴的最大最小值
         renderer.setRange(range);
         //设置标签倾斜度
         renderer.setXLabelsAngle(-45f);
         renderer.setMarginsColor(0x00888888);
+      /*  //设置y轴标题
+        renderer.setYTitle("距离（km）");
+        //设置为X轴的标题
+        renderer.setXTitle("星期");*/
+        //设置轴标题文本大小
+        renderer.setAxisTitleTextSize(30);
+        // 设置图表的外边框(上/左/下/右)
+        renderer.setMargins(new int[] { 50, 50, 20, 20 });
+       /* //设置轴标题位置
+        renderer.setXLabelsAlign(Paint.Align.RIGHT);
+        renderer.setYLabelsAlign(Paint.Align.RIGHT);*/
+
 
         for (int i = 0; i < renderer.getSeriesRendererCount(); i++) {
             SimpleSeriesRenderer ssr = renderer.getSeriesRendererAt(i);

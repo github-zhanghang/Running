@@ -19,7 +19,6 @@ import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
 import com.yolanda.nohttp.rest.Response;
 
-
 public class Register3Activity extends AppCompatActivity {
     private static final String mPath = MyApplication.HOST + "registerServlet";
     private MyApplication mApplication;

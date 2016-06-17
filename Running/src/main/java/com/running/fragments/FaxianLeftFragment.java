@@ -27,6 +27,7 @@ import com.running.android_main.RaceActivity;
 import com.running.android_main.RaceForecastActivity;
 import com.running.beans.RaceData;
 import com.running.myviews.NoScrollView;
+import com.running.myviews.ShineTextView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 

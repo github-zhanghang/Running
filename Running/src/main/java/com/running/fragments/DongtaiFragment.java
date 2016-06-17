@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.running.adapters.DynamicAdapter;
+import com.running.android_main.DynamicOneselfActivity;
 import com.running.android_main.MainActivity;
 import com.running.android_main.MyApplication;
 import com.running.android_main.PublishDynamicActivity;
@@ -59,8 +59,6 @@ public class DongtaiFragment extends Fragment {
     private PullToRefreshListView mListView;
     private List<HashMap<String, Object>> mList;
     private View mHeaderView;
-    private LinearLayout mLinearLayout;
-    boolean IS_LOADING = false;
     private DynamicAdapter mDynamicAdapter;
 
     MyApplication myApplication;
@@ -93,7 +91,7 @@ public class DongtaiFragment extends Fragment {
                         mList.add(map);
                     }
                     dynamicCallBack = new DynamicCallBack();
-                    mDynamicAdapter = new DynamicAdapter(getActivity(),mList);
+                    mDynamicAdapter = new DynamicAdapter(getActivity(), mList);
                     mListView.setAdapter(mDynamicAdapter);
                     //mDynamicAdapter.notifyDataSetChanged();
                     mListView.onRefreshComplete();
@@ -134,7 +132,7 @@ public class DongtaiFragment extends Fragment {
             sexImg.setImageResource(R.drawable.ic_sex_woman);
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String time = format.format(System.currentTimeMillis()+1000);
+        String time = format.format(System.currentTimeMillis() + 1000);
         OkHttpUtils.post()
                 .url(url)
                 .addParams("appRequest", "GetDynamicLoad")
@@ -143,7 +141,7 @@ public class DongtaiFragment extends Fragment {
                 .addParams("timeType", "normal")
                 .build()
                 .execute(dynamicCallBack = new DynamicCallBack(2));
-        Log.e("TAG+LDD:",String.valueOf(System.currentTimeMillis()));
+        Log.e("TAG+LDD:", String.valueOf(System.currentTimeMillis()));
     }
 
     //初始化View
@@ -176,6 +174,15 @@ public class DongtaiFragment extends Fragment {
                 .load(((MyApplication) getActivity().getApplication()).getUserInfo().getImageUrl())
                 .transform(new GlideCircleTransform(getActivity()))
                 .into(uImg);
+        uImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DynamicOneselfActivity.class);
+                intent.putExtra("uId", ((MyApplication) getActivity().getApplication())
+                        .getUserInfo().getUid());
+                getActivity().startActivity(intent);
+            }
+        });
         sexImg = (ImageView) mHeaderView.findViewById(R.id.personSex);
         if (((MyApplication) getActivity().getApplication()).getUserInfo().getSex().equals("男")) {
             sexImg.setImageResource(R.drawable.ic_sex_man);
@@ -263,71 +270,6 @@ public class DongtaiFragment extends Fragment {
             }
         });
     }
-    /*//上拉刷新数据
-    @Override
-    public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(false);
-                //刷新相关逻辑操作
-                if (mList.size() == 0) {
-                    return;
-                }
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String time = format.format(new Date());
-                OkHttpUtils.post()
-                        .url(url)
-                        .addParams("appRequest", "GetDynamicLoad")
-                        .addParams("id", String.valueOf(myApplication.getUserInfo().getUid()))
-                        .addParams("start", time)
-                        .addParams("timeType", "normal")
-                        .build()
-                        .execute(dynamicCallBack = new DynamicCallBack(2));
-            }
-        }, 2000);
-    }
-
-    //监听加载
-    private void addLoadListener() {
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                                 int totalItemCount) {
-                boolean isRefreshing = mSwipeRefreshLayout.isRefreshing();
-                if (isRefreshing) {
-                    //mLinearLayout.setVisibility(View.GONE);
-                    return;
-                }
-                if ((mListView.getLastVisiblePosition() == mListView.getCount() - 1) &&
-                        !IS_LOADING) {
-                    IS_LOADING = true;
-                    mLinearLayout.setVisibility(View.VISIBLE);
-                    mListView.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mList.size() == 0) {
-                                mLinearLayout.setVisibility(View.GONE);
-                                return;
-                            }
-                            //加载相关操作
-                            DynamicImgBean bean = (DynamicImgBean) mList.get(mList.size() - 1)
-                                    .get("DynamicBean");
-                            getDynamicList(myApplication.getUserInfo().getUid(), bean.getTime(),
-                                    "normal");
-                            mLinearLayout.setVisibility(View.GONE);
-                            //mDynamicAdapter.notifyDataSetChanged();
-                            IS_LOADING = false;
-                        }
-                    }, 2000);
-                }
-            }
-        });*/
 
     //自定义StringCallBack
     public class DynamicCallBack extends StringCallback {

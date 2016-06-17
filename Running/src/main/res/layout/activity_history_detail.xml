@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
         app:leftImage="@drawable/ic_back"
-        app:leftText="详细记录"
-        app:rightImage="@drawable/ic_share"/>
+        app:leftText="详细记录" />
 
     <com.baidu.mapapi.map.MapView
         android:id="@+id/map_his_detail"

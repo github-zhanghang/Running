@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -62,7 +61,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     private MyApplication mApplication;
     private UserInfo mUserInfo;
     private static final String mPath = MyApplication.HOST + "runDataServlet";
-    private RequestQueue requestQueue = NoHttp.newRequestQueue(1);
+    private RequestQueue requestQueue = NoHttp.newRequestQueue();
 
     private int gatherInterval = 3;  //位置采集周期 (s)
     private int packInterval = 5;  //打包周期 (s)
@@ -102,7 +101,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     //方向
     private float mDirection;
     private MyOrientationListener mOrientationListener;
-    //目标,是否完成
+    //目标
     private String mTarget;
     //目标数据
     private int mTargetData;
@@ -110,6 +109,9 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
     private String mTargetUnit;
     //目标是否完成,1表示完成，0表示未完成，-1表示未设置目标
     private int mComplete = 1;
+
+    //我的勋章
+    private List<Integer> mMedalIndex = new ArrayList<>();
 
     Handler mHandler = new Handler() {
         @Override
@@ -138,7 +140,6 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         if (mTarget != null) {
             mTargetData = Integer.parseInt(mTarget.substring(0, mTarget.length() - 2));
             mTargetUnit = mTarget.substring(mTarget.length() - 2, mTarget.length());
-            Log.e("my", "mTargetData=" + mTargetData + ";mTartgetUnit=" + mTargetUnit);
         } else {
             mComplete = -1;
         }
@@ -162,6 +163,8 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         mOrientationListener = new MyOrientationListener(RunMapActivity.this);
         initOrientationListener();
         mOrientationListener.start();
+        //获取我的勋章
+        getMyMedal();
     }
 
 
@@ -210,16 +213,13 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         mEntityListener = new OnEntityListener() {
             @Override
             public void onRequestFailedCallback(String arg0) {
-                Looper.prepare();
-                Toast.makeText(getApplicationContext(), "网络状况不佳", Toast.LENGTH_SHORT).show();
-                Looper.loop();
             }
 
             @Override
             public void onQueryEntityListCallback(String arg0) {
                 //查询实体集合回调函数，此时调用实时轨迹方法
                 showRealtimeTrack(arg0);
-                Log.e("my", "请求成功信息:" + arg0);
+                //Log.e("my", "请求成功信息:" + arg0);
             }
         };
     }
@@ -294,11 +294,93 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
                 mHandler.removeMessages(1);
                 //将跑步数据插入数据库
                 saveRunData();
-                handover();
+                //判断是否获得勋章
+                checkMedal();
+                //跑步结束弹框
+                showDialog();
                 break;
         }
     }
 
+    /**
+     * 判断是否获得勋章
+     */
+    private void checkMedal() {
+        if (mDistance >= 100) {
+            //超级马拉松
+            if (mMedalIndex.contains(6)) {
+                return;
+            } else {
+                obtainMedal(6);
+            }
+        } else if (mDistance >= 42.2) {
+            //全程马拉松
+            if (mMedalIndex.contains(5)) {
+                return;
+            } else {
+                obtainMedal(5);
+            }
+        } else if (mDistance >= 21.1) {
+            //半程马拉松
+            if (mMedalIndex.contains(4)) {
+                return;
+            } else {
+                obtainMedal(4);
+            }
+        } else if (mDistance >= 10) {
+            //10公里
+            if (mMedalIndex.contains(3)) {
+                return;
+            } else {
+                obtainMedal(3);
+            }
+        } else if (mDistance >= 5) {
+            //5公里
+            if (mMedalIndex.contains(2)) {
+                return;
+            } else {
+                obtainMedal(2);
+            }
+        } else {
+            //开始运动
+            if (mMedalIndex.contains(1)) {
+                return;
+            } else {
+                obtainMedal(1);
+            }
+        }
+    }
+
+    /**
+     * 保存获得的勋章
+     *
+     * @param i 勋章号
+     */
+    private void obtainMedal(int i) {
+        String obtainMedalPath = MyApplication.HOST + "medalServlet";
+        Request<String> request = NoHttp.createStringRequest(obtainMedalPath, RequestMethod.POST);
+        request.add("type", "insert");
+        request.add("uid", ((MyApplication) getApplication()).getUserInfo().getUid());
+        request.add("mid", i);
+        requestQueue.add(i + 2, request, onResponseListener);
+        requestQueue.start();
+    }
+
+    /**
+     * 获取我的勋章
+     */
+    private void getMyMedal() {
+        String medalPath = MyApplication.HOST + "medalServlet";
+        Request<String> request = NoHttp.createStringRequest(medalPath, RequestMethod.POST);
+        request.add("type", "query");
+        request.add("uid", ((MyApplication) getApplication()).getUserInfo().getUid());
+        requestQueue.add(2, request, onResponseListener);
+        requestQueue.start();
+    }
+
+    /**
+     * 保存跑步数据
+     */
     private void saveRunData() {
         //判断是否达到目标
         if (mTarget != null && mTargetUnit.equals("公里")) {
@@ -341,19 +423,37 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
 
         @Override
         public void onSucceed(int what, Response<String> response) {
+            String result = response.get();
+            if (result == null && result.equals("null")) {
+                Toast.makeText(RunMapActivity.this, "提交数据失败", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (what == 1) {
-                String result = response.get();
-                if (result != null && !result.equals("")) {
-                    Log.e("my", "result=" + result);
+            } else if (what == 2) {
+                String mid[] = result.split(",");
+                for (int i = 0; i < mid.length; i++) {
+                    int id = Integer.parseInt(mid[i]);
+                    mMedalIndex.add(id);
+                    Log.e("myMedal:", "" + id);
                 }
+            } else if (what == 3) {
+                Toast.makeText(RunMapActivity.this, "获得开始运动勋章", Toast.LENGTH_SHORT).show();
+            } else if (what == 4) {
+                Toast.makeText(RunMapActivity.this, "获得5公里勋章", Toast.LENGTH_SHORT).show();
+            } else if (what == 5) {
+                Toast.makeText(RunMapActivity.this, "获得10公里勋章", Toast.LENGTH_SHORT).show();
+            } else if (what == 6) {
+                Toast.makeText(RunMapActivity.this, "获得半程马拉松勋章", Toast.LENGTH_SHORT).show();
+            } else if (what == 7) {
+                Toast.makeText(RunMapActivity.this, "获得全称马拉松勋章", Toast.LENGTH_SHORT).show();
+            } else if (what == 7) {
+                Toast.makeText(RunMapActivity.this, "获得超级马拉松勋章", Toast.LENGTH_SHORT).show();
             }
         }
 
         @Override
         public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
-            if (what == 1) {
-                Toast.makeText(RunMapActivity.this, "提交数据失败", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(RunMapActivity.this, "提交数据失败", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -361,7 +461,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
         }
     };
 
-    private void handover() {
+    private void showDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(RunMapActivity.this)
                 .setTitle("分享")
                 .setMessage("跑步结束，和朋友分享一下吧!")
@@ -542,7 +642,7 @@ public class RunMapActivity extends Activity implements View.OnClickListener {
                             dialog.dismiss();
                             isStop = false;
                             mHandler.removeMessages(1);
-                            handover();
+                            showDialog();
                         }
                     })
                     .setPositiveButton("继续", new DialogInterface.OnClickListener() {
