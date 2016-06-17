@@ -329,7 +329,6 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 123){
             mViewPager.setCurrentItem(3,false);
-
         }
     }
 }
