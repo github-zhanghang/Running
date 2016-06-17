@@ -88,14 +88,14 @@ public class DynamicReplyItemAdapter extends BaseAdapter {
         mOnClickListener=context;
         String s=bean.getuName0()+" 回复 "+bean.getuName1()+" : "+bean.getsContent();
         SpannableStringBuilder stringBuilder=new SpannableStringBuilder(s);
-        MySpan span=new MySpan(mContext,0xffFF4081,mOnClickListener);
+        MySpan span=new MySpan(mContext,0xFFEB4F38,mOnClickListener);
         span.setId(bean.getuId0());
         span.setContent(bean.getuName0());
         span.setBean(bean);
         stringBuilder.setSpan(span,
                 0, bean.getuName0().length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span=new MySpan(mContext,0xffFF4081,mOnClickListener);
+        span=new MySpan(mContext,0xFFEB4F38,mOnClickListener);
         span.setId(bean.getuId1());
         span.setContent(bean.getuName1());
         span.setBean(bean);

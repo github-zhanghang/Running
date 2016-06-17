@@ -31,6 +31,8 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
 
     private String mPhoneNumber;
     private String mPassword, mConfirmPassword;
+    //是否已经获取验证码
+    private boolean isSuccess = false;
     //倒计时
     private int seconds = 60;
     //倒计时的开关
@@ -47,7 +49,7 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
                 } else {
                     mGetCodeButton.setText(seconds + "秒后重新获取");
                 }
-            } else if (msg.what == 1) {
+            } else if (msg.what == 4) {
                 Toast.makeText(Register1Activity.this, "验证码错误", Toast.LENGTH_SHORT).show();
             }
         }
@@ -90,15 +92,20 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
                     case SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE:
                         if (result == SMSSDK.RESULT_COMPLETE) {
                             Log.e("my", "验证成功");
-                            checkPassword();
+                            Intent intent = new Intent(Register1Activity.this, Register2Activity.class);
+                            intent.putExtra("password", mPassword);
+                            intent.putExtra("telephone", mPhoneNumber);
+                            startActivity(intent);
+                            Register1Activity.this.finish();
                         } else {
                             Log.e("my", "验证失败");
-                            mHandler.sendEmptyMessage(1);
+                            mHandler.sendEmptyMessage(4);
                         }
                         break;
                     case SMSSDK.EVENT_GET_VERIFICATION_CODE:
                         if (result == SMSSDK.RESULT_COMPLETE) {
                             Log.e("my", "获取验证码成功");
+                            isSuccess = true;
                         } else {
                             Log.e("my", "获取验证码失败");
                         }
@@ -106,25 +113,6 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
                 }
             }
         });
-    }
-
-    private void checkPassword() {
-        //判断两次密码是否一致
-        mPassword = mPasswordEditText.getText().toString();
-        if (mPassword.length() < 4) {
-            Toast.makeText(Register1Activity.this, "密码长度至少为4位", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        mConfirmPassword = mConfirmEditText.getText().toString();
-        if (mPassword.equals(mConfirmPassword)) {
-            Intent intent = new Intent(Register1Activity.this, Register2Activity.class);
-            intent.putExtra("password", mPassword);
-            intent.putExtra("telephone", mPhoneNumber);
-            startActivity(intent);
-            Register1Activity.this.finish();
-        } else {
-            Toast.makeText(Register1Activity.this, "密码不一致", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -146,6 +134,29 @@ public class Register1Activity extends AppCompatActivity implements View.OnClick
                 }
                 break;
             case R.id.goRegister:
+                mPhoneNumber = mPhoneEditText.getText().toString();
+                if (mPhoneNumber.equals("")) {
+                    Toast.makeText(Register1Activity.this, "请输入手机号", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mPassword = mPasswordEditText.getText().toString();
+                if (mPassword.equals("")) {
+                    Toast.makeText(Register1Activity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (mPassword.length() < 4 || mPassword.length() > 12) {
+                    Toast.makeText(Register1Activity.this, "密码长度为4-12位", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mConfirmPassword = mConfirmEditText.getText().toString();
+                if (!mPassword.equals(mConfirmPassword)) {
+                    Toast.makeText(Register1Activity.this, "密码不一致", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!isSuccess) {
+                    Toast.makeText(Register1Activity.this, "请先获取验证码", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 //提交验证码
                 SMSSDK.submitVerificationCode("86", mPhoneNumber, mCodeEditText.getText().toString());
                 break;

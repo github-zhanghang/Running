@@ -240,7 +240,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
         mHeaderGridView.setAdapter(adapter);
         mDynamicCommentListView.addHeaderView(view);
         if (mDynamicImgBean.getPraiseStatus() == 1) {
-            mHeaderPraiseImg.setImageResource(R.drawable.praise_red);
+            mHeaderPraiseImg.setImageResource(R.drawable.ic_praise_red);
         }
         mHeaderPraiseCount.setText(mDynamicImgBean.getPraiseCount() + "");
         mHeaderCommentCount.setText(mDynamicImgBean.getCommentCount()+"");
@@ -248,7 +248,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
             @Override
             public void onClick(View v) {
                 if (mDynamicImgBean.getPraiseStatus() == 0) {
-                    mHeaderPraiseImg.setImageResource(R.drawable.praise_red);
+                    mHeaderPraiseImg.setImageResource(R.drawable.ic_praise_red);
                     mDynamicImgBean.setPraiseCount(mDynamicImgBean.getPraiseCount() + 1);
                     mHeaderPraiseCount.setText(mDynamicImgBean.getPraiseCount()+"");
                     mDynamicImgBean.setPraiseStatus(1);

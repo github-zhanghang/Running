@@ -143,7 +143,7 @@ public class DynamicAdapter extends BaseAdapter {
             imgViewHolder.mDynamicImgItemLocation.setText(dynamicImgBean.getLocation());
             if (((DynamicImgBean)mList.get(position).get
                     ("DynamicBean")).getPraiseStatus() == 1) {
-                imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.praise_red);
+                imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.ic_praise_red);
             }
             imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(dynamicImgBean
                     .getPraiseCount()));
@@ -160,13 +160,13 @@ public class DynamicAdapter extends BaseAdapter {
                         imgViewHolder.mDynamicImgItemPraiseCount.setText(String.valueOf(((DynamicImgBean)mList.get(position).get
                                 ("DynamicBean"))
                                 .getPraiseCount()));
-                        imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.praise_red);
+                        imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.ic_praise_red);
                         addPraise(((DynamicImgBean)mList.get(position).get
                                 ("DynamicBean")).getdId());
                     } else if (((DynamicImgBean)mList.get(myPosition).get
                             ("DynamicBean")).getPraiseStatus() == 1) {
                         //imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable
-                        // .praise_red);
+                        // .ic_praise_red);
                     }
                 }
             });

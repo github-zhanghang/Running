@@ -41,7 +41,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="5dp"
                 android:text="桃子"
-                android:textColor="@color/colorPink"
+                android:textColor="@color/colorOrange"
                 android:textSize="20sp"/>
             <!--性别-->
             <ImageView

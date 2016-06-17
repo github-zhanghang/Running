@@ -2,6 +2,7 @@ package com.running.android_main;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -10,6 +11,7 @@ import com.running.eventandcontext.RongCloudEvent;
 import com.running.message.ContactNotificationMessageProvider;
 import com.running.utils.GlideImageLoader;
 import com.running.utils.GlidePauseOnScrollListener;
+import com.yolanda.nohttp.Logger;
 import com.yolanda.nohttp.NoHttp;
 
 import java.util.ArrayList;
@@ -27,21 +29,21 @@ import io.rong.imkit.RongIM;
  */
 public class MyApplication extends Application {
     public static final String HOST = "http://123.206.203.86:8080/Running/";
-    //public static final String HOST = "http://headvip.cn/Running/";
+
     //用户信息
     public UserInfo mUserInfo;
     //总距离
     public String mDistance;
     public List<Activity> mActivityList;
     public static String sourceUserId;
-    
+
     @Override
     public void onCreate() {
         super.onCreate();
         mActivityList = new ArrayList<>();
         //极光推送
-        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);     		// 初始化 JPush
+        //JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);            // 初始化 JPush
         //百度地图
         SDKInitializer.initialize(getApplicationContext());
         //初始化融云
@@ -53,8 +55,24 @@ public class MyApplication extends Application {
         RongIM.registerMessageTemplate(new ContactNotificationMessageProvider());
         //NoHttp
         NoHttp.init(this);
+        Logger.setDebug(true);
         //初始化GalleryFinal
         initGalleryFinal();
+        //设置极光推送是否接受消息
+        setCanReceiveMessage();
+    }
+
+    private void setCanReceiveMessage() {
+        SharedPreferences sharedPreferences = getSharedPreferences("JPushMessage", MODE_PRIVATE);
+        boolean isReceiveMessage = sharedPreferences.getBoolean("isReceiveMessage", true);
+        Log.e("my", "isReceiveMessage=" + isReceiveMessage);
+        if (isReceiveMessage) {
+            if (JPushInterface.isPushStopped(getApplicationContext())) {
+                JPushInterface.resumePush(getApplicationContext());
+            }
+        } else {
+            JPushInterface.stopPush(getApplicationContext());
+        }
     }
 
     public UserInfo getUserInfo() {
@@ -83,7 +101,6 @@ public class MyApplication extends Application {
 
     public void finish() {
         for (int i = 0; i < mActivityList.size(); i++) {
-            Log.e("my", "size" + mActivityList.size());
             Activity activity = mActivityList.get(i);
             if (activity != null) {
                 activity.finish();
@@ -101,9 +118,9 @@ public class MyApplication extends Application {
                 .setCropSquare(true)
                 .setEnablePreview(true)
                 .build();
-        CoreConfig coreConfig = new CoreConfig.Builder(this,new GlideImageLoader(), themeConfig)
+        CoreConfig coreConfig = new CoreConfig.Builder(this, new GlideImageLoader(), themeConfig)
                 .setFunctionConfig(functionConfig)
-                .setPauseOnScrollListener(new GlidePauseOnScrollListener(false,true))
+                .setPauseOnScrollListener(new GlidePauseOnScrollListener(false, true))
                 .build();
         GalleryFinal.init(coreConfig);
     }

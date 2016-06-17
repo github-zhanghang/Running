@@ -27,7 +27,7 @@
                     android:background="#f0f0f0"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:text="----------  赛事预告  ----------"
+                    android:text="赛事预告"
                     android:gravity="center"
                     />
 

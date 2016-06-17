@@ -13,11 +13,11 @@ import com.google.gson.Gson;
 import com.running.beans.UserInfo;
 import com.running.myviews.ScaleRulerView;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 public class Register3Activity extends AppCompatActivity {
     private static final String mPath = MyApplication.HOST + "registerServlet";

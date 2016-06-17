@@ -59,11 +59,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             DateFormat dateFormat2 = new SimpleDateFormat("HH:mm:ss");
+            java.text.DecimalFormat df=new java.text.DecimalFormat("#0.00");//保留两位小数
             ((HistoryViewHolder) holder).dateTextView.setText(dateFormat.format(mHistories.get(position).getRunstarttime()));
-            ((HistoryViewHolder) holder).distanceTextView.setText(mHistories.get(position).getRundistance() + "");
+            ((HistoryViewHolder) holder).distanceTextView.setText(df.format(mHistories.get(position).getRundistance()) + "");
             ((HistoryViewHolder) holder).timeTextView.setText(dateFormat2.format(mHistories.get(position).getRuntime() - 28800000));
             if (mHistories.get(position).getComplete()==(-1)){
-                ((HistoryViewHolder) holder).targetImageView.setVisibility(View.GONE);
+                ((HistoryViewHolder) holder).successImageView.setVisibility(View.GONE);
+                ((HistoryViewHolder) holder).failImageView.setVisibility(View.GONE);
+            }else if (mHistories.get(position).getComplete()==(1)){
+                ((HistoryViewHolder) holder).failImageView.setVisibility(View.GONE);
+            }else if (mHistories.get(position).getComplete()==(0)){
+                ((HistoryViewHolder) holder).successImageView.setVisibility(View.GONE);
             }
             if (mOnItemClickListener != null) {
                 ((HistoryViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
@@ -93,13 +99,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class HistoryViewHolder extends RecyclerView.ViewHolder {
         TextView dateTextView, distanceTextView, timeTextView;
-        ImageView targetImageView;
+        ImageView successImageView,failImageView;
         public HistoryViewHolder(View itemView) {
             super(itemView);
             dateTextView = (TextView) itemView.findViewById(R.id.date_histoy);
             distanceTextView = (TextView) itemView.findViewById(R.id.distance_history);
             timeTextView = (TextView) itemView.findViewById(R.id.time_history);
-            targetImageView= (ImageView) itemView.findViewById(R.id.img_target);
+            successImageView= (ImageView) itemView.findViewById(R.id.img_target_success);
+            failImageView=(ImageView) itemView.findViewById(R.id.img_target_fail);
         }
     }
 

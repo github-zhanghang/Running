@@ -32,11 +32,11 @@ import com.running.fragments.XiaoxiFragment;
 import com.running.myviews.CircleImageView;
 import com.running.myviews.NoScrollViewPager;
 import com.yolanda.nohttp.NoHttp;
-import com.yolanda.nohttp.OnResponseListener;
-import com.yolanda.nohttp.Request;
 import com.yolanda.nohttp.RequestMethod;
-import com.yolanda.nohttp.RequestQueue;
-import com.yolanda.nohttp.Response;
+import com.yolanda.nohttp.rest.OnResponseListener;
+import com.yolanda.nohttp.rest.Request;
+import com.yolanda.nohttp.rest.RequestQueue;
+import com.yolanda.nohttp.rest.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initData() {
+        mUserInfo = mApplication.getUserInfo();
         mUserNickNameText.setText(mUserInfo.getNickName());
         Glide.with(MainActivity.this)
                 .load(mUserInfo.getImageUrl())

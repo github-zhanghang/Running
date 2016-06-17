@@ -9,6 +9,7 @@
         android:id="@+id/dynamic_comment_reply_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:padding="7dp"
+        android:textSize="14sp"
         android:text="ldd 回复 lht ：123"/>
 </LinearLayout>
