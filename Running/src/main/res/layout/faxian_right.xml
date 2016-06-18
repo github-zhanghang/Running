@@ -14,10 +14,32 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#f0f0f0">
 
             <include layout="@layout/banner_goods"
                 android:id="@+id/banner_goods_layout"/>
+
+            <LinearLayout
+                android:id="@+id/search_goods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/ic_editext"
+                android:layout_margin="10dp"
+                android:padding="5dp">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_search"
+                    android:layout_marginRight="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:textColor="@color/colorOrange"
+                    android:text="搜索"/>
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rcy_goods"

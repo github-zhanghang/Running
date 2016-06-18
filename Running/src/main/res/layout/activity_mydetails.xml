@@ -106,7 +106,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 app:dataText="从美丽走向痛苦，然后从痛苦中解脱，最后走向永恒。"
-                app:labelText="签名:"/>
+                app:labelText="签名:"
+                android:layout_marginBottom="20dp"/>
 
             <Button
                 android:id="@+id/saveinfo"
@@ -116,7 +117,7 @@
                 android:background="@drawable/roundedcorners"
                 android:text="保存"
                 android:textColor="@color/white"
-                android:textSize="23sp"/>
+                android:textSize="20sp"/>
         </LinearLayout>
     </ScrollView>
 

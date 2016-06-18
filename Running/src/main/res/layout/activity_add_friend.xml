@@ -62,8 +62,8 @@
 
         <ImageView
             android:id="@+id/fujin"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="5dp"
@@ -96,8 +96,8 @@
 
         <ImageView
             android:id="@+id/chazhao"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="5dp"

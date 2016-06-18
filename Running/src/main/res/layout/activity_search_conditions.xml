@@ -19,8 +19,8 @@
         android:layout_height="60dp">
         <ImageView
             android:id="@+id/xingbie_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="3dp"
@@ -74,8 +74,8 @@
         android:layout_height="60dp">
         <ImageView
             android:id="@+id/nianling_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="3dp"
@@ -131,8 +131,8 @@
         android:layout_height="60dp">
         <ImageView
             android:id="@+id/diqu_img"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:padding="3dp"

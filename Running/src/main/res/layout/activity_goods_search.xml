@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.running.android_main.GoodsSearchActivity">
+
+    <com.running.myviews.TopBar
+        android:id="@+id/searchgoods_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topbar_height"
+        app:leftImage="@drawable/ic_back"
+        app:leftText="商品搜索"/>
+    <android.support.v7.widget.SearchView
+        android:id="@+id/goodsSearchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:imeOptions="actionSearch"
+        android:inputType="textCapWords"
+        android:queryHint="点此输入"
+        >
+    </android.support.v7.widget.SearchView>
+    <ListView
+        android:id="@+id/goodsListview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></ListView>
+</LinearLayout>

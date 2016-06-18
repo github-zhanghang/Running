@@ -16,7 +16,7 @@
     <RadioGroup
         android:id="@+id/rank_group"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -44,6 +44,7 @@
     </RadioGroup>
 
     <RelativeLayout
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gray">

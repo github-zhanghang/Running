@@ -2,6 +2,7 @@ package com.running.android_main;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +19,9 @@ import com.yolanda.nohttp.rest.OnResponseListener;
 import com.yolanda.nohttp.rest.Request;
 import com.yolanda.nohttp.rest.RequestQueue;
 import com.yolanda.nohttp.rest.Response;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class Register3Activity extends AppCompatActivity {
     private static final String mPath = MyApplication.HOST + "registerServlet";
@@ -182,8 +186,11 @@ public class Register3Activity extends AppCompatActivity {
                 UserInfo userInfo = new Gson().fromJson(result, UserInfo.class);
                 mApplication.setUserInfo(userInfo);
                 //跳转
-                startActivity(new Intent(Register3Activity.this, MainActivity.class));
-                Register3Activity.this.finish();
+
+               /* startActivity(new Intent(Register3Activity.this, MainActivity.class));
+                Register3Activity.this.finish();*/
+                //连接融云
+                connect(mApplication.getUserInfo().getRongToken());
             }
         }
 
@@ -197,4 +204,47 @@ public class Register3Activity extends AppCompatActivity {
         public void onFinish(int what) {
         }
     };
+
+
+    //融云的连接
+    private void connect(String token) {
+        RongIM.connect(token, new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+                if (mProgressDialog != null) {
+                    mProgressDialog.dismiss();
+                }
+                Log.e("12345: ", "过期");
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                Log.e("12345: ", "融云连接成功");
+                if (mProgressDialog != null) {
+                    mProgressDialog.dismiss();
+                }
+                if (RongIM.getInstance() != null) {
+                    io.rong.imlib.model.UserInfo userInfo = new io.rong.imlib.model.UserInfo(
+                            mApplication.getUserInfo().getAccount(),
+                            mApplication.getUserInfo().getNickName(),
+                            Uri.parse(mApplication.getUserInfo().getImageUrl()));
+                    Log.e("12345: ", "融云连接成功" + userInfo.getPortraitUri());
+                    RongIM.getInstance().setCurrentUserInfo(userInfo);
+                  /*  RongContext.getInstance().getUserInfoCache().
+                            put(mApplication.getUserInfo().getAccount(),userInfo);*/
+                }
+                RongIM.getInstance().setMessageAttachedUserInfo(true);
+                startActivity(new Intent(Register3Activity.this, MainActivity.class));
+                Register3Activity.this.finish();
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                if (mProgressDialog != null) {
+                    mProgressDialog.dismiss();
+                }
+                Log.e("12345: ", errorCode.toString());
+            }
+        });
+    }
 }
