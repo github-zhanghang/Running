@@ -229,6 +229,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     LoginActivity.this.finish();
+                    //连接融云
+                    connect(mApplication.getUserInfo().getRongToken());
                 } else {
                     //表示不存在此Token
                     Intent intent = new Intent(LoginActivity.this, Register3Activity.class);
@@ -239,6 +241,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     intent.putExtra("qqtoken", token);
                     startActivity(intent);
                     LoginActivity.this.finish();
+
                 }
             }
         }
