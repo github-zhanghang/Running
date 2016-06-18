@@ -26,7 +26,7 @@ public class TrendViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(mListGraphicalView.get(position));
+        container.addView(mListGraphicalView.get(position), ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         return mListGraphicalView.get(position);
 
     }

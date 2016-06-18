@@ -14,7 +14,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.running.beans.UserInfo;
 import com.running.myviews.CustomProgressDialog;
@@ -247,7 +246,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         @Override
-        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+        public void onFailed(int what, String url, Object tag, Exception exception, int
+                responseCode, long networkMillis) {
             if (mProgressDialog != null) {
                 mProgressDialog.dismiss();
             }

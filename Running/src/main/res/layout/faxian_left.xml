@@ -22,14 +22,23 @@
 
                 <include layout="@layout/banner_race"
                     android:id="@+id/bannerlayout"/>
-                <TextView
+              <!-- <com.running.myviews.ShineTextView
                     android:id="@+id/forecast_race"
-                    android:background="#f0f0f0"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    android:background="#f0f0f0"
                     android:text="赛事预告"
-                    android:gravity="center"
-                    />
+                    android:gravity="center"/>-->
+               <TextView
+                    android:padding="5dp"
+                    android:id="@+id/forecast_race"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="#f0f0f0"
+                    android:text="赛事预告"
+                   android:textColor="@color/colorOrange"
+                   android:drawableRight="@drawable/ic_doublearrow"
+                    android:gravity="center"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"

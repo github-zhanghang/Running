@@ -1,5 +1,6 @@
 package com.running.android_main;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +34,7 @@ import com.running.utils.MySpan;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -153,7 +155,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
                             });
                     status = 2;
                     mDynamicImgBean.setCommentCount(mDynamicImgBean.getCommentCount() + 1);
-                    mHeaderCommentCount.setText(mDynamicImgBean.getCommentCount()+"");
+                    mHeaderCommentCount.setText(mDynamicImgBean.getCommentCount() + "");
                 } else {
                     //自己的id和名字
                     int uId0 = userInfo.getUid();
@@ -163,28 +165,38 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
                     //回复时间
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String time = format.format(new Date());
-                    SecondCommentBean bean = new SecondCommentBean((int) mMap.get("sFCId"), uId0,
-                            uName0, (int) mMap.get("uId1"), (String) mMap.get("uName1"), content,
-                            time);
-                    mList.get((int) mMap.get("position")).getList().add(bean);
-                    Gson gson = new Gson();
-                    String secondComment = gson.toJson(bean);
-                    Log.d("TAG", secondComment);
-                    OkHttpUtils.post()
-                            .url(url)
-                            .addParams("appRequest", "AddSecondComment")
-                            .addParams("secondComment", secondComment)
-                            .build()
-                            .execute(new StringCallback() {
-                                @Override
-                                public void onError(Call call, Exception e) {
-                                }
+                    if (uId0 == (int) mMap.get("uId1")) {
+                        new AlertDialog.Builder(DynamicCommentActivity.this)
+                                .setTitle("提示")
+                                .setMessage("不能回复自己!")
+                                .setPositiveButton("确定",null)
+                                .show();
+                    } else {
+                        SecondCommentBean bean = new SecondCommentBean((int) mMap.get("sFCId"),
+                                uId0,
+                                uName0, (int) mMap.get("uId1"), (String) mMap.get("uName1"),
+                                content,
+                                time);
+                        mList.get((int) mMap.get("position")).getList().add(bean);
+                        Gson gson = new Gson();
+                        String secondComment = gson.toJson(bean);
+                        Log.d("TAG", secondComment);
+                        OkHttpUtils.post()
+                                .url(url)
+                                .addParams("appRequest", "AddSecondComment")
+                                .addParams("secondComment", secondComment)
+                                .build()
+                                .execute(new StringCallback() {
+                                    @Override
+                                    public void onError(Call call, Exception e) {
+                                    }
 
-                                @Override
-                                public void onResponse(String response) {
+                                    @Override
+                                    public void onResponse(String response) {
 
-                                }
-                            });
+                                    }
+                                });
+                    }
                 }
                 mAdapter.notifyDataSetChanged();
                 mDynamicCommentFootEdit.setText("");
@@ -211,8 +223,8 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
                 .url(url)
                 .addParams("appRequest", "ShowComment")
                 //.addParams("dId", "" + 1)
-                .addParams("dId",""+mDynamicImgBean.getdId())
-                .addParams("myId",""+((MyApplication)getApplication()).getUserInfo().getUid())
+                .addParams("dId", "" + mDynamicImgBean.getdId())
+                .addParams("myId", "" + ((MyApplication) getApplication()).getUserInfo().getUid())
                 .build()
                 .execute(mCommentCallBack = new CommentCallBack());
 
@@ -226,7 +238,17 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
                 .transform(new GlideCircleTransform(this))
                 .into(mHeaderImg);
         mHeaderName.setText(mDynamicImgBean.getName());
-        mHeaderTime.setText(mDynamicImgBean.getTime());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = mDynamicImgBean.getTime();
+        try {
+            Date date = format.parse(time);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");
+            time = simpleDateFormat.format(date);
+            Log.e("TAG+LDD","time"+time+" "+mDynamicImgBean.getTime());
+            mHeaderTime.setText(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         mHeaderContent.setText(mDynamicImgBean.getContent());
         List<String> imgList = mDynamicImgBean.getImgList();
         List<ImageInfo> infoList = new ArrayList<>();
@@ -243,14 +265,14 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
             mHeaderPraiseImg.setImageResource(R.drawable.ic_praise_red);
         }
         mHeaderPraiseCount.setText(mDynamicImgBean.getPraiseCount() + "");
-        mHeaderCommentCount.setText(mDynamicImgBean.getCommentCount()+"");
+        mHeaderCommentCount.setText(mDynamicImgBean.getCommentCount() + "");
         mHeaderPraiseImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mDynamicImgBean.getPraiseStatus() == 0) {
                     mHeaderPraiseImg.setImageResource(R.drawable.ic_praise_red);
                     mDynamicImgBean.setPraiseCount(mDynamicImgBean.getPraiseCount() + 1);
-                    mHeaderPraiseCount.setText(mDynamicImgBean.getPraiseCount()+"");
+                    mHeaderPraiseCount.setText(mDynamicImgBean.getPraiseCount() + "");
                     mDynamicImgBean.setPraiseStatus(1);
                     addPraise(mDynamicImgBean.getdId());
                 } else {
