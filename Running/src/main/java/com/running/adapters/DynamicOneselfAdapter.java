@@ -143,6 +143,8 @@ public class DynamicOneselfAdapter extends BaseAdapter {
                             .ic_praise_red);
                     addPraise(((DynamicOneselfBean) mList.get(position).get
                             ("DynamicOneselfBean")).getdId());
+                } else if (((DynamicOneselfBean) mList.get(position).get
+                        ("DynamicOneselfBean")).getPraiseStatus()==1) {
                 }
             }
         });

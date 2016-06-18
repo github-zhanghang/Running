@@ -107,8 +107,10 @@ public class MainActivity extends AppCompatActivity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         mRadioGroup = (RadioGroup) findViewById(R.id.radiogroup);
-        mUserImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.user_image);
-        mUserNickNameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_nickname);
+        mUserImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id
+                .user_image);
+        mUserNickNameText = (TextView) navigationView.getHeaderView(0).findViewById(R.id
+                .user_nickname);
         mSettingTextView = (TextView) navigationView.findViewById(R.id.setting);
         mCityTextView = (TextView) navigationView.findViewById(R.id.local_city);
         mTempTextView = (TextView) navigationView.findViewById(R.id.local_temperature);
@@ -189,7 +191,8 @@ public class MainActivity extends AppCompatActivity
         }
 
         @Override
-        public void onFailed(int what, String url, Object tag, Exception exception, int responseCode, long networkMillis) {
+        public void onFailed(int what, String url, Object tag, Exception exception, int
+                responseCode, long networkMillis) {
             if (what == 2) {
                 Toast.makeText(MainActivity.this, "获取气温失败", Toast.LENGTH_SHORT).show();
             }
@@ -223,7 +226,8 @@ public class MainActivity extends AppCompatActivity
     private void initListener() {
         mViewPager.addOnPageChangeListener(new NoScrollViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int
+                    positionOffsetPixels) {
             }
 
             @Override
@@ -327,8 +331,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 123){
-            mViewPager.setCurrentItem(3,false);
+        if (resultCode == 123) {
+            mViewPager.setCurrentItem(3, false);
         }
     }
 }

@@ -23,6 +23,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
@@ -40,6 +41,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -49,13 +51,9 @@ import cn.finalteam.galleryfinal.model.PhotoInfo;
 import okhttp3.Call;
 
 public class PublishDynamicActivity extends AppCompatActivity {
-
-    public static final int TAKE_PHOTO = 1;
-    public static final int CHOOSE_PHOTO = 2;
     private final int REQUEST_CODE_CAMERA = 1000;
     private final int REQUEST_CODE_GALLERY = 1001;
     private List<Object> mList;
-    private ArrayList<String> selectPhotos;
     private DynamicPublishGridViewAdapter mAdapter;
 
     private PopupWindow mPopupWindow;
@@ -90,41 +88,57 @@ public class PublishDynamicActivity extends AppCompatActivity {
 
     List<String> imgList = new ArrayList<String>();
 
-    String url = MyApplication.HOST+"dynamicOperateServlet";
+    String url = MyApplication.HOST + "dynamicOperateServlet";
 
     //定位
     private LocationClient mLocationClient;
     private BDLocationListener mBDLocationListener;
 
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
                     //用户id
-                    int dUId = ((MyApplication)getApplication()).getUserInfo().getUid();
+                    int dUId = ((MyApplication) getApplication()).getUserInfo().getUid();
                     String content = mDynamicPublishContent.getText().toString();
                     String location = mDynamicPublishLocation.getText().toString();
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String time = format.format(new Date());
-                    DynamicImgBean bean = new DynamicImgBean(dUId,imgList,content,time,location);
+                    DynamicImgBean bean = new DynamicImgBean(dUId, imgList, content, time,
+                            location);
                     Gson gson = new Gson();
                     String dynamicBean = gson.toJson(bean);
                     OkHttpUtils.post()
                             .url(url)
-                            .addParams("appRequest","AddDynamic")
-                            .addParams("dynamicBean",dynamicBean)
+                            .addParams("appRequest", "AddDynamic")
+                            .addParams("dynamicBean", dynamicBean)
                             .build()
                             .execute(new StringCallback() {
                                 @Override
                                 public void onError(Call call, Exception e) {
-
+                                    mDynamicPublishPublishButton.setBackgroundColor(getResources
+                                            ().getColor(R.color.colorPrimary));
+                                    mDynamicPublishPublishButton.setEnabled(true);
                                 }
 
                                 @Override
                                 public void onResponse(String response) {
+                                    Gson gson = new Gson();
+                                    HashMap<String,Integer> map = gson.fromJson(response,new
+                                            TypeToken<HashMap<String,Integer>>(){}.getType());
 
+                                    Log.e("TAG+LDD",map.get("ResultCode")+"");
+                                    if (map.get("ResultCode") > 0) {
+                                        mDynamicPublishPublishButton.setBackgroundColor
+                                                (getResources().getColor(R
+                                                .color.colorPrimary));
+                                        mDynamicPublishPublishButton.setEnabled(true);
+                                        Toast.makeText(PublishDynamicActivity.this, "发布完成", Toast
+                                                .LENGTH_SHORT).show();
+                                        finish();
+                                    }
                                 }
                             });
                     break;
@@ -140,7 +154,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
                     if (resultList != null) {
                         mList.clear();
                         mList.addAll(resultList);
-                        Log.d("TAG","resultList:"+resultList.size());
+                        Log.d("TAG", "resultList:" + resultList.size());
                         mList.add(R.drawable.addimg);
                         mAdapter.notifyDataSetChanged();
                     }
@@ -166,7 +180,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == (mList.size() - 1)) {
                     showPopupWindow();
-                    mPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+                    mPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
                 } else {
                 }
             }
@@ -189,17 +203,20 @@ public class PublishDynamicActivity extends AppCompatActivity {
         mDynamicPublishPublishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mList.size()==1) {
+                mDynamicPublishPublishButton.setBackgroundColor(getResources().getColor(R.color
+                        .publishButton));
+                mDynamicPublishPublishButton.setEnabled(false);
+                if (mList.size() == 1) {
                     //只有文字没有图片
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             Message message = new Message();
-                            message.what=1;
+                            message.what = 1;
                             mHandler.sendMessage(message);
                         }
                     }).start();
-                }else {
+                } else {
                     //有图片
                     for (int i = 0; i < mList.size() - 1; i++) {
                         PhotoInfo photoInfo = (PhotoInfo) mList.get(i);
@@ -220,7 +237,6 @@ public class PublishDynamicActivity extends AppCompatActivity {
     //添加用于添加图片的图片按钮
     private void addImg() {
         mList = new ArrayList<>();
-        selectPhotos = new ArrayList<>();
         mList.add(R.drawable.addimg);
     }
 
@@ -238,7 +254,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
     private void initPopupWindow() {
         final View view = getLayoutInflater().inflate(R.layout.dynamic_publish_popup_window, null);
         mPopupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT, true);
+                ViewGroup.LayoutParams.WRAP_CONTENT, true);
         //点击其他地方消失
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -250,26 +266,36 @@ public class PublishDynamicActivity extends AppCompatActivity {
                 return false;
             }
         });
-        Button cameraButton = (Button) view.findViewById(R.id.dynamic_publish_popupWindow_camera);
-        Button pictureButton = (Button) view.findViewById(R.id.dynamic_publish_popupWindow_picture);
+        TextView camera = (TextView) view.findViewById(R.id.dynamic_publish_popupWindow_camera);
+        TextView picture = (TextView) view.findViewById(R.id.dynamic_publish_popupWindow_picture);
+        TextView cancel = (TextView) view.findViewById(R.id.dynamic_publish_popupWindow_cancel);
         //调用相机拍照
-        cameraButton.setOnClickListener(new View.OnClickListener() {
+        camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GalleryFinal.openCamera(REQUEST_CODE_CAMERA, mOnHanlderResultCallback);
+                mPopupWindow.dismiss();
             }
         });
         //选择多张图片相册
-        pictureButton.setOnClickListener(new View.OnClickListener() {
+        picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GalleryFinal.openGalleryMuti(REQUEST_CODE_GALLERY, 9, mOnHanlderResultCallback);
+                mPopupWindow.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
             }
         });
     }
 
     /**
      * 上传图片到七牛云
+     *
      * @param path (图片本地路径)
      */
     public void upload(String path) {
@@ -277,28 +303,27 @@ public class PublishDynamicActivity extends AppCompatActivity {
         mGetQiNiuYunToken = new GetQiNiuYunToken();
         token = mGetQiNiuYunToken.getToken(UPLOAD_SPACE_NAME);
         imgName = id + "/" + System.currentTimeMillis() + ".jpg";
+        Log.e("TAG+LDD:", "imgName=" + imgName);
         uploadManager.put(path, imgName, token,
                 new UpCompletionHandler() {
                     @Override
                     public void complete(String key, ResponseInfo info, JSONObject response) {
                         //info.statusCode 回掉状态码
                         if (info.statusCode == 200) {
-                            imgUrl = "http://" + NET_PATH + File.separator + imgName;
+                            imgUrl = "http://" + NET_PATH + File.separator + key;
                             imgList.add(imgUrl);
-                            Log.d("TAG", imgList.size() + "");
+                            Log.e("TAG+LDD=", imgList.size() + "+imgUrl" + imgUrl);
                             //如果图片上传完成，提示发布动态完成
-                            if (imgList.size()==(mList.size()-1)) {
+                            if (imgList.size() == (mList.size() - 1)) {
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
                                         Message message = new Message();
-                                        message.what=1;
+                                        message.what = 1;
                                         mHandler.sendMessage(message);
                                     }
                                 }).start();
                             }
-                            Toast.makeText(PublishDynamicActivity.this, "完成上传",
-                                    Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(PublishDynamicActivity.this, info.statusCode + "上传失败",
                                     Toast.LENGTH_SHORT).show();
@@ -319,7 +344,7 @@ public class PublishDynamicActivity extends AppCompatActivity {
             public void onReceiveLocation(BDLocation bdLocation) {
                 String position = bdLocation.getAddrStr();
                 int k = position.indexOf("省");
-                position=position.substring(k+1,position.length());
+                position = position.substring(k + 1, position.length());
                 mDynamicPublishLocation.setText(position);
             }
         };

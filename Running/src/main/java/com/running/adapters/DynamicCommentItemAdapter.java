@@ -1,6 +1,7 @@
 package com.running.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import com.running.beans.CommentBean;
 import com.running.beans.SecondCommentBean;
 import com.running.utils.GlideCircleTransform;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -68,7 +72,17 @@ public class DynamicCommentItemAdapter extends BaseAdapter {
                 .transform(new GlideCircleTransform(mContext))
                 .into(viewHolder.img);
         viewHolder.firstCommentName.setText(commentBean.getfName());
-        viewHolder.firstCommentTime.setText(commentBean.getfTime());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String time = commentBean.getfTime();
+        try {
+            Date date = format.parse(time);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");
+            time = simpleDateFormat.format(date);
+            Log.e("TAG+LDD","time"+time+" "+commentBean.getfTime());
+            viewHolder.firstCommentTime.setText(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         viewHolder.firstCommentContent.setText(commentBean.getfContent());
         List<SecondCommentBean> list = commentBean.getList();
         DynamicReplyItemAdapter replyItemAdapter = new DynamicReplyItemAdapter(mContext, list);
