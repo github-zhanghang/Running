@@ -26,8 +26,8 @@ public class MyInfoItemView extends LinearLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyInfoItemView);
         mLabelText = typedArray.getString(R.styleable.MyInfoItemView_labelText);
         mDataText = typedArray.getString(R.styleable.MyInfoItemView_dataText);
-        mLabelTextSize = typedArray.getDimension(R.styleable.MyInfoItemView_labelTextsize,24);
-        mDataTextSize = typedArray.getDimension(R.styleable.MyInfoItemView_dataTextsize,24);
+        mLabelTextSize = typedArray.getDimension(R.styleable.MyInfoItemView_labelTextsize,20);
+        mDataTextSize = typedArray.getDimension(R.styleable.MyInfoItemView_dataTextsize,20);
         typedArray.recycle();
 
         LayoutParams params1 = new LayoutParams(0, LayoutParams.MATCH_PARENT, 3);
@@ -49,7 +49,7 @@ public class MyInfoItemView extends LinearLayout {
         mRightTextView.setLayoutParams(params3);
         mRightTextView.setGravity(Gravity.CENTER_VERTICAL);
         mRightTextView.setText(">");
-        mRightTextView.setTextSize(24);
+        mRightTextView.setTextSize(20);
         mRightTextView.setPadding(5, 0, 0, 0);
 
         addView(mLabelTextView);

@@ -1,25 +1,15 @@
 ECLIPSE ANDROID PROJECT IMPORT SUMMARY
 ======================================
 
-Ignored Files:
---------------
-The following files were *not* copied into the new Gradle project; you
-should evaluate whether these are still needed in your project and if
-so manually move them:
-
-* ic_launcher-web.png
-* proguard-project.txt
-
 Moved Files:
 ------------
 Android Gradle projects use a different directory structure than ADT
 Eclipse projects. Here's how the projects were restructured:
 
-* AndroidManifest.xml => barChart\src\main\AndroidManifest.xml
-* assets\ => barChart\src\main\assets
-* libs\achartengine-1.0.0.jar => barChart\libs\achartengine-1.0.0.jar
-* res\ => barChart\src\main\res\
-* src\ => barChart\src\main\java\
+* AndroidManifest.xml => searchableDemo\src\main\AndroidManifest.xml
+* assets\ => searchableDemo\src\main\assets
+* res\ => searchableDemo\src\main\res\
+* src\ => searchableDemo\src\main\java\
 
 Next Steps:
 -----------

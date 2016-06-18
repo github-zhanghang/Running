@@ -15,10 +15,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.running.adapters.GoodsAdapter;
 import com.running.adapters.GoodsBannerAdapter;
 import com.running.android_main.GoodsActivity;
+import com.running.android_main.GoodsSearchActivity;
 import com.running.android_main.MainActivity;
 import com.running.android_main.MyApplication;
 import com.running.android_main.R;
@@ -86,6 +88,7 @@ public class FaxianRightFragment extends Fragment {
 
     private NoScrollView mNoScrollView;
 
+    LinearLayout searchLinearLayout;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,6 +107,7 @@ public class FaxianRightFragment extends Fragment {
         initNoScollView();
 
         addClickListener();
+        addSearchLitener();
         return mRightView;
     }
 
@@ -200,6 +204,9 @@ public class FaxianRightFragment extends Fragment {
         goodRecyclerView.setHasFixedSize(true);
         mGoodsAdapter=new GoodsAdapter(mMainActivity, mGoodsDataList);
         goodRecyclerView.setAdapter(mGoodsAdapter);
+
+        //搜索
+        searchLinearLayout= (LinearLayout) mRightView.findViewById(R.id.search_goods);
     }
 
     private void initSwiprRefresh() {
@@ -328,6 +335,16 @@ public class FaxianRightFragment extends Fragment {
 
                 Intent intent=new Intent(mMainActivity, GoodsActivity.class);
                 intent.putExtras(bundle);
+                mMainActivity.startActivity(intent);
+            }
+        });
+    }
+
+    private void addSearchLitener() {
+        searchLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(mMainActivity, GoodsSearchActivity.class);
                 mMainActivity.startActivity(intent);
             }
         });

@@ -33,10 +33,11 @@
         android:id="@+id/boy"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_margin="10dp"
+        android:layout_marginTop="30dp"
         android:src="@drawable/ic_boy"/>
 
     <TextView
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#a4d79f"

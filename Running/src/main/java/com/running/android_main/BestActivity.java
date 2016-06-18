@@ -48,7 +48,8 @@ public class BestActivity extends AppCompatActivity implements View.OnClickListe
     private void setData() {
 
         if (mHistoryList.get(0).isExist()){
-            distanceBestBar.setDataText(mHistoryList.get(0).getRundistance()+"");
+            java.text.DecimalFormat df=new java.text.DecimalFormat("#0.00");//保留两位小数
+            distanceBestBar.setDataText(df.format(mHistoryList.get(0).getRundistance())+"");
         }else {
             distanceBestBar.setDataText("无记录");
         }

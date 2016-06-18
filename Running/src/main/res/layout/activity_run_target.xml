@@ -33,7 +33,7 @@
             android:paddingTop="10dp"
             android:text="距离"
             android:textColor="@drawable/target_radiobutton_text"
-            android:textSize="25sp"/>
+            android:textSize="20sp"/>
 
         <RadioButton
             android:id="@+id/target_time"
@@ -47,7 +47,7 @@
             android:paddingTop="10dp"
             android:text="时间"
             android:textColor="@drawable/target_radiobutton_text"
-            android:textSize="25sp"/>
+            android:textSize="20sp"/>
 
         <RadioButton
             android:id="@+id/target_calorie"
@@ -61,7 +61,7 @@
             android:paddingTop="10dp"
             android:text="卡路里"
             android:textColor="@drawable/target_radiobutton_text"
-            android:textSize="25sp"/>
+            android:textSize="20sp"/>
     </RadioGroup>
 
     <ListView
