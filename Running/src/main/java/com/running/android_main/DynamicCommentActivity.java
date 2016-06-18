@@ -1,6 +1,7 @@
 package com.running.android_main;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,6 +42,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -150,12 +154,20 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
 
                                 @Override
                                 public void onResponse(String response) {
-
+                                    Gson gson = new Gson();
+                                    HashMap<String, Integer> map = gson.fromJson(response, new
+                                            TypeToken<HashMap<String, Integer>>() {
+                                            }.getType());
+                                    if (map.get("resultCode") > 0) {
+                                        mDynamicImgBean.setCommentCount(mDynamicImgBean
+                                                .getCommentCount() + 1);
+                                        mHeaderCommentCount.setText(mDynamicImgBean
+                                                .getCommentCount() + "");
+                                        mAdapter.notifyDataSetChanged();
+                                    }
                                 }
                             });
                     status = 2;
-                    mDynamicImgBean.setCommentCount(mDynamicImgBean.getCommentCount() + 1);
-                    mHeaderCommentCount.setText(mDynamicImgBean.getCommentCount() + "");
                 } else {
                     //自己的id和名字
                     int uId0 = userInfo.getUid();
@@ -169,7 +181,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
                         new AlertDialog.Builder(DynamicCommentActivity.this)
                                 .setTitle("提示")
                                 .setMessage("不能回复自己!")
-                                .setPositiveButton("确定",null)
+                                .setPositiveButton("确定", null)
                                 .show();
                     } else {
                         SecondCommentBean bean = new SecondCommentBean((int) mMap.get("sFCId"),
@@ -196,12 +208,14 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
 
                                     }
                                 });
+                        mAdapter.notifyDataSetChanged();
                     }
                 }
-                mAdapter.notifyDataSetChanged();
                 mDynamicCommentFootEdit.setText("");
                 mDynamicCommentFootEdit.clearFocus();
                 mCommentBottomLayout.setVisibility(View.GONE);
+                InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                manager.hideSoftInputFromWindow(mDynamicCommentFootEdit.getWindowToken(),0);
             }
         });
 
@@ -211,6 +225,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
                 status = 1;
                 mCommentBottomLayout.setVisibility(View.VISIBLE);
                 mDynamicCommentFootEdit.requestFocus();
+                softInputKeyBoard();
             }
         });
     }
@@ -244,7 +259,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
             Date date = format.parse(time);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");
             time = simpleDateFormat.format(date);
-            Log.e("TAG+LDD","time"+time+" "+mDynamicImgBean.getTime());
+            Log.e("TAG+LDD", "time" + time + " " + mDynamicImgBean.getTime());
             mHeaderTime.setText(time);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -321,9 +336,23 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
                 mMap.put("sFCId", span.getBean().getsFCId());
                 mMap.put("uId1", span.getBean().getuId0());
                 mMap.put("uName1", span.getBean().getuName0());
-                mDynamicCommentFootEdit.requestFocus();
+                softInputKeyBoard();
             }
         }
+    }
+
+    private void softInputKeyBoard() {
+        mDynamicCommentFootEdit.requestFocus();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        mDynamicCommentFootEdit
+                        .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.showSoftInput(mDynamicCommentFootEdit,0);
+            }
+        }, 500);
     }
 
     /**
@@ -354,6 +383,7 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
             mCommentBottomLayout.setVisibility(View.VISIBLE);
             mDynamicCommentFootEdit.requestFocus();
             mMap = mAdapter.getMap();
+            softInputKeyBoard();
         } else {
             return;
         }
@@ -383,5 +413,13 @@ public class DynamicCommentActivity extends AppCompatActivity implements MySpan.
             }).start();
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("uid", mDynamicImgBean.getdUId());
+        setResult(1, intent);
+        finish();
     }
 }
