@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -126,14 +127,15 @@ public class PublishDynamicActivity extends AppCompatActivity {
                                 @Override
                                 public void onResponse(String response) {
                                     Gson gson = new Gson();
-                                    HashMap<String,Integer> map = gson.fromJson(response,new
-                                            TypeToken<HashMap<String,Integer>>(){}.getType());
+                                    HashMap<String, Integer> map = gson.fromJson(response, new
+                                            TypeToken<HashMap<String, Integer>>() {
+                                            }.getType());
 
-                                    Log.e("TAG+LDD",map.get("ResultCode")+"");
+                                    Log.e("TAG+LDD", map.get("ResultCode") + "");
                                     if (map.get("ResultCode") > 0) {
                                         mDynamicPublishPublishButton.setBackgroundColor
                                                 (getResources().getColor(R
-                                                .color.colorPrimary));
+                                                        .color.colorPrimary));
                                         mDynamicPublishPublishButton.setEnabled(true);
                                         Toast.makeText(PublishDynamicActivity.this, "发布完成", Toast
                                                 .LENGTH_SHORT).show();
@@ -180,6 +182,9 @@ public class PublishDynamicActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == (mList.size() - 1)) {
                     showPopupWindow();
+                    InputMethodManager manager = (InputMethodManager) getSystemService
+                            (INPUT_METHOD_SERVICE);
+                    manager.hideSoftInputFromWindow(mDynamicPublishContent.getWindowToken(), 0);
                     mPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
                 } else {
                 }

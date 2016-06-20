@@ -224,6 +224,14 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                 .load(mUserInfo.getImageUrl())
                 .transform(new GlideCircleTransform(this))
                 .into(uImg);
+        uImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DynamicOneselfActivity.this,PersonInformationActivity.class);
+                intent.putExtra("UserInfo",mUserInfo);
+                startActivity(intent);
+            }
+        });
         sexImg = (ImageView) mHeaderView.findViewById(R.id.personSex);
         if (mUserInfo.getSex().equals("男")) {
             sexImg.setImageResource(R.drawable.ic_sex_man);
@@ -285,6 +293,30 @@ public class DynamicOneselfActivity extends AppCompatActivity {
                     mHandler.sendMessage(message);
                 }
             }).start();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode==1) {
+            int uid = data.getIntExtra("uid",-1);
+            Log.e("LDD",uid+"");
+            if (uid==-1) {
+            } else {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd " +
+                        "HH:mm:ss");
+                String time = format.format(System.currentTimeMillis()+1000);
+                OkHttpUtils.post()
+                        .url(url)
+                        .addParams("appRequest", "DynamicOneselfLoad")
+                        .addParams("uId", String.valueOf(uid))
+                        .addParams("meId", String.valueOf(((MyApplication) getApplication())
+                                .getUserInfo().getUid()))
+                        .addParams("time", time)
+                        .build()
+                        .execute(mOneselfCallBack = new DynamicOneselfCallBack(3));
+            }
         }
     }
 }

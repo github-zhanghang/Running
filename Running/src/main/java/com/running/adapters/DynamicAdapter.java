@@ -145,6 +145,8 @@ public class DynamicAdapter extends BaseAdapter {
             if (((DynamicImgBean) mList.get(position).get
                     ("DynamicBean")).getPraiseStatus() == 1) {
                 imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.ic_praise_red);
+            } else {
+                imgViewHolder.mDynamicImgItemPraiseImg.setImageResource(R.drawable.ic_praise);
             }
             imgViewHolder.mDynamicImgItemPraiseImg.setOnClickListener(new View.OnClickListener() {
                 @Override

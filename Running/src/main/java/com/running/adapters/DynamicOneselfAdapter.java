@@ -57,7 +57,7 @@ public class DynamicOneselfAdapter extends BaseAdapter {
         HashMap<String, Integer> map = new HashMap<>();
         map.put("pDId", i);
         //用户id
-        map.put("pUId",((MyApplication)(((DynamicOneselfActivity)mContext).getApplication()))
+        map.put("pUId", ((MyApplication) (((DynamicOneselfActivity) mContext).getApplication()))
                 .getUserInfo()
                 .getUid());
         Gson gson = new Gson();
@@ -107,7 +107,10 @@ public class DynamicOneselfAdapter extends BaseAdapter {
         }
         DynamicOneselfBean bean = (DynamicOneselfBean) mList.get(position).get
                 ("DynamicOneselfBean");
-        Log.e("LDD",bean.toString());
+        Log.e("LDD", bean.toString());
+        Log.e("LDD", "position=" + position + " PraiseStatus:" + ((DynamicOneselfBean) mList.get
+                (position).get("DynamicOneselfBean"))
+                .getPraiseStatus());
         SpannableStringBuilder time = formatDateTime(bean.getTime());
         holder.mTime.setText(time);
         holder.mContent.setText(bean.getContent());
@@ -120,9 +123,14 @@ public class DynamicOneselfAdapter extends BaseAdapter {
         }
         ClickNineGridViewAdapter adapter = new ClickNineGridViewAdapter(mContext, infoList);
         holder.mGridView.setAdapter(adapter);
+        Log.e("LDD", "position=" + position + " PraiseStatus=" + ((DynamicOneselfBean) mList.get
+                (position).get("DynamicOneselfBean"))
+                .getPraiseStatus());
         if (((DynamicOneselfBean) mList.get(position).get("DynamicOneselfBean"))
                 .getPraiseStatus() == 1) {
             holder.mPraiseImg.setImageResource(R.drawable.ic_praise_red);
+        } else {
+            holder.mPraiseImg.setImageResource(R.drawable.ic_praise);
         }
         holder.mPraiseImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +152,7 @@ public class DynamicOneselfAdapter extends BaseAdapter {
                     addPraise(((DynamicOneselfBean) mList.get(position).get
                             ("DynamicOneselfBean")).getdId());
                 } else if (((DynamicOneselfBean) mList.get(position).get
-                        ("DynamicOneselfBean")).getPraiseStatus()==1) {
+                        ("DynamicOneselfBean")).getPraiseStatus() == 1) {
                 }
             }
         });
@@ -169,7 +177,7 @@ public class DynamicOneselfAdapter extends BaseAdapter {
                         .getCommentCount(), oneselfBean.getuId(), oneselfBean.getPraiseStatus());
                 Log.d("TAG", imgBean.toString());
                 intent.putExtra("dynamicBean", imgBean);
-                mContext.startActivity(intent);
+                ((DynamicOneselfActivity) mContext).startActivityForResult(intent, 0);
             }
         });
 

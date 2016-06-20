@@ -68,7 +68,6 @@ public class DynamicCommentItemAdapter extends BaseAdapter {
         CommentBean commentBean = mList.get(position);
         Glide.with(mContext)
                 .load(commentBean.getfUImg())
-                .placeholder(R.drawable.head_photo)
                 .transform(new GlideCircleTransform(mContext))
                 .into(viewHolder.img);
         viewHolder.firstCommentName.setText(commentBean.getfName());

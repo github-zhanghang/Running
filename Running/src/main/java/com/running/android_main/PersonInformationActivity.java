@@ -25,12 +25,15 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.running.beans.Friend;
 import com.running.beans.UserInfo;
-import com.running.myviews.CircleImageView;
 import com.running.myviews.TopBar;
+import com.running.utils.GlideCircleTransform;
+import com.running.utils.Medal;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,7 +45,7 @@ public class PersonInformationActivity extends AppCompatActivity implements View
     @Bind(R.id.person_information_topBar)
     TopBar mTopBar;
     @Bind(R.id.person_information_headImg)
-    CircleImageView mHeadImg;
+    ImageView mHeadImg;
     @Bind(R.id.person_information_name)
     TextView mName;
     @Bind(R.id.person_information_sexAndAge)
@@ -59,12 +62,16 @@ public class PersonInformationActivity extends AppCompatActivity implements View
     TextView mWhoDynamic;
     @Bind(R.id.person_information_dynamicLayout)
     LinearLayout mDynamicLayout;
+    @Bind(R.id.medal_layout)
+    LinearLayout mMedalLayout;
     @Bind(R.id.person_information_sendMessage)
     Button mSendMessage;
     private UserInfo mUserInfo;
     private HashMap<String, String> map;
     private PInformationCallBack mCallBack;
+    private List<Integer> mList = new ArrayList<>();
     private String url = MyApplication.HOST + "totalRecordServlet";
+    private String medalUrl = MyApplication.HOST + "medalServlet";
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -98,13 +105,52 @@ public class PersonInformationActivity extends AppCompatActivity implements View
         mUserInfo = (UserInfo) intent.getExtras().get("UserInfo");
         ButterKnife.bind(this);
 
+        //得到个人勋章
+        getPersonMedal(mUserInfo.getUid());
 
-       // initPopupWindow();
         //得到个人跑步数据总里程数和总时间
         getPersonSumData(mUserInfo.getUid());
         addListener();
     }
 
+    private void getPersonMedal(int uid) {
+        OkHttpUtils.post()
+                .url(medalUrl)
+                .addParams("type", "query")
+                .addParams("uid", String.valueOf(mUserInfo.getUid()))
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        if (response != null && !response.equals("")) {
+                            String mid[] = response.split(",");
+                            for (int i = 0; i < mid.length; i++) {
+                                int id = Integer.parseInt(mid[i]);
+                                mList.add(id-1);
+                            }
+                            if (mList.isEmpty() || mList==null) {
+                            } else {
+                                for (int i = 0; i < mList.size(); i++) {
+                                    ImageView imageView = new ImageView(PersonInformationActivity.this);
+                                    imageView.setLayoutParams(new ViewGroup.LayoutParams(120,120));
+                                    imageView.setImageResource(Medal.mHaveImage[mList.get(i)]);
+                                    mMedalLayout.addView(imageView);
+                                }
+                            }
+                        } else {
+                            TextView textView =new TextView(PersonInformationActivity.this);
+                            textView.setText("还未获得勋章");
+                            textView.setTextSize(20);
+                            mMedalLayout.addView(textView);
+                        }
+                    }
+                });
+    }
 
 
     private void getPersonSumData(int uid) {
@@ -120,6 +166,7 @@ public class PersonInformationActivity extends AppCompatActivity implements View
     private void setData() {
         Glide.with(this)
                 .load(mUserInfo.getImageUrl())
+                .transform(new GlideCircleTransform(this))
                 .into(mHeadImg);
         mName.setText(mUserInfo.getNickName());
         mSexAndAge.setText(mUserInfo.getSex() + " " + mUserInfo.getAge());
@@ -193,7 +240,10 @@ public class PersonInformationActivity extends AppCompatActivity implements View
         mDynamicLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(PersonInformationActivity.this,DynamicOneselfActivity
+                        .class);
+                intent.putExtra("uId",mUserInfo.getUid());
+                startActivity(intent);
             }
         });
     }

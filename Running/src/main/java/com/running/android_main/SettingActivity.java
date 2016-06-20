@@ -32,8 +32,6 @@ public class SettingActivity extends AppCompatActivity implements
 
     @Bind(R.id.setting_topBar)
     TopBar mSettingTopBar;
-    @Bind(R.id.setting_setTittle)
-    TextView mSettingSetTittle;
     @Bind(R.id.push_message)
     TextView mPushMessage;
     @Bind(R.id.setting_myToggleButton)

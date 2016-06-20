@@ -46,7 +46,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
-    public static final String juheKey = "614e1a0a60edc2c5f8e91dd885df7eeb";
+    public static final String juheKey = "c3bbc5a4993aa662706dfcac4a7dd9e5";
     private MyApplication mApplication;
     private UserInfo mUserInfo;
     //定位
