@@ -213,6 +213,7 @@ public class PersonInformationActivity extends AppCompatActivity implements View
         public void onResponse(String response) {
             String[] result = response.split(",");
             map.put("distance", result[0]);
+            Log.e("LDDQingQiu", "onResponse: "+ result[0]);
             Long sumTime = Long.valueOf(result[1]);
             Long h = sumTime / (60 * 60 * 1000);
             Long m = (sumTime % (60 * 60 * 1000)) / (60 * 1000);

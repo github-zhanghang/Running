@@ -77,25 +77,26 @@ public class NewFriendInfoActivity extends AppCompatActivity {
         OkHttpUtils.post()
                 .url(MyApplication.HOST + "totalRecordServlet")
                 .addParams("type", "totaldata")
-                .addParams("uid",((MyApplication) getApplication()).getUserInfo().getUid()+"")
+                .addParams("uid",userInfo.getUid()+"")
                 .build()
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e) {
-
+                        Log.e("lihaotian", "onError: "+e.getMessage() );
                     }
 
                     @Override
                     public void onResponse(String response) {
+                        java.text.DecimalFormat df=new java.text.DecimalFormat("#0.0");//保留1位小数
                         String[] result = response.split(",");
-                        String distance = result[0];
-
+                        double distance = Double.parseDouble(result[0]);
+                        Log.e("lihaotian", "onResponse: "+distance );
                         Long sumTime = Long.valueOf(result[1]);
                         Long h = sumTime / (60 * 60 * 1000);
                         Long m = (sumTime % (60 * 60 * 1000)) / (60 * 1000);
                         Long s = ((sumTime % (60 * 60 * 1000)) % (60 * 1000)) / 1000;
                         String time = h + "h" + m + "m" + s + "s";
-                        sumDistanceTextView.setText(distance+"km");
+                        sumDistanceTextView.setText(df.format(distance)+"km");
                         sumTimeTextView.setText(time);
                     }
                 });
